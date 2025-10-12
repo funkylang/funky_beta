@@ -108,8 +108,14 @@
 <using std>
 <using llama>
 
+$llama::TOKENS .
+$llama::LOGITS .
+$llama::PROGRESS .
+$llama::ERROR .
+
 $llama::fd_of ()
-$pieces_of ()
+$llama::pieces_of ()
+$llama::is_an_end_token_of ()
 $llama::bos_token_of ()
 $llama::eos_token_of ()
 $llama::eot_token_of ()
@@ -121,6 +127,7 @@ $llama_types::model std_types::object
 
 $llama_types::model.llama::fd_of undefined
 $llama_types::model.pieces_of undefined
+$llama_types::model.llama::is_an_end_token_of empty_hash_set
 $llama_types::model.llama::bos_token_of undefined
 $llama_types::model.llama::eos_token_of undefined
 $llama_types::model.llama::eot_token_of undefined
@@ -203,18 +210,37 @@ $llama::list_models:
 	-> error(message) true
       -> error("unexpected reply") true
 
-$llama::open_model: (model_name)
-  open_tcp_client_socket! $fd "127.0.0.1" 7683
+$llama::open_model ()
+
+$std_types::string/open_model: (model_name)
+  open_tcp_client_socket! $fd "127.0.0.1" 7683 true
   write_to! fd "
     use_model @(model_name)@0;@
     get_pieces@0;@
     get_special_tokens@0;@
   handle_reply! $model fd handle_model_info
   if
-    model.is_an_error:
-      close! model
-      -> model
+    model.is_an_error
+    -> model
     -> model(.fd_of fd)
+
+$std_types::io/open_model: (io id model_name)
+  run io open_model_request id model_name
+
+$open_model_request: (io id model_name)
+  open_tcp_client_socket! $fd "127.0.0.1" 7683 true
+  write &io fd "
+    use_model @(model_name)@0;@
+    get_pieces@0;@
+    get_end_tokens@0;@
+    get_special_tokens@0;@
+  start_reading_from &io fd
+  set_context &io fd tuple(id llama_types::model(.fd_of fd) "")
+  register_handlers &io fd
+    WRITE_FAILED = write_failed
+    READ = read_data
+    READ_FAILED = read_failed
+  -> io undefined
 
 $handle_model_info: (model reply)
   update_if model.is_undefined &model -> llama_types::model
@@ -225,6 +251,16 @@ $handle_model_info: (model reply)
       $pieces split(behind(reply ' ' 2))
       map &pieces hex_to_string
       -> model(.pieces_of pieces) false
+    "end_tokens":
+      # ignore tken count
+      $tokens split(behind(reply ' ' 2))
+      map &tokens to_integer
+      $is_an_end_token empty_hash_set
+      for_each tokens
+	: (token)
+	  !is_an_end_token(token) true
+	  next
+	-> model(.is_an_end_token_of is_an_end_token) false
     "special_tokens":
       $special_tokens split(reply .behind. ' ')
       map &special_tokens: (str)
@@ -261,7 +297,99 @@ $handle_model_info: (model reply)
     "error":
       $message reply .behind. ' '
       -> error(message) true
-    -> error("unexpected reply") true
+    -> error("unexpected reply (tag: @(tag))") true
+
+$write_failed: (io fd err context)
+  context $id
+  set_context &io fd undefined
+  -> io tuple(JOB_FAILED id err)
+
+$read_data: (io fd data context)
+  context $id $model $reply
+  loop:
+    search $pos $_len '@nul;' data
+    if
+      pos.is_defined:
+	append &reply range(data 1 pos-1)
+	range &data pos+1 -1
+	handle_model_info &model $done reply
+	if
+	  done:
+	    if
+	      model.is_an_error
+	      -> io tuple(JOB_FAILED id model)
+	      :
+		deregister_all_handlers &io fd
+		deregister_all_handlers &io id
+		set_context &io fd tuple(model "")
+		register_handlers &io fd
+		  WRITE_FAILED = request_failed
+		  READ = read_reply
+		  READ_FAILED = read_reply_failed
+		-> io tuple(JOB_COMPLETED id model)
+	  :
+	    !reply ""
+	    next
+      :
+	append &reply data
+	set_context &io fd tuple(id model reply)
+	-> io undefined
+
+$read_failed: (io fd err context)
+  context $id
+  set_context &io fd undefined
+  -> io tuple(JOB_FAILED id err)
+
+$request_failed: (io fd err)
+  set_context &io fd undefined
+  -> io tuple(ERROR fd err)
+
+$read_reply: (io fd data context)
+  context $model $reply
+  $events empty_list
+  loop:
+    search $pos $_len '@nul;' data
+    if
+      pos.is_defined:
+	append &reply range(data 1 pos-1)
+	range &data pos+1 -1
+	push &events create_reply_event(reply model)
+	!reply ""
+	next
+      :
+	append &reply data
+	set_context &io fd tuple(model reply)
+	-> io events
+
+$read_reply_failed: (io fd err)
+  debug::dump `err `fd
+  -> io undefined
+
+$create_reply_event: (reply model)
+  $tag reply .truncate_from. ' '
+  case tag
+    "tokens":
+      $tokens map(split(behind(reply ' ' 2)) to_integer)
+      -> tuple(TOKENS fd_of(model) tokens model)
+    "logits":
+      $sequence_id between(reply ' ' ' ').to_integer
+      $_position between(reply ' ' ' ' 2).to_integer
+      $_count between(reply ' ' ' ' 3).to_integer
+      $logits behind(reply ' ' 4)
+      split &logits ' '
+      map &logits: (str)
+	key_value_pair
+	  to_integer(str .before. '=')
+	  to_number(str .behind. '=')
+      -> tuple(LOGITS fd_of(model) tuple(sequence_id logits) model)
+    "progress":
+      $sequence_id between(reply ' ' ' ').to_integer
+      $remaining_tokens behind(reply ' ' 2).to_integer
+      -> tuple(PROGRESS fd_of(model) tuple(sequence_id remaining_tokens) model)
+    "error":
+      $message reply .behind. ' '
+      -> tuple(ERROR fd_of(model) message model)
+    -> tuple(ERROR fd_of(model) "invalid_reply" model)
 
 $llama_types::model/close: (model)
   close! fd_of(model)
@@ -287,47 +415,60 @@ $hex_to_value: (hex_digit)
     -> hex_digit-'a'+10
     -> hex_digit-'0'
 
-$llama::tokenize: (model prompt)
+$llama::tokenize ()
+
+$llama_types::model/tokenize: (model prompt)
   $fd fd_of(model)
   $n 1
   if
     prompt.is_a_list:
       !n length_of(prompt)
-      for_each prompt
-	: (text)
-	  write_to! fd "
-	    tokenize @(text.to_utf8)@0;@
-	  next!
-	:
-	  handle_reply! fd handle_tokens
+      write_to! fd map_reduce(prompt: (text) -> "tokenize @(text.to_utf8)@0;")
+      handle_reply! fd handle_tokens n
     :
       write_to! fd "
 	tokenize @(prompt.to_utf8)@0;@
-      handle_reply! fd handle_tokens
+      handle_reply! fd handle_tokens n
 
-  $handle_tokens: (prompt_tokens reply)
-    $tag reply .truncate_from. ' '
-    case tag
-      "tokens":
-	# ignore token count
-	$tokens map(split(behind(reply ' ' 2)) to_integer)
-	if
-	  prompt.is_a_list:
-	    if
-	      prompt_tokens.is_undefined
-	      -> list(tokens) n == 1
-	      :
-		push &prompt_tokens tokens
-		-> prompt_tokens length_of(prompt_tokens) == n
-	  -> tokens true
-      "error":
-	$message reply .behind. ' '
-	-> error(message) true
-      -> error("unexpected reply") true
+$std_types::io/tokenize: (io model prompt)
+  $fd fd_of(model)
+  if
+    prompt.is_a_list:
+      write io fd map_reduce(prompt: (text) -> "tokenize @(text.to_utf8)@0;")
+    :
+      write io fd "
+	tokenize @(prompt.to_utf8)@0;@
 
-$llama::create_sequence: (model sequence_id)
+$handle_tokens: (prompt_tokens reply n)
+  $tag reply .truncate_from. ' '
+  case tag
+    "tokens":
+      # ignore token count
+      $tokens map(split(behind(reply ' ' 2)) to_integer)
+      if
+	n > 0:
+	  if
+	    prompt_tokens.is_undefined
+	    -> list(tokens) n == 1
+	    :
+	      push &prompt_tokens tokens
+	      -> prompt_tokens length_of(prompt_tokens) == n
+	-> tokens true
+    "error":
+      $message reply .behind. ' '
+      -> error(message) true
+    -> error("unexpected reply") true
+
+$llama::create_sequence ()
+
+$llama_types::model/create_sequence: (model sequence_id)
   $fd fd_of(model)
   write_to! fd "
+    create_sequence @(sequence_id)@0;@
+
+$std_types::io/create_sequence: (io model sequence_id)
+  $fd fd_of(model)
+  write io fd "
     create_sequence @(sequence_id)@0;@
 
 $llama::copy_sequence ()
@@ -505,7 +646,7 @@ $llama::get_logits: (model)
 	-> error(message) true
       -> error("unexpected reply") true
 
-$handle_reply: (fd handler)
+$handle_reply: (fd handler handler_data)
   $reply ""
   $result undefined
   loop:
@@ -521,7 +662,11 @@ $handle_reply: (fd handler)
 	      pos.is_defined:
 		append &reply range(data 1 pos-1)
 		range &data pos+1 -1
-		handler &result $done reply
+		if !result $done
+		  handler_data.is_defined:
+		    handler result reply handler_data
+		  :
+		    handler result reply
 		if
 		  done
 		  -> result

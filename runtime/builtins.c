@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #ifndef __CYGWIN__
   #include <ifaddrs.h>
   #include <arpa/inet.h>
@@ -183,6 +184,7 @@ enum {
   func__std_types__date_and_time__std__equal,
   func__std_types__date_and_time__std__less,
   func__std__current_time,
+  func__debug__current_time,
   func__debug__string,
   func__debug__write,
   func__debug__dump_object,
@@ -574,6 +576,7 @@ enum {
   var_std__from_unix_time,
   var_std__date_and_time,
   var_std__current_time,
+  var_debug__current_time,
   var_debug__string,
   var_debug__write,
   var_debug__dump_object,
@@ -17666,6 +17669,22 @@ static void entry__std__current_time (void)
     }
   }
 
+static void entry__debug__current_time (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    struct timespec timespec;
+    clock_gettime(CLOCK_REALTIME, &timespec);
+    {
+      NODE *result__node = (NODE *)(create__std_types__date_and_time(timespec.tv_sec, timespec.tv_nsec));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__debug__string (void)
   {
     if (TLS_argument_count < 1) {
@@ -26987,8 +27006,12 @@ static void entry__std__send_file_descriptor (void)
 
 static void entry__std__open_tcp_client_socket (void)
   {
-    if (TLS_argument_count != 2) {
-      invalid_arguments();
+    if (TLS_argument_count < 2) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 3) {
+      too_many_arguments();
       return;
     }
     if (TLS_deny_io) {
@@ -26997,18 +27020,30 @@ static void entry__std__open_tcp_client_socket (void)
     }
     char *uri = NULL;
     int port_no;
+    int no_delay = false;
     int result;
     int sock;
     struct hostent *server;
     struct sockaddr_in addr;
     if (!to_c_string(TLS_arguments[0], &uri)) goto cleanup;
     if (!to_int(TLS_arguments[1], &port_no)) goto cleanup;
+    if (TLS_argument_count == 3) {
+      if (!to_bool(TLS_arguments[2], &no_delay)) return;
+    }
     if (event__mode != EM__REPLAY) {
       sock = socket(AF_INET, SOCK_STREAM, 0);
       if (sock == -1) goto error;
       int flags = fcntl(sock, F_GETFL, 0);
       if (flags == -1) goto error;
       if (fcntl(sock, F_SETFL, flags|O_NONBLOCK) == -1) goto error;
+      if (no_delay) {
+	int opt = 1;
+	if (
+	  setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt)) == -1
+	) {
+	  goto error;
+	}
+      }
       server = gethostbyname(uri);
       if (!server) goto error;
       memset(&addr, 0, sizeof(addr));
@@ -27504,6 +27539,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types__date_and_time__std__equal}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types__date_and_time__std__less}},
   {FLT_C_FUNCTION, 0, {.func = entry__std__current_time}},
+  {FLT_C_FUNCTION, 0, {.func = entry__debug__current_time}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug__string}},
   {FLT_C_FUNCTION, 1, {.func = entry__debug__write}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug__dump_object}},
@@ -27769,7 +27805,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std__waitpid}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__open_unix_socket}},
   {FLT_C_FUNCTION, 3, {.func = entry__std__send_file_descriptor}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std__open_tcp_client_socket}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__open_tcp_client_socket}},
   {FLT_C_FUNCTION, -1, {.func = entry__std__open_tcp_server_socket}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__accept}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__is_listening}},
@@ -29272,6 +29308,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "current_time\000std", NULL,
     {.const_idx = func__std__current_time}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "current_time\000debug", NULL,
+    {.const_idx = func__debug__current_time}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -31792,13 +31833,13 @@ FUNKY_MODULE module__builtin = {
   "_builtin",
   0, 0,
   4, 0,
-  419, 485,
+  420, 486,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[478] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[479] = {
   {std_types__generic_array___type, "std_types::generic_array/_type"},
   {std_types__array___type, "std_types::array/_type"},
   {entry__std_types__array__std__length_of, "std_types::array/length_of"},
@@ -31963,6 +32004,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[478] = {
   {entry__std_types__date_and_time__std__equal, "std_types::date_and_time/equal"},
   {entry__std_types__date_and_time__std__less, "std_types::date_and_time/less"},
   {entry__std__current_time, "std::current_time"},
+  {entry__debug__current_time, "debug::current_time"},
   {entry__debug__string, "debug::string"},
   {entry__debug__write, "debug::write"},
   {entry__debug__dump_object, "debug::dump_object"},

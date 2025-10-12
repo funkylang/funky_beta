@@ -784,7 +784,7 @@ $tedi::functions
 
     "page_up" = tuple(page_up MOVEMENT)
     "page_down" = tuple(page_down MOVEMENT)
-    "cursor_home" = tuple(cursor_home MOVEMENT)
+    "cursor_home" = tuple(tedi::cursor_home MOVEMENT)
     "cursor_end" = tuple(cursor_end MOVEMENT)
 
     "smart_cursor_up" = tuple(smart_cursor_up MOVEMENT)
@@ -956,7 +956,7 @@ $page_up: (x y _lines info)
 $page_down: (x y _lines info)
   -> undefined undefined x y+window_height info
 
-$cursor_home: (x y lines info)
+$tedi::cursor_home: (x y lines info)
   $new_x get_x(y lines)
   update_if new_x == x &new_x -> 1
   -> undefined undefined new_x y info
@@ -1051,7 +1051,7 @@ $select_page_down: (x y lines info)
 
 $select_cursor_home: (x y lines info)
   initialize_selection x y &info
-  cursor_home x y lines info
+  tedi::cursor_home x y lines info
 
 $select_cursor_end: (x y lines info)
   initialize_selection x y &info
@@ -1238,6 +1238,7 @@ $tedi::split_line: (x y lines info)
 	      $pos get_position(text x-indent)
 	      $left range(text 1 pos-1)
 	      $right range(text pos -1)
+	      without_prefix &right WHITESPACE
 	      update_if right(1) == ' ' &right -> range(right 2 -1)
 	      if
 		&&

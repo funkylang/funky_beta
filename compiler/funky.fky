@@ -38,6 +38,7 @@
 <require ./collect_variables>
 <require ./collect_variables_autogen>
 <require ./generate_tabular_code>
+<require ./pretty_print>
 
 <using std>
 <using funky>
@@ -112,9 +113,10 @@ if
   $input_filename
   $do_show_brief_error_messages
   $be_verbose $do_rebuild $do_print_c $funky::module_prefix $do_build_static
+  $do_pretty_print
   do_run:
     on command_line_arguments.is_empty: Error "Missing command line arguments!"
-    -> command_line_arguments(1) false false false false undefined false
+    -> command_line_arguments(1) false false false false undefined false false
   :
     program_parameters!
       list
@@ -159,6 +161,9 @@ if
       list
 	"static" "
 	  create a statically linked executable
+      list
+	"pretty-print" "
+	  do not compile; just pretty print the source file
 
 $library_path
   default_value
@@ -170,10 +175,10 @@ update_if input_filename(1) != '/'
 if!
   input_filename .has_suffix. ".fky"
   :
-    if!
-      do_print_c
-      print_c
-      build_executable
+    cond!
+      -> do_print_c print_c
+      -> do_pretty_print pretty_print
+      -> true build_executable
   build_library
 
 $print_c:
@@ -182,6 +187,14 @@ $print_c:
   compile_module $c_source input_filename fky_lines
   handle_error! c_source
   print! c_source
+
+$pretty_print:
+  !base_directory until(input_filename '/' -1)
+  load_lines! $fky_lines input_filename
+  extract_current_filename_and_module_name input_filename
+    !current_filename !current_module_name
+  parse_module $statements fky_lines
+  print! statements_to_source(statements)
 
 $build_executable:
   #on do_build_static: maybe_compile_runtime_library!

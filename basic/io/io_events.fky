@@ -170,6 +170,8 @@ $std::set_timeout ()
 $std::enable_logging ()
 $std::disable_logging ()
 $std::log ()
+$std::set_context ()
+$std::get_context ()
 $std::register_handlers ()
 $std::deregister_handlers ()
 $std::deregister_all_handlers ()
@@ -188,6 +190,7 @@ $timed_jobs_of ()
 $read_jobs_of ()
 $write_jobs_of ()
 $close_jobs_of ()
+$contexts_of ()
 $resources_of ()
 $watched_pids_of ()
 $exit_codes_of ()
@@ -207,6 +210,7 @@ $std_types::io.write_jobs_of empty_hash_table
 $std_types::io.close_jobs_of empty_hash_set
 $std_types::io.start_jobs_of empty_list
 $std_types::io.timed_jobs_of empty_list
+$std_types::io.contexts_of empty_hash_table
 $std_types::io.resources_of empty_insert_order_table
 $std_types::io.watched_pids_of empty_hash_set
 $std_types::io.exit_codes_of empty_hash_table
@@ -448,6 +452,22 @@ $std_types::io/log:
 	:
 	  write self STDERR_FILENO buf.to_utf8
     -> self
+
+$std_types::io/set_context:
+  (
+    self
+    id
+    context
+  )
+  !self.contexts_of(id) context
+  -> self
+
+$std_types::io/get_context:
+  (
+    self
+    id
+  )
+  -> contexts_of(self)(id)
 
 $std_types::io/register_handlers:
   (
@@ -895,7 +915,7 @@ $std_types::io/handle_events: (io events)
 	    handler.is_undefined
 	    keep_event
 	    :
-	      $context undefined
+	      $context get_context(io id)
 	      update_if handler.is_a_tuple &handler &context
 		-> first(handler) second(handler)
 	      if !io $new_event

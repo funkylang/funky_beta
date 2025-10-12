@@ -85,11 +85,15 @@ html::TD FUNCTION
 html::TH FUNCTION
 html::TITLE FUNCTION
 html::TR FUNCTION
+llama::ERROR UNIQUE_ITEM
+llama::LOGITS UNIQUE_ITEM
+llama::PROGRESS UNIQUE_ITEM
+llama::TOKENS UNIQUE_ITEM
 llama::add_token_and_evaluate POLYMORPHIC_FUNCTION
 llama::add_tokens POLYMORPHIC_FUNCTION
 llama::bos_token_of POLYMORPHIC_FUNCTION
 llama::copy_sequence POLYMORPHIC_FUNCTION
-llama::create_sequence IO_FUNCTION
+llama::create_sequence POLYMORPHIC_FUNCTION
 llama::delete_sequence POLYMORPHIC_FUNCTION
 llama::delete_tokens POLYMORPHIC_FUNCTION
 llama::detokenize FUNCTION
@@ -99,12 +103,14 @@ llama::evaluate POLYMORPHIC_FUNCTION
 llama::fd_of POLYMORPHIC_FUNCTION
 llama::get_logits IO_FUNCTION
 llama::insert_tokens POLYMORPHIC_FUNCTION
+llama::is_an_end_token_of POLYMORPHIC_FUNCTION
 llama::list_models IO_FUNCTION
 llama::nl_token_of POLYMORPHIC_FUNCTION
-llama::open_model IO_FUNCTION
+llama::open_model POLYMORPHIC_FUNCTION
 llama::pad_token_of POLYMORPHIC_FUNCTION
+llama::pieces_of POLYMORPHIC_FUNCTION
 llama::sep_token_of POLYMORPHIC_FUNCTION
-llama::tokenize IO_FUNCTION
+llama::tokenize POLYMORPHIC_FUNCTION
 llama::truncate_sequence POLYMORPHIC_FUNCTION
 llama_types::model TYPE
 std-2.0::indent_of POLYMORPHIC_FUNCTION
@@ -818,6 +824,7 @@ std::closed_connection FUNCTION
 std::closedir BUILTIN_FUNCTION
 std::colour_mixture FUNCTION
 std::command_line_arguments BUILTIN_OBJECT
+std::common_prefix POLYMORPHIC_FUNCTION
 std::concatenate FUNCTION
 std::concatenate_non_empty FUNCTION
 std::cond IO_FUNCTION
@@ -981,6 +988,7 @@ std::get_character_at POLYMORPHIC_FUNCTION
 std::get_clear_colour POLYMORPHIC_FUNCTION
 std::get_clear_colour_at POLYMORPHIC_FUNCTION
 std::get_content POLYMORPHIC_FUNCTION
+std::get_context POLYMORPHIC_FUNCTION
 std::get_draw_colour POLYMORPHIC_FUNCTION
 std::get_draw_colour_at POLYMORPHIC_FUNCTION
 std::get_events POLYMORPHIC_FUNCTION
@@ -1249,7 +1257,7 @@ std::parse_number FUNCTION
 std::pass BUILTIN_FUNCTION
 std::password_of POLYMORPHIC_FUNCTION
 std::peek POLYMORPHIC_FUNCTION
-std::pipe IO_FUNCTION
+std::pipe POLYMORPHIC_FUNCTION
 std::pipe_commands IO_FUNCTION
 std::plot POLYMORPHIC_FUNCTION
 std::plot_line POLYMORPHIC_FUNCTION
@@ -1340,6 +1348,7 @@ std::set_character_at POLYMORPHIC_FUNCTION
 std::set_clear_colour POLYMORPHIC_FUNCTION
 std::set_clear_colour_at POLYMORPHIC_FUNCTION
 std::set_content POLYMORPHIC_FUNCTION
+std::set_context POLYMORPHIC_FUNCTION
 std::set_cursor POLYMORPHIC_FUNCTION
 std::set_default_message POLYMORPHIC_FUNCTION
 std::set_draw_colour POLYMORPHIC_FUNCTION

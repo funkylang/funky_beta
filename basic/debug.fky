@@ -178,7 +178,9 @@ $debug::dump: (args*)
 	  :
 	    debug::print "@(label): @(text)"
 	    next
-      break
+      :
+	on i == n: debug::print "invalid arguments for debug::dump!@nl;"
+	break
 
 $debug::dump_one:
   #

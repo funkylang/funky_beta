@@ -27,6 +27,14 @@
 
 $DO_VALIDATE false
 
+#
+  "local definitions" are symbols defined whithin the body of this node
+  "local usages" are usages of locally defined symbols
+  "local redefinitions" are redefinitions of locally defined symbols
+  "definitions" are symbols defined outside of the body of this node
+  "usages" are usages of non-locally defined symbols
+  "redefinitions" are redefinitions of non-locally defined symbols
+
 # New Types
 
 $fde_types::tree std_types::object
@@ -230,8 +238,9 @@ $fde::create_exports_table: (io state)
 	  $lines lines_of(content)
 	  if
 	    length_of(lines) >= 1:
+	      $first_line lines(1)
 	      if
-		text_of(lines(1)) .has_prefix. "#!"
+		first_line.is_defined && text_of(first_line) .has_prefix. "#!"
 		-> filename lines
 		next
 	    next
@@ -314,6 +323,7 @@ $prepare_funky_page: (page state line_range)
   if
     line_range.is_undefined:
       $lines create_tree(lines_of(page))
+      #dump_tree_symbols lines
       page
 	.lines_of lines
 	.width_of line_width_of(lines)
@@ -454,6 +464,7 @@ $replace_in_text_page: (page from to inserted)
     merge &tree.local_redefinitions_of redefinition_changes
     merge &tree.local_usages_of usage_changes
     #debug::dump 99 `tree
+    #dump_tree_symbols tree
     #debug::println "___________________________"
     #debug::dump 3
       `local_definitions_of(tree)
@@ -927,15 +938,52 @@ $replace_line: (nodes line_no new_line)
   if
     offset == 0:
       annotate_single_node $old_node $old_subkind $old_parameters node
+	# removes definitions and usages of subgroups from <old_node>
       !node
 	.text_of text_of(new_line)
 	.tokens_of undefined
-      annotate_single_node &node $new_subkind $new_parameters
+      annotate_single_node $new_node $new_subkind $new_parameters node
+	# removes definitions and usages of subgroups from <node>
+      $definition_changes
+	difference
+	  definitions_of(new_node) definitions_of(old_node)
+	  symbol_kind_difference
+      $redefinition_changes
+	difference(redefinitions_of(new_node) redefinitions_of(old_node))
+      $usage_changes
+	difference(usages_of(new_node) usages_of(old_node))
       if
 	new_subkind != old_subkind && subgroups_of(node).is_not_empty:
-	  !old_node nodes(idx) # restore old node
-	  annotate_node &node
-	  update_definitions
+	  cond
+	    -> new_subkind == STATEMENT:
+	      $previous_definitions definitions_of(node)
+	      $previous_redefinitions redefinitions_of(node)
+	      $previous_usages usages_of(node)
+	      annotate_node !node new_node
+		# adds definitions and usages of subgroups to <node>
+	      !definition_changes
+		difference
+		  definitions_of(node) previous_definitions
+		  symbol_kind_difference
+	      !redefinition_changes
+		difference(redefinitions_of(node) previous_redefinitions)
+	      !usage_changes difference(usages_of(node) previous_usages)
+	      update_definitions
+	    -> local_definitions_of(node).is_undefined:
+	      annotate_node !node new_node
+	      ->
+		nodes(idx node)
+		definition_changes
+		redefinition_changes
+		usage_changes
+	    -> true:
+	      merge &definition_changes local_definitions_of(node)
+	      !node.local_definitions_of undefined
+	      merge &redefinition_changes local_redefinitions_of(node)
+	      !node.local_redefinitions_of undefined
+	      merge &usage_changes local_usages_of(node)
+	      !node.local_usages_of undefined
+	      update_definitions
 	:
 	  if
 	    new_parameters.is_defined:
@@ -949,16 +997,14 @@ $replace_line: (nodes line_no new_line)
 	      default_value &node.local_redefinitions_of empty_hash_bag
 	      default_value &node.local_usages_of empty_hash_bag
 	      update_definitions
-	    update_definitions
+	    :
+	      update_definitions
 
-      $update_definitions
-	->
-	  nodes(idx node)
-	  difference
-	    definitions_of(node) definitions_of(old_node)
-	    symbol_kind_difference
-	  difference(redefinitions_of(node) redefinitions_of(old_node))
-	  difference(usages_of(node) usages_of(old_node))
+      $update_definitions:
+	merge &node.definitions_of definition_changes merge_symbol_kinds
+	merge &node.redefinitions_of redefinition_changes
+	merge &node.usages_of usage_changes
+	-> nodes(idx node) definition_changes redefinition_changes usage_changes
     :
       replace_line &node.subgroups_of offset new_line
 	$definition_changes $redefinition_changes $usage_changes
@@ -1061,6 +1107,54 @@ $dump_nodes: (nodes prefix = "")
 	  on subgroups.is_not_empty:
 	    debug::print prefix
 	    debug::println "]"
+	:
+	  debug::print "@nl;"
+      next
+    pass
+
+#$dump_tree_symbols: (tree)
+  debug::println "__________________________________________________"
+  dump_node_symbols nodes_of(tree)
+
+#$dump_node_symbols: (nodes indent = 0)
+  for_each nodes
+    : (node)
+      if
+	node.is_defined:
+	  debug::print spaces(indent)
+	  debug::print "
+	    "@(text_of(node))"
+	  $definitions definitions_of(node)
+	  on definitions.is_not_empty:
+	    debug::print spaces(indent+2)
+	    debug::println "definitions:"
+	    debug::print serialize(definitions indent+4)
+	  $redefinitions redefinitions_of(node)
+	  on redefinitions.is_not_empty:
+	    debug::print spaces(indent+2)
+	    debug::println "redefinitions:"
+	    debug::print serialize(redefinitions indent+4)
+	  $usages usages_of(node)
+	  on usages.is_not_empty:
+	    debug::print spaces(indent+2)
+	    debug::println "usages:"
+	    debug::print serialize(usages indent+4)
+	  $local_definitions local_definitions_of(node)
+	  on local_definitions.is_defined && local_definitions.is_not_empty:
+	    debug::print spaces(indent+2)
+	    debug::println "local definitions:"
+	    debug::print serialize(local_definitions_of(node) indent+4)
+	  $local_redefinitions local_redefinitions_of(node)
+	  on local_redefinitions.is_defined && local_redefinitions.is_not_empty:
+	    debug::print spaces(indent+2)
+	    debug::println "local redefinitions:"
+	    debug::print serialize(local_redefinitions_of(node) indent+4)
+	  $local_usages local_usages_of(node)
+	  on local_usages.is_defined && local_usages.is_not_empty:
+	    debug::print spaces(indent+2)
+	    debug::println "local usages:"
+	    debug::print serialize(local_usages_of(node) indent+4)
+	  dump_node_symbols subgroups_of(node) indent+2
 	:
 	  debug::print "@nl;"
       next

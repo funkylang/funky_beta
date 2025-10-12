@@ -2,142 +2,378 @@
 
 <require basic/stdlib>
 <require terminal/terminal>
+<require terminal/widgets>
+<require terminal/window_manager>
 <require ai/new_llama>
 
 <using std>
 <using llama>
 
-$MODEL_NAME "Devstral-Small-2505-Q4_K_M.gguf"
-#$MODEL_NAME "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
-#$MODEL_NAME "Qwen3-235B-A22B-Q4_K_M-00001-of-00003.gguf"
-#$MODEL_NAME "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
-#$MODEL_NAME "Qwen3-32B-Q4_0.gguf"
-#$MODEL_NAME "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
-$PROMPT command_line_arguments(1).from_utf8
-$minimum_confidence 10.0
+<allow unused>
 
-get_terminal_size! STDIN_FILENO $width $height
-create_terminal $terminal width height
-$lines wrap_words(PROMPT width)
-$x 1
-$y 1
-for_each lines
-  : (line)
-    draw_text &terminal 1 y line
-    inc &y
-    next!
-  :
-    update &terminal $output
-    print! output
+$TERMINAL .
+
+$QUIT .
+
+$OPEN_MODEL .
+
+$SEQ_ID 1
+
+$model_of ()
+$prefix_of ()
+$fixed_x_of ()
+$next_token_of ()
+$confidence_of ()
+$unfixed_output_of ()
+$template_screen_of ()
+$window_manager_of ()
+$terminal_of ()
+$x_of ()
+$starts_a_new_line ()
+
+$proto_state std_types::object
+  .model_of undefined
+  .prefix_of ""
+  .fixed_x_of 1
+  .next_token_of undefined
+  .confidence_of undefined
+  .unfixed_output_of empty_list
+  .template_screen_of undefined
+  .window_manager_of undefined
+  .terminal_of undefined
+  .x_of 1
+  .starts_a_new_line false
+
+#$model_name "gpt-oss-120b-Q5_K_M-00001-of-00002.gguf"
+#$model_name "gpt-oss-20b-Q4_K_M.gguf"
+$model_name "Qwen3-Coder-30B-A3B-Instruct-Q4_0.gguf"
+#$model_name "Devstral-Small-2505-Q4_K_M.gguf"
+#$model_name "Mistral-Small-24B-Instruct-2501-Q5_K.gguf"
+#$model_name "DeepSeek-R1-Distill-Qwen-14B-Q5_K_M.gguf"
+
+$minimum_confidence 25.0
+
+program_parameters!
+  $prompt
+  list
+    OPTIONAL_PARAMETER "prompt" "
+      the prompt string
+  $filename
+  list
+    VALUED_OPTION "filename" "
+      the name of a file that containts the prompt
+
+if
+  filename.is_defined:
+    load! !prompt filename
+    from_utf8 &prompt
     start!
+  start
 
 $start:
-  $SEQ_ID 1
-  open_model! $model MODEL_NAME
-  tokenize! $tokens model PROMPT
-  create_sequence! model SEQ_ID
-  $fixed_x 1
-  $unfixed_output empty_list
-  $prefix ""
-  loop:
-    add_tokens! model SEQ_ID tokens
-    evaluate! model SEQ_ID
-    get_logits! $_seq_id $_position $logits model
-    $best_choice logits(1)
-    best_choice $next_token $confidence
-    detokenize model next_token $piece &prefix
-    $newlines 0
-    case next_token
-      eos_token_of(model), eot_token_of(model), pad_token_of(model):
-	close! model
-	terminate!
-      handle_token
+  $state proto_state
+  $io std_types::io
 
-    $handle_token:
-      !tokens list(next_token)
-      loop
-	:
+  # Initialize Logging
+
+  fstat! $stdout_info STDOUT_FILENO
+  fstat! $stderr_info STDERR_FILENO
+  $do_log
+    ||
+      inode_number_of(stderr_info) != inode_number_of(stdout_info)
+      device_of(stderr_info) != device_of(stdout_info)
+  $log_level if(do_log (-> 4) (-> 0))
+
+  enable_logging &io log_level
+  log &io -> "started logging (log-level: @(log_level))"
+
+  initialize_terminal &io TERMINAL
+    RECEIVE_CTRL_C_AND_CTRL_Z
+    RECEIVE_CTRL_Q_AND_CTRL_S
+    MAP_CR
+    MOUSE_REPORTING = CLICKS
+
+  open_model &io OPEN_MODEL model_name
+
+  # Main Loop
+
+  loop:
+    get_events! io $new_io $events
+    cond
+      -> new_io.is_an_error:
+	shutdown! new_io
+      -> events.is_an_error:
+	shutdown! events
+      -> true:
+	!io new_io
+	handle_everything !new_io io events &state
+	cond
+	  -> new_io.is_an_error:
+	    shutdown! new_io
+	  -> state.is_an_error:
+	    shutdown! state
+	  -> true:
+	    !io new_io
+	    next!
+
+    $shutdown: (err)
+      debug::dump_object 50 err
+      log &io "crashed: @(err.to_error_message_string) - exiting"
+      exit &io EXIT_FAILURE
+      loop:
+	get_events! &io $_events
+	debug::dump `io
+	on io.is_an_error: debug::exit
+	next!
+
+$handle_everything: (io events state)
+  handle_events &io &events
+  if
+    window_manager_of(state).is_defined:
+      handle_events &state.window_manager_of io &events STDIN_FILENO
+      handle_next_token &io &state
+      handle_my_events &io events &state
+      if
+	window_manager_of(state).needs_updating:
+	  update &state.window_manager_of &state.terminal_of
+	  update &state.terminal_of $output
+	  print_to &io STDOUT_FILENO output
+	  -> io state
+	-> io state
+    :
+      handle_my_events io events state
+
+$handle_my_events: (io events state)
+  for_each events
+    : (event)
+      event $type $id $data $context
+      case type
+	KEY_PRESS:
+	  $key data
+	  case key
+	    CTRL_Q, QUIT:
+	      log &io "exiting"
+	      exit &io EXIT_SUCCESS
+	      next
+	    next
+	JOB_COMPLETED:
+	  job_completed id &io &state data context
+	  next
+	JOB_FAILED:
+	  job_failed id &io &state data context
+	  next
+	TOKENS:
+	  $tokens data
+	  $model context
+	  add_tokens &io model SEQ_ID tokens
+	  evaluate &io model SEQ_ID
+	  next
+	LOGITS:
+	  data $seq_id $logits
+	  $model context
+	  logits(1) $next_token $confidence
 	  if
-	    piece .has_suffix. '@nl;':
-	      inc &newlines
-	      range &piece 1 -2
-	      next!
-	    break
-	:
-	  if
-	    ||
-	      piece.is_empty
-	      newlines > 0 && piece == " " # Deepseek has strange tokens!
+	    is_an_end_token_of(model)(next_token):
+	      close &io fd_of(model)
+	      next
 	    :
-	      plus &y newlines
-	      !x 1
-	      !fixed_x 1
-	      !unfixed_output empty_list
-	      next!
-	    :
-	      if
-		piece(1) == ' ':
-		  !fixed_x x
-		  !unfixed_output empty_list
-		  print_piece!
-		print_piece
+	      !state.next_token_of next_token
+	      !state.confidence_of confidence
+	      add_token_and_evaluate &io model seq_id next_token
+	      set_timeout &io 0
+	      next
+	next
+    -> io state
+
+$job_completed ()
+$job_failed ()
+
+$std_types::object/job_completed: (id _io _state data context)
+  debug::dump `id
+  debug::dump 3 `data
+  debug::dump `context
+  debug::exit
+
+$std_types::object/job_failed: (id io state err _context)
+  debug::dump `id
+  debug::dump 99 `err
+  log &io "exiting"
+  exit &io EXIT_SUCCESS
+  -> io state
+
+
+$TERMINAL/job_completed: (_id io state terminal _context)
+  log &io 4 -> "initialized terminal"
+  register_resource &io TERMINAL terminal
+  start_reading_from &io STDIN_FILENO
+  register_handlers &io STDIN_FILENO READ = create_terminal_events
+  start_injecting_window_change_events &io
+  $width 80
+  replace_all &prompt '@ht;' = "        "
+  $lines wrap_words(prompt width)
+  $template_screen create_screen(terminal 0 0)
+  $content create_screen(terminal width length_of(lines))
+  for_each !content lines
+    : (y line)
+      draw_text &content 1 y lines(y)
+      next
+    -> content
+  $window_manager create_window_manager(terminal)
+  set_menu &window_manager main_menu
+  create_window &window_manager
+    ID = 1
+    TITLE = "Chat #1"
+    CONTENT = content
+  update &window_manager &terminal
+  update &terminal $output
+  print_to &io STDOUT_FILENO output
+  ->
+    io
+    state
+      .terminal_of terminal
+      .template_screen_of template_screen
+      .window_manager_of window_manager
+
+$OPEN_MODEL/job_completed: (_id io state model _context)
+  !state.model_of model
+  create_sequence &io model SEQ_ID
+  tokenize &io model prompt
+  -> io state
+
+$OPEN_MODEL/job_failed: (_id io state err _context)
+  log &io "open model: @(err.to_error_message_string)"
+  log &io "exiting"
+  exit &io EXIT_FAILURE
+  -> io state
+
+$handle_next_token: (io state)
+  $next_token next_token_of(state)
+  if
+    next_token.is_undefined
+    -> io state
+    handle_token
+
+  $handle_token:
+    !state.next_token_of undefined
+    $piece undefined
+    $newlines 0
+    $model model_of(state)
+    $confidence confidence_of(state)
+    detokenize model next_token !piece &state.prefix_of
+    loop
+      :
+	if
+	  piece .has_suffix. '@nl;':
+	    inc &newlines
+	    range &piece 1 -2
+	    next
+	  break
+      :
+	if
+	  ||
+	    piece.is_empty
+	    newlines > 0 && piece == " " # Deepseek has strange tokens!
+	  :
+	    !state.x_of 1
+	    !state.fixed_x_of 1
+	    !state.unfixed_output_of empty_list
+	    -> io state
+	  :
+	    update_if piece(1) == ' ' &state:
+	      ->
+		state
+		  .fixed_x_of x_of(state)
+		  .unfixed_output_of empty_list
+	    print_piece &state
+	    -> io state
 
     $print_piece:
+      $content get_content(window_manager_of(state))
+      $x x_of(state)
+      $y height_of(content)
+      $fixed_x fixed_x_of(state)
+      $width width_of(content)
       if
 	x+width_of(piece)-1 <= width:
 	  if
-	    y > height:
-	      scroll_up &terminal y-height
-	      !y height
-	      draw_token!
-	    draw_token
+	    piece(1) == ' ':
+	      !state.fixed_x_of x
+	      !state.unfixed_output_of list(tuple(piece confidence))
+	      draw_token
+	    :
+	      push &state.unfixed_output_of tuple(piece confidence)
+	      draw_token
 	:
+	  !state.starts_a_new_line false
 	  # delete already printed text
-	  set_clear_colour &terminal WHITE
-	  draw_text &terminal fixed_x y spaces(x-fixed_x)
-	  inc &y
+	  set_clear_colour &content WHITE
+	  draw_text &content fixed_x y spaces(x-fixed_x)
+	  !state.fixed_x_of 1
+	  # redraw already printed text
 	  !x 1
-	  !fixed_x 1
+	  $unfixed_output unfixed_output_of(state)
+	  !state.unfixed_output_of empty_list
 	  if
-	    y > height:
-	      scroll_up &terminal
-	      !y height
-	      redraw_unfixed!
-	    redraw_unfixed
-
-	  $redraw_unfixed:
-	    # redraw already printed text
-	    for_each unfixed_output
-	      : (item)
-		item $unfixed_token $unfixed_confidence
-		detokenize model unfixed_token $unfixed_piece &prefix
-		set_clear_colour &terminal
-		  get_output_piece_colour(unfixed_confidence)
-		update_if x == 1 && unfixed_piece(1) == ' ' &unfixed_piece
-		  -> range(unfixed_piece 2 -1)
-		draw_text &terminal x y unfixed_piece
-		plus &x width_of(unfixed_piece)
-		next!
-	      :
-		!unfixed_output empty_list
-		draw_token!
+	    unfixed_output.is_empty
+	    draw_token
+	    :
+	      $new_line create_screen(template_screen_of(state) width 1)
+	      for_each unfixed_output
+		: (item)
+		  item $unfixed_piece $unfixed_confidence
+		  set_clear_colour &new_line
+		    get_output_piece_colour(unfixed_confidence)
+		  update_if x == 1 && unfixed_piece(1) == ' '
+		    &unfixed_piece -> range(unfixed_piece 2 -1)
+		  draw_text &new_line x 1 unfixed_piece
+		  plus &x width_of(unfixed_piece)
+		  next
+		:
+		  append &content new_line
+		  inc &y
+		  draw_token
 
       $draw_token:
-	set_clear_colour &terminal get_output_piece_colour(confidence)
-	update_if x == 1 && piece(1) == ' ' &piece -> range(piece 2 -1)
-	draw_text &terminal x y piece
-	update &terminal $output
-	print! output
 	if
-	  newlines == 0:
-	    plus &x width_of(piece)
-	    push &unfixed_output best_choice
-	    next!
+	  x == 1:
+	    update_if not(starts_a_new_line(state)) && piece(1) == ' ' &piece
+	      -> range(piece 2 -1)
+	    $new_line
+	      create_screen(template_screen_of(state) width max(1 newlines))
+	    set_clear_colour &new_line get_output_piece_colour(confidence)
+	    draw_text &new_line 1 1 piece
+	    append &content new_line
+	    set_content &state.window_manager_of content
+	    if
+	      newlines > 0:
+		!state.x_of 1
+		!state.starts_a_new_line true
+		-> state
+	      :
+		!state.x_of x+width_of(piece)
+		-> state
 	  :
-	    plus &y newlines
-	    !x 1
-	    !unfixed_output empty_list
-	    next!
+	    set_clear_colour &content get_output_piece_colour(confidence)
+	    draw_text &content x y piece
+	    if
+	      newlines > 1:
+		$empty_lines
+		  create_screen(template_screen_of(state) width newlines-1)
+		append &content empty_lines
+		set_content &state.window_manager_of content
+		!state.x_of 1
+		!state.starts_a_new_line true
+		-> state
+	      :
+		set_content &state.window_manager_of content
+		if
+		  newlines == 1:
+		    !state.x_of 1
+		    !state.starts_a_new_line true
+		    -> state
+		  :
+		    !state.x_of x+width_of(piece)
+		    -> state
 
 $get_output_piece_colour: (confidence)
   $confidence_delta confidence-minimum_confidence
@@ -154,3 +390,9 @@ $get_output_piece_colour: (confidence)
       colour_mixture
 	VERY_LIGHT_RED = 10-confidence_delta
 	VERY_LIGHT_GREEN = confidence_delta
+
+$main_menu
+  list
+    "File" =
+      list
+	"Quit application (ctrl-q)" = QUIT

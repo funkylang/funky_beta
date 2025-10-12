@@ -1,0 +1,25 @@
+# std_types::window_manager/std::set_plain_text_mode (a method)
+
+  enables or disables the plain text mode for a window
+
+  Parameters:
+    wm: the window manager
+    id: the window's id
+    mode: a boolean value
+
+  Result:
+    wm: the updated window manager
+
+  In plain text mode the vertical scroll bar of a window is hidden to allow the
+  X-window copy-to-clipboard to work properly.
+
+  You have to use shift-left-click for copying text from a window!
+
+  Topic: Window Manager
+
+  See also: std_types::window_manager/std::get_inbounds_width,
+	    std_types::window_manager/std::set_content
+
+((defined in terminal/window_manager.fky))
+((generated manually>
+((2025-17-06 11:23:00))

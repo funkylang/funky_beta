@@ -20,13 +20,14 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <using std-2.0>
-<using ai>
+<using llama>
 <using tedi>
 
 <resolve std_types-2.0>
 
-$CONNECT .
-$LOAD_MODEL .
+<allow unused>
+
+$OPEN_MODEL .
 $START_SERVER .
 $TOKENIZE .
 $CACHED_PREFIX .
@@ -55,6 +56,18 @@ $tedi_types::state
   .initializing_ai_of false
   .ai_server_already_started_of false
 
+$sequence_of ()
+
+$tedi_types::page.sequence_of undefined
+
+$id_of ()
+$first_token_of ()
+$last_token_of ()
+
+$proto_sequence std_types::object
+  .id_of undefined
+  .tokens_of undefined
+
 $tedi::tokens_of ()
 
 $tedi_types::line
@@ -66,12 +79,17 @@ $window_id_of ()
 $at_line_start_of ()
 $at_line_end_of ()
 $tokenized_line_numbers_of ()
+$tokenized_lines_of ()
 $start_tokens_of ()
 $additional_tokens_of ()
 $start_length_of ()
 $already_evaluated_prefix_length_of ()
 $already_evaluated_count_of ()
 $generated_token_count_of ()
+$prefix_of ()
+$pending_tokens_of ()
+$total_token_count_of ()
+$do_not_add_newline_of ()
 
 $tedi_types::completion_job std_types::object
   .window_id_of undefined
@@ -80,6 +98,7 @@ $tedi_types::completion_job std_types::object
   .x_of undefined
   .y_of undefined
   .tokenized_line_numbers_of undefined
+  .tokenized_lines_of undefined
   .start_tokens_of undefined
   .additional_tokens_of undefined
   .tokens_of undefined
@@ -87,6 +106,10 @@ $tedi_types::completion_job std_types::object
   .already_evaluated_prefix_length_of undefined
   .already_evaluated_count_of undefined
   .generated_token_count_of undefined
+  .prefix_of undefined
+  .pending_tokens_of undefined
+  .total_token_count_of undefined
+  .do_not_add_newline_of undefined
 
 # Editor Actions
 
@@ -95,11 +118,10 @@ $tedi::ai_completion: (io state x y _lines _info)
     initializing_ai_of(state)
     -> io state
     :
-      $uuid uuid_of(state)
       $configuration configuration_of(state)
       if
-	uuid.is_undefined || configuration.is_undefined:
-	  show_error_message &state CONNECT "initialization is not yet complete"
+	configuration.is_undefined:
+	  show_error_message &state OPEN_MODEL "initialization is not yet complete"
 	  -> io state
 	:
 	  !state
@@ -111,117 +133,45 @@ $tedi::ai_completion: (io state x y _lines _info)
 		.y_of y
 	  if
 	    ai_model_of(state).is_undefined:
-	      connect_to_server io state
+	      open_ai_model io state
 	    :
 	      start_completion io state
 
 # AI Server Communication
 
-$connect_to_server: (io state)
-  $uuid uuid_of(state)
+$open_ai_model: (io state)
   $configuration configuration_of(state)
+  $model_name ai_model_name_of(configuration)
   $address ai_server_address_of(configuration)
   $port_no ai_server_port_no_of(configuration)
-  $message "connecting to AI server at @(address):@(port_no)"
-  show_status_message &state CONNECT message
+  $message "opening model @(model_name) on @(address):@(port_no)"
+  show_status_message &state OPEN_MODEL message
   log &io 2 message
   !state.initializing_ai_of true
-  connect_to_ai_server &io CONNECT
-    ADDRESS = address
-    PORT_NO = port_no
-    UUID = uuid
+  open_model &io OPEN_MODEL ai_model_name_of(configuration)
   -> io state
 
-$CONNECT/job_failed: (_id io state _data _context)
+$OPEN_MODEL/job_failed: (_id io state _data _context)
   $configuration configuration_of(state)
+  $model_name ai_model_name_of(configuration)
   $address ai_server_address_of(configuration)
   $port_no ai_server_port_no_of(configuration)
-  if
-    &&
-      current_action_state_of(state) != CANCELLED
-      do_start_ai_server_of(configuration)
-      not(ai_server_already_started_of(state))
-    :
-      $server_name ai_server_name_of(configuration)
-      $server_log_file ai_server_log_file_of(configuration)
-      $model_path ai_model_path_of(configuration)
-      $context_size ai_context_size_of(configuration)
-      $message "
-	attempting to start AI server "@(server_name)" at port @(port_no)
-      show_status_message &state CONNECT message
-      log &io 2 message
-      $options list(UUID = uuid_of(state))
-      update_if server_name.is_defined &options:
-	push options SERVER_NAME = server_name
-      update_if server_log_file.is_defined &options:
-	push options LOG_FILE = server_log_file
-      update_if model_path.is_defined &options:
-	push options MODEL_PATH = model_path
-      update_if context_size.is_defined &options:
-	push options CONTEXT_SIZE = context_size
-      update_if address.is_defined &options:
-	push options ADDRESS = address
-      update_if port_no.is_defined &options:
-	push options PORT_NO = port_no
-      !state.ai_server_already_started_of true
-      start_ai_server &io START_SERVER options
-      -> io state
-    :
-      $message "failed to connect to CONNECT server at @(address):@(port_no)"
-      show_error_message &state CONNECT message
-      log &io message
-      current_action_completed io state
-
-$CONNECT/job_completed: (_id io state connection _context)
-  $address address_of(connection)
-  $port_no port_no_of(connection)
-  $connected_message "
-    connected to AI server at @(address):@(port_no)"
-  show_success_message &state CONNECT connected_message
-  log &io connected_message
-  if
-    current_action_state_of(state) == CANCELLED:
-      current_action_completed io state
-    :
-      $configuration configuration_of(state)
-      $name ai_model_name_of(configuration)
-      $loading_message "
-	loading AI model "@(name)"
-      show_status_message &state LOAD_MODEL loading_message
-      log &io 2 loading_message
-      load_ai_model &io LOAD_MODEL name connection
-      -> io state
-
-$START_SERVER/job_failed: (_id io state data _context)
-  debug::println "START_SERVER/job_failed"
-  debug::dump `data
-  current_action_completed io state
-
-$START_SERVER/job_completed: (_id io state _connection _context)
-  if
-    current_action_state_of(state) == CANCELLED:
-      $configuration configuration_of(state)
-      $server_name ai_server_name_of(configuration)
-      $port_no ai_server_port_no_of(configuration)
-      $message "
-	started AI server "@(server_name)" at port @(port_no)
-      show_status_message &state CONNECT message
-      log &io 2 message
-      current_action_completed io state
-    :
-      connect_to_server io state
-
-$LOAD_MODEL/job_failed: (_id io state data _context)
-  debug::println "LOAD_MODEL/job_failed"
-  debug::dump `data
-  current_action_completed io state
-
-$LOAD_MODEL/job_completed: (_id io state model _context)
-  !state.ai_model_of add_token_infos(model)
   $message "
-    loaded AI model "@(name_of(model))"
-  show_success_message &state LOAD_MODEL message
+    failed to open model @(model_name) on server @(address):@(port_no)
+  show_error_message &state OPEN_MODEL message
   log &io message
+  !state.initializing_ai_of false
+  current_action_completed io state
+
+$OPEN_MODEL/job_completed: (_id io state model _context)
+  $configuration configuration_of(state)
+  $model_name ai_model_name_of(configuration)
+  $address ai_server_address_of(configuration)
+  $port_no ai_server_port_no_of(configuration)
+  $message "
+    Opened model @(model_name) on server @(address):@(port_no)
+  show_success_message &state OPEN_MODEL message
+  !state.ai_model_of model
   !state.initializing_ai_of false
   if
     current_action_state_of(state) == CANCELLED:
@@ -233,427 +183,228 @@ $start_completion: (io state)
   $completion_job current_action_of(state)
   $window_id window_id_of(completion_job)
   $model ai_model_of(state)
-  $lines range(lines_of(get_content(window_manager_of(state) window_id)) 1 -1)
-  get_not_tokenized_lines $line_numbers $line_texts lines
-  if
-    line_numbers.is_not_empty:
-      !state.current_action_of
-	completion_job(.tokenized_line_numbers_of line_numbers)
-      $message "tokenizing @(length_of(line_numbers)) lines"
-      show_status_message &state AI message
-      log &io 2 message
-      tokenize &io TOKENIZE model line_texts
-      -> io state
-    :
-      evaluate_text_lines io state
-
-$TOKENIZE/job_failed: (_id io state data _context)
-  debug::println "TOKENIZE/job_failed"
-  debug::dump `data
-  current_action_completed io state
-
-$TOKENIZE/job_completed: (_id io state token_lines _context)
-  if
-    current_action_state_of(state) == CANCELLED:
-      remove_message &state.window_manager_of AI
-      current_action_completed io state
-    :
-      $completion_job current_action_of(state)
-      $window_id window_id_of(completion_job)
-      $page get_content(window_manager_of(state) window_id)
-      update_lines &page.lines_of tokenized_line_numbers_of(completion_job)
-	: (idx line) -> line(.tokens_of token_lines(idx))
-      set_content &state.window_manager_of window_id page
-      evaluate_text_lines io state
-
-$evaluate_text_lines: (io state)
-  $ai_model ai_model_of(state)
-  $completion_job current_action_of(state)
-  $window_id window_id_of(completion_job)
-  $page get_content(window_manager_of(state) window_id)
-  $x x_of(completion_job)
   $y y_of(completion_job)
-  $lines range(lines_of(page) 1 min(y height_of(page)))
-  get_line_start_tokens $_cx $tokens $suffix x y lines ai_model
-  $at_line_start tokens.is_empty
-  $at_line_end suffix.is_empty
-  $sy 0
-  $cy y
-  $context_size context_size_of(ai_model)
-  $delta max(context_size .div. 16 256)
-  $start_size (context_size .div. 2)-delta
-  $before_size start_size
-  $additional_size context_size-start_size-before_size-256
-  $start_tokens empty_list
-  loop !sy !start_tokens:
-    inc &sy
+  $lines range(lines_of(get_content(window_manager_of(state) window_id)) 1 -1)
+  do:
+    get_not_tokenized_lines $line_numbers $line_texts
     if
-      sy >= cy
-      -> sy-1 start_tokens
+      line_numbers.is_not_empty:
+	!state.current_action_of
+	  completion_job
+	    .tokenized_line_numbers_of line_numbers
+	    .tokenized_lines_of empty_list
+	$message "tokenizing @(length_of(line_numbers)) lines"
+	show_status_message &state AI message
+	log &io 2 message
+	tokenize &io model line_texts
+	-> io state
       :
-	line_to_tokens $line_tokens sy lines ai_model
-	if
-	  length_of(start_tokens)+length_of(line_tokens) > start_size
-	  -> sy-1 start_tokens
-	  :
-	    append &start_tokens line_tokens
-	    next
-  loop !cy !tokens:
-    dec &cy
-    if
-      cy <= sy
-      -> cy+1 tokens
-      :
-	line_to_tokens $line_tokens cy lines ai_model
-	if
-	  length_of(line_tokens)+length_of(tokens) > before_size
-	  -> cy+1 tokens
-	  :
-	    append line_tokens &tokens
-	    next
-  $additional_tokens empty_list
-  loop !additional_tokens:
-    dec &cy
-    if
-      cy <= sy
-      -> additional_tokens
-      :
-	line_to_tokens $line_tokens cy lines ai_model
-	if
-	  length_of(line_tokens)+length_of(additional_tokens) > additional_size
-	  -> additional_tokens
-	  :
-	    append line_tokens &additional_tokens
-	    next
-  update_if
-    ||
-      start_tokens.is_empty
-      &&
-	not(is_a_space_token_of(ai_model)(start_tokens(1)))
-	start_tokens(1) != newline_token_of(ai_model)
-    &start_tokens -> put(start_tokens space_token_of(ai_model))
-  !completion_job
-    .start_tokens_of start_tokens
-    .additional_tokens_of additional_tokens
-    .tokens_of tokens
-    .at_line_start_of at_line_start
-    .at_line_end_of at_line_end
-    .generated_token_count_of 0
-  $message "checking already computed prefix"
-  show_status_message &state AI message
-  log &io 4 message
-  !state.current_action_of completion_job
-  cached_prefix &io CACHED_PREFIX ai_model
-    append(start_tokens additional_tokens tokens)
-    SMART length_of(start_tokens) length_of(additional_tokens)
-  -> io state
+	evaluate_text_lines io state
 
-$CACHED_PREFIX/job_failed: (_id io state err _context)
-  $message "token evaluation failed: @(err.to_error_message_string)"
-  show_error_message &state AI message
-  log &io message
-  current_action_completed io state
+  $get_not_tokenized_lines:
+    # ensure that line <y> has a single newline token at the end
+    $line_numbers empty_list
+    $line_texts empty_list
+    for_each lines
+      : (no line)
+	if
+	  line.is_undefined
+	  next
+	  :
+	    if
+	      tokens_of(line).is_defined
+	      next
+	      :
+		push &line_numbers no
+		$line_text
+		  append
+		    spaces(indent_of(line))
+		    text_of(line)
+		update_if no != y &line_text -> push(line_text '@nl;')
+		push &line_texts line_text
+		next
+      -> line_numbers line_texts
 
-$CACHED_PREFIX/job_completed: (_id io state prefix_length additional_length)
+$TOKENS/handle_event: (_type io state id tokens model)
   if
-    current_action_state_of(state) == CANCELLED:
-      remove_message &state.window_manager_of AI
-      current_action_completed io state
-    :
-      $configuration configuration_of(state)
-      $ai_model ai_model_of(state)
-      $batch_size ai_batch_size_of(configuration)
+    current_action_state_of(state) == RUNNING:
       $completion_job current_action_of(state)
-      $start_tokens start_tokens_of(completion_job)
-      $start_length length_of(start_tokens)
-      update_if additional_length > 0 &start_tokens:
-	append
-	  start_tokens
-	  range(additional_tokens_of(completion_job) -additional_length -1)
-      $tokens append(start_tokens tokens_of(completion_job))
-      $evaluation_count length_of(tokens)-prefix_length
-      $message "evaluating @(evaluation_count) tokens"
-      show_status_message &state AI message
-      log &io 3 "
-	@(prefix_length) valid prefix tokens @
-	(additional tokens used: @(additional_length))
-      log &io 3 message
-      !completion_job
-	.tokens_of tokens
-	.start_length_of start_length
-	.already_evaluated_prefix_length_of prefix_length
+      $i length_of(tokenized_lines_of(completion_job))+1
+      update_if
+	tokenized_line_numbers_of(completion_job)(i) == y_of(completion_job)
+	&tokens: push tokens nl_token_of(model)
+      push &completion_job.tokenized_lines_of tokens
       if
-	evaluation_count <= 1.5*batch_size:
-	  !completion_job.already_evaluated_count_of length_of(tokens)
-	  !state.current_action_of completion_job
-	  evaluate &io EVALUATE ai_model tokens SMART start_length
-	  -> io state
-	:
-	  $already_evaluated_count prefix_length+batch_size
-	  !completion_job.already_evaluated_count_of already_evaluated_count
-	  !state.current_action_of completion_job
-	  evaluate &io EVALUATE ai_model range(tokens 1 already_evaluated_count)
-	    SMART start_length
-	  -> io state
-
-$EVALUATE/job_failed: (_id io state err _context)
-  $message "token evaluation failed: @(err.to_error_message_string)"
-  show_error_message &state AI message
-  log &io message
-  current_action_completed io state
-
-$EVALUATE/job_completed: (_id io state logits _context)
-  if
-    current_action_state_of(state) == CANCELLED:
-      remove_message &state.window_manager_of AI
-      current_action_completed io state
-    :
-      $configuration configuration_of(state)
-      $ai_model ai_model_of(state)
-      $completion_job current_action_of(state)
-      $tokens tokens_of(completion_job)
-      $start_length length_of(start_tokens_of(completion_job))
-      $batch_size ai_batch_size_of(configuration)
-      $already_evaluated_count already_evaluated_count_of(completion_job)
-      $generated_token_count generated_token_count_of(completion_job)
-      if
-	generated_token_count == 0 && already_evaluated_count < length_of(tokens):
-	  $prefix_length already_evaluated_prefix_length_of(completion_job)
-	  $already_done already_evaluated_count-prefix_length
-	  $total length_of(tokens)-prefix_length
-	  show_progress_message &state AI already_done total
-	    "evaluating @(total) tokens"
-	  log &io 4 "evaluated @(already_done) of @(total) tokens"
-	  if
-	    already_evaluated_count+1.5*batch_size >= length_of(tokens):
-	      !completion_job.already_evaluated_count_of length_of(tokens)
-	      !state.current_action_of completion_job
-	      evaluate &io EVALUATE ai_model tokens SMART start_length
-	      -> io state
-	    :
-	      plus &already_evaluated_count batch_size
-	      !completion_job.already_evaluated_count_of already_evaluated_count
-	      !state.current_action_of completion_job
-	      evaluate &io EVALUATE ai_model range(tokens 1 already_evaluated_count)
-		SMART start_length
-	      -> io state
+	==
+	  length_of(tokenized_lines_of(completion_job))
+	  length_of(tokenized_line_numbers_of(completion_job))
 	:
 	  $window_id window_id_of(completion_job)
-	  $page get_content(window_manager_of(state))
-	  $new_token logits(1)(1)
-	  $x x_of(completion_job)
-	  $y y_of(completion_job)
-	  $at_line_start at_line_start_of(completion_job)
-	  $at_line_end at_line_end_of(completion_job)
-	  case new_token
-	    newline_token_of(ai_model):
-	      remove_message &state.window_manager_of AI
-	      if
-		at_line_end || generated_token_count == 0:
-		  change_text &state window_id split_line INSERTION undefined
-		  current_action_completed io state
-		:
-		  if
-		    at_line_start:
-		      goto_xy &page &state.window_manager_of x y+1
-		      current_action_completed io state
-		    :
-		      current_action_completed io state
-	    end_of_stream_token_of(ai_model), end_of_text_token_of(ai_model):
-	      remove_message &state.window_manager_of AI
-	      current_action_completed io state
-	    :
-	      $new_piece detokenize(ai_model new_token)
-	      update_if
-		&&
-		  at_line_start
-		  generated_token_count == 0
-		  new_piece(1) == ' '
-		&new_piece -> range(new_piece 2 -1)
-	      if
-		generated_token_count == 0:
-		  if
-		    at_line_start:
-		      goto_xy &page &state.window_manager_of 1 y
-		      if
-			at_line_end
-			insert_text
-			:
-			  change_text &state window_id
-			    split_line INSERTION undefined
-			  change_text &state window_id
-			    cursor_up MOVEMENT undefined
-			  insert_text
-		    :
-		      if
-			at_line_end:
-			  $lines lines_of(page)
-			  goto_xy &page &state.window_manager_of width_of(lines(y))+1 y
-			  insert_text
-			insert_text
-		insert_text
+	  $page get_content(window_manager_of(state) window_id)
+	  $tokenized_lines tokenized_lines_of(completion_job)
+	  update_lines &page.lines_of tokenized_line_numbers_of(completion_job)
+	    : (idx line) -> line(.tokens_of tokenized_lines(idx))
+	  set_content &state.window_manager_of window_id page
+	  evaluate_text_lines io state
+	-> io state(.current_action_of completion_job)
+    -> io state
 
-	      $insert_text:
-		change_text &state window_id insert INSERTION new_piece
-		push &tokens new_token
-		inc &generated_token_count
-		!completion_job
-		  .tokens_of tokens
-		  .generated_token_count_of generated_token_count
-		!state.current_action_of completion_job
-		show_status_message &state AI "
-		  generated @(generated_token_count) tokens
-		evaluate &io EVALUATE ai_model tokens SMART start_length
-		-> io state
-
-$line_to_tokens: (y lines ai_model)
+$LOGITS/handle_event: (_type io state id logits model)
+  show_status_message &state AI "inserting text"
+  $completion_job current_action_of(state)
+  $window_id window_id_of(completion_job)
+  logits $seq_id !logits
+  logits(1) $token
+  detokenize model $piece token &completion_job.prefix_of
+  update_if_not prefix_of(completion_job).is_empty
+    &completion_job.pending_tokens_of
+    -> push(pending_tokens_of(completion_job) token)
+  !state.current_action_of completion_job
   if
-    y > length_of(lines)
-    -> list(newline_token_of(ai_model))
+    piece.is_empty
+    continue_evaluation
     :
-      $line lines(y)
       if
-	line.is_defined:
-	  $indent indent_of(line)
-	  $tokens tokens_of(line)
-	  $has_a_continuation_line
-	    &&
-	      y < length_of(lines)
-	      lines(y+1).is_defined
-	      lines(y+1).is_a_continuation_line
-	  !tokens
-	    if
-	      line.is_a_continuation_line
-	      -> tokens
-	      -> indented_tokens(indent tokens ai_model)
-	  if
-	    has_a_continuation_line
-	    -> tokens
-	    -> push(tokens newline_token_of(ai_model))
-	-> list(newline_token_of(ai_model))
-
-$get_not_tokenized_lines: (lines)
-  $line_numbers empty_list
-  $line_texts empty_list
-  for_each lines
-    : (no line)
-      if
-	line.is_undefined
-	next
-	:
-	  if
-	    tokens_of(line).is_defined
-	    next
+	piece .contains. '@nl;':
+	  remove_message &state.window_manager_of AI
+	  truncate_from &piece '@nl;'
+	  update_if_not piece.is_empty &state:
+	    change_text state window_id insert INSERTION piece
+	  if !state
+	    do_not_add_newline_of(completion_job):
+	      change_text &state window_id cursor_down MOVEMENT undefined
+	      change_text state window_id tedi::cursor_home MOVEMENT undefined
 	    :
-	      push &line_numbers no
-	      push &line_texts text_of(line)
+	      change_text state window_id split_line INSERTION undefined
+	  current_action_completed io state
+	:
+	  change_text &state window_id insert INSERTION piece
+	  continue_evaluation
+
+  $continue_evaluation:
+    $page get_content(window_manager_of(state) window_id)
+    push &page.sequence_of.tokens_of token
+    set_content &state.window_manager_of page
+    add_token_and_evaluate &io model seq_id token
+    -> io state
+
+$ERROR/handle_event: (_type io state _id err _model)
+  $completion_job current_action_of(state)
+  if
+    completion_job.is_defined:
+      show_error_message &state AI err
+      current_action_completed io state
+    -> io state # ignore follow up errors
+
+$evaluate_text_lines: (io state)
+  $completion_job current_action_of(state)
+  $window_id window_id_of(completion_job)
+  $ai_model ai_model_of(state)
+  $page get_content(window_manager_of(state) window_id)
+  $sequence sequence_of(page)
+  if
+    sequence.is_undefined:
+      create_sequence &io ai_model window_id
+      !sequence
+	proto_sequence
+	  .id_of window_id
+      update_sequence
+    update_sequence
+
+  $update_sequence:
+    $empty_line_tokens list(nl_token_of(ai_model))
+    $x x_of(completion_job)
+    $y y_of(completion_job)
+    $lines lines_of(page)
+    $len length_of(lines)
+    $tokens
+      map_reduce
+	range(lines 1 min(y-1 len))
+	: (line)
+	  if
+	    line.is_defined
+	    -> tokens_of(line)
+	    -> empty_line_tokens
+	append
+	empty_list
+    update_if y > len &tokens:
+      append tokens dup(list(nl_token_of(ai_model)) y-1-len)
+    $cursor_line
+      if
+	y > len
+	-> undefined
+	-> lines(y)
+    if !x !tokens
+      cursor_line.is_defined && x > indent_of(cursor_line)+1:
+	$line_tokens range(tokens_of(cursor_line) 1 -2) # remove newline token
+	$width 0
+	$prefix ""
+	loop:
+	  if
+	    ||
+	      line_tokens.is_empty
+	      width+1 >= x && prefix.is_empty
+	    -> width+1 tokens
+	    :
+	      $token line_tokens(1)
+	      detokenize ai_model token $piece &prefix
+	      plus &width width_of(piece)
+	      push &tokens token
+	      range &line_tokens 2 -1
 	      next
-    -> line_numbers line_texts
+      -> 1 tokens
+    $do_not_add_newline cursor_line.is_defined && x == 1
+    update_if do_not_add_newline &page &state:
+      change_text &state window_id split_line INSERTION undefined
+      change_text &state window_id cursor_up MOVEMENT undefined
+      !page get_content(window_manager_of(state) window_id)
+      -> page state
+    goto_xy &page &state.window_manager_of window_id x y
+    $seq_id id_of(sequence)
+    if
+      tokens_of(sequence).is_undefined:
+	!sequence.tokens_of tokens
+	evaluate_tokens
+      :
+	$sequence_tokens tokens_of(sequence)
+	$n length_of(common_prefix(tokens sequence_tokens))
+	if
+	  n < length_of(sequence_tokens):
+	    update_if n == length_of(tokens) &n -> n-1
+	    truncate_sequence &io ai_model seq_id n
+	    add_missing_tokens
+	  add_missing_tokens
 
-$get_line_start_tokens: (x y lines ai_model)
-  #
-    return a list of tokens corresponding to the text from the line start
-    (including indent) to the current cursor position;
-    a trailing space is ignored, because this would harm the tokenization
-  if
-    y > length_of(lines)
-    -> 1 empty_list empty_list
-    :
-      $line lines(y)
-      if
-	line.is_undefined
-	-> 1 empty_list empty_list
-	:
-	  $indent indent_of(line)
-	  $tokens tokens_of(line)
-	  $cx indent+1
-	  if
-	    x <= cx
-	    -> 1 empty_list tokens
-	    :
-	      $rest empty_list
-	      for_each tokens
-		: (i token)
-		  detokenize ai_model token $piece &rest
-		  $len length_of(piece)
-		  plus &cx
-		    if
-		      i == 1 && piece(1) == ' '
-		      -> len-1
-		      -> len
-		  if
-		    cx <= x
-		    next
-		    :
-		      if
-			i == 1
-			-> 1 empty_list tokens
-			:
-			  return
-			    range(tokens 1 i)
-			    range(tokens i+1 -1)
-		:
-		  return tokens empty_list
+	$add_missing_tokens:
+	  !sequence.tokens_of tokens
+	  range &tokens n+1 -1
+	  evaluate_tokens
 
-	      $return: (prefix suffix)
-		-> cx indented_tokens(indent prefix ai_model) suffix
+    $evaluate_tokens:
+      !page.sequence_of sequence
+      !completion_job
+	.prefix_of ""
+	.pending_tokens_of empty_list
+	.total_token_count_of length_of(tokens)
+	.do_not_add_newline_of do_not_add_newline
+      !state.current_action_of completion_job
+      set_content &state.window_manager_of window_id page
+      $message "evaluating @(total_token_count_of(completion_job)) tokens"
+      show_status_message &state AI message
+      log &io 4 message
+      add_tokens &io ai_model seq_id tokens
+      evaluate &io ai_model seq_id
+      -> io state
 
-$indented_tokens: (indent tokens ai_model)
-  if
-    tokens.is_empty
-    -> empty_list
-    :
-      $first_token tokens(1)
-      $first_piece detokenize(ai_model first_token)
-      $is_spaced first_piece(1) == ' '
-      if
-	indent > 0:
-	  update_if_not is_spaced &indent -> indent+1
-	  -> append(space_tokens_of(ai_model)(indent) tokens)
-	:
-	  if
-	    is_spaced
-	    -> tokens
-	    -> put(tokens space_token_of(ai_model))
-
-$add_token_infos: (model)
-  $space_token empty_list
-  $is_a_space_token empty_hash_set
-  from_to 1 16
-    : (i)
-      $token piece_table_of(model)(spaces(i))
-      push &space_token token
-      if
-	token.is_defined:
-	  !is_a_space_token(token) true
-	  next
-	next
-    :
-      !model.period_token_of piece_table_of(model)(".")
-      $space_tokens empty_list
-      $tokens empty_list
-      from_to 1 80
-	: (i)
-	  $n i .mod. 16
-	  if
-	    n == 0:
-	      push &tokens space_token(16)
-	      push &space_tokens tokens
-	      next
-	    :
-	      $piece space_token(n)
-	      if
-		piece.is_defined:
-		  push &space_tokens push(tokens piece)
-		  next
-		: # the desired number of spaces is not a single token
-		  push &space_tokens
-		    push(push(tokens space_token(n-1)) space_token(1))
-		  next
-	->
-	  model
-	    .is_a_space_token_of is_a_space_token
-	    .space_tokens_of space_tokens
+$PROGRESS/handle_event: (_type io state _id data _model)
+  data $_seq_id $remaining_tokens
+  $completion_job current_action_of(state)
+  $total_token_count total_token_count_of(completion_job)
+  $already_done total_token_count-remaining_tokens
+  show_progress_message &state AI already_done total_token_count
+    "evaluating @(total_token_count) tokens"
+  log &io 4 "evaluated @(already_done) of @(total_token_count) tokens"
+  -> io state
 
 $tedi::update_lines ()
 

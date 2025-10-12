@@ -57,18 +57,24 @@ $funky::allow_hidden undefined
 $funky::allow_unused undefined
   # a boolean indicating whether to allow unused names in the current module
 
-$funky::compile_module: (filename lines)
-  # load and parse the module
-
+$funky::extract_current_filename_and_module_name: (filename)
   without_prefix &filename base_directory
   update_if module_prefix.is_defined &filename
     -> append(module_prefix "/" filename)
-  !current_filename filename
-  !current_module_name
+  ->
+    filename
     replace_all
       filename .without_suffix. ".fky"
       '/' = "__"
-  parse $statements lines parse_top_level_statement_group
+
+$funky::parse_module: (lines)
+  parse lines parse_top_level_statement_group
+
+$funky::compile_module: (filename lines)
+  extract_current_filename_and_module_name filename
+    !current_filename !current_module_name
+  parse_module $statements lines
+
   on statements.is_undefined:
     syntax_error "
       The source file "@(current_filename)" does not contain any source code!

@@ -23,7 +23,6 @@
 <namespace tedi_types>
 
 <require basic/stdlib>
-<require basic/uuid>
 <require basic/export/json>
 <require basic/import/json>
 <require terminal/terminal>
@@ -31,6 +30,7 @@
 <require terminal/window_manager>
 
 <require ai/llama>
+<require ai/new_llama>
 <require web/server>
 
 <require ./editor>
@@ -100,8 +100,6 @@ $tedi::main:
   enable_logging &io log_level
   log &io -> "started logging (log-level: @(log_level))"
 
-  generate_uuid &io UUID RANDOM_BASED_UUID
-
   $configuration_filename
     if
       config_path.is_defined
@@ -128,13 +126,13 @@ $tedi::main:
     default_configuration configuration_filename
     "ai-model" = ai_model_name_of
     "ai-batch-size" = ai_batch_size_of
-    "ai-context-size" = ai_context_size_of
-    "ai-model-path" = ai_model_path_of
+    #"ai-context-size" = ai_context_size_of
+    "#ai-model-path" = ai_model_path_of
     "ai-server-address" = ai_server_address_of
     "ai-server-port" = ai_server_port_no_of
-    "ai-server-name" = ai_server_name_of
-    "ai-log-file" = ai_server_log_file_of
-    "start-ai-server" = do_start_ai_server_of
+    #"ai-server-name" = ai_server_name_of
+    #"ai-log-file" = ai_server_log_file_of
+    #"start-ai-server" = do_start_ai_server_of
     "enable-developer-mode" = do_enable_developer_mode_of
     name_to_key = commands_of
 
@@ -314,7 +312,9 @@ $tedi::main:
 	FOCUS_CHANGED:
 	  handle_changed_focus get_content(window_manager_of(state)) &state
 	  -> io state
-	-> undefined undefined
+	:
+	  handle_event type &io &state id data context
+	  update_terminal
 
     $update_terminal:
       !global_info global_info_of(state)
@@ -342,6 +342,13 @@ $tedi::main:
 		  -> io state
 	-> io state
 
+$std_types::object/handle_event: (type io state _id _err _context)
+  log &io 3 "unhandled event of type @(type)"
+  -> io state
+
+$WRITE_COMPLETED/handle_event: (_type io state _id _data _context)
+  -> io state
+
 $tedi::plugins empty_list
 
 $initialize_plugins: (io)
@@ -351,7 +358,6 @@ $initialize_plugins: (io)
       next
     -> io
 
-$tedi::uuid_of ()
 $config_path_of ()
 $tedi::configuration_of ()
 $terminal_of ()
@@ -376,7 +382,6 @@ $tedi_types::basic_state std_types::object
   # all base methods are defined here; this allows "overwriting" of methods
 
 $tedi_types::state tedi_types::basic_state
-  .uuid_of undefined
   .config_path_of undefined
   .configuration_of undefined
   .terminal_of undefined
@@ -415,11 +420,6 @@ $std_types::object/job_failed: (id io state err _context)
   debug::dump 99 `err
   log &io "exiting"
   exit &io EXIT_SUCCESS
-  -> io state
-
-$UUID/job_completed: (_id io state uuid _context)
-  !state.uuid_of uuid
-  log &io -> "got uuid: @(uuid)"
   -> io state
 
 $tedi::main_menu
@@ -735,15 +735,16 @@ $tedi::do_enable_developer_mode_of (!)
 $tedi::commands_of (!)
 
 $tedi::default_configuration std_types::object
-  .ai_model_name_of "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+  #.ai_model_name_of "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+  .ai_model_name_of "Qwen3-Coder-30B-A3B-Instruct-Q4_0.gguf"
   .ai_batch_size_of 16
-  .ai_context_size_of 4096
-  .ai_model_path_of "/var/models"
+  #.ai_context_size_of 4096
+  #.ai_model_path_of "/var/models"
   .ai_server_address_of "127.0.0.1"
-  .ai_server_port_no_of 8080
-  .ai_server_name_of "funky_server"
-  .ai_server_log_file_of "/tmp/funky_server.log"
-  .do_start_ai_server_of false
+  .ai_server_port_no_of 7683
+  #.ai_server_name_of "funky_server"
+  #.ai_server_log_file_of "/tmp/funky_server.log"
+  #.do_start_ai_server_of false
   .do_enable_developer_mode_of false
   .commands_of empty_hash_table
 

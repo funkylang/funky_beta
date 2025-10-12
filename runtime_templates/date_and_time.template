@@ -375,3 +375,12 @@ FUNCTION std::current_time
     RETURN_SINGLE_RESULT(
       CREATE(std_types::date_and_time, timespec.tv_sec, timespec.tv_nsec))
   }
+
+FUNCTION debug::current_time
+  {
+    CHECK_ARGUMENTS(0)
+    struct timespec timespec;
+    clock_gettime(CLOCK_REALTIME, &timespec);
+    RETURN_SINGLE_RESULT(
+      CREATE(std_types::date_and_time, timespec.tv_sec, timespec.tv_nsec))
+  }

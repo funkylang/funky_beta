@@ -913,6 +913,7 @@ FUNCTION std::open_tcp_client_socket
     Parameters:
       uri # the universal resource identifier of the socket
       port_no # the port number to connect to
+      no_delay # boolean (optional)
 
     Result:
       socket # the opened and connected socket
@@ -961,22 +962,35 @@ FUNCTION std::open_tcp_client_socket
       <body>
       ...
   {
-    CHECK_ARGUMENTS(2)
+    MIN_ARGUMENTS(2)
+    MAX_ARGUMENTS(3)
     CHECK_IO_ACCESS_RIGHTS
     char *uri = NULL;
     int port_no;
+    int no_delay = false;
     int result;
     int sock;
     struct hostent *server;
     struct sockaddr_in addr;
     if (!to_c_string(ARGUMENTS(0), &uri)) goto cleanup;
     if (!to_int(ARGUMENTS(1), &port_no)) goto cleanup;
+    if (ARGUMENT_COUNT == 3) {
+      if (!to_bool(ARGUMENTS(2), &no_delay)) return;
+    }
     EVENT(open_tcp_client_socket)
       sock = socket(AF_INET, SOCK_STREAM, 0);
       if (sock == -1) goto error;
       int flags = fcntl(sock, F_GETFL, 0);
       if (flags == -1) goto error;
       if (fcntl(sock, F_SETFL, flags|O_NONBLOCK) == -1) goto error;
+      if (no_delay) {
+	int opt = 1;
+	if (
+	  setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt)) == -1
+	) {
+	  goto error;
+	}
+      }
       server = gethostbyname(uri);
       if (!server) goto error;
       memset(&addr, 0, sizeof(addr));

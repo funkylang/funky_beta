@@ -1,0 +1,3 @@
+# Web Terminal
+
+  A web terminal emulates a text mode terminal in a web browser.

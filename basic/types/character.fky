@@ -221,8 +221,7 @@ $std_types::character/search:
 
   $search_forwards:
     if
-      i <= n
-      :
+      i <= n:
 	if
 	  stream(i) == self:
 	    if

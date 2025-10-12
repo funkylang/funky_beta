@@ -104,6 +104,18 @@ $std_types::generic_list/truncate:
     -> range(self 1 n)
     -> self
 
+$std::common_prefix ()
+
+$std_types::generic_list/common_prefix: (left right)
+  update_if length_of(left) > length_of(right) &left &right -> right left
+  for_each left
+    : (idx item)
+      if
+	item == right(idx)
+	next
+	-> range(left 1 idx-1)
+    -> left
+
 $std_types::generic_list/append_or_error: (left right)
   if
     left.is_an_error

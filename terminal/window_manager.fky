@@ -2062,6 +2062,25 @@ $std_types::window_manager/remove_message:
 	.has_a_valid_layout false
 	.is_up_to_date false
 
+$std_types::window_manager/handle_events:
+  (
+    wm
+    io
+    events
+    wm_fd
+  )
+  set_time &wm current_time_of(io)
+  $new_events empty_list
+  for_each events
+    : (event)
+      handle_event &wm &event wm_fd
+      if
+	event.is_defined:
+	  push &new_events event
+	  next
+	next
+    -> wm new_events
+
 $std_types::window_manager/handle_event:
   #
     events effecting the window manager as a whole

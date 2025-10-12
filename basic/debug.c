@@ -40,34 +40,37 @@ enum {
   string_6 = -31,
   lambda_11 = -32,
   string_7 = -33,
-  func_debug__dump_one = -34,
-  func_dump_args_to = -35,
-  lambda_2_loop = -36,
-  lambda_12 = -37,
-  lambda_expr_is_an_error = -38,
-  lambda_13 = -39,
-  func_std__dump_to = -40,
-  func_std__dump = -41,
-  func_std__edump = -42,
-  func_std__hexdump_to = -43,
-  lambda_3_loop = -44,
-  lambda_14 = -45,
-  num_16 = -46,
-  lambda_15 = -47,
+  lambda_12 = -34,
+  lambda_13 = -35,
+  str_invalid_argument = -36,
+  func_debug__dump_one = -37,
+  func_dump_args_to = -38,
+  lambda_2_loop = -39,
+  lambda_14 = -40,
+  lambda_expr_is_an_error = -41,
+  lambda_15 = -42,
+  func_std__dump_to = -43,
+  func_std__dump = -44,
+  func_std__edump = -45,
+  func_std__hexdump_to = -46,
+  lambda_3_loop = -47,
   lambda_16 = -48,
-  lambda_17 = -49,
-  num_8 = -50,
-  string_8 = -51,
-  lambda_18 = -52,
-  func_std__hexdump = -53,
-  func_std__ehexdump = -54,
-  func_debug__hexdump = -55,
-  lambda_4_loop = -56,
-  lambda_19 = -57,
-  lambda_20 = -58,
-  lambda_21 = -59,
-  lambda_22 = -60,
-  lambda_23 = -61
+  num_16 = -49,
+  lambda_17 = -50,
+  lambda_18 = -51,
+  lambda_19 = -52,
+  num_8 = -53,
+  string_8 = -54,
+  lambda_20 = -55,
+  func_std__hexdump = -56,
+  func_std__ehexdump = -57,
+  func_debug__hexdump = -58,
+  lambda_4_loop = -59,
+  lambda_21 = -60,
+  lambda_22 = -61,
+  lambda_23 = -62,
+  lambda_24 = -63,
+  lambda_25 = -64
 };
 
 enum {
@@ -117,15 +120,16 @@ enum {
   var_std__less, // extern
   var_170_10_label, // dynamic
   var_173_10_text, // dynamic
+  var_on, // extern
   var_break, // extern
   var_loop, // extern
   var_debug__dump_one, // initialized
   var_debug__dump_object, // extern
-  var_224_17_fd, // dynamic
-  var_224_20_args, // dynamic
-  var_225_4_i, // dynamic
-  var_226_4_n, // dynamic
-  var_231_10_expr, // dynamic
+  var_226_17_fd, // dynamic
+  var_226_20_args, // dynamic
+  var_227_4_i, // dynamic
+  var_228_4_n, // dynamic
+  var_233_10_expr, // dynamic
   var_print_to, // extern
   var_is_an_error, // extern
   var_error_message_text_of, // extern
@@ -137,13 +141,12 @@ enum {
   var_std__edump, // initialized
   var_STDERR_FILENO, // extern
   var_std__hexdump_to, // initialized
-  var_382_5_fd, // dynamic
-  var_383_5_str, // dynamic
-  var_385_4_i, // dynamic
-  var_386_4_n, // dynamic
+  var_384_5_fd, // dynamic
+  var_385_5_str, // dynamic
+  var_387_4_i, // dynamic
+  var_388_4_n, // dynamic
   var_std__not, // extern
   var_mod, // extern
-  var_on, // extern
   var_hex, // extern
   var_inc, // extern
   var_to_integer, // extern
@@ -151,9 +154,9 @@ enum {
   var_hexdump_to, // extern
   var_std__ehexdump, // initialized
   var_debug__hexdump, // initialized
-  var_472_5_str, // dynamic
-  var_474_4_i, // dynamic
-  var_475_4_n, // dynamic
+  var_474_5_str, // dynamic
+  var_476_4_i, // dynamic
+  var_477_4_n, // dynamic
   var__END
 };
 
@@ -484,7 +487,7 @@ static TAB_NUM t_lambda_loop[] = {
   // i < n:
   var_std__less, 2, var_165_4_i, var_166_4_n, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_9, var_break, TAIL_CALL,
+  var_if, 3, LOCAL(1), lambda_9, lambda_12, TAIL_CALL,
   POS(169, 7),
   POS(168, 5)
 };
@@ -567,45 +570,77 @@ static FUNCTION_INFO i_lambda_11 = {
   {}
 };
 
+static TAB_NUM t_lambda_12[] = {
+  1, // locals
+  0, // parameters
+  // i == n: debug::print "invalid arguments for debug::dump!@nl;"
+  var_std__equal, 2, var_165_4_i, var_166_4_n, 1, LOCAL(1),
+  // on i == n: debug::print "invalid arguments for debug::dump!@nl;"
+  var_on, 2, LOCAL(1), lambda_13, 0,
+  // break
+  var_break, 0, TAIL_CALL,
+  POS(182, 12),
+  POS(182, 9),
+  POS(183, 9)
+};
+
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 3, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_13[] = {
+  0, // locals
+  0, // parameters
+  // debug::print "invalid arguments for debug::dump!@nl;"
+  var_debug__print, 1, str_invalid_argument, TAIL_CALL,
+  POS(182, 20)
+};
+
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_debug__dump_one[] = {
   3, // locals
   -3, // parameters
-  num_1, LOCAL(1), // 216_5_depth
-  MANDATORY_PARAMETER, LOCAL(2), // 217_5_label
-  MANDATORY_PARAMETER, LOCAL(3), // 218_5_expr
+  num_1, LOCAL(1), // 218_5_depth
+  MANDATORY_PARAMETER, LOCAL(2), // 219_5_label
+  MANDATORY_PARAMETER, LOCAL(3), // 220_5_expr
   // debug::print label
   var_debug__print, 1, LOCAL(2), 0,
   // debug::print ": "
   var_debug__print, 1, string_7, 0,
   // debug::dump_object depth expr
   var_debug__dump_object, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
-  POS(220, 3),
-  POS(221, 3),
   POS(222, 3),
-  LOCAL(2),
+  POS(223, 3),
+  POS(224, 3),
   LOCAL(1),
-  LOCAL(3)
+  LOCAL(3),
+  LOCAL(2)
 };
 
 static FUNCTION_INFO i_func_debug__dump_one = {
   t_func_debug__dump_one, NULL, 3, 3,
-  {"217_5_label\000", "216_5_depth\000", "218_5_expr\000"}
+  {"218_5_depth\000", "220_5_expr\000", "219_5_label\000"}
 };
 
 static TAB_NUM t_func_dump_args_to[] = {
   0, // locals
   2, // parameters
-  var_224_17_fd,
-  var_224_20_args,
+  var_226_17_fd,
+  var_226_20_args,
   // $i 1
-  LET, 1, num_1, 1, var_225_4_i,
+  LET, 1, num_1, 1, var_227_4_i,
   // $n length_of(args)
-  var_length_of, 1, var_224_20_args, 1, var_226_4_n,
+  var_length_of, 1, var_226_20_args, 1, var_228_4_n,
   // loop:
   var_loop, 1, lambda_2_loop, IO_TAIL_CALL,
-  POS(225, 3),
-  POS(226, 3),
-  POS(227, 3)
+  POS(227, 3),
+  POS(228, 3),
+  POS(229, 3)
 };
 
 static FUNCTION_INFO i_func_dump_args_to = {
@@ -617,11 +652,11 @@ static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // i < n:
-  var_std__less, 2, var_225_4_i, var_226_4_n, 1, LOCAL(1),
+  var_std__less, 2, var_227_4_i, var_228_4_n, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_12, var_break, IO_TAIL_CALL,
-  POS(229, 7),
-  POS(228, 5)
+  var_if, 3, LOCAL(1), lambda_14, var_break, IO_TAIL_CALL,
+  POS(231, 7),
+  POS(230, 5)
 };
 
 static FUNCTION_INFO i_lambda_2_loop = {
@@ -629,50 +664,50 @@ static FUNCTION_INFO i_lambda_2_loop = {
   {}
 };
 
-static TAB_NUM t_lambda_12[] = {
+static TAB_NUM t_lambda_14[] = {
   2, // locals
   0, // parameters
   // $name args(i)
-  var_224_20_args, 1, var_225_4_i, 1, LOCAL(2),
+  var_226_20_args, 1, var_227_4_i, 1, LOCAL(2),
   // i+1)
-  var_std__plus, 2, var_225_4_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_227_4_i, num_1, 1, LOCAL(1),
   // $expr args(i+1)
-  var_224_20_args, 1, LOCAL(1), 1, var_231_10_expr,
+  var_226_20_args, 1, LOCAL(1), 1, var_233_10_expr,
   // !i i+2
-  var_std__plus, 2, var_225_4_i, num_2, 1, var_225_4_i,
+  var_std__plus, 2, var_227_4_i, num_2, 1, var_227_4_i,
   // print_to! fd name ": "
-  var_print_to, 3, var_224_17_fd, LOCAL(2), string_7, IO_CALL(0),
+  var_print_to, 3, var_226_17_fd, LOCAL(2), string_7, IO_CALL(0),
   // is_an_error:
-  var_is_an_error, 1, var_231_10_expr, 1, LOCAL(1),
+  var_is_an_error, 1, var_233_10_expr, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_expr_is_an_error, lambda_13, IO_TAIL_CALL,
-  POS(230, 9),
-  POS(231, 20),
-  POS(231, 9),
+  var_if, 3, LOCAL(1), lambda_expr_is_an_error, lambda_15, IO_TAIL_CALL,
   POS(232, 9),
+  POS(233, 20),
   POS(233, 9),
-  POS(235, 16),
   POS(234, 9),
+  POS(235, 9),
+  POS(237, 16),
+  POS(236, 9),
   LOCAL(2)
 };
 
-static FUNCTION_INFO i_lambda_12 = {
-  t_lambda_12, NULL, 7, 1,
-  {"230_10_name\000"}
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 7, 1,
+  {"232_10_name\000"}
 };
 
 static TAB_NUM t_lambda_expr_is_an_error[] = {
   1, // locals
   0, // parameters
   // error_message_text_of(expr)
-  var_error_message_text_of, 1, var_231_10_expr, 1, LOCAL(1),
+  var_error_message_text_of, 1, var_233_10_expr, 1, LOCAL(1),
   // println_to! fd error_message_text_of(expr)
-  var_println_to, 2, var_224_17_fd, LOCAL(1), IO_CALL(0),
+  var_println_to, 2, var_226_17_fd, LOCAL(1), IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(236, 28),
-  POS(236, 13),
-  POS(237, 13)
+  POS(238, 28),
+  POS(238, 13),
+  POS(239, 13)
 };
 
 static FUNCTION_INFO i_lambda_expr_is_an_error = {
@@ -680,86 +715,86 @@ static FUNCTION_INFO i_lambda_expr_is_an_error = {
   {}
 };
 
-static TAB_NUM t_lambda_13[] = {
+static TAB_NUM t_lambda_15[] = {
   1, // locals
   0, // parameters
   // serialize(expr 0)
-  var_serialize, 2, var_231_10_expr, num_0, 1, LOCAL(1),
+  var_serialize, 2, var_233_10_expr, num_0, 1, LOCAL(1),
   // print_to! fd serialize(expr 0)
-  var_print_to, 2, var_224_17_fd, LOCAL(1), IO_CALL(0),
+  var_print_to, 2, var_226_17_fd, LOCAL(1), IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(239, 26),
-  POS(239, 13),
-  POS(240, 13)
+  POS(241, 26),
+  POS(241, 13),
+  POS(242, 13)
 };
 
-static FUNCTION_INFO i_lambda_13 = {
-  t_lambda_13, NULL, 3, 0,
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 3, 0,
   {}
 };
 
 static TAB_NUM t_func_std__dump_to[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 271_5_fd
-  REST_PARAMETER, LOCAL(2), // 272_5_args
+  MANDATORY_PARAMETER, LOCAL(1), // 273_5_fd
+  REST_PARAMETER, LOCAL(2), // 274_5_args
   // dump_args_to! fd args
   func_dump_args_to, 2, LOCAL(1), LOCAL(2), IO_TAIL_CALL,
-  POS(274, 3),
+  POS(276, 3),
   LOCAL(2),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__dump_to = {
   t_func_std__dump_to, NULL, 1, 2,
-  {"272_5_args\000", "271_5_fd\000"}
+  {"274_5_args\000", "273_5_fd\000"}
 };
 
 static TAB_NUM t_func_std__dump[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 321_5_args
+  REST_PARAMETER, LOCAL(1), // 323_5_args
   // dump_args_to! STDOUT_FILENO args
   func_dump_args_to, 2, var_STDOUT_FILENO, LOCAL(1), IO_TAIL_CALL,
-  POS(323, 3),
+  POS(325, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__dump = {
   t_func_std__dump, NULL, 1, 1,
-  {"321_5_args\000"}
+  {"323_5_args\000"}
 };
 
 static TAB_NUM t_func_std__edump[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 357_5_args
+  REST_PARAMETER, LOCAL(1), // 359_5_args
   // dump_args_to! STDERR_FILENO args
   func_dump_args_to, 2, var_STDERR_FILENO, LOCAL(1), IO_TAIL_CALL,
-  POS(359, 3),
+  POS(361, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__edump = {
   t_func_std__edump, NULL, 1, 1,
-  {"357_5_args\000"}
+  {"359_5_args\000"}
 };
 
 static TAB_NUM t_func_std__hexdump_to[] = {
   0, // locals
   2, // parameters
-  var_382_5_fd,
-  var_383_5_str,
+  var_384_5_fd,
+  var_385_5_str,
   // $i 0
-  LET, 1, num_0, 1, var_385_4_i,
+  LET, 1, num_0, 1, var_387_4_i,
   // $n length_of(str)
-  var_length_of, 1, var_383_5_str, 1, var_386_4_n,
+  var_length_of, 1, var_385_5_str, 1, var_388_4_n,
   // loop:
   var_loop, 1, lambda_3_loop, IO_TAIL_CALL,
-  POS(385, 3),
-  POS(386, 3),
-  POS(387, 3)
+  POS(387, 3),
+  POS(388, 3),
+  POS(389, 3)
 };
 
 static FUNCTION_INFO i_func_std__hexdump_to = {
@@ -771,14 +806,14 @@ static TAB_NUM t_lambda_3_loop[] = {
   2, // locals
   0, // parameters
   // i >= n:
-  var_std__less, 2, var_385_4_i, var_386_4_n, 1, LOCAL(1),
+  var_std__less, 2, var_387_4_i, var_388_4_n, 1, LOCAL(1),
   // i >= n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_14, lambda_16, IO_TAIL_CALL,
-  POS(389, 7),
-  POS(389, 7),
-  POS(388, 5)
+  var_if, 3, LOCAL(2), lambda_16, lambda_18, IO_TAIL_CALL,
+  POS(391, 7),
+  POS(391, 7),
+  POS(390, 5)
 };
 
 static FUNCTION_INFO i_lambda_3_loop = {
@@ -786,165 +821,165 @@ static FUNCTION_INFO i_lambda_3_loop = {
   {}
 };
 
-static TAB_NUM t_lambda_14[] = {
+static TAB_NUM t_lambda_16[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) != 0: print_to! fd "@nl;"
-  var_mod, 2, var_385_4_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_387_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) != 0: print_to! fd "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // i .mod. 16) != 0: print_to! fd "@nl;"
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // on (i .mod. 16) != 0: print_to! fd "@nl;"
-  var_on, 2, LOCAL(3), lambda_15, IO_TAIL_CALL,
-  POS(390, 13),
-  POS(390, 13),
-  POS(390, 13),
-  POS(390, 9)
+  var_on, 2, LOCAL(3), lambda_17, IO_TAIL_CALL,
+  POS(392, 13),
+  POS(392, 13),
+  POS(392, 13),
+  POS(392, 9)
 };
 
-static FUNCTION_INFO i_lambda_14 = {
-  t_lambda_14, NULL, 4, 0,
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 4, 0,
   {}
 };
 
-static TAB_NUM t_lambda_15[] = {
+static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // print_to! fd "@nl;"
-  var_print_to, 2, var_382_5_fd, string_3, IO_TAIL_CALL,
-  POS(390, 31)
+  var_print_to, 2, var_384_5_fd, string_3, IO_TAIL_CALL,
+  POS(392, 31)
 };
 
-static FUNCTION_INFO i_lambda_15 = {
-  t_lambda_15, NULL, 1, 0,
+static FUNCTION_INFO i_lambda_17 = {
+  t_lambda_17, NULL, 1, 0,
   {}
 };
 
-static TAB_NUM t_lambda_16[] = {
+static TAB_NUM t_lambda_18[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) == 0:
-  var_mod, 2, var_385_4_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_387_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0:
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0:
-  var_on, 2, LOCAL(2), lambda_17, IO_CALL(0),
+  var_on, 2, LOCAL(2), lambda_19, IO_CALL(0),
   // inc &i
-  var_inc, 1, var_385_4_i, 1, var_385_4_i,
+  var_inc, 1, var_387_4_i, 1, var_387_4_i,
   // print_to! fd " "
-  var_print_to, 2, var_382_5_fd, string_8, IO_CALL(0),
+  var_print_to, 2, var_384_5_fd, string_8, IO_CALL(0),
   // str(i).to_integer 2)
-  var_383_5_str, 1, var_385_4_i, 1, LOCAL(1),
+  var_385_5_str, 1, var_387_4_i, 1, LOCAL(1),
   // to_integer 2)
   var_to_integer, 1, LOCAL(1), 1, LOCAL(2),
   // hex(str(i).to_integer 2)
   var_hex, 2, LOCAL(2), num_2, 1, LOCAL(3),
   // print_to! fd hex(str(i).to_integer 2)
-  var_print_to, 2, var_382_5_fd, LOCAL(3), IO_CALL(0),
+  var_print_to, 2, var_384_5_fd, LOCAL(3), IO_CALL(0),
   // i .mod. 16) == 0: print_to! fd "@nl;"
-  var_mod, 2, var_385_4_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_387_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0: print_to! fd "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0: print_to! fd "@nl;"
-  var_on, 2, LOCAL(2), lambda_18, IO_CALL(0),
+  var_on, 2, LOCAL(2), lambda_20, IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(392, 13),
-  POS(392, 13),
-  POS(392, 9),
-  POS(395, 9),
-  POS(396, 9),
-  POS(397, 26),
-  POS(397, 33),
-  POS(397, 22),
+  POS(394, 13),
+  POS(394, 13),
+  POS(394, 9),
   POS(397, 9),
-  POS(398, 13),
-  POS(398, 13),
   POS(398, 9),
-  POS(399, 9)
-};
-
-static FUNCTION_INFO i_lambda_16 = {
-  t_lambda_16, NULL, 13, 0,
-  {}
-};
-
-static TAB_NUM t_lambda_17[] = {
-  1, // locals
-  0, // parameters
-  // hex(i 8)
-  var_hex, 2, var_385_4_i, num_8, 1, LOCAL(1),
-  // print_to! fd hex(i 8)
-  var_print_to, 2, var_382_5_fd, LOCAL(1), IO_CALL(0),
-  // print_to! fd ":"
-  var_print_to, 2, var_382_5_fd, string_6, IO_TAIL_CALL,
-  POS(393, 24),
-  POS(393, 11),
-  POS(394, 11)
-};
-
-static FUNCTION_INFO i_lambda_17 = {
-  t_lambda_17, NULL, 3, 0,
-  {}
-};
-
-static TAB_NUM t_lambda_18[] = {
-  0, // locals
-  0, // parameters
-  // print_to! fd "@nl;"
-  var_print_to, 2, var_382_5_fd, string_3, IO_TAIL_CALL,
-  POS(398, 31)
+  POS(399, 26),
+  POS(399, 33),
+  POS(399, 22),
+  POS(399, 9),
+  POS(400, 13),
+  POS(400, 13),
+  POS(400, 9),
+  POS(401, 9)
 };
 
 static FUNCTION_INFO i_lambda_18 = {
-  t_lambda_18, NULL, 1, 0,
+  t_lambda_18, NULL, 13, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_19[] = {
+  1, // locals
+  0, // parameters
+  // hex(i 8)
+  var_hex, 2, var_387_4_i, num_8, 1, LOCAL(1),
+  // print_to! fd hex(i 8)
+  var_print_to, 2, var_384_5_fd, LOCAL(1), IO_CALL(0),
+  // print_to! fd ":"
+  var_print_to, 2, var_384_5_fd, string_6, IO_TAIL_CALL,
+  POS(395, 24),
+  POS(395, 11),
+  POS(396, 11)
+};
+
+static FUNCTION_INFO i_lambda_19 = {
+  t_lambda_19, NULL, 3, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_20[] = {
+  0, // locals
+  0, // parameters
+  // print_to! fd "@nl;"
+  var_print_to, 2, var_384_5_fd, string_3, IO_TAIL_CALL,
+  POS(400, 31)
+};
+
+static FUNCTION_INFO i_lambda_20 = {
+  t_lambda_20, NULL, 1, 0,
   {}
 };
 
 static TAB_NUM t_func_std__hexdump[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 422_5_str
+  LOCAL(1), // 424_5_str
   // hexdump_to! STDOUT_FILENO str
   var_hexdump_to, 2, var_STDOUT_FILENO, LOCAL(1), IO_TAIL_CALL,
-  POS(424, 3),
+  POS(426, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__hexdump = {
   t_func_std__hexdump, NULL, 1, 1,
-  {"422_5_str\000"}
+  {"424_5_str\000"}
 };
 
 static TAB_NUM t_func_std__ehexdump[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 447_5_str
+  LOCAL(1), // 449_5_str
   // hexdump_to! STDERR_FILENO str
   var_hexdump_to, 2, var_STDERR_FILENO, LOCAL(1), IO_TAIL_CALL,
-  POS(449, 3),
+  POS(451, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__ehexdump = {
   t_func_std__ehexdump, NULL, 1, 1,
-  {"447_5_str\000"}
+  {"449_5_str\000"}
 };
 
 static TAB_NUM t_func_debug__hexdump[] = {
   0, // locals
   1, // parameters
-  var_472_5_str,
+  var_474_5_str,
   // $i 0
-  LET, 1, num_0, 1, var_474_4_i,
+  LET, 1, num_0, 1, var_476_4_i,
   // $n length_of(str)
-  var_length_of, 1, var_472_5_str, 1, var_475_4_n,
+  var_length_of, 1, var_474_5_str, 1, var_477_4_n,
   // loop:
   var_loop, 1, lambda_4_loop, IO_TAIL_CALL,
-  POS(474, 3),
-  POS(475, 3),
-  POS(476, 3)
+  POS(476, 3),
+  POS(477, 3),
+  POS(478, 3)
 };
 
 static FUNCTION_INFO i_func_debug__hexdump = {
@@ -956,14 +991,14 @@ static TAB_NUM t_lambda_4_loop[] = {
   2, // locals
   0, // parameters
   // i >= n:
-  var_std__less, 2, var_474_4_i, var_475_4_n, 1, LOCAL(1),
+  var_std__less, 2, var_476_4_i, var_477_4_n, 1, LOCAL(1),
   // i >= n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_19, lambda_21, IO_TAIL_CALL,
-  POS(478, 7),
-  POS(478, 7),
-  POS(477, 5)
+  var_if, 3, LOCAL(2), lambda_21, lambda_23, IO_TAIL_CALL,
+  POS(480, 7),
+  POS(480, 7),
+  POS(479, 5)
 };
 
 static FUNCTION_INFO i_lambda_4_loop = {
@@ -971,56 +1006,56 @@ static FUNCTION_INFO i_lambda_4_loop = {
   {}
 };
 
-static TAB_NUM t_lambda_19[] = {
+static TAB_NUM t_lambda_21[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) != 0: debug::print! "@nl;"
-  var_mod, 2, var_474_4_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_476_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) != 0: debug::print! "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // i .mod. 16) != 0: debug::print! "@nl;"
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // on (i .mod. 16) != 0: debug::print! "@nl;"
-  var_on, 2, LOCAL(3), lambda_20, IO_TAIL_CALL,
-  POS(479, 13),
-  POS(479, 13),
-  POS(479, 13),
-  POS(479, 9)
+  var_on, 2, LOCAL(3), lambda_22, IO_TAIL_CALL,
+  POS(481, 13),
+  POS(481, 13),
+  POS(481, 13),
+  POS(481, 9)
 };
 
-static FUNCTION_INFO i_lambda_19 = {
-  t_lambda_19, NULL, 4, 0,
+static FUNCTION_INFO i_lambda_21 = {
+  t_lambda_21, NULL, 4, 0,
   {}
 };
 
-static TAB_NUM t_lambda_20[] = {
+static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   // debug::print! "@nl;"
   var_debug__print, 1, string_3, IO_TAIL_CALL,
-  POS(479, 31)
+  POS(481, 31)
 };
 
-static FUNCTION_INFO i_lambda_20 = {
-  t_lambda_20, NULL, 1, 0,
+static FUNCTION_INFO i_lambda_22 = {
+  t_lambda_22, NULL, 1, 0,
   {}
 };
 
-static TAB_NUM t_lambda_21[] = {
+static TAB_NUM t_lambda_23[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) == 0:
-  var_mod, 2, var_474_4_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_476_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0:
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0:
-  var_on, 2, LOCAL(2), lambda_22, IO_CALL(0),
+  var_on, 2, LOCAL(2), lambda_24, IO_CALL(0),
   // inc &i
-  var_inc, 1, var_474_4_i, 1, var_474_4_i,
+  var_inc, 1, var_476_4_i, 1, var_476_4_i,
   // debug::print! " "
   var_debug__print, 1, string_8, IO_CALL(0),
   // str(i).to_integer 2)
-  var_472_5_str, 1, var_474_4_i, 1, LOCAL(1),
+  var_474_5_str, 1, var_476_4_i, 1, LOCAL(1),
   // to_integer 2)
   var_to_integer, 1, LOCAL(1), 1, LOCAL(2),
   // hex(str(i).to_integer 2)
@@ -1028,62 +1063,62 @@ static TAB_NUM t_lambda_21[] = {
   // debug::print! hex(str(i).to_integer 2)
   var_debug__print, 1, LOCAL(3), IO_CALL(0),
   // i .mod. 16) == 0: debug::print! "@nl;"
-  var_mod, 2, var_474_4_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_476_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0: debug::print! "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0: debug::print! "@nl;"
-  var_on, 2, LOCAL(2), lambda_23, IO_CALL(0),
+  var_on, 2, LOCAL(2), lambda_25, IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(481, 13),
-  POS(481, 13),
-  POS(481, 9),
-  POS(484, 9),
-  POS(485, 9),
-  POS(486, 27),
-  POS(486, 34),
-  POS(486, 23),
+  POS(483, 13),
+  POS(483, 13),
+  POS(483, 9),
   POS(486, 9),
-  POS(487, 13),
-  POS(487, 13),
   POS(487, 9),
-  POS(488, 9)
+  POS(488, 27),
+  POS(488, 34),
+  POS(488, 23),
+  POS(488, 9),
+  POS(489, 13),
+  POS(489, 13),
+  POS(489, 9),
+  POS(490, 9)
 };
 
-static FUNCTION_INFO i_lambda_21 = {
-  t_lambda_21, NULL, 13, 0,
+static FUNCTION_INFO i_lambda_23 = {
+  t_lambda_23, NULL, 13, 0,
   {}
 };
 
-static TAB_NUM t_lambda_22[] = {
+static TAB_NUM t_lambda_24[] = {
   1, // locals
   0, // parameters
   // hex(i 8)
-  var_hex, 2, var_474_4_i, num_8, 1, LOCAL(1),
+  var_hex, 2, var_476_4_i, num_8, 1, LOCAL(1),
   // debug::print! hex(i 8)
   var_debug__print, 1, LOCAL(1), IO_CALL(0),
   // debug::print! ":"
   var_debug__print, 1, string_6, IO_TAIL_CALL,
-  POS(482, 25),
-  POS(482, 11),
-  POS(483, 11)
+  POS(484, 25),
+  POS(484, 11),
+  POS(485, 11)
 };
 
-static FUNCTION_INFO i_lambda_22 = {
-  t_lambda_22, NULL, 3, 0,
+static FUNCTION_INFO i_lambda_24 = {
+  t_lambda_24, NULL, 3, 0,
   {}
 };
 
-static TAB_NUM t_lambda_23[] = {
+static TAB_NUM t_lambda_25[] = {
   0, // locals
   0, // parameters
   // debug::print! "@nl;"
   var_debug__print, 1, string_3, IO_TAIL_CALL,
-  POS(487, 31)
+  POS(489, 31)
 };
 
-static FUNCTION_INFO i_lambda_23 = {
-  t_lambda_23, NULL, 1, 0,
+static FUNCTION_INFO i_lambda_25 = {
+  t_lambda_25, NULL, 1, 0,
   {}
 };
 
@@ -1121,34 +1156,37 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 1, {.str_8 = ":"}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
   {FLT_STRING_8, 2, {.str_8 = ": "}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_STRING_8, 35, {.str_8 = "invalid arguments for debug::dump!\012"}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_debug__dump_one}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_dump_args_to}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_loop}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_expr_is_an_error}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__dump_to}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__dump}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__edump}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__hexdump_to}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_3_loop}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
-  {FLT_POSITIVE_INT64, 0, {.value = 16}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}},
+  {FLT_POSITIVE_INT64, 0, {.value = 16}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_17}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
   {FLT_POSITIVE_INT64, 0, {.value = 8}},
   {FLT_STRING_8, 1, {.str_8 = " "}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__hexdump}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__ehexdump}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_debug__hexdump}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_4_loop}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_21}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_22}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_23}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_23}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_24}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_25}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -1375,8 +1413,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
+    "on\000", NULL,
+    {.position = POS(182, 9)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
     "break\000", NULL,
-    {.position = POS(181, 7)}
+    {.position = POS(183, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1391,52 +1434,52 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "dump_object\000debug", NULL,
-    {.position = POS(222, 3)}
+    {.position = POS(224, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "224_17_fd\000", NULL
+    "226_17_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "224_20_args\000", NULL
+    "226_20_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "225_4_i\000", NULL
+    "227_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "226_4_n\000", NULL
+    "228_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "231_10_expr\000", NULL
+    "233_10_expr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "print_to\000", NULL,
-    {.position = POS(233, 9)}
+    {.position = POS(235, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_error\000", NULL,
-    {.position = POS(235, 16)}
+    {.position = POS(237, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "error_message_text_of\000", NULL,
-    {.position = POS(236, 28)}
+    {.position = POS(238, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "println_to\000", NULL,
-    {.position = POS(236, 13)}
+    {.position = POS(238, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "serialize\000", NULL,
-    {.position = POS(239, 26)}
+    {.position = POS(241, 26)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1451,7 +1494,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "STDOUT_FILENO\000", NULL,
-    {.position = POS(323, 17)}
+    {.position = POS(325, 17)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1461,7 +1504,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "STDERR_FILENO\000", NULL,
-    {.position = POS(359, 17)}
+    {.position = POS(361, 17)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1470,49 +1513,44 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "382_5_fd\000", NULL
+    "384_5_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_5_str\000", NULL
+    "385_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "385_4_i\000", NULL
+    "387_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "386_4_n\000", NULL
+    "388_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000std", NULL,
-    {.position = POS(389, 7)}
+    {.position = POS(391, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "mod\000", NULL,
-    {.position = POS(390, 13)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "on\000", NULL,
-    {.position = POS(390, 9)}
+    {.position = POS(392, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "hex\000", NULL,
-    {.position = POS(393, 24)}
+    {.position = POS(395, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(395, 9)}
+    {.position = POS(397, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_integer\000", NULL,
-    {.position = POS(397, 33)}
+    {.position = POS(399, 33)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1522,7 +1560,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "hexdump_to\000", NULL,
-    {.position = POS(424, 3)}
+    {.position = POS(426, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1536,15 +1574,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "472_5_str\000", NULL
+    "474_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "474_4_i\000", NULL
+    "476_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "475_4_n\000", NULL
+    "477_4_n\000", NULL
   }
 };
 
@@ -1562,7 +1600,7 @@ FUNKY_MODULE module__basic__debug = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  61, // number of constants
+  64, // number of constants
   82, // number of variables
   NULL, // required modules
   NULL, // defined namespaces

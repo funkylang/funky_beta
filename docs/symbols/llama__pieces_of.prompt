@@ -1,0 +1,789 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (a polymorphic function)
+
+  the clear colour to use
+
+  Parameter:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the clear colour
+
+  Returns the clear colour of the object.
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour
+
+[source]
+
+$std_types::screen/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  basic_private::clear self self x y width height
+
+$std::clear ()
+
+[documentation remark]
+
+# std::clear (a polymorphic function)
+
+  clears a rectangular area
+
+  Parameters:
+    screen: some kind of screen
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The area is cleared using the current clear colour. Use
+  <std::set_clear_colour> to change the current clear colour.
+
+  The area is clipped at the screen's borders.
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::clear, std::draw_text,
+            std::set_clear_colour
+
+  Example:
+
+    $my_screen create_screen(terminal 40 25)
+    set_clear_colour &my_screen GREEN
+    clear &my_screen 11 6 20 15
+
+[EXERCISE]
+
+#
+  Topic: AI
+
+  Funky currently supports large language models based on the llama.cpp project.
+
+  The "fllama" tool is a server program that must be started first before a
+  client can send queries to the server.
+
+  A short glossary:
+
+  * An *LLM* is a Large Language Model.
+
+  * A *modelname* is the name of an LLM in GGUF-format including the ".gguf"
+    file extension.
+
+  * A *model* is an object on the client side that represents an LLM.
+
+  * A *token* is a non-negative integer number that represents one ore more
+    (maybe partial) characters.
+
+  * A *piece* is a raw octet string associated with a token. This string can
+    contain partial UTF-8-sequences. Most models do not contain so many tokens
+    to be able to encode all possible Unicode code points. So smileys might
+    be represented by two tokens each describing a part of a single code point.
+
+  * A *sequence* is a sequence of tokens stored on the server. Such a sequence
+    contains prompts (supplied by the client) and answers (generated by the
+    server). Sequences can be truncated, some tokens can be deleted or new
+    tokens can be inserted. This might harm the quality of later evaluations
+    because of rounding errors. Sequences can also be copied to share a common
+    prefix string (e.g. some instructions) with each other.
+
+  * A *sequence-id* is a client supplied non-negative integer used to identify
+    a sequence.
+
+  * *logits* are float values that describe how good a token is suited to
+    continue a sequence. The higher the value the better the token represents
+    the "inner state" of the model. Logit values are logarithmic, so a slightly
+    higher value represents a much better match. The absolute value of logits
+    are model dependent.
+
+  * *tokenization* is the conversion of a text string into tokens.
+
+  * *detokenization* is the conversion of tokens into a text stringl
+
+  * *evaluation* is the generation of a list of logits to choose from for the
+    next token based on the tokens already in the sequence
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/new_llama>
+
+    <using std>
+    <using llama>
+
+    $MODEL_NAME "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+    $PROMPT "Once upon a time"
+
+    $SEQ_ID 1
+    open_model! $model MODEL_NAME
+    tokenize! $tokens model PROMPT
+    create_sequence! model SEQ_ID
+    add_tokens! model SEQ_ID list(bos_token_of(model))
+    add_tokens! model SEQ_ID tokens
+    evaluate! model SEQ_ID
+    $prefix ""
+    print! PROMPT
+    repeat 20:
+      get_logits! $_seq_id $_position $logits model
+      logits(1) $best_token $_best_logit
+      detokenize model best_token $piece &prefix
+      print! piece
+      add_token_and_evaluate! model SEQ_ID best_token
+      next!
+    println!
+
+  Output:
+
+    Once upon a time, there was a little girl named Alice. Alice lived in a
+    small village with her parents and her
+
+[symbols]
+
+$llama::TOKENS .
+$llama::LOGITS .
+$llama::PROGRESS .
+$llama::ERROR .
+$llama::fd_of ()
+$llama::pieces_of ()
+$llama::is_an_end_token_of ()
+$llama::bos_token_of ()
+$llama::eos_token_of ()
+$llama::eot_token_of ()
+$llama::sep_token_of ()
+$llama::nl_token_of ()
+$llama::pad_token_of ()
+$llama_types::model std_types::object
+$llama_types::model.llama::fd_of undefined
+$llama_types::model.pieces_of undefined
+$llama_types::model.llama::is_an_end_token_of empty_hash_set
+$llama_types::model.llama::bos_token_of undefined
+$llama_types::model.llama::eos_token_of undefined
+$llama_types::model.llama::eot_token_of undefined
+$llama_types::model.llama::sep_token_of undefined
+$llama_types::model.llama::nl_token_of undefined
+$llama_types::model.llama::pad_token_of undefined
+$llama::detokenize:
+$llama::list_models:
+$llama::open_model ()
+$std_types::string/open_model: (model_name)
+$std_types::io/open_model: (io id model_name)
+$llama_types::model/close: (model)
+$llama::tokenize ()
+$llama_types::model/tokenize: (model prompt)
+$std_types::io/tokenize: (io model prompt)
+$llama::create_sequence ()
+$llama_types::model/create_sequence: (model sequence_id)
+$std_types::io/create_sequence: (io model sequence_id)
+$llama::copy_sequence ()
+$llama_types::model/llama::copy_sequence:
+$std_types::io/llama::copy_sequence:
+$llama::delete_sequence ()
+$llama_types::model/llama::delete_sequence: (model sequence_id)
+$std_types::io/llama::delete_sequence: (io model sequence_id)
+$llama::truncate_sequence ()
+$llama_types::model/llama::truncate_sequence: (model sequence_id token_count)
+$std_types::io/llama::truncate_sequence: (io model sequence_id token_count)
+$llama::add_tokens ()
+$llama_types::model/llama::add_tokens: (model sequence_id tokens)
+$std_types::io/llama::add_tokens: (io model sequence_id tokens)
+$llama::add_token_and_evaluate ()
+$llama_types::model/llama::add_token_and_evaluate: (model sequence_id token)
+$std_types::io/llama::add_token_and_evaluate: (io model sequence_id token)
+$llama::delete_tokens ()
+$llama_types::model/llama::delete_tokens:
+$std_types::io/llama::delete_tokens:
+$llama::insert_tokens ()
+$llama_types::model/llama::insert_tokens:
+$std_types::io/llama::insert_tokens:
+$llama::evaluate ()
+$llama_types::model/llama::evaluate:
+$std_types::io/llama::evaluate:
+$llama::get_logits: (model)
+
+#
+  Copyright (C) 2025 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: AI
+
+  Funky currently supports large language models based on the llama.cpp project.
+
+  The "fllama" tool is a server program that must be started first before a
+  client can send queries to the server.
+
+  A short glossary:
+
+  * An *LLM* is a Large Language Model.
+
+  * A *modelname* is the name of an LLM in GGUF-format including the ".gguf"
+    file extension.
+
+  * A *model* is an object on the client side that represents an LLM.
+
+  * A *token* is a non-negative integer number that represents one ore more
+    (maybe partial) characters.
+
+  * A *piece* is a raw octet string associated with a token. This string can
+    contain partial UTF-8-sequences. Most models do not contain so many tokens
+    to be able to encode all possible Unicode code points. So smileys might
+    be represented by two tokens each describing a part of a single code point.
+
+  * A *sequence* is a sequence of tokens stored on the server. Such a sequence
+    contains prompts (supplied by the client) and answers (generated by the
+    server). Sequences can be truncated, some tokens can be deleted or new
+    tokens can be inserted. This might harm the quality of later evaluations
+    because of rounding errors. Sequences can also be copied to share a common
+    prefix string (e.g. some instructions) with each other.
+
+  * A *sequence-id* is a client supplied non-negative integer used to identify
+    a sequence.
+
+  * *logits* are float values that describe how good a token is suited to
+    continue a sequence. The higher the value the better the token represents
+    the "inner state" of the model. Logit values are logarithmic, so a slightly
+    higher value represents a much better match. The absolute value of logits
+    are model dependent.
+
+  * *tokenization* is the conversion of a text string into tokens.
+
+  * *detokenization* is the conversion of tokens into a text stringl
+
+  * *evaluation* is the generation of a list of logits to choose from for the
+    next token based on the tokens already in the sequence
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/new_llama>
+
+    <using std>
+    <using llama>
+
+    $MODEL_NAME "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+    $PROMPT "Once upon a time"
+
+    $SEQ_ID 1
+    open_model! $model MODEL_NAME
+    tokenize! $tokens model PROMPT
+    create_sequence! model SEQ_ID
+    add_tokens! model SEQ_ID list(bos_token_of(model))
+    add_tokens! model SEQ_ID tokens
+    evaluate! model SEQ_ID
+    $prefix ""
+    print! PROMPT
+    repeat 20:
+      get_logits! $_seq_id $_position $logits model
+      logits(1) $best_token $_best_logit
+      detokenize model best_token $piece &prefix
+      print! piece
+      add_token_and_evaluate! model SEQ_ID best_token
+      next!
+    println!
+
+  Output:
+
+    Once upon a time, there was a little girl named Alice. Alice lived in a
+    small village with her parents and her
+
+<namespace llama>
+
+<namespace llama_types>
+
+<using std>
+
+<using llama>
+
+$llama::TOKENS .
+
+$llama::LOGITS .
+
+$llama::PROGRESS .
+
+$llama::ERROR .
+
+$llama::fd_of ()
+
+$llama::pieces_of ()
+
+$llama::is_an_end_token_of ()
+
+$llama::bos_token_of ()
+
+$llama::eos_token_of ()
+
+$llama::eot_token_of ()
+
+$llama::sep_token_of ()
+
+$llama::nl_token_of ()
+
+$llama::pad_token_of ()
+
+$llama_types::model std_types::object
+
+$llama_types::model.llama::fd_of undefined
+
+$llama_types::model.pieces_of undefined
+
+$llama_types::model.llama::is_an_end_token_of empty_hash_set
+
+$llama_types::model.llama::bos_token_of undefined
+
+$llama_types::model.llama::eos_token_of undefined
+
+$llama_types::model.llama::eot_token_of undefined
+
+$llama_types::model.llama::sep_token_of undefined
+
+$llama_types::model.llama::nl_token_of undefined
+
+$llama_types::model.llama::pad_token_of undefined
+
+$llama::detokenize:
+  (
+    model
+    token_or_list
+    prefix = ""
+  )
+  $rc result_count()
+  $pieces pieces_of(model)
+  if
+    token_or_list.is_a_list:
+      $text ""
+      for_each token_or_list
+        : (token)
+          token_to_piece token $str &prefix
+          append &text str
+          next
+        :
+          if
+            rc == 1
+            -> text
+            -> text prefix
+    :
+      token_to_piece token_or_list $text &prefix
+      if
+        rc == 1
+        -> text
+        -> text prefix
+
+  $token_to_piece: (token prefix_string)
+    $piece pieces(token+1)
+    append prefix_string &piece
+    $n length_of(piece)
+    $i 1
+    $e 0
+    loop:
+      update_if i <= n+1 &e -> i-1
+      if
+        i > n
+        -> range(piece 1 e).from_utf8 range(piece e+1 -1)
+        :
+          $code piece(i).to_integer
+          cond
+            -> code < 0x80:
+              inc &i
+              next
+            -> code & 0xe0 == 0xc0:
+              plus &i 2
+              next
+            -> code & 0xf0 == 0xe0:
+              plus &i 3
+              next
+            -> code & 0xf8 == 0xf0:
+              plus &i 4
+              next
+            -> true -> "<???>" ""
+
+$llama::list_models:
+  open_tcp_client_socket! $fd "127.0.0.1" 7683
+  write_to! fd "list_models@0;"
+  handle_reply! $available_models fd handle_list_models
+  close! fd
+  -> available_models
+
+  $handle_list_models: (_dummy reply)
+    $tag reply .truncate_from. ' '
+    case tag
+      "models":
+        $models split(behind(reply ' ' 2))
+        -> models true
+      "error":
+        $message reply .behind. ' '
+        -> error(message) true
+      -> error("unexpected reply") true
+
+$llama::open_model ()
+
+$std_types::string/open_model: (model_name)
+  open_tcp_client_socket! $fd "127.0.0.1" 7683 true
+  write_to! fd "
+    use_model @(model_name)@0;@
+    get_pieces@0;@
+    get_special_tokens@0;@
+  handle_reply! $model fd handle_model_info
+  if
+    model.is_an_error
+    -> model
+    -> model(.fd_of fd)
+
+$std_types::io/open_model: (io id model_name)
+  run io open_model_request id model_name
+
+$open_model_request: (io id model_name)
+  open_tcp_client_socket! $fd "127.0.0.1" 7683 true
+  write &io fd "
+    use_model @(model_name)@0;@
+    get_pieces@0;@
+    get_end_tokens@0;@
+    get_special_tokens@0;@
+  start_reading_from &io fd
+  set_context &io fd tuple(id llama_types::model(.fd_of fd) "")
+  register_handlers &io fd
+    WRITE_FAILED = write_failed
+    READ = read_data
+    READ_FAILED = read_failed
+  -> io undefined
+
+$handle_model_info: (model reply)
+  update_if model.is_undefined &model -> llama_types::model
+  $tag reply .truncate_from. ' '
+  case tag
+    "pieces":
+      # ignore piece count
+      $pieces split(behind(reply ' ' 2))
+      map &pieces hex_to_string
+      -> model(.pieces_of pieces) false
+    "end_tokens":
+      # ignore tken count
+      $tokens split(behind(reply ' ' 2))
+      map &tokens to_integer
+      $is_an_end_token empty_hash_set
+      for_each tokens
+        : (token)
+          !is_an_end_token(token) true
+          next
+        -> model(.is_an_end_token_of is_an_end_token) false
+    "special_tokens":
+      $special_tokens split(reply .behind. ' ')
+      map &special_tokens: (str)
+        key_value_pair
+          str .before. '='
+          to_integer(str .behind. '=')
+      for_each special_tokens
+        : (special_token)
+          special_token $name $token
+          if
+            token >= 0:
+              case name
+                "bos":
+                  !model.llama::bos_token_of token
+                  next
+                "eos":
+                  !model.llama::eos_token_of token
+                  next
+                "eot":
+                  !model.llama::eot_token_of token
+                  next
+                "sep":
+                  !model.llama::sep_token_of token
+                  next
+                "nl":
+                  !model.llama::nl_token_of token
+                  next
+                "pad":
+                  !model.llama::pad_token_of token
+                  next
+                next
+            next
+        -> model true
+    "error":
+      $message reply .behind. ' '
+      -> error(message) true
+    -> error("unexpected reply (tag: @(tag))") true
+
+$write_failed: (io fd err context)
+  context $id
+  set_context &io fd undefined
+  -> io tuple(JOB_FAILED id err)
+
+$read_data: (io fd data context)
+  context $id $model $reply
+  loop:
+    search $pos $_len '@nul;' data
+    if
+      pos.is_defined:
+        append &reply range(data 1 pos-1)
+        range &data pos+1 -1
+        handle_model_info &model $done reply
+        if
+          done:
+            if
+              model.is_an_error
+              -> io tuple(JOB_FAILED id model)
+              :
+                deregister_all_handlers &io fd
+                deregister_all_handlers &io id
+                set_context &io fd tuple(model "")
+                register_handlers &io fd
+                  WRITE_FAILED = request_failed
+                  READ = read_reply
+                  READ_FAILED = read_reply_failed
+                -> io tuple(JOB_COMPLETED id model)
+          :
+            !reply ""
+            next
+      :
+        append &reply data
+        set_context &io fd tuple(id model reply)
+        -> io undefined
+
+$read_failed: (io fd err context)
+  context $id
+  set_context &io fd undefined
+  -> io tuple(JOB_FAILED id err)
+
+$request_failed: (io fd err)
+  set_context &io fd undefined
+  -> io tuple(ERROR fd err)
+
+$read_reply: (io fd data context)
+  context $model $reply
+  $events empty_list
+  loop:
+    search $pos $_len '@nul;' data
+    if
+      pos.is_defined:
+        append &reply range(data 1 pos-1)
+        range &data pos+1 -1
+        push &events create_reply_event(reply model)
+        !reply ""
+        next
+      :
+        append &reply data
+        set_context &io fd tuple(model reply)
+        -> io events
+
+$read_reply_failed: (io fd err)
+  debug::dump `err `fd
+  -> io undefined
+
+$create_reply_event: (reply model)
+  $tag reply .truncate_from. ' '
+  case tag
+    "tokens":
+      $tokens map(split(behind(reply ' ' 2)) to_integer)
+      -> tuple(TOKENS fd_of(model) tokens model)
+    "logits":
+      $sequence_id between(reply ' ' ' ').to_integer
+      $_position between(reply ' ' ' ' 2).to_integer
+      $_count between(reply ' ' ' ' 3).to_integer
+      $logits behind(reply ' ' 4)
+      split &logits ' '
+      map &logits: (str)
+        key_value_pair
+          to_integer(str .before. '=')
+          to_number(str .behind. '=')
+      -> tuple(LOGITS fd_of(model) tuple(sequence_id logits) model)
+    "progress":
+      $sequence_id between(reply ' ' ' ').to_integer
+      $remaining_tokens behind(reply ' ' 2).to_integer
+      -> tuple(PROGRESS fd_of(model) tuple(sequence_id remaining_tokens) model)
+    "error":
+      $message reply .behind. ' '
+      -> tuple(ERROR fd_of(model) message model)
+    -> tuple(ERROR fd_of(model) "invalid_reply" model)
+
+$llama_types::model/close: (model)
+  close! fd_of(model)
+
+$hex_to_string: (hex_digits)
+ $i 1
+ $n length_of(hex_digits)
+ $str ""
+ loop:
+   if
+     i > n
+     -> str
+     :
+       push &str
+         character
+           (hex_to_value(hex_digits(i))<<4)+hex_to_value(hex_digits(i+1))
+       plus &i 2
+       next
+
+$hex_to_value: (hex_digit)
+  if
+    hex_digit >= 'a'
+    -> hex_digit-'a'+10
+    -> hex_digit-'0'
+
+$llama::tokenize ()
+
+[source]
+
+$llama::pieces_of ()
+
+[documentation remark]
+
+# llama::pieces_of (a polymorphic function)
+
