@@ -1,0 +1,285 @@
+#
+  Copyright (C) 2025 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using funky>
+
+<allow unused>
+
+$LINE_WIDTH 80
+$indent 0
+
+$do_return_inline_only false
+
+$to_source ()
+
+$funky_types::body/to_source: (self)
+  if
+    do_return_inline_only
+    -> undefined
+    :
+      $parameters map(parameters_of(self) to_source)
+      $statement_list statement_of(self)
+      plus &indent 2
+      $statements statements_to_source(statements_of(self))
+      !parameters
+	if
+	  parameters.is_empty
+	  -> "@nl;"
+	  -> append(" (" join(parameters " ") ")@nl;")
+      append
+	":"
+	parameters
+	statements
+
+$funky_types::inline_parameter/to_source: (self)
+  -> funky::name_of(self)
+
+$funky::statements_to_source: (statements)
+  map_reduce &statements to_source
+  #update_if statements(1) == '@nl;' &statements -> range(statements 2 -1)
+  #update_if statements(-2) == '@nl;' &statements -> range(statements 1 -2)
+  replace_all statements "@nl;@nl;@nl;" = "@nl;@nl;"
+
+$funky_types::multiline_remark/to_source: (self)
+  if
+    do_return_inline_only
+    -> undefined
+    -> append(tabs_and_spaces(indent) "#" text_of(self) "@nl;@nl;")
+
+$funky_types::statement/to_source: (self)
+  $head head_of(self).to_source
+  $arguments arguments_of(self)
+  if
+    arguments.is_empty:
+      append
+	tabs_and_spaces(indent)
+	head
+	"@nl;"
+    :
+      if
+	do_return_inline_only:
+	  map $args arguments to_source
+	  if
+	    all_of(args is_defined):
+	      $stmt append(head " " join(args))
+	      if
+		fits_on_line(stmt)
+		-> stmt
+		-> undefined
+	    -> undefined
+	:
+	  !do_return_inline_only true
+	  map $args arguments to_source
+	  if
+	    all_of(args is_defined)
+	    -> append(tabs_and_spaces(indent) head " " join(args) "@nl;")
+	    :
+	      !do_return_inline_only false
+	      if
+		&&
+		  args(-1).is_undefined
+		  all_of(range(args 1 -2) is_defined)
+		:
+		  $last_arg arguments(-1).to_source
+		  append
+		    if
+		      head(1) == '$'
+		      -> "@nl;"
+		      -> ""
+		    tabs_and_spaces(indent)
+		    range(add_statement_arguments(head range(args 1 -2)) 1 -2)
+		    last_arg
+		:
+		  find_first $idx $_item args: (arg) -> arg.is_undefined
+		  if
+		    idx > 2:
+		      $start_args join(range(args 1 idx-2) " ")
+		      if
+			<=
+			  indent+width_of(head)+1+width_of(start_args)
+			  LINE_WIDTH
+			:
+			  range &arguments idx-1 -1 # must correspond to args
+			  append
+			    tabs_and_spaces(indent)
+			    head
+			    " "
+			    start_args
+			    "@nl;"
+			    add_statement_arguments("" range(args idx-1 -1))
+			multiline_layout
+		    multiline_layout
+
+		  $multiline_layout:
+		    append
+		      tabs_and_spaces(indent)
+		      head
+		      "@nl;"
+		      add_statement_arguments("" args)
+
+  $add_statement_arguments: (buf args)
+    $at_line_start buf.is_empty
+    $width indent+width_of(buf)
+    plus &indent 2
+    $spacing tabs_and_spaces(indent)
+    for_each args
+      : (idx arg)
+	if
+	  arg.is_undefined:
+	    !arg arguments(idx).to_source
+	    if
+	      arg(1) == ':' && width+1 <= LINE_WIDTH:
+		append &buf arg
+		!at_line_start true
+		!width 0
+		next
+	      :
+		update_if_not at_line_start &buf: push buf '@nl;'
+		append &buf spacing arg
+		!at_line_start true
+		!width 0
+		next
+	  :
+	    $arg_width width_of(arg)
+	    if
+	      width+1+arg_width > LINE_WIDTH:
+		append &buf "@nl;" spacing arg
+		!width indent+arg_width
+		!at_line_start true
+		next
+	      :
+		if
+		  at_line_start:
+		    append &buf spacing arg
+		    !width indent+arg_width
+		    !at_line_start false
+		    next
+		  :
+		    append &buf " " arg
+		    plus &width 1+arg_width
+		    !at_line_start false
+		    next
+      :
+	if
+	  at_line_start
+	  -> buf
+	  -> push(buf '@nl;')
+
+$funky_types::functor/to_source: (self)
+  append identifier_of(self) map_reduce(extensions_of(self) to_source append "")
+
+$funky_types::io_call.to_source "!"
+
+$funky_types::attribute_access/to_source: (self)
+  append "." identifier_of(self)
+
+$funky_types::definition/to_source: (self)
+  append "$" identifier_of(self)
+
+$funky_types::dummy_definition/to_source: (self)
+  append "$_" funky::name_of(self)
+
+$funky_types::redefinition/to_source: (self)
+  append
+    "!" identifier_of(self)
+    map_reduce(extensions_of(self) to_source append "")
+
+$funky_types::update/to_source: (self)
+  append
+    "&" identifier_of(self)
+    map_reduce(extensions_of(self) to_source append "")
+
+$funky_types::function_call/to_source: (self)
+  $arguments map(arguments_of(self) to_source)
+  append "(" join(arguments " ") ")"
+
+$funky_types::remark_and_multiline_function_call/to_source: (self)
+  $arguments arguments_of(self)
+  $head remark_of(self).to_source
+  if
+    arguments.is_empty
+    -> head
+    :
+      if
+	do_return_inline_only
+	-> undefined
+	:
+	  map &arguments to_source
+	  append
+	    head "@nl;"
+	    : (argument) append tabs_and_spaces(indent+2) argument "@nl;"
+
+$funky_types::remark/to_source: (self)
+  append " #" text_of(self)
+
+$funky_types::return_expression/to_source: (self)
+  $arguments map(arguments_of(self) to_source)
+  append "-> " join(arguments " ")
+
+$funky_types::return.to_source "->"
+
+$funky_types::expression/to_source: (self)
+  append expression_of(self).to_source operator_of(self).to_source
+
+$funky_types::not_equal/to_source: (self)
+  append " != " expression_of(self).to_source
+
+$funky_types::numeric_literal/to_source: (self)
+  -> digits_of(self)
+
+$funky_types::string_literal/to_source: (self)
+  $components map(components_of(self) to_source)
+  $buf "@quot;"
+  for_each components
+    : (component)
+      append &buf component
+      next
+    :
+      push buf '@quot;'
+
+$funky_types::character_sequence/to_source: (self)
+  -> characters_of(self)
+
+$funky_types::escape_expression/to_source: (self)
+  append "@@(" expression_of(self).to_source ")"
+
+$funky_types::unique.to_source "."
+
+$funky_types::attribute.to_source "()"
+
+$funky_types::attribute_with_setter.to_source "(!)"
+
+$funky_types::attribute_value_pair/to_source: (self)
+  if
+    do_return_inline_only
+    -> undefined
+    :
+      $identifier identifier_of(self)
+      $value argument_of(self).to_source
+      append "." identifier " " value "@nl;"
+
+$funky_types::node/to_source: (self)
+  debug::dump `self
+  -> "???"
+
+$fits_on_line: (expr)
+  -> indent+length_of(expr) <= LINE_WIDTH
