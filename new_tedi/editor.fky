@@ -3007,6 +3007,7 @@ $tedi::toggle_soft_line_break: (state x y lines info)
   $page get_content(window_manager_of(state))
   if
     kind_of(page) == TEDI && lines_of(page).is_not_empty:
+      debug::println "toggle_soft_line_break"
       if
 	use_soft_line_breaks_of(info):
 	  !info.use_soft_line_breaks_of false

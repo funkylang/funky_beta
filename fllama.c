@@ -75,6 +75,7 @@ static struct llama_model *load_model(const char *filename) {
     model_params.n_gpu_layers = 99;
     fprintf(stderr, "using GPU for all layers\n");
   } else {
+    model_params.n_gpu_layers = 0;
     fprintf(stderr, "not using GPU for any layers\n");
   }
   return llama_model_load_from_file(filename, model_params);
