@@ -169,7 +169,7 @@ $OPEN_MODEL/job_completed: (_id io state model _context)
   $address ai_server_address_of(configuration)
   $port_no ai_server_port_no_of(configuration)
   $message "
-    Opened model @(model_name) on server @(address):@(port_no)
+    opened model @(model_name) on server @(address):@(port_no)
   show_success_message &state OPEN_MODEL message
   !state.ai_model_of model
   !state.initializing_ai_of false
@@ -226,8 +226,8 @@ $start_completion: (io state)
       -> line_numbers line_texts
 
 $TOKENS/handle_event: (_type io state id tokens model)
-  if
-    current_action_state_of(state) == RUNNING:
+  case current_action_state_of(state)
+    RUNNING:
       $completion_job current_action_of(state)
       $i length_of(tokenized_lines_of(completion_job))+1
       update_if
@@ -247,6 +247,11 @@ $TOKENS/handle_event: (_type io state id tokens model)
 	  set_content &state.window_manager_of window_id page
 	  evaluate_text_lines io state
 	-> io state(.current_action_of completion_job)
+    CANCELLED:
+      $message "tokenization cancelled"
+      log &io 2 message
+      show_error_message &state AI message
+      current_action_completed io state
     -> io state
 
 $LOGITS/handle_event: (_type io state id logits model)
@@ -279,7 +284,13 @@ $LOGITS/handle_event: (_type io state id logits model)
 	  current_action_completed io state
 	:
 	  change_text &state window_id insert INSERTION piece
-	  continue_evaluation
+	  if
+	    current_action_state_of(state) == CANCELLED:
+	      $message "evaluation cancelled"
+	      log &io 2 message
+	      show_error_message &state AI message
+	      current_action_completed io state
+	    continue_evaluation
 
   $continue_evaluation:
     $page get_content(window_manager_of(state) window_id)
@@ -389,12 +400,18 @@ $evaluate_text_lines: (io state)
 	.do_not_add_newline_of do_not_add_newline
       !state.current_action_of completion_job
       set_content &state.window_manager_of window_id page
-      $message "evaluating @(total_token_count_of(completion_job)) tokens"
-      show_status_message &state AI message
-      log &io 4 message
-      add_tokens &io ai_model seq_id tokens
-      evaluate &io ai_model seq_id
-      -> io state
+      if
+	tokens.is_empty:
+	  debug::dump `sequence
+	  evaluate &io ai_model seq_id
+	  -> io state
+	:
+	  $message "evaluating @(total_token_count_of(completion_job)) tokens"
+	  show_status_message &state AI message
+	  log &io 4 message
+	  add_tokens &io ai_model seq_id tokens
+	  evaluate &io ai_model seq_id
+	  -> io state
 
 $PROGRESS/handle_event: (_type io state _id data _model)
   data $_seq_id $remaining_tokens

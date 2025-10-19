@@ -6,7 +6,6 @@
 !basic/io/*.c
 !basic/io/*.fky
 !compiler
-compiler/configuration.fky
 !new_tedi
 !terminal
 !web
@@ -32,6 +31,9 @@ s[0-9]*
 !docs/symbols/**/*.txt
 !fllama.c
 !basic/**/*.c
+!compiler/*.c
+compiler/configuration.fky
+compiler/configuration.c
 !runtime
 !runtime/*.c
 !runtime/*.h
