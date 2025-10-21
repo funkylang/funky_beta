@@ -364,55 +364,59 @@ $evaluate_text_lines: (io state)
 	      range &line_tokens 2 -1
 	      next
       -> 1 tokens
-    $do_not_add_newline cursor_line.is_defined && x == 1
-    update_if do_not_add_newline &page &state:
-      change_text &state window_id split_line INSERTION undefined
-      change_text &state window_id cursor_up MOVEMENT undefined
-      !page get_content(window_manager_of(state) window_id)
-      -> page state
-    goto_xy &page &state.window_manager_of window_id x y
-    $seq_id id_of(sequence)
     if
-      tokens_of(sequence).is_undefined:
-	!sequence.tokens_of tokens
-	evaluate_tokens
+      tokens.is_empty:
+	current_action_completed io state
       :
-	$sequence_tokens tokens_of(sequence)
-	$n length_of(common_prefix(tokens sequence_tokens))
+	$do_not_add_newline cursor_line.is_defined && x == 1
+	update_if do_not_add_newline &page &state:
+	  change_text &state window_id split_line INSERTION undefined
+	  change_text &state window_id cursor_up MOVEMENT undefined
+	  !page get_content(window_manager_of(state) window_id)
+	  -> page state
+	goto_xy &page &state.window_manager_of window_id x y
+	$seq_id id_of(sequence)
 	if
-	  n < length_of(sequence_tokens):
-	    update_if n == length_of(tokens) &n -> n-1
-	    truncate_sequence &io ai_model seq_id n
-	    add_missing_tokens
-	  add_missing_tokens
+	  tokens_of(sequence).is_undefined:
+	    !sequence.tokens_of tokens
+	    evaluate_tokens
+	  :
+	    $sequence_tokens tokens_of(sequence)
+	    $n length_of(common_prefix(tokens sequence_tokens))
+	    if
+	      n < length_of(sequence_tokens):
+		update_if n == length_of(tokens) &n -> n-1
+		truncate_sequence &io ai_model seq_id n
+		add_missing_tokens
+	      add_missing_tokens
 
-	$add_missing_tokens:
-	  !sequence.tokens_of tokens
-	  debug::dump `n `tokens
-	  range &tokens n+1 -1
-	  evaluate_tokens
+	    $add_missing_tokens:
+	      !sequence.tokens_of tokens
+	      range &tokens n+1 -1
+	      evaluate_tokens
 
-    $evaluate_tokens:
-      !page.sequence_of sequence
-      !completion_job
-	.prefix_of ""
-	.pending_tokens_of empty_list
-	.total_token_count_of length_of(tokens)
-	.do_not_add_newline_of do_not_add_newline
-      !state.current_action_of completion_job
-      set_content &state.window_manager_of window_id page
-      if
-	tokens.is_empty:
-	  debug::dump `sequence
-	  evaluate &io ai_model seq_id
-	  -> io state
-	:
-	  $message "evaluating @(total_token_count_of(completion_job)) tokens"
-	  show_status_message &state AI message
-	  log &io 4 message
-	  add_tokens &io ai_model seq_id tokens
-	  evaluate &io ai_model seq_id
-	  -> io state
+	$evaluate_tokens:
+	  !page.sequence_of sequence
+	  !completion_job
+	    .prefix_of ""
+	    .pending_tokens_of empty_list
+	    .total_token_count_of length_of(tokens)
+	    .do_not_add_newline_of do_not_add_newline
+	  !state.current_action_of completion_job
+	  set_content &state.window_manager_of window_id page
+	  if
+	    tokens.is_empty:
+	      debug::dump `sequence
+	      evaluate &io ai_model seq_id
+	      -> io state
+	    :
+	      $message
+		"evaluating @(total_token_count_of(completion_job)) tokens"
+	      show_status_message &state AI message
+	      log &io 4 message
+	      add_tokens &io ai_model seq_id tokens
+	      evaluate &io ai_model seq_id
+	      -> io state
 
 $PROGRESS/handle_event: (_type io state _id data _model)
   data $_seq_id $remaining_tokens
