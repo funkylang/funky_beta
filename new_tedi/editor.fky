@@ -700,6 +700,7 @@ $check_wrap_after_insertion: (x y lines info par_y indent text)
     wrap_following_lines
 
   $wrap_following_lines:
+    $end_y y
     loop:
       split_text_into_two &text $overflow max_width-indent
       update_if cursor_y == y && x > indent+width_of(text)+1
@@ -708,8 +709,8 @@ $check_wrap_after_insertion: (x y lines info par_y indent text)
       push &updated_lines
 	tedi_line(indent is_a_continuation text)
       if
-	overflow.is_empty
-	-> first_y .. y updated_lines x cursor_y info
+	overflow.is_empty:
+	  -> first_y .. end_y updated_lines x cursor_y info
 	:
 	  !is_a_continuation true
 	  inc &y
@@ -723,6 +724,7 @@ $check_wrap_after_insertion: (x y lines info par_y indent text)
 	      !indent indent_of(line)
 	      !text append(overflow spaces(indent-par_indent+1) text_of(line))
 	      !indent par_indent
+	      !end_y y
 	      next
 	    :
 	      !indent par_indent
@@ -3007,7 +3009,6 @@ $tedi::toggle_soft_line_break: (state x y lines info)
   $page get_content(window_manager_of(state))
   if
     kind_of(page) == TEDI && lines_of(page).is_not_empty:
-      debug::println "toggle_soft_line_break"
       if
 	use_soft_line_breaks_of(info):
 	  !info.use_soft_line_breaks_of false

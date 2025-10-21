@@ -388,6 +388,7 @@ $evaluate_text_lines: (io state)
 
 	$add_missing_tokens:
 	  !sequence.tokens_of tokens
+	  debug::dump `n `tokens
 	  range &tokens n+1 -1
 	  evaluate_tokens
 
