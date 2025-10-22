@@ -3008,107 +3008,116 @@ $tedi::toggle_cursor_line_highlighting: (x y _lines info)
 $tedi::toggle_soft_line_break: (state x y lines info)
   $page get_content(window_manager_of(state))
   if
-    kind_of(page) == TEDI && lines_of(page).is_not_empty:
+    kind_of(page) == TEDI:
       if
 	use_soft_line_breaks_of(info):
 	  !info.use_soft_line_breaks_of false
 	  set_buttons &state.window_manager_of list(ACTIVATE_SOFT_BREAKS)
-	  $combined_lines remove_all_soft_breaks(lines)
-
-	  # compute the new cursor position
-	  $len length_of(lines)
 	  if
-	    y > len
-	    ->
-	      state
-	      1 .. length_of(lines)
-	      combined_lines
-	      x
-	      length_of(combined_lines)+y-len
-	      info
+	    lines_of(page).is_empty
+	    -> state undefined undefined x y info
 	    :
-	      $new_y y
-	      loop
-		:
-		  $line lines(y)
-		  if
-		    line.is_defined && line.is_a_continuation_line:
-		      dec &y
-		      plus &x width_of(text_of(lines(y)))+1
-		      next
-		    break
-		:
-		  from_to 1 new_y
-		    : (idx)
-		      $line lines(idx)
-		      if
-			line.is_defined && line.is_a_continuation_line:
-			  dec &new_y
-			  next
-			next
-		    ->
-		      state
-		      1 .. length_of(lines)
-		      combined_lines
-		      x
-		      new_y
-		      info
-	:
-	  !info.use_soft_line_breaks_of true
-	  set_buttons &state.window_manager_of list(DEACTIVATE_SOFT_BREAKS)
-	  $broken_lines break_all_lines(lines right_margin_of(info))
+	      $combined_lines remove_all_soft_breaks(lines)
 
-	  # compute the new cursor position
-	  $new_y 0
-	  for_each broken_lines
-	    : (line)
-	      inc &new_y
+	      # compute the new cursor position
+	      $len length_of(lines)
 	      if
-		line.is_defined && line.is_a_continuation_line
-		next
-		:
-		  dec &y
-		  if
-		    y > 0
-		    next
-		    break
-	    :
-	      $len length_of(broken_lines)
-	      $indent
-		if
-		  new_y <= len && broken_lines(new_y).is_defined
-		  -> indent_of(broken_lines(new_y))
-		  -> 0
-	      $new_x x-indent
-	      plus &new_y y
-	      loop
-		:
-		  if
-		    new_y < len:
-		      $line broken_lines(new_y)
-		      if
-			line.is_defined:
-			  $line_width width_of(text_of(line))+1
-			  $next_line broken_lines(new_y+1)
-			  if
-			    &&
-			      next_line.is_defined
-			      next_line.is_a_continuation_line
-			      new_x > line_width
-			    :
-			      minus &new_x line_width
-			      inc &new_y
-			      next
-			    break
-			break
-		    break
+		y > len
 		->
 		  state
 		  1 .. length_of(lines)
-		  broken_lines
-		  indent+new_x
-		  new_y
+		  combined_lines
+		  x
+		  length_of(combined_lines)+y-len
 		  info
+		:
+		  $new_y y
+		  loop
+		    :
+		      $line lines(y)
+		      if
+			line.is_defined && line.is_a_continuation_line:
+			  dec &y
+			  plus &x width_of(text_of(lines(y)))+1
+			  next
+			break
+		    :
+		      from_to 1 new_y
+			: (idx)
+			  $line lines(idx)
+			  if
+			    line.is_defined && line.is_a_continuation_line:
+			      dec &new_y
+			      next
+			    next
+			->
+			  state
+			  1 .. length_of(lines)
+			  combined_lines
+			  x
+			  new_y
+			  info
+	:
+	  !info.use_soft_line_breaks_of true
+	  set_buttons &state.window_manager_of list(DEACTIVATE_SOFT_BREAKS)
+
+	  if
+	    lines_of(page).is_empty
+	    -> state undefined undefined x y info
+	    :
+	      $broken_lines break_all_lines(lines right_margin_of(info))
+
+	      # compute the new cursor position
+	      $new_y 0
+	      for_each broken_lines
+		: (line)
+		  inc &new_y
+		  if
+		    line.is_defined && line.is_a_continuation_line
+		    next
+		    :
+		      dec &y
+		      if
+			y > 0
+			next
+			break
+		:
+		  $len length_of(broken_lines)
+		  $indent
+		    if
+		      new_y <= len && broken_lines(new_y).is_defined
+		      -> indent_of(broken_lines(new_y))
+		      -> 0
+		  $new_x x-indent
+		  plus &new_y y
+		  loop
+		    :
+		      if
+			new_y < len:
+			  $line broken_lines(new_y)
+			  if
+			    line.is_defined:
+			      $line_width width_of(text_of(line))+1
+			      $next_line broken_lines(new_y+1)
+			      if
+				&&
+				  next_line.is_defined
+				  next_line.is_a_continuation_line
+				  new_x > line_width
+				:
+				  minus &new_x line_width
+				  inc &new_y
+				  next
+				break
+			    break
+			break
+		    ->
+		      state
+		      1 .. length_of(lines)
+		      broken_lines
+		      indent+new_x
+		      new_y
+		      info
     -> state undefined undefined x y info
 
 $tedi::toggle_line_numbers: (x y _lines info)
