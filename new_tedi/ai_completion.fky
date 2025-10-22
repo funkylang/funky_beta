@@ -374,7 +374,7 @@ $evaluate_text_lines: (io state)
 	  change_text &state window_id cursor_up MOVEMENT undefined
 	  !page get_content(window_manager_of(state) window_id)
 	  -> page state
-	goto_xy &page &state.window_manager_of window_id x y
+	goto_xy page &state.window_manager_of window_id x y
 	$seq_id id_of(sequence)
 	if
 	  tokens_of(sequence).is_undefined:
