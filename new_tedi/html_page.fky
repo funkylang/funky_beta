@@ -328,6 +328,10 @@ $render_inline: (element)
       add_text_attributes &style BOLD
       render_items contents
     "br" -> list(NEWLINE)
+    "li":
+      debug::dump 5 `contents
+      set_draw_colour &style RED
+      render_items contents
     :
       debug::dump `tag
       debug::exit

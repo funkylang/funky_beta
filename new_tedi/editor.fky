@@ -3265,7 +3265,9 @@ $show_help: (state _x _y _lines _info)
 	  entry $action $text
 	  $key action_name_to_key(action)
 	  update_if key.is_defined &action -> key
-	  replace_all &text ';' = "<br>"
+	  replace_all &text
+	    ';' = "<br>"
+	    "@nl;*" = "<br>•"
 	  -> "
 	    <dt>@(action)</dt>
 	      <dd>@(text)<br></dd>
@@ -3785,11 +3787,11 @@ list $tedi::help_sections
 	  the clipboard is only available within the editor
       "cut" =
 	"
-	  pastes the contents of the clipboard a the current position
-      "paste" =
-	"
 	  cuts the current selection into the clipboard;
 	  the clipboard is only available within the editor
+      "paste" =
+	"
+	  pastes the contents of the clipboard at the current position
   "Search & Replace" =
     list
       "find_text_dialog" =
@@ -3823,21 +3825,22 @@ list $tedi::help_sections
       "ctrl-q" =
 	"
 	  leaves the editor;
-	  the documents will <b>NOT</b> be saved!
+	  if there are unsaved changes in any document you will be asked if you
+	  really want to quit.
       "reload" =
 	"
 	  reloads the current document
       "save_contents" =
 	"
-	  saves the current contents
+	  saves the current document
   "Undo & Redo" =
     list
       "undo" =
 	"
-	  undo
+	  undo the last edit operation
       "redo" =
 	"
-	  redo
+	  redo an undone edit operation
   "Windows" =
     list
       "ctrl-page-down" =
