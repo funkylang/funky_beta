@@ -386,8 +386,6 @@ $evaluate_text_lines: (io state)
 	  -> page state
 	goto_xy page &state.window_manager_of window_id x y
 	$seq_id id_of(sequence)
-	debug::print detokenize(ai_model tokens)
-	debug::println "*"
 	if
 	  tokens_of(sequence).is_undefined:
 	    !sequence.tokens_of tokens
@@ -416,8 +414,6 @@ $evaluate_text_lines: (io state)
 	    .do_not_add_newline_of do_not_add_newline
 	  !state.current_action_of completion_job
 	  set_content &state.window_manager_of window_id page
-	  on length_of(tokens) == 1:
-	    debug::dump `tokens(1) `detokenize(ai_model tokens(1))
 	  $message "evaluating @(total_token_count_of(completion_job)) tokens"
 	  show_status_message &state AI message
 	  log &io 4 message
