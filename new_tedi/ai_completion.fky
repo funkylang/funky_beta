@@ -205,6 +205,7 @@ $start_completion: (io state)
     # ensure that line <y> has a single newline token at the end
     $line_numbers empty_list
     $line_texts empty_list
+    $len length_of(lines)
     for_each lines
       : (no line)
 	if
@@ -217,10 +218,19 @@ $start_completion: (io state)
 	      :
 		push &line_numbers no
 		$line_text
-		  append
-		    spaces(indent_of(line))
-		    text_of(line)
-		update_if no != y &line_text -> push(line_text '@nl;')
+		  if
+		    line.is_a_continuation_line
+		    -> " "
+		    -> spaces(indent_of(line))
+		append &line_text text_of(line)
+		update_if
+		  &&
+		    no != y
+		    ||
+		      no == len
+		      lines(no+1).is_undefined
+		      not(lines(no+1).is_a_continuation_line)
+		  &line_text -> push(line_text '@nl;')
 		push &line_texts line_text
 		next
       -> line_numbers line_texts
@@ -376,6 +386,8 @@ $evaluate_text_lines: (io state)
 	  -> page state
 	goto_xy page &state.window_manager_of window_id x y
 	$seq_id id_of(sequence)
+	debug::print detokenize(ai_model tokens)
+	debug::println "*"
 	if
 	  tokens_of(sequence).is_undefined:
 	    !sequence.tokens_of tokens
@@ -404,19 +416,14 @@ $evaluate_text_lines: (io state)
 	    .do_not_add_newline_of do_not_add_newline
 	  !state.current_action_of completion_job
 	  set_content &state.window_manager_of window_id page
-	  if
-	    tokens.is_empty:
-	      debug::dump `sequence
-	      evaluate &io ai_model seq_id
-	      -> io state
-	    :
-	      $message
-		"evaluating @(total_token_count_of(completion_job)) tokens"
-	      show_status_message &state AI message
-	      log &io 4 message
-	      add_tokens &io ai_model seq_id tokens
-	      evaluate &io ai_model seq_id
-	      -> io state
+	  on length_of(tokens) == 1:
+	    debug::dump `tokens(1) `detokenize(ai_model tokens(1))
+	  $message "evaluating @(total_token_count_of(completion_job)) tokens"
+	  show_status_message &state AI message
+	  log &io 4 message
+	  add_tokens &io ai_model seq_id tokens
+	  evaluate &io ai_model seq_id
+	  -> io state
 
 $PROGRESS/handle_event: (_type io state _id data _model)
   data $_seq_id $remaining_tokens
