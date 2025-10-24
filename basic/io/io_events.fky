@@ -825,7 +825,8 @@ $std_types::io/get_events:
 		    if
 		      buf.is_empty:
 			stop_reading_from &self fd
-			push &events typed_tuple(std_types::event CLOSED fd undefined)
+			push &events
+			  typed_tuple(std_types::event CLOSED fd undefined)
 			if
 			  do_close:
 			    close &self fd

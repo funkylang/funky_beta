@@ -309,6 +309,33 @@ $LOGITS/handle_event: (_type io state id logits model)
     add_token_and_evaluate &io model seq_id token
     -> io state
 
+$CLOSED/handle_event: (_type io state fd err _model)
+  $ai_model ai_model_of(state)
+  if
+    ai_model.is_undefined
+    -> io state
+    :
+      $message "connection to AI server closed"
+      log &io 2 message
+      show_error_message &state AI message
+      !state.ai_server_already_started_of false
+      !state.ai_model_of undefined
+      # remove all sequences
+      $wm window_manager_of(state)
+      for_each wm
+	: (window_id contents)
+	  $sequence sequence_of(contents)
+	  if
+	    sequence.is_undefined
+	    next
+	    :
+	      !contents.sequence_of undefined
+	      set_content &wm window_id contents
+	      next
+	:
+	  !state.window_manager_of wm
+	  current_action_completed io state
+
 $ERROR/handle_event: (_type io state _id err _model)
   $completion_job current_action_of(state)
   if
