@@ -122,6 +122,9 @@ $llama::eot_token_of ()
 $llama::sep_token_of ()
 $llama::nl_token_of ()
 $llama::pad_token_of ()
+$llama::context_size_of ()
+$llama::trained_context_size_of ()
+$llama::maximum_concurrent_sequences_of ()
 
 $llama_types::model std_types::object
 
@@ -134,6 +137,9 @@ $llama_types::model.llama::eot_token_of undefined
 $llama_types::model.llama::sep_token_of undefined
 $llama_types::model.llama::nl_token_of undefined
 $llama_types::model.llama::pad_token_of undefined
+$llama_types::model.llama::context_size_of undefined
+$llama_types::model.llama::trained_context_size_of undefined
+$llama_types::model.llama::maximum_concurrent_sequences_of undefined
 
 $llama::detokenize:
   (
@@ -218,7 +224,8 @@ $std_types::string/open_model: (model_name)
     use_model @(model_name)@0;@
     get_pieces@0;@
     get_special_tokens@0;@
-  handle_reply! $model fd handle_model_info
+    get_model_metadata@0;@
+  handle_reply! $model fd handle_model_info undefined
   if
     model.is_an_error
     -> model
@@ -234,6 +241,7 @@ $open_model_request: (io id model_name)
     get_pieces@0;@
     get_end_tokens@0;@
     get_special_tokens@0;@
+    get_model_metadata@0;@
   start_reading_from &io fd
   set_context &io fd tuple(id llama_types::model(.fd_of fd) "")
   register_handlers &io fd
@@ -292,6 +300,27 @@ $handle_model_info: (model reply)
 		  !model.llama::pad_token_of token
 		  next
 		next
+	    next
+	-> model false
+    "model_metadata":
+      $metadata split(reply .behind. ' ')
+      map &metadata: (str)
+	key_value_pair
+	  str .before. '='
+	  to_integer(str .behind. '=')
+      for_each metadata
+	: (info)
+	  info $key $value
+	  case key
+	    "ctx_size":
+	      !model.llama::context_size_of value
+	      next
+	    "trained_ctx_size":
+	      !model.llama::trained_context_size_of value
+	      next
+	    "max_concurrent_sequences":
+	      !model.llama::maximum_concurrent_sequences_of value
+	      next
 	    next
 	-> model true
     "error":
@@ -449,7 +478,7 @@ $handle_tokens: (prompt_tokens reply n)
 	n > 0:
 	  if
 	    prompt_tokens.is_undefined
-	    -> list(tokens) n == 1
+	    -> tokens n == 1
 	    :
 	      push &prompt_tokens tokens
 	      -> prompt_tokens length_of(prompt_tokens) == n
@@ -625,7 +654,7 @@ $std_types::io/llama::evaluate:
 
 $llama::get_logits: (model)
   $fd fd_of(model)
-  handle_reply! $result fd handle_logits
+  handle_reply! $result fd handle_logits undefined
   result
 
   $handle_logits: (_dummy reply)
@@ -634,6 +663,7 @@ $llama::get_logits: (model)
       "logits":
 	$sequence_id between(reply ' ' ' ').to_integer
 	$position between(reply ' ' ' ' 2).to_integer
+	$_count between(reply ' ' ' ' 3).to_integer
 	$logits behind(reply ' ' 4)
 	split &logits ' '
 	map &logits: (str)
@@ -641,6 +671,7 @@ $llama::get_logits: (model)
 	    to_integer(str .before. '=')
 	    to_number(str .behind. '=')
 	-> tuple(sequence_id position logits) true
+      "progress" -> undefined false
       "error":
 	$message reply .behind. ' '
 	-> error(message) true

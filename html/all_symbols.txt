@@ -41,6 +41,7 @@ ai::suffix_token_of POLYMORPHIC_FUNCTION
 ai::tokenize POLYMORPHIC_FUNCTION
 ai_types::connection TYPE
 ai_types::model TYPE
+debug::current_time BUILTIN_FUNCTION
 debug::dump FUNCTION
 debug::dump_object BUILTIN_FUNCTION
 debug::dump_one FUNCTION

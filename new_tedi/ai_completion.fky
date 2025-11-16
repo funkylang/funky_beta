@@ -171,6 +171,10 @@ $OPEN_MODEL/job_completed: (_id io state model _context)
   $message "
     opened model @(model_name) on server @(address):@(port_no)
   show_success_message &state OPEN_MODEL message
+  log &io 2 message
+  log &io 4 "model context size: @(context_size_of(model))"
+  log &io 4 "trained context size: @(trained_context_size_of(model))"
+  log &io 4 "concurrent_sequences: @(maximum_concurrent_sequences_of(model))"
   !state.ai_model_of model
   !state.initializing_ai_of false
   if

@@ -35,8 +35,8 @@
 #define MODEL_PATH "/mnt/var/models/"
 
 #define MAXIMUM_BATCH_SIZE 512
-#define MAXIMUM_SEQUENCES 2
-#define CONTEXT_SIZE 40000
+#define VRAM_RESERVE 4096
+// measured in context units
 
 static void log_callback(
   const enum ggml_log_level level, const char *text, void *
@@ -53,8 +53,13 @@ void initialize_llama(void) {
 }
 
 static char *current_model_name;
-static struct llama_model *current_model;
-static struct llama_context *current_context;
+static struct llama_model *current_model = NULL;
+static struct llama_context *current_context = NULL;
+static int current_context_size;
+static int maximum_sequences = 1;
+static int minimum_context_size = 8192;
+static int maximum_context_size = 32768;
+
 llama_memory_t current_memory;
 
 static long gpu_offload_threshold = 0;
@@ -83,18 +88,55 @@ static struct llama_model *load_model(const char *filename) {
 
 static struct llama_context *create_context(struct llama_model *model) {
   struct llama_context_params ctx_params = llama_context_default_params();
-  //ctx_params.n_ctx = 0; // use the model's context size
-  ctx_params.n_ctx = CONTEXT_SIZE;
-  ctx_params.n_batch = MAXIMUM_BATCH_SIZE;
-  ctx_params.n_seq_max = MAXIMUM_SEQUENCES;
-  //ctx_params.offload_kqv = false;
   fprintf(stderr, "embeddings = %d\n", ctx_params.embeddings);
   fprintf(stderr, "offload_kqv = %d\n", ctx_params.offload_kqv);
   fprintf(stderr, "no_perf = %d\n", ctx_params.no_perf);
   fprintf(stderr, "op_offload = %d\n", ctx_params.op_offload);
   fprintf(stderr, "swa_full = %d\n", ctx_params.swa_full);
   fprintf(stderr, "kv_unified = %d\n", ctx_params.kv_unified);
-  return llama_init_from_model(model, ctx_params);
+  ctx_params.n_seq_max = maximum_sequences;
+  ctx_params.n_batch = MAXIMUM_BATCH_SIZE;
+  int n_ctx_train = llama_model_n_ctx_train(model);
+  int min_ctx_size = minimum_context_size;
+  if (min_ctx_size > n_ctx_train) {
+    min_ctx_size = n_ctx_train;
+  }
+  int max_ctx_size = maximum_context_size;
+  if (max_ctx_size > n_ctx_train) {
+    max_ctx_size = n_ctx_train;
+  }
+  int ctx_size_low = min_ctx_size;
+  int ctx_size_high = max_ctx_size;
+  int ctx_size = ctx_size_high;
+  struct llama_context *ctx;
+  // attempt to determine an "optimal" context size
+  // do *not* use VRAM_RESERVE context units
+  while (true) {
+    fprintf(stderr, "%d <%d..%d>\n", ctx_size, ctx_size_low, ctx_size_high);
+    ctx_params.n_ctx = maximum_sequences*ctx_size+VRAM_RESERVE;
+    ctx = llama_init_from_model(model, ctx_params);
+    if (ctx) {
+      if (ctx_size+1024 >= ctx_size_high) break;
+      llama_free(ctx);
+      ctx_size_low = ctx_size;
+      ctx_size = (ctx_size_low+ctx_size_high)/2;
+    } else {
+      if (ctx_size == ctx_size_low) break;
+      if (ctx_size_low+1024 >= ctx_size_high) {
+	ctx_size = ctx_size_low;
+      }
+      ctx_size_high = ctx_size;
+      ctx_size = (ctx_size_low+ctx_size_high)/2;
+    }
+  }
+  if (ctx) {
+    llama_free(ctx);
+    ctx_params.n_ctx = maximum_sequences*ctx_size;
+    ctx = llama_init_from_model(model, ctx_params);
+    current_context_size = ctx_size;
+  }
+  fprintf(stderr, "ctx_size = %d\n", ctx_size);
+  return ctx;
 }
 
 typedef struct {
@@ -491,9 +533,9 @@ static int create_sequence(int client_fd, int client_sequence_id) {
     if (sequence->state == INVALID) break;
   }
   if (i == array_length(sequences)) {
-    if (i == MAXIMUM_SEQUENCES) {
+    if (i == maximum_sequences) {
       fprintf(stderr, "Maximum number of sequences reached (limit = %d)\n",
-	MAXIMUM_SEQUENCES);
+	maximum_sequences);
       return -1;
     }
     // grow array
@@ -826,7 +868,14 @@ static void handle_use_model(int fd, char *model_name) {
       current_model = model;
       current_model_name = full_model_name;
       current_context = create_context(current_model);
-      current_memory = llama_get_memory(current_context);
+      if (current_context) {
+	current_memory = llama_get_memory(current_context);
+      } else {
+	llama_model_free(model);
+	current_model = NULL;
+	fprintf(stderr, "failed to create context\n");
+	send_message(fd, "error failed to create context", 31);
+      }
     } else {
       fprintf(stderr, "failed to load model %s\n", full_model_name);
       send_message(fd, "error failed to load model", 27);
@@ -1255,45 +1304,63 @@ static void handle_get_special_tokens(int fd, char *arguments) {
   send_message(fd, buf, len+1);
 }
 
+static void handle_get_model_metadata(int fd, char *arguments) {
+  fprintf(stderr, "get_model_metadata\n");
+  char buf[128];
+  int n_ctx_train = llama_model_n_ctx_train(current_model);
+  int len = sprintf(buf,
+    "model_metadata ctx_size=%d trained_ctx_size=%d "
+    "max_concurrent_sequences=%d",
+    current_context_size, n_ctx_train, maximum_sequences);
+  send_message(fd, buf, len+1);
+}
+
 static void handle_request(int fd, char *request) {
   fprintf(stderr, "from %d: ", fd);
   char *arguments = strchr(request, ' ');
   if (arguments) {
     *arguments++ = 0;
   }
-  if (strcmp(request, "tokenize") == 0) {
-    handle_tokenize(fd, arguments);
-  } else if (strcmp(request, "add_tokens") == 0) {
-    handle_add_tokens(fd, arguments);
-  } else if (strcmp(request, "delete_tokens") == 0) {
-    handle_delete_tokens(fd, arguments);
-  } else if (strcmp(request, "insert_tokens") == 0) {
-    handle_insert_tokens(fd, arguments);
-  } else if (strcmp(request, "evaluate") == 0) {
-    handle_evaluate(fd, arguments);
-  } else if (strcmp(request, "create_sequence") == 0) {
-    handle_create_sequence(fd, arguments);
-  } else if (strcmp(request, "copy_sequence") == 0) {
-    handle_copy_sequence(fd, arguments);
-  } else if (strcmp(request, "truncate_sequence") == 0) {
-    handle_truncate_sequence(fd, arguments);
-  } else if (strcmp(request, "delete_sequence") == 0) {
-    handle_delete_sequence(fd, arguments);
+  if (strcmp(request, "use_model") == 0) {
+    handle_use_model(fd, arguments);
   } else if (strcmp(request, "list_models") == 0) {
     list_models(fd);
-  } else if (strcmp(request, "use_model") == 0) {
-    handle_use_model(fd, arguments);
-  } else if (strcmp(request, "get_pieces") == 0) {
-    handle_get_pieces(fd, arguments);
-  } else if (strcmp(request, "get_end_tokens") == 0) {
-    handle_get_end_tokens(fd, arguments);
-  } else if (strcmp(request, "get_special_tokens") == 0) {
-    handle_get_special_tokens(fd, arguments);
   } else {
-    fprintf(stderr, "%s - unknown request\n", request);
-    char *buf = malloc(128+strlen(request));
-    sprintf(buf, "error %s - unknown request", request);
-    send_message(fd, buf, strlen(buf)+1);
+    if (!current_model) {
+      fprintf(stderr, "no model loaded\n");
+      send_message(fd, "error no model loaded", 22);
+    } else if (strcmp(request, "tokenize") == 0) {
+      handle_tokenize(fd, arguments);
+    } else if (strcmp(request, "add_tokens") == 0) {
+      handle_add_tokens(fd, arguments);
+    } else if (strcmp(request, "delete_tokens") == 0) {
+      handle_delete_tokens(fd, arguments);
+    } else if (strcmp(request, "insert_tokens") == 0) {
+      handle_insert_tokens(fd, arguments);
+    } else if (strcmp(request, "evaluate") == 0) {
+      handle_evaluate(fd, arguments);
+    } else if (strcmp(request, "create_sequence") == 0) {
+      handle_create_sequence(fd, arguments);
+    } else if (strcmp(request, "copy_sequence") == 0) {
+      handle_copy_sequence(fd, arguments);
+    } else if (strcmp(request, "truncate_sequence") == 0) {
+      handle_truncate_sequence(fd, arguments);
+    } else if (strcmp(request, "delete_sequence") == 0) {
+      handle_delete_sequence(fd, arguments);
+    } else if (strcmp(request, "get_pieces") == 0) {
+      handle_get_pieces(fd, arguments);
+    } else if (strcmp(request, "get_end_tokens") == 0) {
+      handle_get_end_tokens(fd, arguments);
+    } else if (strcmp(request, "get_special_tokens") == 0) {
+      handle_get_special_tokens(fd, arguments);
+    } else if (strcmp(request, "get_model_metadata") == 0) {
+      handle_get_model_metadata(fd, arguments);
+    } else {
+      fprintf(stderr, "%s - unknown request\n", request);
+      char *buf = malloc(128+strlen(request));
+      sprintf(buf, "error %s - unknown request", request);
+      send_message(fd, buf, strlen(buf)+1);
+    }
   }
 }
 
@@ -1444,12 +1511,14 @@ static void evaluate_sequences(void) {
 	msg = "fatal error";
     }
     fprintf(stderr, "llama_decode failed: %s\n", msg);
+
     for(int i = 0; i < array_length(sequences); ++i) {
       SEQUENCE *sequence = &sequences[i];
       if (sequence->state != INVALID) {
 	char buf[128];
 	int n = sprintf(buf, "error %s", msg);
 	send_message(sequence->client_fd, buf, n+1);
+	flush();
 	sequence->state = UNMODIFIED;
       }
     }
@@ -1625,9 +1694,77 @@ static void handle_client_requests(int listen_fd) {
 }
 
 int main(int argc, char **argv) {
-  // command line arguments: gpu_offload_threshold (in GB)
-  if (argc > 1) {
-    gpu_offload_threshold = 1000000000*atol(argv[1]);
+  // options:
+  // --gpu-offload-threshold (in GB; default: 0)
+  // --concurrent-sequences (default: 1)
+  // --min-ctx-size (default: 8192)
+  // --max-ctx-size (default: 32768)
+
+  // parse command line arguments and add a help option
+
+  for (int i = 1; i < argc; ++i) {
+    if (strcmp(argv[i], "--gpu-offload-threshold") == 0) {
+      if (i+1 < argc) {
+	gpu_offload_threshold = atol(argv[++i]);
+	gpu_offload_threshold *= 1024*1024*1024;
+      } else {
+	fprintf(stderr, "missing argument for --gpu-offload-threshold\n");
+	exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--concurrent-sequences") == 0) {
+      if (i+1 < argc) {
+	int n = atoi(argv[++i]);
+	if (n > 0) {
+	  maximum_sequences = n;
+	} else {
+	  fprintf(stderr, "invalid argument for --concurrent-sequences\n");
+	  exit(EXIT_FAILURE);
+	}
+      } else {
+	fprintf(stderr, "missing argument for --concurrent-sequences\n");
+	exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--min-ctx-size") == 0) {
+      if (i+1 < argc) {
+	int n = atoi(argv[++i]);
+	if (n > 0) {
+	  minimum_context_size = n;
+	} else {
+	  fprintf(stderr, "invalid argument for --min-ctx-size\n");
+	  exit(EXIT_FAILURE);
+	}
+      } else {
+	fprintf(stderr, "missing argument for --min-ctx-size\n");
+	exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--max_ctx_size") == 0) {
+      if (i+1 < argc) {
+	int n = atoi(argv[++i]);
+	if (n > 0) {
+	  maximum_context_size = n;
+	} else {
+	  fprintf(stderr, "invalid argument for --max-ctx-size\n");
+	  exit(EXIT_FAILURE);
+	}
+      } else {
+	fprintf(stderr, "missing argument for --max-ctx-size\n");
+	exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--help") == 0) {
+      fprintf(stderr,
+	"Usage: %s [options]\n"
+	"Options:\n"
+	"  --gpu-offload-threshold <size>  (in GB; default: 0)\n"
+	"  --concurrent-sequences <count>  (default: 1)\n"
+	"  --min-ctx-size <size>           (default: 8192)\n"
+	"  --max-ctx-size <size>           (default: 32768)\n"
+	"  --help                          (shows this help)\n",
+	argv[0]);
+      exit(EXIT_SUCCESS);
+    } else {
+      fprintf(stderr, "unknown option: %s\n", argv[i]);
+      exit(EXIT_FAILURE);
+    }
   }
   signal(SIGPIPE, SIG_IGN);
   initialize_llama();
@@ -1636,6 +1773,5 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Failed to start TCP server on port 7683\n");
     exit(EXIT_FAILURE);
   };
-  handle_client_requests(listen_fd);
   handle_client_requests(listen_fd);
 }
