@@ -1737,7 +1737,7 @@ int main(int argc, char **argv) {
 	fprintf(stderr, "missing argument for --min-ctx-size\n");
 	exit(EXIT_FAILURE);
       }
-    } else if (strcmp(argv[i], "--max_ctx_size") == 0) {
+    } else if (strcmp(argv[i], "--max-ctx-size") == 0) {
       if (i+1 < argc) {
 	int n = atoi(argv[++i]);
 	if (n > 0) {
