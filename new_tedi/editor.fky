@@ -104,18 +104,7 @@ $tedi_types::page/handle_key_press: (page io state key)
 	  $command commands(key)
 	  if
 	    command.is_defined:
-	      update_if command.is_a_string &command &command_string
-		-> functions(command .truncate_from. ' ') command
-	      if
-		command.is_defined:
-		  command $action $action_class
-		  case action_class
-		    DIALOG: handle_dialog action
-		    IO: handle_io action
-		    :
-		      change_text &state action action_class undefined
-		      -> io state
-		-> undefined undefined
+	      handle_command page io state command
 	    :
 	      log &io 2 "no command defined for @(key)"
 	      -> io state
@@ -129,6 +118,20 @@ $tedi_types::page/handle_key_press: (page io state key)
 	:
 	  push &state.pending_key_presses_of key
 	  -> io state
+
+$tedi::handle_command: (page io state command)
+  update_if command.is_a_string &command &command_string
+    -> functions(command .truncate_from. ' ') command
+  if
+    command.is_defined:
+      command $action $action_class
+      case action_class
+	DIALOG: handle_dialog action
+	IO: handle_io action
+	:
+	  change_text &state action action_class undefined
+	  -> io state
+    -> undefined undefined
 
   $handle_dialog: (action)
     $window_manager window_manager_of(state)
@@ -862,6 +865,10 @@ $tedi::functions
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
     "toggle_line_numbers" = tuple(toggle_line_numbers OTHER)
     "toggle_plain_text" = tuple(toggle_plain_text UPDATE_STATE)
+
+    # windows
+
+    "close_window" = tuple(close_window DIALOG)
 
     # help
 
@@ -3241,6 +3248,26 @@ $FILTER/job_failed: (_self io state err _context)
   debug::dump 2 `err
   -> io state
 
+$close_window: (state _x _y _lines _info)
+  $window_manager window_manager_of(state)
+  $page get_content(window_manager)
+  $info info_of(page)
+  if
+    version_of(info) != saved_version_of(info):
+      initialize_rendering template_screen_of(state):
+	yes_no_dialog &state.window_manager_of CLOSE "
+	  The file "@(filename_of(page))" has unsaved changes.
+
+	  Do you really want to close the window?
+	-> state
+    :
+      close &state.window_manager_of
+      -> state
+
+$CLOSE/yes: (_self io state)
+  close &state.window_manager_of
+  -> io state
+
 $show_help: (state _x _y _lines _info)
   $configuration configuration_of(state)
   $commands commands_of(configuration)
@@ -3849,6 +3876,9 @@ list $tedi::help_sections
       "ctrl-page-up" =
 	"
 	  goto previous window
+      "close_window" =
+	"
+	  close the current window (you will be asked whether to save changes)
   "Help" =
     list
       "show_help" =

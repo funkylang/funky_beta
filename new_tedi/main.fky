@@ -260,10 +260,9 @@ $tedi::main:
 		      move_window_up &window_manager
 		      !state.window_manager_of window_manager
 		      -> io state
-		    CTRL_W, CLOSE:
-		      close &window_manager context # window_id
-		      !state.window_manager_of window_manager
-		      -> io state
+		    CLOSE:
+		      $page get_content(window_manager)
+		      handle_command page io state "close_window"
 		    ABOUT:
 		      initialize_rendering template_screen_of(state):
 			create_dialog &window_manager undefined
@@ -287,7 +286,8 @@ $tedi::main:
 			  log &io "exiting"
 			  exit &io EXIT_SUCCESS
 			  -> io state
-			-> io state
+			:
+			  yes context io state
 		    :
 		      $page get_content(window_manager)
 		      if
@@ -408,6 +408,7 @@ $tedi::symbol_info undefined # read-only symbol information
 
 $tedi::job_completed ()
 $tedi::job_failed ()
+$tedi::yes ()
 
 $std_types::object/job_completed: (id _io _state data context)
   debug::dump `id
