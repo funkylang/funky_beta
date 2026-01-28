@@ -144,7 +144,11 @@ $tedi::main:
     MAP_CR
     MOUSE_REPORTING = CLICKS
 
-  # Main Loop
+  !light_colour_set.attributes_table_of light_attributes_table
+  !dark_colour_set.attributes_table_of dark_attributes_table
+  !blue_colour_set.attributes_table_of blue_attributes_table
+  !colour_sets list(light_colour_set dark_colour_set blue_colour_set)
+  !state.colour_sets_of colour_sets
 
   loop:
     get_events! &io $events
@@ -323,6 +327,7 @@ $tedi::main:
 	  set_status_line &state
 	  prepare_update &state.window_manager_of &state.terminal_of
 	    $update_ranges
+	  !current_colour_set colour_sets_of(state)(colour_set_index_of(state))
 	  map $updates update_ranges: (update_range)
 	    update_range $range $id $content
 	    tuple id prepare(content state range)
@@ -370,6 +375,8 @@ $tedi::text_window_id_of ()
 $tedi::clipboard_contents_of ()
 $tedi::global_info_of ()
 $tedi::symbol_info_of ()
+$tedi::colour_sets_of ()
+$tedi::colour_set_index_of ()
 
 $tedi::handle_key_press ()
 $tedi::handle_paste_string ()
@@ -377,6 +384,15 @@ $tedi::handle_mouse_click ()
 $tedi::handle_changed_focus ()
 $tedi::prepare ()
 $tedi::replace ()
+
+$tedi::text_colour_of ()
+$tedi::background_colour_of ()
+$tedi::attributes_table_of ()
+
+$tedi_types::colour_set std_types::object
+  .text_colour_of undefined
+  .background_colour_of undefined
+  .attributes_table_of empty_hash_table
 
 $tedi_types::basic_state std_types::object
   # all base methods are defined here; this allows "overwriting" of methods
@@ -394,7 +410,29 @@ $tedi_types::state tedi_types::basic_state
   .clipboard_contents_of undefined
   .global_info_of tedi_types::global_info
   .symbol_info_of tedi_types::symbol_info
+  .colour_set_index_of 1
+  .colour_sets_of undefined
 
+$colour_sets undefined
+
+$light_colour_set std_types::object
+  .text_colour_of BLACK
+  .background_colour_of WHITE
+  .attributes_table_of undefined
+
+$dark_colour_set std_types::object
+  .text_colour_of '@0xf0f0f0;'
+  .background_colour_of '@0x201010;'
+  .attributes_table_of undefined
+
+$blue_colour_set std_types::object
+  .text_colour_of WHITE
+  .background_colour_of BLUE
+  .attributes_table_of undefined
+
+$tedi::light_attributes_table empty_hash_table
+$tedi::dark_attributes_table empty_hash_table
+$tedi::blue_attributes_table empty_hash_table
 
 $tedi_types::global_info std_types::object
 
@@ -442,6 +480,8 @@ $tedi::SOFT_LINE_BREAKS .
 $tedi::LINE_NUMBERS .
 $tedi::PLAIN_TEXT .
 
+$tedi::current_colour_set undefined
+
 $TERMINAL/job_completed: (_id io state terminal _context)
   log &io 4 -> "initialized terminal"
   register_resource &io TERMINAL terminal
@@ -450,11 +490,16 @@ $TERMINAL/job_completed: (_id io state terminal _context)
   start_injecting_window_change_events &io
   $window_manager create_window_manager(terminal)
   set_menu &window_manager main_menu
+  !current_colour_set colour_sets_of(state)(colour_set_index_of(state))
   ->
     io
     state
       .terminal_of terminal
-      .template_screen_of create_screen(terminal 0 0)
+      .template_screen_of
+	create_screen
+	  terminal 0 0
+	  DRAW_COLOUR = text_colour_of(current_colour_set)
+	  CLEAR_COLOUR = background_colour_of(current_colour_set)
       .window_manager_of window_manager
 
 $LOAD_CONFIGURATION .
@@ -563,6 +608,7 @@ $tedi::create_or_update_page: (io state new_page info)
     create_new_window
 
   $create_new_window:
+    !current_colour_set colour_sets_of(state)(colour_set_index_of(state))
     $is_first_window get_id(window_manager_of(state)).is_undefined
     $buttons
       case
@@ -576,6 +622,7 @@ $tedi::create_or_update_page: (io state new_page info)
       SIZE = MINIMIZED
       BUTTONS = buttons
       DO_NOT_FOCUS = not(do_focus)
+      CLEAR_COLOUR = background_colour_of(current_colour_set)
     if
       line_no.is_defined:
 	goto_xy &new_page &state.window_manager_of window_id line_no column_no

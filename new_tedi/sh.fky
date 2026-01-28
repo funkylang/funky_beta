@@ -26,7 +26,107 @@
 
 <allow unused>
 
+$REMARK .
+$SINGLE_QUOTES .
+$DOUBLE_QUOTES .
+$BACKQUOTED_QUOTES .
+$VAR .
+$ENV_VAR .
+$VAR_EXPRESSION .
+$ENV_VAR_EXPRESSION .
+$EXPANSION . # after encountering "${"
+$VAR_EXPANSION . # after the variable name
+$ENV_EXPANSION . # after the variable name if it is an environment variable
+$ERR_EXPANSION . # after an invalid variable name
+$SYMBOL .
+$IDENTIFIER .
+$BUILTIN_COMMAND .
+$SHELL_COMMAND .
+$ERROR .
+$SUBSTITUION . # after encountering "$("
+$TEST . # after encountering "["
+$ARITHMETIC_EXPRESSION . # after encountering "$((
+$OLD_SUBSTITUTION . # after encountering "`"
+$EXPECT_BODY . # after encountering a function definition
+$EXPECT_END_OF_BODY . # after encountering "{"
+$EXPECT_DO .
+$EXPECT_DONE .
+$EXPECT_THEN .
+$EXPECT_FI .
+$EXPECT_IN .
+$EXPECT_ESAC .
+$EXPECT_IN_THEN_ESAC .
+
+$attributes_table undefined
+  #hash_table
+    NORMAL = tuple(NORMAL BLACK)
+    REMARK = tuple(ITALIC DARK_GREEN)
+    #OLD_SUBSTITUTION = tuple(NORMAL BLACK)
+    DOUBLE_QUOTES = tuple(ITALIC BLUE)
+    SINGLE_QUOTES = tuple(ITALIC DARK_CYAN)
+    EXPANSION = tuple(NORMAL RED)
+    #VAR_EXPANSION = tuple(NORMAL BLACK)
+    #ENV_EXPANSION = tuple(NORMAL BLACK)
+    ERR_EXPANSION = tuple(NORMAL RED)
+
 !context_help_functions(SH) sh_context_help
+
+!light_attributes_table(NORMAL) tuple(NORMAL BLACK)
+!light_attributes_table(REMARK) tuple(ITALIC DARK_GREEN)
+!light_attributes_table(DOUBLE_QUOTES) tuple(ITALIC BLUE)
+!light_attributes_table(SINGLE_QUOTES) tuple(ITALIC DARK_CYAN)
+!light_attributes_table(BACKQUOTED_QUOTES) tuple(BOLD|ITALIC RED)
+!light_attributes_table(VAR) tuple(NORMAL MAGENTA)
+!light_attributes_table(ENV_VAR) tuple(NORMAL ORANGE)
+!light_attributes_table(VAR_EXPRESSION) tuple(ITALIC MAGENTA)
+!light_attributes_table(ENV_VAR_EXPRESSION) tuple(ITALIC ORANGE)
+!light_attributes_table(EXPANSION) tuple(NORMAL RED)
+!light_attributes_table(VAR_EXPANSION) tuple(NORMAL BLACK)
+!light_attributes_table(ENV_EXPANSION) tuple(NORMAL BLACK)
+!light_attributes_table(ERR_EXPANSION) tuple(NORMAL RED)
+!light_attributes_table(SYMBOL) tuple(BOLD BLACK)
+!light_attributes_table(IDENTIFIER) tuple(BOLD DIMGREY)
+!light_attributes_table(BUILTIN_COMMAND) tuple(BOLD BLUEVIOLET)
+!light_attributes_table(SHELL_COMMAND) tuple(BOLD OLIVE)
+!light_attributes_table(ERROR) tuple(BOLD RED)
+
+!dark_attributes_table(NORMAL) tuple(NORMAL WHITE)
+!dark_attributes_table(REMARK) tuple(ITALIC GREEN)
+!dark_attributes_table(DOUBLE_QUOTES) tuple(ITALIC LIGHT_BLUE)
+!dark_attributes_table(SINGLE_QUOTES) tuple(ITALIC CYAN)
+!dark_attributes_table(BACKQUOTED_QUOTES) tuple(BOLD|ITALIC RED)
+!dark_attributes_table(VAR) tuple(NORMAL MAGENTA)
+!dark_attributes_table(ENV_VAR) tuple(NORMAL ORANGE)
+!dark_attributes_table(VAR_EXPRESSION) tuple(ITALIC MAGENTA)
+!dark_attributes_table(ENV_VAR_EXPRESSION) tuple(ITALIC ORANGE)
+!dark_attributes_table(EXPANSION) tuple(NORMAL RED)
+!dark_attributes_table(VAR_EXPANSION) tuple(NORMAL WHITE)
+!dark_attributes_table(ENV_EXPANSION) tuple(NORMAL WHITE)
+!dark_attributes_table(ERR_EXPANSION) tuple(NORMAL RED)
+!dark_attributes_table(SYMBOL) tuple(BOLD WHITE)
+!dark_attributes_table(IDENTIFIER) tuple(BOLD LIGHTGREY)
+!dark_attributes_table(BUILTIN_COMMAND) tuple(BOLD VIOLET)
+!dark_attributes_table(SHELL_COMMAND) tuple(BOLD OLIVE)
+!dark_attributes_table(ERROR) tuple(BOLD RED)
+
+!blue_attributes_table(NORMAL) tuple(NORMAL WHITE)
+!blue_attributes_table(REMARK) tuple(ITALIC GREEN)
+!blue_attributes_table(DOUBLE_QUOTES) tuple(ITALIC YELLOW)
+!blue_attributes_table(SINGLE_QUOTES) tuple(ITALIC CYAN)
+!blue_attributes_table(BACKQUOTED_QUOTES) tuple(BOLD|ITALIC RED)
+!blue_attributes_table(VAR) tuple(NORMAL MAGENTA)
+!blue_attributes_table(ENV_VAR) tuple(NORMAL ORANGE)
+!blue_attributes_table(VAR_EXPRESSION) tuple(ITALIC MAGENTA)
+!blue_attributes_table(ENV_VAR_EXPRESSION) tuple(ITALIC ORANGE)
+!blue_attributes_table(EXPANSION) tuple(NORMAL RED)
+!blue_attributes_table(VAR_EXPANSION) tuple(NORMAL WHITE)
+!blue_attributes_table(ENV_EXPANSION) tuple(NORMAL WHITE)
+!blue_attributes_table(ERR_EXPANSION) tuple(NORMAL RED)
+!blue_attributes_table(SYMBOL) tuple(BOLD WHITE)
+!blue_attributes_table(IDENTIFIER) tuple(BOLD LIGHTGREY)
+!blue_attributes_table(BUILTIN_COMMAND) tuple(BOLD VIOLET)
+!blue_attributes_table(SHELL_COMMAND) tuple(BOLD OLIVE)
+!blue_attributes_table(ERROR) tuple(BOLD RED)
 
 $is_a_builtin_command
   hash_set
@@ -411,40 +511,8 @@ $get_identifier_at_xy: (x y lines)
 			-> range(text start end)
 	    -> undefined
 
-$REMARK .
-$SINGLE_QUOTES .
-$DOUBLE_QUOTES .
-$EXPANSION . # after encountering "${"
-$VAR_EXPANSION . # after the variable name
-$ENV_EXPANSION . # after the variable name if it is an environment variable
-$ERR_EXPANSION . # after an invalid variable name
-$SUBSTITUION . # after encountering "$("
-$TEST . # after encountering "["
-$ARITHMETIC_EXPRESSION . # after encountering "$((
-$OLD_SUBSTITUTION . # after encountering "`"
-$EXPECT_BODY . # after encountering a function definition
-$EXPECT_END_OF_BODY . # after encountering "{"
-$EXPECT_DO .
-$EXPECT_DONE .
-$EXPECT_THEN .
-$EXPECT_FI .
-$EXPECT_IN .
-$EXPECT_ESAC .
-$EXPECT_IN_THEN_ESAC .
-
-$attributes_table
-  hash_table
-    NORMAL = tuple(NORMAL BLACK)
-    REMARK = tuple(ITALIC DARK_GREEN)
-    #OLD_SUBSTITUTION = tuple(NORMAL BLACK)
-    DOUBLE_QUOTES = tuple(ITALIC BLUE)
-    SINGLE_QUOTES = tuple(ITALIC DARK_CYAN)
-    EXPANSION = tuple(NORMAL RED)
-    #VAR_EXPANSION = tuple(NORMAL BLACK)
-    #ENV_EXPANSION = tuple(NORMAL BLACK)
-    ERR_EXPANSION = tuple(NORMAL RED)
-
-$tedi::create_sh_line: (state template_screen lines line_no)
+$create_sh_line: (state template_screen lines line_no)
+  !attributes_table attributes_table_of(current_colour_set)
   $stack stack_of(state)
   $functions functions_of(state)
   $functions_string functions_string_of(state)
@@ -509,7 +577,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	    pos.is_defined: # within a backquoted expression
 	      case mode
 		DOUBLE_QUOTES, SINGLE_QUOTES:
-		  draw BOLD|ITALIC RED update_stack
+		  draw2 BACKQUOTED_QUOTES update_stack
 		:
 		  check_for_symbol update_stack
 
@@ -520,7 +588,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  !quoting_level
 		    count(stack: (m) -> m == DOUBLE_QUOTES || m == OLD_SUBSTITUTION)
 		  inc &i
-		  draw BOLD BLACK next
+		  draw2 SYMBOL next
 	    check_whether_within_string_or_remark
 	-> true check_whether_within_string_or_remark
 
@@ -551,16 +619,16 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    i <= n && text(i) == '=':
 		      if
 			name.is_in_environment:
-			  draw NORMAL ORANGE handle_assignment
+			  draw2 ENV_VAR handle_assignment
 			:
 			  !variables(name) line_no
 			  append &variables_string "|" name
-			  draw NORMAL MAGENTA handle_assignment
+			  draw2 VAR handle_assignment
 
 		      $handle_assignment:
 			!symbol undefined
 			inc &i
-			draw BOLD BLACK next
+			draw2 SYMBOL next
 		    :
 		      if
 			followed_by('('):
@@ -572,9 +640,9 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 			      !symbol undefined
 			      append &functions_string "|" name
 			      push &stack EXPECT_BODY
-			      draw BOLD BLACK next
+			      draw2 SYMBOL next
 			    :
-			      draw BOLD RED next
+			      draw2 ERROR next
 			:
 			  handle_identifier name next
 	      :
@@ -608,11 +676,11 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		      draw:
 			!identifier undefined
 			!i curr_i
-			draw BOLD DIMGREY next
+			draw2 IDENTIFIER next
 
 		    $draw_error:
 		      !identifier undefined
-		      draw BOLD RED next
+		      draw2 ERROR next
 		  :
 		    if
 		      symbol.is_defined:
@@ -627,7 +695,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	      :
 		if
 		  symbol.is_defined && mode == EXPANSION:
-		    draw BOLD|ITALIC RED:
+		    draw2 BACKQUOTED_QUOTES:
 		      !symbol undefined
 		      inc &i
 		      next
@@ -663,7 +731,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	    case mode
 	      "()":
 		inc &i
-		draw BOLD RED next
+		draw2 ERROR next
 	      :
 		draw:
 		  inc &i
@@ -674,7 +742,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	    case mode
 	      "()":
 		inc &i
-		draw BOLD RED next
+		draw2 ERROR next
 	      :
 		draw:
 		  inc &i
@@ -683,7 +751,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	  '`':
 	    draw:
 	      inc &i
-	      draw BOLD BLACK:
+	      draw2 SYMBOL:
 		push &stack OLD_SUBSTITUTION
 		inc &level
 		inc &quoting_level
@@ -705,21 +773,21 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 			      $name range(text s i-1)
 			      if
 				name.is_in_environment:
-				  draw NORMAL ORANGE:
+				  draw2 ENV_EXPANSION:
 				    push &stack ENV_EXPANSION
 				    next
 				:
-				  draw NORMAL MAGENTA:
+				  draw2 VAR_EXPANSION:
 				    push &stack VAR_EXPANSION
 				    next
 			    :
 			      !symbol undefined
 			      plus &i 2
-			      draw BOLD RED next
+			      draw2 ERROR next
 			:
 			  !symbol undefined
 			  plus &i 2
-			  draw BOLD RED next
+			  draw2 ERROR next
 		  '0'..'9', '*', '@@', '#', '?', '-', '$', '!':
 		    draw:
 		      plus &i 2
@@ -731,25 +799,25 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		      $name range(text s+1 i-1)
 		      cond
 			-> name.is_in_environment:
-			  draw ITALIC ORANGE next
+			  draw2 ENV_VAR_EXPRESSION next
 			-> variables(name).is_defined:
-			  draw ITALIC MAGENTA next
+			  draw2 VAR_EXPRESSION next
 			-> name == "REPLY":
 			  draw ITALIC DARKSALMON next
 			-> true:
-			  draw BOLD|ITALIC RED next
+			  draw2 BACKQUOTED_QUOTES next
 		  '(':
 		    !symbol undefined
 		    draw:
 		      if
 			i+2 <= n && text(i+2) == '(':
 			  plus &i 3
-			  draw BOLD BLACK:
+			  draw2 SYMBOL:
 			    push &stack ARITHMETIC_EXPRESSION
 			    next
 			:
 			  plus &i 2
-			  draw BOLD BLACK:
+			  draw2 SYMBOL:
 			    push &stack SUBSTITUION
 			    inc &level
 			    !symbol ""
@@ -777,7 +845,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  range &stack 1 -2
 		  dec &level
 		  inc &i
-		  draw BOLD BLACK next
+		  draw2 SYMBOL next
 	      :
 		check_for_symbol:
 		  if
@@ -789,7 +857,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		      draw:
 			range &stack 1 -2
 			plus &i 2
-			draw BOLD BLACK next
+			draw2 SYMBOL next
 		    :
 		      inc &i
 		      next
@@ -802,7 +870,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		draw:
 		  push &stack TEST
 		  inc &i
-		  draw BOLD BLACK next
+		  draw2 SYMBOL next
 	      :
 		inc &i
 		next
@@ -817,18 +885,18 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    range &stack 1 -2
 		    draw:
 		      inc &i
-		      draw BOLD BLACK next
+		      draw2 SYMBOL next
 		  :
 		    if
 		      stack .contains. TEST:
 			unwind_stack !stack TEST
-			draw BOLD RED:
+			draw2 ERROR:
 			  inc &i
-			  draw BOLD BLACK next
+			  draw2 SYMBOL next
 		      :
 			draw:
 			  inc &i
-			  draw BOLD RED next
+			  draw2 ERROR next
 	      :
 		inc &i
 		next
@@ -839,7 +907,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  range &stack 1 -2
 		  push &stack EXPECT_END_OF_BODY
 		  inc &i
-		  draw BOLD BLACK next
+		  draw2 SYMBOL next
 	      :
 		inc &i
 		next
@@ -849,7 +917,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		draw:
 		  range &stack 1 -2
 		  inc &i
-		  draw BOLD BLACK next
+		  draw2 SYMBOL next
 	      EXPANSION:
 		inc &i
 		if
@@ -870,20 +938,20 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		draw:
 		  range &stack 1 -2
 		  inc &i
-		  draw ITALIC MAGENTA next
+		  draw2 VAR next
 	      ENV_EXPANSION:
 		draw:
 		  range &stack 1 -2
 		  inc &i
-		  draw ITALIC ORANGE next
+		  draw2 ENV_VAR next
 	      ERR_EXPANSION:
 		range &stack 1 -2
 		inc &i
-		draw BOLD|ITALIC RED next
+		draw2 BACKQUOTED_QUOTES next
 	      :
 		draw:
 		  inc &i
-		  draw BOLD RED next
+		  draw2 ERROR next
 	  '&', '|', ';':
 	    check_for_symbol:
 	      draw:
@@ -896,7 +964,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	      i == n || (mode == OLD_SUBSTITUTION && text(i+1) == '`'):
 		draw:
 		  inc &i
-		  draw BOLD RED next
+		  draw2 ERROR next
 	      :
 		if
 		  symbol.is_defined:
@@ -938,9 +1006,9 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	  append &functions_string "|" symbol
 	  !symbol undefined
 	  inc &i
-	  draw BOLD BLACK next
+	  draw2 SYMBOL next
 	:
-	  draw BOLD RED:
+	  draw2 ERROR:
 	    !symbol undefined
 	    next
 
@@ -1126,11 +1194,11 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    $var range(text s i-1)
 		    if
 		      var.is_in_environment:
-			draw NORMAL ORANGE continuation
+			draw2 ENV_VAR continuation
 		      :
 			!variables(var) line_no
 			append &variables_string "|" var
-			draw NORMAL MAGENTA:
+			draw2 VAR:
 			  continuation
 		continuation
       "select":
@@ -1149,11 +1217,11 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    $var range(text s i-1)
 		    if
 		      var.is_in_environment:
-			draw NORMAL ORANGE continuation
+			draw2 ENV_VAR continuation
 		      :
 			!variables(var) line_no
 			append &variables_string "|" var
-			draw NORMAL MAGENTA:
+			draw2 VAR:
 			  continuation
 		continuation
       "case":
@@ -1191,12 +1259,11 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    $var range(text s i-1)
 		    if
 		      var.is_in_environment:
-			draw NORMAL ORANGE continuation
+			draw2 ENV_VAR continuation
 		      :
 			!variables(var) line_no
 			append &variables_string "|" var
-			draw NORMAL MAGENTA:
-			  continuation
+			draw2 VAR continuation
 		continuation
       :
 	!symbol name
@@ -1209,12 +1276,12 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	!identifier undefined
 	!symbol undefined
 	!i curr_i
-	draw BOLD DIMGREY cont
+	draw2 IDENTIFIER cont
 
     $draw_error:
       !identifier undefined
       !symbol undefined
-      draw BOLD RED continuation
+      draw2 ERROR continuation
 
   #
       :
@@ -1230,7 +1297,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	  debug::println "
 	    dropped compound "@(identifier)"
 	  !identifier undefined
-	  draw BOLD RED continuation
+	  draw2 ERROR continuation
 
   $unwind_stack: (mode)
     $idx length_of(stack)
@@ -1249,29 +1316,33 @@ $tedi::create_sh_line: (state template_screen lines line_no)
   $check_for_symbol: (continuation)
     if
       symbol.is_defined && symbol != "":
-	if $text_attributes $draw_colour
+	if $attributes
 	  functions(symbol).is_defined
-	  -> BOLD BLACK
+	  -> SYMBOL
 	  :
 	    if
 	      is_a_builtin_command(symbol)
-	      -> BOLD BLUEVIOLET
+	      -> BUILTIN_COMMAND
 	      :
 		if
 		  shell_commands(symbol)
-		  -> BOLD OLIVE
-		  -> BOLD RED
+		  -> SHELL_COMMAND
+		  -> ERROR
 	draw_symbol
 
 	$draw_symbol:
 	  !symbol undefined
-	  draw text_attributes draw_colour continuation
-
-	$draw_error:
-	  !symbol undefined
-	  draw BOLD RED continuation
+	  draw2 attributes continuation
 
       continuation
+
+  $draw2:
+    (
+      attributes
+      continuation
+    )
+    !attributes attributes_table(attributes)
+    draw first(attributes) second(attributes) continuation
 
   $draw:
     (

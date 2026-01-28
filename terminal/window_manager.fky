@@ -189,6 +189,7 @@ $proto_window std_types::object
   .cursor_x_of undefined
   .cursor_y_of undefined
   .clear_colour_of undefined
+  .draw_colour_of undefined # needed to define the cursor colour
   .title_of undefined
   .content_of undefined
   .content_width_of undefined
@@ -239,6 +240,7 @@ $std_types::window_manager/create_window:
     TITLE = "<untitled>" $title
     CONTENT = undefined $content
     CLEAR_COLOUR = WHITE $clear_colour
+    DRAW_COLOUR = BLACK $draw_colour
     HORIZONTAL_SCROLLBAR = true $horizontal_scrollbar
     VERTICAL_SCROLLBAR = true $vertical_scrollbar
     BUTTONS = empty_list $additional_buttons
@@ -261,6 +263,7 @@ $std_types::window_manager/create_window:
       .cursor_y_of if(use_cursor (-> cursor_y) (-> undefined))
       .title_of title
       .clear_colour_of clear_colour
+      .draw_colour_of draw_colour
       .content_of content
       .additional_buttons_of additional_buttons
       .has_a_horizontal_scrollbar horizontal_scrollbar
@@ -294,6 +297,23 @@ $std_types::window_manager/create_window:
     rc == 2
     -> wm window_id
     -> wm
+
+$std_types::window_manager/set_clear_colour:
+  (
+    wm
+    id = undefined
+    colour
+  )
+  update_if id.is_undefined &id -> focused_of(wm)
+  $windows windows_of(wm)
+  $index find_index(windows id)
+  if
+    index.is_defined:
+      !windows(index).clear_colour_of colour
+      !wm.windows_of windows
+      -> wm
+    -> wm
+
 
 $update_window_sizes: (wm)
   $windows windows_of(wm)
@@ -589,6 +609,7 @@ $std_types::window_manager/update:
 		  inc &y # skip title bar
 		  $view create_view(terminal x y x+width-1 y+height-1)
 		  set_clear_colour &view clear_colour_of(window)
+		  set_draw_colour &view draw_colour_of(window)
 		  clear view &terminal
 		  if
 		    content.is_a_screen:

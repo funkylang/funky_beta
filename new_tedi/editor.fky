@@ -81,6 +81,7 @@ $tedi::create_page_from_text: (lines state filename)
       behind(filename '.' -1)
       "c", "cc", "cpp", "h" -> C
       -> kind_of(tedi_types::page)
+  !current_colour_set colour_sets_of(state)(colour_set_index_of(state))
   prepare
     tedi_types::page
       .lines_of lines
@@ -250,6 +251,7 @@ $update_text:
     new_info
     action_class
   )
+  !current_colour_set colour_sets_of(state)(colour_set_index_of(state))
   update_if error_message_of(new_info).is_defined &state:
     show_error_message state EDIT error_message_of(new_info)
   $window_manager window_manager_of(state)
@@ -858,7 +860,7 @@ $tedi::functions
 
     # view
 
-    "change_colour_set" = tuple(change_colour_set OTHER)
+    "change_colour_set" = tuple(change_colour_set UPDATE_STATE)
     "toggle_right_margin_display" = tuple(toggle_right_margin_display OTHER)
     "toggle_cursor_line_highlighting" =
       tuple(toggle_cursor_line_highlighting OTHER)
@@ -2044,6 +2046,7 @@ $find_text_dialog: (state _x _y _lines _info)
     -> state
     :
       $window_manager window_manager_of(state)
+      $colour_set colour_sets_of(state)(colour_set_index_of(state))
       $id get_id(window_manager)
       $commands commands_of(configuration_of(state))
       !commands(RETURN) tuple(start_forwards_search DIALOG)
@@ -2066,6 +2069,8 @@ $find_text_dialog: (state _x _y _lines _info)
 	USE_CURSOR
 	SIZE = 1
 	CURSOR_Y = len+1
+	CLEAR_COLOUR = background_colour_of(colour_set)
+	DRAW_COLOUR = text_colour_of(colour_set)
 	PARENT_ID = id
 	MODAL
       state
@@ -2452,6 +2457,7 @@ $go_to_line_dialog: (state _x _y _lines _info)
     -> state
     :
       $window_manager window_manager_of(state)
+      $colour_set colour_sets_of(state)(colour_set_index_of(state))
       $page get_content(window_manager_of(state))
       $info info_of(page)
       $id get_id(window_manager)
@@ -2472,6 +2478,8 @@ $go_to_line_dialog: (state _x _y _lines _info)
 	USE_CURSOR
 	SIZE = 1
 	CURSOR_Y = len+1
+	CLEAR_COLOUR = background_colour_of(colour_set)
+	DRAW_COLOUR = text_colour_of(colour_set)
 	PARENT_ID = id
 	MODAL
       state
@@ -2991,8 +2999,28 @@ $reload: (io state _x _y _lines _info)
   push &state.files_to_load_of filename
   load_files io state
 
-$change_colour_set: (x y _lines info)
-  -> undefined undefined x y info
+$change_colour_set: (state x y _lines info)
+  $idx colour_set_index_of(state)+1
+  update_if idx > length_of(colour_sets_of(state)) &idx -> 1
+  !state.colour_set_index_of idx
+  $colour_set colour_sets_of(state)(idx)
+  $template_screen template_screen_of(state)
+  $background_colour background_colour_of(colour_set)
+  $text_colour text_colour_of(colour_set)
+  set_draw_colour &template_screen text_colour
+  set_clear_colour &template_screen background_colour
+  !state.template_screen_of template_screen
+  $window_manager window_manager_of(state)
+  for_each window_manager
+    : (id content)
+      !content.template_screen_of template_screen
+      !content.screens_of empty_list
+      set_content &window_manager id content
+      set_clear_colour &window_manager id background_colour
+      next
+    :
+      !state.window_manager_of window_manager
+      -> state undefined undefined x y info
 
 $tedi::toggle_right_margin_display: (x y _lines info)
   if
@@ -3375,6 +3403,7 @@ $tedi::prepare_tedi_page: (page state line_range)
 	  first.is_defined
 	  -> first+length_of(screens)-1
 	  -> undefined
+      !current_colour_set colour_sets_of(state)(colour_set_index_of(state))
       if
 	first.is_undefined || from > last || to < first:
 	  # recreate all
@@ -3463,6 +3492,8 @@ $create_screens: (page first last)
   $std_types::undefined/create_screen_for_line: (_self) -> empty_line
 
   $tedi_types::line/create_screen_for_line: (line)
+    set_draw_colour &template_screen text_colour_of(current_colour_set)
+    set_clear_colour &template_screen background_colour_of(current_colour_set)
     case kind_of(page)
       FIND_TEXT:
 	$text text_of(line)
@@ -3475,7 +3506,7 @@ $create_screens: (page first last)
 	    if
 	      after_escape:
 		!after_escape false
-		set_draw_colour &screen BLACK
+		set_draw_colour &screen text_colour_of(current_colour_set)
 		draw_a_character
 	      :
 		case chr
@@ -3484,7 +3515,7 @@ $create_screens: (page first last)
 		    set_draw_colour &screen RED
 		    draw_a_character
 		  :
-		    set_draw_colour &screen BLACK
+		    set_draw_colour &screen text_colour_of(current_colour_set)
 		    draw_a_character
 
 	    $draw_a_character:
@@ -3879,6 +3910,9 @@ list $tedi::help_sections
       "close_window" =
 	"
 	  close the current window (you will be asked whether to save changes)
+      "change_colour_set" =
+	"
+	  change the colour set used to display text
   "Help" =
     list
       "show_help" =
