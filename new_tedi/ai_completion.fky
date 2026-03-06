@@ -444,7 +444,11 @@ $evaluate_text_lines: (io state)
 	    $add_missing_tokens:
 	      !sequence.tokens_of tokens
 	      range &tokens n+1 -1
-	      evaluate_tokens
+	      if
+		tokens.is_empty
+		:
+		  current_action_completed io state
+		evaluate_tokens
 
 	$evaluate_tokens:
 	  !page.sequence_of sequence
