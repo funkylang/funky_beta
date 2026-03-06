@@ -870,7 +870,7 @@ $tedi::functions
 
     # windows
 
-    "close_window" = tuple(close_window DIALOG)
+    "close_window" = tuple(close_window IO)
 
     # help
 
@@ -3276,7 +3276,7 @@ $FILTER/job_failed: (_self io state err _context)
   debug::dump 2 `err
   -> io state
 
-$close_window: (state _x _y _lines _info)
+$close_window: (io state _x _y _lines _info)
   $window_manager window_manager_of(state)
   $page get_content(window_manager)
   $info info_of(page)
@@ -3287,12 +3287,14 @@ $close_window: (state _x _y _lines _info)
 	  The file "@(filename_of(page))" has unsaved changes.
 
 	  Do you really want to close the window?
-	-> state
+	-> io state
     :
+      close_sequence &io state
       close &state.window_manager_of
-      -> state
+      -> io state
 
 $CLOSE/yes: (_self io state)
+  close_sequence &io state
   close &state.window_manager_of
   -> io state
 

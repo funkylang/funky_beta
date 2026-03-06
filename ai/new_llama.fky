@@ -444,6 +444,12 @@ $hex_to_value: (hex_digit)
     -> hex_digit-'a'+10
     -> hex_digit-'0'
 
+$llama::create_session ()
+
+$std_types::io/create_session: (io model)
+  $fd fd_of(model)
+  write io fd "create_session@0;"
+
 $llama::tokenize ()
 
 $llama_types::model/tokenize: (model prompt)

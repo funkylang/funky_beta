@@ -151,6 +151,15 @@ $open_ai_model: (io state)
   open_model &io OPEN_MODEL ai_model_name_of(configuration)
   -> io state
 
+$tedi::close_sequence: (io state) # this should be an optional callback
+  $window_manager window_manager_of(state)
+  $page get_content(window_manager)
+  $sequence sequence_of(page)
+  if
+    sequence.is_defined:
+      delete_sequence io ai_model_of(state) id_of(sequence)
+    -> io
+
 $OPEN_MODEL/job_failed: (_id io state _data _context)
   $configuration configuration_of(state)
   $model_name ai_model_name_of(configuration)
@@ -356,6 +365,7 @@ $evaluate_text_lines: (io state)
   $sequence sequence_of(page)
   if
     sequence.is_undefined:
+      create_session &io ai_model
       create_sequence &io ai_model window_id
       !sequence
 	proto_sequence
