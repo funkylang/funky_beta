@@ -172,7 +172,7 @@ $tedi_types::page/handle_paste_string: (page io state text)
   $window_manager window_manager_of(state)
   get_xy page window_manager $x $y
   $info info_of(page)
-  $insertions map(split_into_lines(text): (line) -> tedi_line(trim_right(line)))
+  $insertions map(split_into_lines(text): (line) -> tedi_line(line))
   update_text
     &state
     y .. y-1
@@ -3267,10 +3267,36 @@ $FILTER/job_completed: (_self io state data _context)
   $page get_content(window_manager)
   get_xy page window_manager $cursor_x $cursor_y
   $info info_of(page)
+  $sel_x selection_x_of(info)
   $sel_y selection_y_of(info)
-  min_max $y $end_y cursor_y sel_y
-  update_text &state y .. end_y-1 inserted cursor_x cursor_y info OTHER
-  -> io state
+  !info
+    .selection_x_of undefined
+    .selection_y_of undefined
+  if
+    cursor_y == sel_y: # inline selection
+      $start_x sel_x
+      $end_x cursor_x
+      min_max &start_x &end_x
+      $lines lines_of(page)
+      $line lines(cursor_y)
+      $line_text
+	if
+	  line.is_undefined
+	  -> ""
+	  -> append(spaces(indent_of(line)) text_of(line))
+      $start_pos get_position(line_text start_x)
+      $end_pos get_position(line_text end_x)
+      $prefix range(line_text 1 start_pos-1)
+      $suffix range(line_text end_pos -1)
+      !inserted(1) tedi_line(append(prefix text_of(inserted(1))))
+      !inserted(-1) tedi_line(append(text_of(inserted(-1)) suffix))
+      update_text &state
+	cursor_y .. cursor_y inserted cursor_x cursor_y info OTHER
+      -> io state
+    :
+      min_max $y $end_y cursor_y sel_y
+      update_text &state y .. end_y-1 inserted cursor_x cursor_y info OTHER
+      -> io state
 
 $FILTER/job_failed: (_self io state err _context)
   debug::dump 2 `err
