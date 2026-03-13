@@ -1263,8 +1263,8 @@ static void handle_evaluate(int fd, char *sequence_id) {
       send_message(fd, "error sequence not found", 25);
       return;
     }
-    int sequence_id = sequences[sequence_idx].sequence_id;
     SEQUENCE *sequence = &sequences[sequence_idx];
+    int sequence_id = sequence->sequence_id;
     if (sequence->state == MODIFIED) {
       int n = array_length(sequence->tokens);
       if (sequence->has_lookahead) {
@@ -1536,6 +1536,7 @@ static void evaluate_sequences(void) {
 	if (sequence->positions[k] < 0) {
 	  if (k < sequence->evaluation_position) {
 	    sequence->evaluation_position = k;
+	    change_session(sequence->client_fd, sequence->session_id);
 	    fprintf(stderr,
 	      "llama_memory_seq_rm(current_memory, %d, %d, -1)\n",
 	      sequence->sequence_id, k);

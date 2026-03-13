@@ -129,6 +129,24 @@ $tedi::handle_command: (page io state command)
       case action_class
 	DIALOG: handle_dialog action
 	IO: handle_io action
+	UPDATE_IO_AND_STATE:
+	  $window_manager window_manager_of(state)
+	  $lines lines_of(page)
+	  $info info_of(page)
+	  !selection_x selection_x_of(info)
+	  !selection_y selection_y_of(info)
+	  get_xy page window_manager undefined $x $y
+	  !info
+	    .selection_x_of undefined
+	    .selection_y_of undefined
+	    .do_keep_completions_of false
+	    .error_message_of undefined
+	  action &io &state $line_no $inserted $new_x $new_y $new_info
+	    x y lines info
+	  update_text
+	    &state undefined
+	    line_no inserted new_x new_y new_info action_class
+	  -> io state
 	:
 	  change_text &state action action_class undefined
 	  -> io state
@@ -768,6 +786,7 @@ $split_text_into_two: (text max_width)
 $tedi::MOVEMENT .
 $USE_STATE .
 $tedi::UPDATE_STATE .
+$UPDATE_IO_AND_STATE .
 $SELECTION .
 $DELETION .
 $tedi::INSERTION .
@@ -841,7 +860,7 @@ $tedi::functions
 
     # control commands
 
-    "copy" = tuple(copy UPDATE_STATE)
+    "copy" = tuple(copy IO)
     "define_mark" = tuple(define_mark OTHER)
     "find_text_dialog" = tuple(find_text_dialog DIALOG)
     "go_to_line_dialog" = tuple(go_to_line_dialog DIALOG)
@@ -850,8 +869,8 @@ $tedi::functions
     "delete_line" = tuple(delete_line DELETION)
     "find_next" = tuple(find_next UPDATE_STATE)
     "find_previous" = tuple(find_previous UPDATE_STATE)
-    "paste" = tuple(paste USE_STATE)
-    "cut" = tuple(cut UPDATE_STATE)
+    "paste" = tuple(paste UPDATE_IO_AND_STATE)
+    "cut" = tuple(cut UPDATE_IO_AND_STATE)
 
     # history operations
 
@@ -1899,24 +1918,20 @@ $fold_everything: (x y _lines info)
 $unfold_everything: (x y _lines info)
   -> undefined undefined x y info
 
-$copy: (state x y lines info)
-  ->
-    if
-      selection_x.is_defined
-      -> state(.clipboard_contents_of get_selection(x y lines info))
-      -> state
-    undefined
-    undefined
-    x
-    y
-    info
+$copy: (io state x y lines info)
+  !selection_x selection_x_of(info)
+  !selection_y selection_y_of(info)
+  if
+    selection_x.is_defined:
+      extract_selection io state x y lines info
+    -> io state
 
-$cut: (state x y lines info)
+$cut: (io state x y lines info)
   if
     selection_x.is_undefined
-    -> state undefined undefined x y info
+    -> io state undefined undefined x y info
     :
-      !state.clipboard_contents_of get_selection(x y lines info)
+      extract_selection &io &state x y lines info
       if
 	y == selection_y: # inline selection
 	  $line lines(y)
@@ -1943,8 +1958,9 @@ $cut: (state x y lines info)
 	      !text append(range(text 1 start_pos-1) range(text end_pos -1))
 	      if
 		text.is_empty
-		-> state y undefined start_x y info
+		-> io state y undefined start_x y info
 		->
+		  io
 		  state
 		  y
 		  tedi_line(min(start_x-1 indent) text)
@@ -1956,12 +1972,39 @@ $cut: (state x y lines info)
 	  $end_y y
 	  min_max &start_y &end_y
 	  ->
+	    io
 	    state
 	    start_y .. min(end_y-1 length_of(lines))
 	    undefined
 	    x
 	    start_y
 	    info
+
+$extract_selection: (io state x y lines info)
+  $selection get_selection(x y lines info)
+  if
+    use_xsel_of(configuration_of(state)):
+      !selection
+	if
+	  selection.is_a_list
+	  -> lines_to_text(selection)
+	  -> selection.to_utf8
+      call_with_input &io XSEL_COPY selection "xsel" list("-bi")
+      -> io state
+    :
+      !state.clipboard_contents_of selection
+      -> io state
+
+$XSEL_COPY .
+
+$XSEL_COPY/job_completed: (_self io state _data _context)
+  -> io state
+
+$XSEL_COPY/job_failed: (_self io state data _context)
+  data $_ret $_out $err
+  log &io err
+  show_error_message &state XSEL_COPY err
+  -> io state
 
 $get_selection: (x y lines _info)
   if
@@ -2011,31 +2054,77 @@ $get_selection: (x y lines _info)
 	range(lines min(start_y n+1) min(end_y-1 n))
 	dup(list(undefined) max(end_y-max(start_y n+1) 0))
 
-$paste: (state x y lines info)
-  $clipboard_contents clipboard_contents_of(state)
+$paste: (io state x y lines info)
   if
-    clipboard_contents.is_undefined
-    -> undefined undefined x y info
+    use_xsel_of(configuration_of(state)):
+      call &io XSEL_PASTE "xsel" list("-bo")
+      -> io state undefined undefined x y info
     :
+      $clipboard_contents clipboard_contents_of(state)
       if
-	clipboard_contents.is_a_string:
-	  insert x y lines info clipboard_contents
+	clipboard_contents.is_undefined
+	-> io state undefined undefined x y info
 	:
-	  $n length_of(lines)
 	  if
-	    y <= n
-	    ->
-	      y .. y-1
-	      clipboard_contents
-	      x
-	      y+length_of(clipboard_contents)
-	      info
-	    ->
-	      n+1 .. n
-	      append(dup(list(undefined) y-n-1) clipboard_contents)
-	      x
-	      y+length_of(clipboard_contents)
-	      info
+	    clipboard_contents.is_a_string:
+	      insert $line_no $inserted &x &y lines &info clipboard_contents
+	      -> io state line_no inserted x y info
+	    :
+	      paste_multiple_lines io state x y lines info clipboard_contents
+
+$paste_multiple_lines: (io state x y lines info clipboard_contents)
+  $n length_of(lines)
+  if
+    y <= n
+    ->
+      io
+      state
+      y .. y-1
+      clipboard_contents
+      x
+      y+length_of(clipboard_contents)
+      info
+    ->
+      io
+      state
+      n+1 .. n
+      append(dup(list(undefined) y-n-1) clipboard_contents)
+      x
+      y+length_of(clipboard_contents)
+      info
+
+$XSEL_PASTE .
+
+$XSEL_PASTE/job_completed: (_self io state data _context)
+  data $clipboard_contents $_err
+  from_utf8 &clipboard_contents
+  $window_manager window_manager_of(state)
+  $page get_content(window_manager)
+  $lines lines_of(page)
+  $info info_of(page)
+  get_xy page window_manager $x $y
+  if
+    clipboard_contents .contains. '@nl;':
+      split_into_indented_lines &clipboard_contents false tedi_types::line
+      debug::dump `clipboard_contents
+      paste_multiple_lines &io &state $line_no $inserted &x &y lines &info
+	clipboard_contents
+      update_text
+	&state undefined
+	line_no inserted x y info UPDATE_IO_AND_STATE
+      -> io state
+    :
+      insert $line_no $inserted &x &y lines &info clipboard_contents
+      update_text
+	&state undefined
+	line_no inserted x y info UPDATE_IO_AND_STATE
+      -> io state
+
+$XSEL_PASTE/job_failed: (_self io state data _context)
+  data $_ret $_out $err
+  log &io err
+  show_error_message &state XSEL_PASTE err
+  -> io state
 
 $define_mark: (x y _lines info)
   -> undefined undefined x y info

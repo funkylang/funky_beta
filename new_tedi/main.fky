@@ -134,6 +134,7 @@ $tedi::main:
     #"ai-log-file" = ai_server_log_file_of
     #"start-ai-server" = do_start_ai_server_of
     "enable-developer-mode" = do_enable_developer_mode_of
+    "use-xsel" = use_xsel_of
     name_to_key = commands_of
 
   initialize_plugins &io
@@ -505,14 +506,19 @@ $TERMINAL/job_completed: (_id io state terminal _context)
 $LOAD_CONFIGURATION .
 
 $LOAD_CONFIGURATION/job_completed: (_id io state data _context)
-  data $configuration $_errors
-  !state.configuration_of configuration
-  log &io 4 -> "successfully loaded configuration"
-  if
-    files_to_load_of(state).is_empty
-    -> io state
+  data $configuration $errors
+  for_each errors
+    : (error)
+      log &io 2 error
+      next
     :
-      load_files io state
+      !state.configuration_of configuration
+      log &io 4 -> "successfully loaded configuration"
+      if
+	files_to_load_of(state).is_empty
+	-> io state
+	:
+	  load_files io state
 
 $tedi::on_load_callback undefined
 
@@ -780,6 +786,7 @@ $tedi::ai_server_name_of (!)
 $tedi::ai_server_log_file_of (!)
 $tedi::do_start_ai_server_of (!)
 $tedi::do_enable_developer_mode_of (!)
+$tedi::use_xsel_of (!)
 $tedi::commands_of (!)
 
 $tedi::default_configuration std_types::object
@@ -794,6 +801,7 @@ $tedi::default_configuration std_types::object
   #.ai_server_log_file_of "/tmp/funky_server.log"
   #.do_start_ai_server_of false
   .do_enable_developer_mode_of false
+  .use_xsel_of false
   .commands_of empty_hash_table
 
 $tedi::context_help_functions empty_hash_table
