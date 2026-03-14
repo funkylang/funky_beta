@@ -2105,8 +2105,9 @@ $XSEL_PASTE/job_completed: (_self io state data _context)
   get_xy page window_manager $x $y
   if
     clipboard_contents .contains. '@nl;':
+      update_if clipboard_contents(-1) != '@nl;' &clipboard_contents
+	-> push(clipboard_contents '@nl;')
       split_into_indented_lines &clipboard_contents false tedi_types::line
-      debug::dump `clipboard_contents
       paste_multiple_lines &io &state $line_no $inserted &x &y lines &info
 	clipboard_contents
       update_text
