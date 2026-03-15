@@ -446,8 +446,7 @@ $COMPILE/job_failed: (_self io state info _context)
 	  -> io state
 
   $show_error: (page)
-    goto_xy &page &state.window_manager_of column_no line_no
-    set_content &state.window_manager_of page
+    goto_xy page &state.window_manager_of column_no line_no
     log &io -> "
       failed to compile "@(filename)"
     show_error_message &state COMPILE err
@@ -872,7 +871,7 @@ $open_window: (state filename line_no column_no)
 	  focus_window &state.window_manager_of id
 	  if
 	    line_no.is_defined:
-	      goto_xy &page &state.window_manager_of column_no line_no
+	      goto_xy page &state.window_manager_of column_no line_no
 	      -> state
 	    -> state
 	next

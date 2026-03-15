@@ -18158,29 +18158,48 @@ static void entry__std__create_process (void)
       }
 
       if (TLS_argument_count >= 4) {
-	dup2_fd(fd_in, STDIN_FILENO);
-	close(fd_in);
+	if (dup2_fd(fd_in, STDIN_FILENO) == -1) {
+	  perror("dup2 for fd_in failed");
+	  exit(EXIT_FAILURE);
+	}
       } else {
 	close(in_pipe.write_fd);
-	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
+	if (dup2_fd(in_pipe.read_fd, STDIN_FILENO) == -1) {
+	  perror("dup2 for in_pipe.read_fd failed");
+	  exit(EXIT_FAILURE);
+	}
 	close(in_pipe.read_fd);
       }
       if (TLS_argument_count >= 5) {
-	dup2_fd(fd_out, STDOUT_FILENO);
-	close(fd_out);
+	if (dup2_fd(fd_out, STDOUT_FILENO) == -1) {
+	  perror("dup2 for fd_out failed");
+	  exit(EXIT_FAILURE);
+	}
       } else {
 	close(out_pipe.read_fd);
-	dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
+	if (dup2_fd(out_pipe.write_fd, STDOUT_FILENO) == -1) {
+	  perror("dup2 for out_pipe.write_fd failed");
+	  exit(EXIT_FAILURE);
+	}
 	close(out_pipe.write_fd);
       }
       if (TLS_argument_count >= 6) {
-	dup2_fd(fd_err, STDERR_FILENO);
-	close(fd_err);
+	if (dup2_fd(fd_err, STDERR_FILENO) == -1) {
+	  perror("dup2 for fd_err failed");
+	  exit(EXIT_FAILURE);
+	}
       } else {
 	close(err_pipe.read_fd);
-	dup2_fd(err_pipe.write_fd, STDERR_FILENO);
+	if (dup2_fd(err_pipe.write_fd, STDERR_FILENO) == -1) {
+	  perror("dup2 for err_pipe.write_fd failed");
+	  exit(EXIT_FAILURE);
+	}
 	close(err_pipe.write_fd);
       }
+
+      if (TLS_argument_count >= 4) close(fd_in);
+      if (TLS_argument_count >= 5) close(fd_out);
+      if (TLS_argument_count >= 6) close(fd_err);
 
       if ((environment)->type == std_types__list.type) {
 	envp = allocate_memory((environment->list.length+1)*sizeof(char *));
