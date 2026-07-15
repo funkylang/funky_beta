@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2026 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -19,13 +19,16 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+<using std>
+<using terminal_private>
+
 #
   Topic: Window Manager
 
 $std::draw_vertical_slider ()
 $std::draw_horizontal_slider ()
 
-# Terminal Methods
+# Terminal Methods     create
 
 $std::create_window_manager ()
 
@@ -151,6 +154,18 @@ $std_types::window_manager std_types::object
   .has_a_new_size false
   .is_up_to_date false
   .is_prepared false
+
+# methods
+
+$std::handle_key_press ()
+$std::handle_mouse_click ()
+
+# symbols
+
+$std::REDRAW .
+$std::REDRAW_ALL .
+
+$std::DIALOG_CLOSED .
 
 # Window Prototype
 
@@ -371,15 +386,60 @@ $update_window_sizes: (wm)
 	  .windows_of windows
 	  .maximized_of maximized
 
+$std::current_dialog_data undefined
+
+$data_of ()
+$context_of ()
+$focused_rectangle_of ()
+
+$std_types::dialog std_types::object
+  .content_of undefined
+  .title_of undefined
+  .data_of undefined
+  .context_of undefined
+  .focused_rectangle_of undefined
+
+$std_types::window_manager/initialize_rendering: (wm continuation)
+  !current_template_screen template_screen_of(wm)
+  continuation
+
 $std_types::window_manager/create_dialog:
   (
     wm
-    info
+    data
+    title = undefined
+    context = undefined
     content
   )
-  wm
-    .dialog_of tuple(content info)
-    .is_up_to_date false
+  update_if content.is_a_function &content:
+    initialize_rendering wm:
+      !current_dialog_data data
+      content
+  initialize_rendering content:
+    !current_dialog_data data
+    $current_rectangle undefined
+    loop !content !current_rectangle:
+      # give focus to the first focusable widget
+      get_next_rectangle content &current_rectangle
+      if
+	current_rectangle.is_defined:
+	  current_rectangle $widget $x $y
+	  if
+	    widget.is_focusable:
+	      !has_focus true
+	      copy &content create_screen(widget) x y
+	      -> content current_rectangle
+	    next
+	-> content current_rectangle
+    wm
+      .dialog_of
+	std_types::dialog
+	  .content_of content
+	  .title_of title
+	  .data_of data
+	  .context_of context
+	  .focused_rectangle_of current_rectangle
+      .is_up_to_date false
 
 $std_types::window_manager/set_menu:
   (
@@ -547,7 +607,7 @@ $std_types::window_manager/update:
 	    menus_of(wm).is_defined || status_of(wm).is_defined
 	    -> 2
 	    -> 1
-	set_clear_colour &terminal LIGHT_GREY
+	set_clear_colour &terminal GREY
 	clear &terminal 1 first_y
 	  width_of(wm) height_of(wm)-(first_y-1)-message_height_of(wm)
 	switch_cursor_off &terminal
@@ -806,12 +866,18 @@ $std_types::window_manager/update:
       dialog.is_undefined
       -> wm terminal
       :
-	dialog $content
+	$content content_of(dialog)
 	layout_dialog wm $x $y $width $height
 	set_clear_colour &terminal clear_colour_of(content)
 	set_draw_colour &terminal draw_colour_of(content)
 	clear &terminal x y width height
 	draw_thick_border &terminal x y x+width-1 y+height-1
+	$title title_of(dialog)
+	update_if title.is_defined &terminal:
+	  $title_width width_of(title)
+	  $title_x x+(width-title_width .div. 2)
+	  #clear &terminal title_x-1 y title_width+2 1
+	  draw_text terminal title_x y title
 	copy &terminal content x+3 y+2
 	draw_shadow &terminal x+2 y+height width 1
 	draw_shadow &terminal x+width y+1 2 height-1
@@ -1039,7 +1105,7 @@ $maybe_add_scrollbars: (window)
 
 $layout_dialog: (wm)
   $dialog dialog_of(wm)
-  dialog $content
+  $content content_of(dialog)
   $width width_of(content)+6
   $height height_of(content)+4
   $x 1+(width_of(wm)-width .div. 2)
@@ -2147,19 +2213,24 @@ $std_types::window_manager/handle_event:
 	      -> wm tuple(FOCUS_CHANGED wm_fd focused_of(wm))
       -> wm event # kept event
 
-$handle_mouse_click: (wm fd mouse_x mouse_y)
+$std_types::window_manager/handle_mouse_click: (wm fd mouse_x mouse_y)
   $dialog dialog_of(wm)
   if
     dialog.is_defined:
-      dialog $content $info
+      $content content_of(dialog)
+      $data data_of(dialog)
+      !current_dialog_data data
       layout_dialog wm $dialog_x $dialog_y $_dialog_width $_dialog_height
       $rect get_rectangle_at(content mouse_x-dialog_x-2 mouse_y-dialog_y-1)
       if
 	rect.is_defined:
-	  !wm.dialog_of undefined
-	  rect $action
-	  action $_shortcut $key
-	  -> wm(.is_up_to_date false) tuple(KEY_PRESS fd key info)
+	  # mouse_x-dialog_x+1-3-x+1 = mouse_x-dialog_x-x-1
+	  # mouse_y-dialog_y+1-2-y+1 = mouse_y-dialog_y-y
+	  !wm.dialog_of.focused_rectangle_of rect
+	  rect $widget $x $y
+	  handle_mouse_click &widget !data $action
+	    mouse_x-dialog_x-x-1 mouse_y-dialog_y-y
+	  handle_action wm widget x y data action
 	-> wm true
     :
       $menus menus_of(wm)
@@ -2222,8 +2293,7 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 			.current_menu_of undefined
 			.is_up_to_date false
 		      rect $action
-		      action $_shortcut $key
-		      -> wm tuple(KEY_PRESS fd key)
+		      -> wm tuple(KEY_PRESS fd key_of(action))
 		    -> wm true
 	    handle_windows
 
@@ -2365,21 +2435,62 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 	  next
       -> wm undefined
 
-$handle_key_press: (wm fd key)
+$std_types::window_manager/handle_key_press: (wm fd key)
   $dialog dialog_of(wm)
   if
     dialog.is_defined:
-      dialog $content $info
-      $rect get_rectangle_by_key(content key)
-      if
-	rect.is_defined:
-	  !wm
-	    .dialog_of undefined
-	    .is_up_to_date false
-	  rect $_kind $action
-	  action $_shortcut $action_key
-	  -> wm tuple(KEY_PRESS fd action_key info)
-	-> wm true
+      $content content_of(dialog)
+      $data data_of(dialog)
+      !current_dialog_data data
+      case key
+	TABULATOR, SHIFT_TABULATOR:
+	  $get_next
+	    if
+	      key == TABULATOR
+	      -> get_next_rectangle
+	      -> get_previous_rectangle
+	  $focused_rectangle focused_rectangle_of(dialog)
+	  if
+	    focused_rectangle.is_defined:
+	      initialize_rendering wm:
+		focused_rectangle $widget $x $y
+		copy &content create_screen(widget) x y
+		loop:
+		  # give focus to the next or previous focusable widget
+		  get_next content &focused_rectangle
+		  if
+		    focused_rectangle.is_defined:
+		      focused_rectangle !widget !x !y
+		      if
+			widget.is_focusable:
+			  !has_focus true
+			  copy &content create_screen(widget) x y
+			  !dialog.content_of content
+			  !dialog.focused_rectangle_of focused_rectangle
+			  !wm
+			    .dialog_of dialog
+			    .is_up_to_date false
+			  -> wm true
+			next
+		    next
+	    -> wm true
+	:
+	  $rect get_rectangle_by_key(content key)
+	  if
+	    rect.is_defined:
+	      handle_widget_key_press rect
+	    :
+	      $focused_rectangle focused_rectangle_of(dialog)
+	      if
+		focused_rectangle.is_defined:
+		  handle_widget_key_press focused_rectangle
+		-> wm undefined
+
+      $handle_widget_key_press: (rect)
+	rect $widget $x $y
+	!widget first(get_rectangle_at(content x y))
+	handle_key_press &widget !data $action key
+	handle_action wm widget x y data action
     :
       $menus menus_of(wm)
       if
@@ -2417,13 +2528,12 @@ $handle_key_press: (wm fd key)
 	    $rect get_rectangle_by_key(menu key)
 	    if
 	      rect.is_defined:
+		rect $widget
 		!wm
 		  .current_menu_index_of undefined
 		  .current_menu_of undefined
 		  .is_up_to_date false
-		rect $_kind $action
-		action $_shortcut $action_key
-		-> wm tuple(KEY_PRESS fd action_key)
+		-> wm tuple(KEY_PRESS fd key_of(widget))
 	      handle_windows
       handle_windows
 
@@ -2442,6 +2552,73 @@ $handle_key_press: (wm fd key)
 	shrink &wm
 	-> wm true
       -> wm undefined
+
+$handle_action: (wm widget x y data action)
+  #
+    if <action> is an event then the dialog box is closed and
+       the event is returned to the caller
+    else if neither <widget> nor <data> are defined, the key was
+    not handled by the widget and is returned to the caller
+    if <widget> equals <undefined> then the widget is unchanged
+    if <data> equals <undefined> then the dialog data is
+       unchanged
+    if <action> equals <REDRAW> then the widget must be redrawn
+    if <action> equals <REDRAW_ALL> then the whole dialog must
+       be redrawn
+    if <action> is undefined then nothing is redrawn
+  #
+    it makes no sense to redraw anything if neither the widget
+    nor the data have changed
+  update_if data.is_defined &current_dialog_data -> data
+  $dialog dialog_of(wm)
+  $content content_of(dialog)
+  if
+    action.is_defined && action.is_a_tuple:
+      action $type $id $action_data
+      !action tuple(type id action_data context_of(dialog))
+      !wm
+	.dialog_of undefined
+	.is_up_to_date false
+      -> wm action
+    :
+      if
+	widget.is_defined || data.is_defined:
+	  update_rectangle_at &content x y widget
+	  case action
+	    REDRAW:
+	      initialize_rendering wm:
+		!has_focus true
+		copy &content create_screen(widget) x y
+		!dialog
+		  .content_of content
+		  .data_of current_dialog_data
+		!wm
+		  .dialog_of dialog
+		  .is_up_to_date false
+		-> wm true
+	    REDRAW_ALL:
+	      initialize_rendering wm:
+		$current_rectangle undefined
+		loop:
+		  get_next_rectangle content &current_rectangle
+		  if
+		    current_rectangle.is_defined:
+		      current_rectangle $current_widget $cx $cy
+		      !has_focus cx == x && cy == y
+		      copy &content
+			create_screen(current_widget) cx cy
+		      next
+		    :
+		      !dialog
+			.content_of content
+			.data_of current_dialog_data
+		      !wm
+			.dialog_of dialog
+			.is_up_to_date false
+		      -> wm true
+	    -> wm true
+	-> wm undefined
+
 
 $std_types::window_manager/handle_window_event:
   #
@@ -2546,6 +2723,7 @@ $create_menu: (wm x y content)
 	  content
 	  : (idx item)
 	    item $label $action_key
+	    $pos shortcut_positions(idx)
 	    $screen
 	      create_text_screen
 		template_screen_of(wm)
@@ -2553,9 +2731,10 @@ $create_menu: (wm x y content)
 		  .draw_colour_of BLACK
 		  .text_attributes_of BOLD
 		label
-		tuple(label(1).to_lower_case action_key)
+		std_types::rectangle_info
+		  .shortcut_of label(pos).to_lower_case
+		  .key_of action_key
 	    set_draw_colour &screen RED
-	    $pos shortcut_positions(idx)
 	    draw_character &screen pos 1 label(pos)
 	    pad_right screen width
       menu
@@ -2578,3 +2757,18 @@ $remove_outdated_messages: (wm)
 	    .is_up_to_date false
 	  next
     -> wm(.messages_of remaining_messages)
+
+$std::update_window_manager: (io window_manager terminal fd)
+  if
+    window_manager.needs_updating:
+      update &window_manager &terminal
+      update &terminal $output
+      if
+	output.is_empty
+	return
+	:
+	  print_to &io fd output
+	  return
+    return
+
+  $return -> io window_manager terminal

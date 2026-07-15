@@ -177,7 +177,7 @@ $std::extract_options:
     extracts options from a list
 
     This function returns a variable number of results - a list containing the
-    remaining arguemnts and one for each option template.
+    remaining arguments and one for each option template.
   (
     arguments
     templates*

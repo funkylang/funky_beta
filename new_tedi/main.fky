@@ -166,8 +166,7 @@ $tedi::main:
 
     $shutdown: (err)
       debug::dump_object 50 err
-      log &io "crashed: @(err.to_error_message_string) - exiting"
-      exit &io EXIT_FAILURE
+      exit &io EXIT_FAILURE err
       loop:
 	get_events! &io $_events
 	next!
@@ -245,8 +244,7 @@ $tedi::main:
 			:
 			  if
 			    changed_files.is_empty:
-			      log &io "exiting"
-			      exit &io EXIT_SUCCESS
+			      exit &io
 			      -> io state
 			    :
 			      initialize_rendering template_screen_of(state):
@@ -273,14 +271,14 @@ $tedi::main:
 			create_dialog &window_manager undefined
 			  vertical_group
 			    CENTER
-			    text_box(application_name)
+			    label(application_name)
 			    table_group
 			      list
-				text_box("Version:")
-				text_box(version)
+				label("Version:")
+				label(version)
 			      list
-				text_box("Author:")
-				text_box(author)
+				label("Author:")
+				label(author)
 			    push_button
 			      "Ok" = OKAY
 			!state.window_manager_of window_manager
@@ -288,8 +286,7 @@ $tedi::main:
 		    YES:
 		      case context
 			QUIT:
-			  log &io "exiting"
-			  exit &io EXIT_SUCCESS
+			  exit &io
 			  -> io state
 			:
 			  yes context io state
@@ -314,6 +311,9 @@ $tedi::main:
 		      handle_mouse_click page io state mouse_x mouse_y button
 		    -> undefined undefined
 	    -> undefined undefined
+	DIALOG_CLOSED:
+	  handle_key_press data &io id
+	  -> io state
 	FOCUS_CHANGED:
 	  handle_changed_focus get_content(window_manager_of(state)) &state
 	  -> io state
@@ -348,6 +348,12 @@ $tedi::main:
 		  -> io state
 	-> io state
 
+$QUIT/handle_key_press: (_self io id)
+  if
+    id == YES:
+      exit io
+    -> io
+
 $std_types::object/handle_event: (type io state _id _err _context)
   log &io 3 "unhandled event of type @(type)"
   -> io state
@@ -379,9 +385,7 @@ $tedi::symbol_info_of ()
 $tedi::colour_sets_of ()
 $tedi::colour_set_index_of ()
 
-$tedi::handle_key_press ()
 $tedi::handle_paste_string ()
-$tedi::handle_mouse_click ()
 $tedi::handle_changed_focus ()
 $tedi::prepare ()
 $tedi::replace ()
@@ -459,7 +463,7 @@ $std_types::object/job_failed: (id io state err _context)
   debug::dump `id
   debug::dump 99 `err
   log &io "exiting"
-  exit &io EXIT_SUCCESS
+  exit &io
   -> io state
 
 $tedi::main_menu
@@ -484,8 +488,6 @@ $tedi::PLAIN_TEXT .
 $tedi::current_colour_set undefined
 
 $TERMINAL/job_completed: (_id io state terminal _context)
-  log &io 4 -> "initialized terminal"
-  register_resource &io TERMINAL terminal
   start_reading_from &io STDIN_FILENO
   register_handlers &io STDIN_FILENO READ = create_terminal_events
   start_injecting_window_change_events &io

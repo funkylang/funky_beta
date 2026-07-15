@@ -93,8 +93,10 @@ llama::TOKENS UNIQUE_ITEM
 llama::add_token_and_evaluate POLYMORPHIC_FUNCTION
 llama::add_tokens POLYMORPHIC_FUNCTION
 llama::bos_token_of POLYMORPHIC_FUNCTION
+llama::context_size_of POLYMORPHIC_FUNCTION
 llama::copy_sequence POLYMORPHIC_FUNCTION
 llama::create_sequence POLYMORPHIC_FUNCTION
+llama::create_session POLYMORPHIC_FUNCTION
 llama::delete_sequence POLYMORPHIC_FUNCTION
 llama::delete_tokens POLYMORPHIC_FUNCTION
 llama::detokenize FUNCTION
@@ -106,12 +108,14 @@ llama::get_logits IO_FUNCTION
 llama::insert_tokens POLYMORPHIC_FUNCTION
 llama::is_an_end_token_of POLYMORPHIC_FUNCTION
 llama::list_models IO_FUNCTION
+llama::maximum_concurrent_sequences_of POLYMORPHIC_FUNCTION
 llama::nl_token_of POLYMORPHIC_FUNCTION
 llama::open_model POLYMORPHIC_FUNCTION
 llama::pad_token_of POLYMORPHIC_FUNCTION
 llama::pieces_of POLYMORPHIC_FUNCTION
 llama::sep_token_of POLYMORPHIC_FUNCTION
 llama::tokenize POLYMORPHIC_FUNCTION
+llama::trained_context_size_of POLYMORPHIC_FUNCTION
 llama::truncate_sequence POLYMORPHIC_FUNCTION
 llama_types::model TYPE
 std-2.0::indent_of POLYMORPHIC_FUNCTION
@@ -938,6 +942,7 @@ std::error_message_text_of POLYMORPHIC_FUNCTION
 std::error_number BUILTIN_FUNCTION
 std::exec BUILTIN_FUNCTION
 std::exit POLYMORPHIC_FUNCTION
+std::exit_on_error IO_FUNCTION
 std::exitstatus BUILTIN_FUNCTION
 std::exp POLYMORPHIC_FUNCTION
 std::extern FUNCTION
@@ -1466,6 +1471,7 @@ std::until POLYMORPHIC_FUNCTION
 std::update POLYMORPHIC_FUNCTION
 std::update_if POLYMORPHIC_FUNCTION
 std::update_if_not POLYMORPHIC_FUNCTION
+std::update_window_manager FUNCTION
 std::upgrade_to_websocket FUNCTION
 std::upper_bound_of POLYMORPHIC_FUNCTION
 std::use_canonical_mode POLYMORPHIC_FUNCTION

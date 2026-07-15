@@ -51,24 +51,26 @@ enum {
   func_std_types__character___red_component_of = -42,
   func_std_types__character___green_component_of = -43,
   func_std_types__character___blue_component_of = -44,
-  func_std__colour_mixture = -45,
-  lambda_1 = -46,
-  lambda_arg_is_a_key_value_pair = -47,
-  lambda_2 = -48,
-  lambda_3 = -49,
-  func_std__ansi_text_colour = -50,
-  num_38 = -51,
-  num_2 = -52,
-  chr_109 = -53,
-  func_std__ansi_background_colour = -54,
-  num_48 = -55,
-  func_std__ansi_reset_colour = -56,
-  str_0m = -57,
-  func_std__restore_colours = -58,
-  str_39m49m = -59,
-  func_std__csi = -60,
-  chr_59 = -61,
-  string_1 = -62
+  func_std__is_dark = -45,
+  num_0x180 = -46,
+  func_std__colour_mixture = -47,
+  lambda_1 = -48,
+  lambda_arg_is_a_key_value_pair = -49,
+  lambda_2 = -50,
+  lambda_3 = -51,
+  func_std__ansi_text_colour = -52,
+  num_38 = -53,
+  num_2 = -54,
+  chr_109 = -55,
+  func_std__ansi_background_colour = -56,
+  num_48 = -57,
+  func_std__ansi_reset_colour = -58,
+  str_0m = -59,
+  func_std__restore_colours = -60,
+  str_39m49m = -61,
+  func_std__csi = -62,
+  chr_59 = -63,
+  string_1 = -64
 };
 
 enum {
@@ -127,12 +129,15 @@ enum {
   var_red_component_of, // extern polymorphic
   var_green_component_of, // extern polymorphic
   var_blue_component_of, // extern polymorphic
+  var_std__is_dark, // initialized
+  var_std__plus, // extern
+  var_std__less, // extern
   var_std__colour_mixture, // initialized
-  var_113_4_total_parts, // dynamic
-  var_114_4_red, // dynamic
-  var_115_4_green, // dynamic
-  var_116_4_blue, // dynamic
-  var_118_8_arg, // dynamic
+  var_120_4_total_parts, // dynamic
+  var_121_4_red, // dynamic
+  var_122_4_green, // dynamic
+  var_123_4_blue, // dynamic
+  var_125_8_arg, // dynamic
   var_is_a_key_value_pair, // extern
   var_key_of, // extern
   var_value_of, // extern
@@ -293,43 +298,86 @@ static FUNCTION_INFO i_func_std_types__character___blue_component_of = {
   {"98_5_chr\000"}
 };
 
+static TAB_NUM t_func_std__is_dark[] = {
+  10, // locals
+  1, // parameters
+  LOCAL(9), // 104_5_chr
+  // $val chr.to_integer
+  var_to_integer, 1, LOCAL(9), 1, LOCAL(10),
+  // val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__shift_right, 2, LOCAL(10), num_24, 1, LOCAL(1),
+  // val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__bit_and, 2, LOCAL(1), num_0xff, 1, LOCAL(2),
+  // val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__shift_right, 2, LOCAL(10), num_16, 1, LOCAL(3),
+  // val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__bit_and, 2, LOCAL(3), num_0xff, 1, LOCAL(4),
+  // val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__plus, 2, LOCAL(2), LOCAL(4), 1, LOCAL(5),
+  // val >> 8) < 0x180
+  var_std__shift_right, 2, LOCAL(10), num_8, 1, LOCAL(6),
+  // val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__plus, 2, LOCAL(5), LOCAL(6), 1, LOCAL(7),
+  // val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+  var_std__less, 2, LOCAL(7), num_0x180, 1, LOCAL(8),
+  // -> ((val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+  LET, 1, LOCAL(8), TAIL_CALL,
+  POS(106, 3),
+  POS(107, 8),
+  POS(107, 8),
+  POS(107, 29),
+  POS(107, 29),
+  POS(107, 8),
+  POS(107, 49),
+  POS(107, 8),
+  POS(107, 8),
+  POS(107, 3),
+  LOCAL(10),
+  LOCAL(9)
+};
+
+static FUNCTION_INFO i_func_std__is_dark = {
+  t_func_std__is_dark, NULL, 10, 2,
+  {"106_4_val\000", "104_5_chr\000"}
+};
+
 static TAB_NUM t_func_std__colour_mixture[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 111_5_args
+  REST_PARAMETER, LOCAL(1), // 118_5_args
   // $total_parts 0
-  LET, 1, num_0, 1, var_113_4_total_parts,
+  LET, 1, num_0, 1, var_120_4_total_parts,
   // $red 0
-  LET, 1, num_0, 1, var_114_4_red,
+  LET, 1, num_0, 1, var_121_4_red,
   // $green 0
-  LET, 1, num_0, 1, var_115_4_green,
+  LET, 1, num_0, 1, var_122_4_green,
   // $blue 0
-  LET, 1, num_0, 1, var_116_4_blue,
+  LET, 1, num_0, 1, var_123_4_blue,
   // for_each args
   var_for_each, 3, LOCAL(1), lambda_1, lambda_3, TAIL_CALL,
-  POS(113, 3),
-  POS(114, 3),
-  POS(115, 3),
-  POS(116, 3),
-  POS(117, 3),
+  POS(120, 3),
+  POS(121, 3),
+  POS(122, 3),
+  POS(123, 3),
+  POS(124, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__colour_mixture = {
   t_func_std__colour_mixture, NULL, 5, 1,
-  {"111_5_args\000"}
+  {"118_5_args\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   1, // parameters
-  var_118_8_arg,
+  var_125_8_arg,
   // is_a_key_value_pair:
-  var_is_a_key_value_pair, 1, var_118_8_arg, 1, LOCAL(1),
+  var_is_a_key_value_pair, 1, var_125_8_arg, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_arg_is_a_key_value_pair, lambda_2, TAIL_CALL,
-  POS(120, 13),
-  POS(119, 7)
+  POS(127, 13),
+  POS(126, 7)
 };
 
 static FUNCTION_INFO i_lambda_1 = {
@@ -341,80 +389,80 @@ static TAB_NUM t_lambda_arg_is_a_key_value_pair[] = {
   4, // locals
   0, // parameters
   // $colour key_of(arg)
-  var_key_of, 1, var_118_8_arg, 1, LOCAL(3),
+  var_key_of, 1, var_125_8_arg, 1, LOCAL(3),
   // $parts value_of(arg)
-  var_value_of, 1, var_118_8_arg, 1, LOCAL(4),
+  var_value_of, 1, var_125_8_arg, 1, LOCAL(4),
   // red_component_of(colour)
   var_red_component_of, 1, LOCAL(3), 1, LOCAL(1),
   // parts*red_component_of(colour)
   var_std__times, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
   // plus &red parts*red_component_of(colour)
-  var_plus, 2, var_114_4_red, LOCAL(2), 1, var_114_4_red,
+  var_plus, 2, var_121_4_red, LOCAL(2), 1, var_121_4_red,
   // green_component_of(colour)
   var_green_component_of, 1, LOCAL(3), 1, LOCAL(1),
   // parts*green_component_of(colour)
   var_std__times, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
   // plus &green parts*green_component_of(colour)
-  var_plus, 2, var_115_4_green, LOCAL(2), 1, var_115_4_green,
+  var_plus, 2, var_122_4_green, LOCAL(2), 1, var_122_4_green,
   // blue_component_of(colour)
   var_blue_component_of, 1, LOCAL(3), 1, LOCAL(1),
   // parts*blue_component_of(colour)
   var_std__times, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
   // plus &blue parts*blue_component_of(colour)
-  var_plus, 2, var_116_4_blue, LOCAL(2), 1, var_116_4_blue,
+  var_plus, 2, var_123_4_blue, LOCAL(2), 1, var_123_4_blue,
   // plus &total_parts parts
-  var_plus, 2, var_113_4_total_parts, LOCAL(4), 1, var_113_4_total_parts,
+  var_plus, 2, var_120_4_total_parts, LOCAL(4), 1, var_120_4_total_parts,
   // next
   var_next, 0, TAIL_CALL,
-  POS(121, 11),
-  POS(122, 11),
-  POS(123, 27),
-  POS(123, 21),
-  POS(123, 11),
-  POS(124, 29),
-  POS(124, 23),
-  POS(124, 11),
-  POS(125, 28),
-  POS(125, 22),
-  POS(125, 11),
-  POS(126, 11),
-  POS(127, 11),
-  LOCAL(4),
-  LOCAL(3)
+  POS(128, 11),
+  POS(129, 11),
+  POS(130, 27),
+  POS(130, 21),
+  POS(130, 11),
+  POS(131, 29),
+  POS(131, 23),
+  POS(131, 11),
+  POS(132, 28),
+  POS(132, 22),
+  POS(132, 11),
+  POS(133, 11),
+  POS(134, 11),
+  LOCAL(3),
+  LOCAL(4)
 };
 
 static FUNCTION_INFO i_lambda_arg_is_a_key_value_pair = {
   t_lambda_arg_is_a_key_value_pair, NULL, 13, 2,
-  {"122_12_parts\000", "121_12_colour\000"}
+  {"128_12_colour\000", "129_12_parts\000"}
 };
 
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // red_component_of(arg)
-  var_red_component_of, 1, var_118_8_arg, 1, LOCAL(1),
+  var_red_component_of, 1, var_125_8_arg, 1, LOCAL(1),
   // plus &red red_component_of(arg)
-  var_plus, 2, var_114_4_red, LOCAL(1), 1, var_114_4_red,
+  var_plus, 2, var_121_4_red, LOCAL(1), 1, var_121_4_red,
   // green_component_of(arg)
-  var_green_component_of, 1, var_118_8_arg, 1, LOCAL(1),
+  var_green_component_of, 1, var_125_8_arg, 1, LOCAL(1),
   // plus &green green_component_of(arg)
-  var_plus, 2, var_115_4_green, LOCAL(1), 1, var_115_4_green,
+  var_plus, 2, var_122_4_green, LOCAL(1), 1, var_122_4_green,
   // blue_component_of(arg)
-  var_blue_component_of, 1, var_118_8_arg, 1, LOCAL(1),
+  var_blue_component_of, 1, var_125_8_arg, 1, LOCAL(1),
   // plus &blue blue_component_of(arg)
-  var_plus, 2, var_116_4_blue, LOCAL(1), 1, var_116_4_blue,
+  var_plus, 2, var_123_4_blue, LOCAL(1), 1, var_123_4_blue,
   // inc &total_parts
-  var_inc, 1, var_113_4_total_parts, 1, var_113_4_total_parts,
+  var_inc, 1, var_120_4_total_parts, 1, var_120_4_total_parts,
   // next
   var_next, 0, TAIL_CALL,
-  POS(129, 21),
-  POS(129, 11),
-  POS(130, 23),
-  POS(130, 11),
-  POS(131, 22),
-  POS(131, 11),
-  POS(132, 11),
-  POS(133, 11)
+  POS(136, 21),
+  POS(136, 11),
+  POS(137, 23),
+  POS(137, 11),
+  POS(138, 22),
+  POS(138, 11),
+  POS(139, 11),
+  POS(140, 11)
 };
 
 static FUNCTION_INFO i_lambda_2 = {
@@ -426,19 +474,19 @@ static TAB_NUM t_lambda_3[] = {
   10, // locals
   0, // parameters
   // red/total_parts).to_integer
-  var_std__over, 2, var_114_4_red, var_113_4_total_parts, 1, LOCAL(1),
+  var_std__over, 2, var_121_4_red, var_120_4_total_parts, 1, LOCAL(1),
   // round(red/total_parts).to_integer
   var_round, 1, LOCAL(1), 1, LOCAL(2),
   // to_integer
   var_to_integer, 1, LOCAL(2), 1, LOCAL(3),
   // green/total_parts).to_integer
-  var_std__over, 2, var_115_4_green, var_113_4_total_parts, 1, LOCAL(4),
+  var_std__over, 2, var_122_4_green, var_120_4_total_parts, 1, LOCAL(4),
   // round(green/total_parts).to_integer
   var_round, 1, LOCAL(4), 1, LOCAL(5),
   // to_integer
   var_to_integer, 1, LOCAL(5), 1, LOCAL(6),
   // blue/total_parts).to_integer
-  var_std__over, 2, var_116_4_blue, var_113_4_total_parts, 1, LOCAL(7),
+  var_std__over, 2, var_123_4_blue, var_120_4_total_parts, 1, LOCAL(7),
   // round(blue/total_parts).to_integer
   var_round, 1, LOCAL(7), 1, LOCAL(8),
   // to_integer
@@ -447,17 +495,17 @@ static TAB_NUM t_lambda_3[] = {
   var_rgb_character, 3, LOCAL(3), LOCAL(6), LOCAL(9), 1, LOCAL(10),
   // 
   LET, 1, LOCAL(10), TAIL_CALL,
-  POS(136, 15),
-  POS(136, 9),
-  POS(136, 32),
-  POS(137, 15),
-  POS(137, 9),
-  POS(137, 34),
-  POS(138, 15),
-  POS(138, 9),
-  POS(138, 33),
-  POS(135, 7),
-  POS(134, 7)
+  POS(143, 15),
+  POS(143, 9),
+  POS(143, 32),
+  POS(144, 15),
+  POS(144, 9),
+  POS(144, 34),
+  POS(145, 15),
+  POS(145, 9),
+  POS(145, 33),
+  POS(142, 7),
+  POS(141, 7)
 };
 
 static FUNCTION_INFO i_lambda_3 = {
@@ -468,7 +516,7 @@ static FUNCTION_INFO i_lambda_3 = {
 static TAB_NUM t_func_std__ansi_text_colour[] = {
   6, // locals
   1, // parameters
-  LOCAL(2), // 142_5_colour
+  LOCAL(2), // 149_5_colour
   // $colour_value colour.to_integer
   var_to_integer, 1, LOCAL(2), 1, LOCAL(3),
   // $red colour_value >> 16
@@ -483,29 +531,29 @@ static TAB_NUM t_func_std__ansi_text_colour[] = {
   var_csi, 6, num_38, num_2, LOCAL(4), LOCAL(5), LOCAL(6), chr_109, 1, LOCAL(1),
   // -> csi(38 2 red green blue 'm')
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(144, 3),
-  POS(145, 3),
-  POS(146, 11),
-  POS(146, 3),
-  POS(147, 3),
-  POS(148, 6),
-  POS(148, 3),
-  LOCAL(4),
-  LOCAL(5),
+  POS(151, 3),
+  POS(152, 3),
+  POS(153, 11),
+  POS(153, 3),
+  POS(154, 3),
+  POS(155, 6),
+  POS(155, 3),
   LOCAL(3),
+  LOCAL(5),
   LOCAL(2),
+  LOCAL(4),
   LOCAL(6)
 };
 
 static FUNCTION_INFO i_func_std__ansi_text_colour = {
   t_func_std__ansi_text_colour, NULL, 7, 5,
-  {"145_4_red\000", "146_4_green\000", "144_4_colour_value\000", "142_5_colour\000", "147_4_blue\000"}
+  {"151_4_colour_value\000", "153_4_green\000", "149_5_colour\000", "152_4_red\000", "154_4_blue\000"}
 };
 
 static TAB_NUM t_func_std__ansi_background_colour[] = {
   6, // locals
   1, // parameters
-  LOCAL(2), // 152_5_colour
+  LOCAL(2), // 159_5_colour
   // $colour_value colour.to_integer
   var_to_integer, 1, LOCAL(2), 1, LOCAL(3),
   // $red colour_value >> 16
@@ -520,23 +568,23 @@ static TAB_NUM t_func_std__ansi_background_colour[] = {
   var_csi, 6, num_48, num_2, LOCAL(4), LOCAL(5), LOCAL(6), chr_109, 1, LOCAL(1),
   // -> csi(48 2 red green blue 'm')
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(154, 3),
-  POS(155, 3),
-  POS(156, 11),
-  POS(156, 3),
-  POS(157, 3),
-  POS(158, 6),
-  POS(158, 3),
+  POS(161, 3),
+  POS(162, 3),
+  POS(163, 11),
+  POS(163, 3),
+  POS(164, 3),
+  POS(165, 6),
+  POS(165, 3),
   LOCAL(6),
+  LOCAL(4),
   LOCAL(3),
   LOCAL(5),
-  LOCAL(2),
-  LOCAL(4)
+  LOCAL(2)
 };
 
 static FUNCTION_INFO i_func_std__ansi_background_colour = {
   t_func_std__ansi_background_colour, NULL, 7, 5,
-  {"157_4_blue\000", "154_4_colour_value\000", "156_4_green\000", "152_5_colour\000", "155_4_red\000"}
+  {"164_4_blue\000", "162_4_red\000", "161_4_colour_value\000", "163_4_green\000", "159_5_colour\000"}
 };
 
 static TAB_NUM t_func_std__ansi_reset_colour[] = {
@@ -546,8 +594,8 @@ static TAB_NUM t_func_std__ansi_reset_colour[] = {
   var_csi, 1, str_0m, 1, LOCAL(1),
   // -> csi("0m")
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(161, 6),
-  POS(161, 3)
+  POS(168, 6),
+  POS(168, 3)
 };
 
 static FUNCTION_INFO i_func_std__ansi_reset_colour = {
@@ -560,7 +608,7 @@ static TAB_NUM t_func_std__restore_colours[] = {
   0, // parameters
   // print! "@esc;[39m@esc;[49m"
   var_print, 1, str_39m49m, IO_TAIL_CALL,
-  POS(164, 3)
+  POS(171, 3)
 };
 
 static FUNCTION_INFO i_func_std__restore_colours = {
@@ -571,24 +619,24 @@ static FUNCTION_INFO i_func_std__restore_colours = {
 static TAB_NUM t_func_std__csi[] = {
   4, // locals
   -2, // parameters
-  REST_PARAMETER, LOCAL(3), // 166_13_arguments
-  MANDATORY_PARAMETER, LOCAL(4), // 166_24_command
+  REST_PARAMETER, LOCAL(3), // 173_13_arguments
+  MANDATORY_PARAMETER, LOCAL(4), // 173_24_command
   // join(arguments ';') command)
   var_join, 2, LOCAL(3), chr_59, 1, LOCAL(1),
   // string("@esc;[" join(arguments ';') command)
   var_string, 3, string_1, LOCAL(1), LOCAL(4), 1, LOCAL(2),
   // -> string("@esc;[" join(arguments ';') command)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(167, 22),
-  POS(167, 6),
-  POS(167, 3),
+  POS(174, 22),
+  POS(174, 6),
+  POS(174, 3),
   LOCAL(3),
   LOCAL(4)
 };
 
 static FUNCTION_INFO i_func_std__csi = {
   t_func_std__csi, NULL, 3, 2,
-  {"166_13_arguments\000", "166_24_command\000"}
+  {"173_13_arguments\000", "173_24_command\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -636,6 +684,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___red_component_of}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___green_component_of}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___blue_component_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__is_dark}},
+  {FLT_POSITIVE_INT64, 0, {.value = 0x180}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__colour_mixture}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_arg_is_a_key_value_pair}},
@@ -936,88 +986,103 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "is_dark\000std", NULL,
+    {.const_idx = -func_std__is_dark}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "plus\000std", NULL,
+    {.position = POS(107, 8)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "less\000std", NULL,
+    {.position = POS(107, 8)}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "colour_mixture\000std", NULL,
     {.const_idx = -func_std__colour_mixture}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "113_4_total_parts\000", NULL
+    "120_4_total_parts\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "114_4_red\000", NULL
+    "121_4_red\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "115_4_green\000", NULL
+    "122_4_green\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "116_4_blue\000", NULL
+    "123_4_blue\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "118_8_arg\000", NULL
+    "125_8_arg\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_key_value_pair\000", NULL,
-    {.position = POS(120, 13)}
+    {.position = POS(127, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "key_of\000", NULL,
-    {.position = POS(121, 19)}
+    {.position = POS(128, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "value_of\000", NULL,
-    {.position = POS(122, 18)}
+    {.position = POS(129, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "times\000std", NULL,
-    {.position = POS(123, 21)}
+    {.position = POS(130, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000", NULL,
-    {.position = POS(123, 11)}
+    {.position = POS(130, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(127, 11)}
+    {.position = POS(134, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(132, 11)}
+    {.position = POS(139, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(119, 7)}
+    {.position = POS(126, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "over\000std", NULL,
-    {.position = POS(136, 15)}
+    {.position = POS(143, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "round\000", NULL,
-    {.position = POS(136, 9)}
+    {.position = POS(143, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "rgb_character\000", NULL,
-    {.position = POS(135, 7)}
+    {.position = POS(142, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(117, 3)}
+    {.position = POS(124, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1027,7 +1092,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "csi\000", NULL,
-    {.position = POS(148, 6)}
+    {.position = POS(155, 6)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1047,7 +1112,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "print\000", NULL,
-    {.position = POS(164, 3)}
+    {.position = POS(171, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1057,12 +1122,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "join\000", NULL,
-    {.position = POS(167, 22)}
+    {.position = POS(174, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "string\000", NULL,
-    {.position = POS(167, 6)}
+    {.position = POS(174, 6)}
   }
 };
 
@@ -1080,8 +1145,8 @@ FUNKY_MODULE module__basic__io__colours = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  62, // number of constants
-  81, // number of variables
+  64, // number of constants
+  84, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

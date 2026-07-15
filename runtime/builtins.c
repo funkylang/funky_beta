@@ -333,6 +333,7 @@ enum {
   func__std__chroot,
   func__std_types__file_descriptor__std__close,
   func__std__closedir,
+  func__std__dirfd,
   func__std__dup2,
   func__std__fstat,
   func__std__fsync,
@@ -850,6 +851,7 @@ enum {
   var_std__chown,
   var_std__chroot,
   var_std__closedir,
+  var_std__dirfd,
   var_std__dup2,
   var_std__fstat,
   var_std__fsync,
@@ -1550,6 +1552,8 @@ static int builtin_types__positive_integer___to_uint32(NODE *node, uint32_t *res
 static int builtin_types__positive_integer___to_uint64(NODE *node, uint64_t *result_p);
 static void *std_types__object___collect(SIMPLE_NODE *node);
 static long std_types__object___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long std_types__polymorphic_function___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long std_types__polymorphic_function_with_setter___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types__file_type___collect(FILE_TYPE *node);
 static long std_types__file_type___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types__file_descriptor___collect(FILE_DESCRIPTOR *node);
@@ -6006,6 +6010,28 @@ NODE *create_polymorphic_function_with_setter
     node->attributes =
       std_types__polymorphic_function_with_setter.attributes;
     return node;
+  }
+
+static long std_types__polymorphic_function___debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "<polymorphic_function>");
+  }
+
+static long std_types__polymorphic_function_with_setter___debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "<polymorphic_function_with_setter>");
   }
 
 static void *std_types__file_type___collect
@@ -21748,6 +21774,51 @@ static void entry__std__closedir (void)
     }
   }
 
+static void entry__std__dirfd (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    void *dir = NULL;
+    int result;
+    if (!directory_to_ptr(TLS_arguments[0], &dir)) return;
+    if (event__mode != EM__REPLAY) {
+      result = dirfd(dir);
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+          successful__action("dirfd");
+        } else {
+          failed__action("dirfd");
+          store__integer(result);
+          end__record();
+        }
+      }
+    } else {
+      if (replay__action("dirfd")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("dirfd");
+      print__pointer(dir);
+      print__integer(result);
+      end__report();
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
+	"DIRFD FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(create__std_types__file_descriptor(result));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    }
+  }
+
 static void entry__std__dup2 (void)
   {
     if (TLS_argument_count != 2) {
@@ -27707,6 +27778,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std__chroot}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_descriptor__std__close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__closedir}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__dirfd}},
   {FLT_C_FUNCTION, 2, {.func = entry__std__dup2}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__fstat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__fsync}},
@@ -28333,6 +28405,14 @@ static ATTRIBUTE_DEFINITION std_types__real__attributes[] = {
   {var_std__times, func__std_types__real__std__times},
   {var_std__to_integer, func__std_types__real__std__to_integer},
   {var_std__to_string, func__std_types__real__std__to_string}
+};
+
+static INTERNAL_METHOD std_types__polymorphic_function__internal_methods[] = {
+  {FIM_DEBUG_STRING, {std_types__polymorphic_function___debug_string}}
+};
+
+static INTERNAL_METHOD std_types__polymorphic_function_with_setter__internal_methods[] = {
+  {FIM_DEBUG_STRING, {std_types__polymorphic_function_with_setter___debug_string}}
 };
 
 static INTERNAL_METHOD std_types__file_type__internal_methods[] = {
@@ -29638,16 +29718,16 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_TYPE, 0, 0,
     "polymorphic_function\000std_types", NULL,
     {"object\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
+    {.methods_count = 1}, 0,
+    std_types__polymorphic_function__internal_methods,
     {(NODE *)&std_types__polymorphic_function}
   },
   {
     FOT_TYPE, 0, 0,
     "polymorphic_function_with_setter\000std_types", NULL,
     {"polymorphic_function\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
+    {.methods_count = 1}, 0,
+    std_types__polymorphic_function_with_setter__internal_methods,
     {(NODE *)&std_types__polymorphic_function_with_setter}
   },
   {
@@ -31306,6 +31386,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "dirfd\000std", NULL,
+    {.const_idx = func__std__dirfd}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "dup2\000std", NULL,
     {.const_idx = func__std__dup2}
   },
@@ -31852,13 +31937,13 @@ FUNKY_MODULE module__builtin = {
   "_builtin",
   0, 0,
   4, 0,
-  420, 486,
+  421, 487,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[479] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[480] = {
   {std_types__generic_array___type, "std_types::generic_array/_type"},
   {std_types__array___type, "std_types::array/_type"},
   {entry__std_types__array__std__length_of, "std_types::array/length_of"},
@@ -32197,6 +32282,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[479] = {
   {entry__std__chroot, "std::chroot"},
   {entry__std_types__file_descriptor__std__close, "std_types::file_descriptor/close"},
   {entry__std__closedir, "std::closedir"},
+  {entry__std__dirfd, "std::dirfd"},
   {entry__std__dup2, "std::dup2"},
   {entry__std__fstat, "std::fstat"},
   {entry__std__fsync, "std::fsync"},

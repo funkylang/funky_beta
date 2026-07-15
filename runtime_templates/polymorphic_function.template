@@ -76,3 +76,25 @@ POLY std::subtype_of
     Topic: Collections
 
     See also: std_types::tuple, std_types::list
+
+METHOD long std_types::polymorphic_function/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "<polymorphic_function>");
+  }
+
+METHOD long std_types::polymorphic_function_with_setter/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "<polymorphic_function_with_setter>");
+  }

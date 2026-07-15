@@ -450,7 +450,9 @@ $std::file_exists:
   stat! $info filename
   -> not(info.is_an_error)
 
-$std::directory:
+$std::directory ()
+
+$std_types::object/directory:
   #
     Example:
 
@@ -464,6 +466,7 @@ $std::directory:
     options*
     pathname
   )
+  flatten &options
   get_options options
     SORT = false $do_sort
   $entries empty_list
@@ -486,6 +489,25 @@ $std_types::stat/is_a_directory: (self)
 
 $std_types::dirent/is_a_directory: (self)
   -> type_of(self) == DIRECTORY
+
+$std_types::io/directory:
+  (
+    io
+    id
+    options = undefined
+    pathname
+    context = pathname
+  )
+  update_if options.is_defined && not(options.is_a_list)
+    &options -> list(options)
+  run io load_directory id options pathname context
+
+$load_directory: (io id options pathname context)
+  directory! $entries options pathname
+  if
+    entries.is_an_error
+    -> io tuple(JOB_FAILED id entries context)
+    -> io tuple(JOB_COMPLETED id entries context)
 
 $std::call ()
 $std::call_with_input ()

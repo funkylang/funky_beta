@@ -483,8 +483,11 @@ $handle_tokens: (prompt_tokens reply n)
       if
 	n > 0:
 	  if
-	    prompt_tokens.is_undefined
-	    -> tokens n == 1
+	    prompt_tokens.is_undefined:
+	      if
+		n > 1
+		-> list(tokens) false
+		-> tokens true
 	    :
 	      push &prompt_tokens tokens
 	      -> prompt_tokens length_of(prompt_tokens) == n

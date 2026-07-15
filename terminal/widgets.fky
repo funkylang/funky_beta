@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2026 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,8 @@
   or write to the
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/io/css_colours>
 
 <using std>
 <using terminal_private>
@@ -40,40 +42,225 @@ $std::CENTER .
 $std::TOP .
 $std::BOTTOM .
 $std::MIDDLE .
+$std::NARROW .
+
+$std::ROWS .
+$std::COLUMNS .
 
 $std::dialog_clear_colour_of ()
+$std::label_clear_colour_of ()
+$std::label_draw_colour_of ()
 $std::text_box_clear_colour_of ()
 $std::text_box_draw_colour_of ()
+$std::focused_text_box_clear_colour_of ()
+$std::focused_text_box_draw_colour_of ()
+$std::text_box_highlight_colour_of ()
+$std::text_box_shadow_colour_of ()
 $std::push_button_clear_colour_of ()
 $std::push_button_draw_colour_of ()
 $std::push_button_shortcut_colour_of ()
 
+$std::data_fields_of ()
+$std::possible_values_of ()
+$std::widget_options_of ()
+
+$std::row_count_of ()
+$std::column_count_of ()
+
 $std::widget_settings std_types::object
+  .dialog_clear_colour_of LIGHT_GREY
+  .label_draw_colour_of BLACK
+  .text_box_clear_colour_of VERY_LIGHT_GREY
+  .text_box_draw_colour_of BLACK
+  .focused_text_box_clear_colour_of WHITE
+  .focused_text_box_draw_colour_of NAVY
+  .text_box_highlight_colour_of WHITE
+  .text_box_shadow_colour_of DARK_GREY
+  .push_button_clear_colour_of DARK_GREEN
+  .push_button_draw_colour_of YELLOW
+  .push_button_shortcut_colour_of CYAN
 
-$std::widget_settings.dialog_clear_colour_of VERY_LIGHT_GREY
-$std::widget_settings.text_box_clear_colour_of VERY_LIGHT_GREY
-$std::widget_settings.text_box_draw_colour_of BLACK
-$std::widget_settings.push_button_clear_colour_of DARK_GREEN
-$std::widget_settings.push_button_draw_colour_of YELLOW
-$std::widget_settings.push_button_shortcut_colour_of CYAN
+$std_types::widget std_types::rectangle_info
+  .is_focusable false
+  /handle_key_press: (_self _key) -> undefined undefined undefined
+  /handle_mouse_click: (_self _x _y) -> undefined undefined undefined
 
-$template_screen undefined
+$std::current_template_screen undefined
 
-$std::initialize_rendering: (screen continuation)
-  !template_screen screen
+$std::initialize_rendering ()
+
+$std_types::screen/initialize_rendering: (screen continuation)
+  !current_template_screen screen
   continuation
 
 # Widgets
 
-$std::text_box:
+# text box
+
+$std::label:
   (
     text
   )
   create_text_screen
-    template_screen
-      .clear_colour_of text_box_clear_colour_of(widget_settings)
-      .draw_colour_of text_box_draw_colour_of(widget_settings)
+    current_template_screen
+      .clear_colour_of dialog_clear_colour_of(widget_settings)
+      .draw_colour_of label_draw_colour_of(widget_settings)
     text
+
+$text_of ()
+$field_of ()
+$value_of ()
+$title_of ()
+$content_of ()
+$std::is_focusable ()
+
+$std::has_focus false
+
+# radio button
+
+$std_types::radio_button std_types::widget
+  .text_of undefined
+  .field_of undefined
+  .value_of undefined
+  .is_focusable true
+
+$std_types::radio_button/create_screen: (self)
+  $clear_colour dialog_clear_colour_of(widget_settings)
+  $draw_colour label_draw_colour_of(widget_settings)
+  create_text_screen $screen
+    current_template_screen
+      .clear_colour_of clear_colour
+      .draw_colour_of draw_colour
+    append
+      if
+	field_of(self)(current_dialog_data) == value_of(self)
+	-> "🔴 "
+	-> "⭕ "
+      text_of(self)
+    self
+  if
+    has_focus:
+      set_clear_colour &screen
+	if
+	  clear_colour.is_dark
+	  -> colour_mixture(clear_colour = 3 WHITE)
+	  -> colour_mixture(clear_colour = 3 BLACK)
+      draw_text screen 4 1 text_of(self)
+    -> screen
+
+$std_types::radio_button/handle_key_press: (self key)
+  if
+    key == ' ':
+      field_of(self) &current_dialog_data value_of(self)
+      -> self current_dialog_data REDRAW_ALL
+    -> undefined undefined undefined
+
+$std_types::radio_button/handle_mouse_click: (self _x _y)
+  handle_key_press self ' '
+
+$std::radio_button:
+  (
+    text
+    field_and_value
+  )
+  field_and_value $field $value
+  create_screen
+    std_types::radio_button
+      .text_of text
+      .field_of field
+      .value_of value
+
+# check box
+
+$std_types::check_box std_types::widget
+  .text_of undefined
+  .field_of undefined
+  .is_focusable true
+
+$std_types::check_box/create_screen: (self)
+  $clear_colour dialog_clear_colour_of(widget_settings)
+  $draw_colour label_draw_colour_of(widget_settings)
+  create_text_screen $screen
+    current_template_screen
+      .clear_colour_of clear_colour
+      .draw_colour_of draw_colour
+    append
+      if
+	field_of(self)(current_dialog_data)
+	-> "✅ "
+	-> "🟩 "
+      text_of(self)
+    self
+  if
+    has_focus:
+      set_clear_colour &screen
+	if
+	  clear_colour.is_dark
+	  -> colour_mixture(clear_colour = 3 WHITE)
+	  -> colour_mixture(clear_colour = 3 BLACK)
+      draw_text screen 4 1 text_of(self)
+    -> screen
+
+$std_types::check_box/handle_key_press: (self key)
+  if
+    key == ' ':
+      field_of(self) &current_dialog_data
+	not (field_of(self)(current_dialog_data))
+      -> self current_dialog_data REDRAW
+    -> undefined undefined undefined
+
+$std_types::check_box/handle_mouse_click: (self _x _y)
+ handle_key_press self ' '
+
+$std::check_box:
+  (
+    text
+    field
+  )
+  create_screen
+    std_types::check_box
+      .text_of text
+      .field_of field
+
+# push button
+
+$std_types::push_button std_types::widget
+  .text_of undefined
+  .shortcut_of undefined
+  .key_of undefined
+  .is_focusable true
+
+$std_types::push_button/create_screen: (self)
+  $text text_of(self)
+  $shortcut shortcut_of(self)
+  if $clear_colour $draw_colour
+    has_focus
+    ->
+      push_button_draw_colour_of(widget_settings)
+      push_button_clear_colour_of(widget_settings)
+    ->
+      push_button_clear_colour_of(widget_settings)
+      push_button_draw_colour_of(widget_settings)
+  create_text_screen $screen
+    current_template_screen
+      .clear_colour_of clear_colour
+      .draw_colour_of draw_colour
+    append(" " text " ")
+    self
+  if
+    shortcut.is_a_character:
+      set_draw_colour &screen push_button_shortcut_colour_of(widget_settings)
+      draw_character screen 2 1 text(1)
+    -> screen
+
+$std_types::push_button/handle_key_press: (self key)
+  if
+    key == ' ' || key == shortcut_of(self)
+    -> self undefined tuple(DIALOG_CLOSED key_of(self) current_dialog_data)
+    -> undefined undefined undefined
+
+$std_types::push_button/handle_mouse_click: (self _x _y)
+  handle_key_press self ' '
 
 $std::push_button:
   (
@@ -86,17 +273,205 @@ $std::push_button:
       OKAY -> RETURN
       CANCEL -> ESCAPE
       -> text(1).to_lower_case
-  create_text_screen $screen
-    template_screen
-      .clear_colour_of push_button_clear_colour_of(widget_settings)
-      .draw_colour_of push_button_draw_colour_of(widget_settings)
-    append(" " text " ")
-    tuple(shortcut key)
+  create_screen
+    std_types::push_button
+      .text_of text
+      .shortcut_of shortcut
+      .key_of key
+
+# titled box
+
+$std_types::titled_box std_types::widget
+  .title_of undefined
+  .content_of undefined
+
+$std_types::titled_box/create_screen: (self)
+  $content content_of(self)
+  $title title_of(self)
+  $width width_of(content)
+  $height height_of(content)
+  $clear_colour dialog_clear_colour_of(widget_settings)
+  $draw_colour label_draw_colour_of(widget_settings)
+  set_clear_colour &current_template_screen clear_colour
+  $vertical_border create_screen(current_template_screen 2 height)
+  $top_border create_screen(current_template_screen width+4 2)
+  $bottom_border create_screen(current_template_screen width+4 1)
+  append !content
+    top_border
+    adjoin(vertical_border content vertical_border)
+    bottom_border
+  draw_thick_border &content 1 1 width+4 height+3
+  fill_rectangle &content draw_colour 3 1 width_of(title)+2 1
+  set_clear_colour &content draw_colour
+  set_draw_colour &content clear_colour
+  draw_text &content 4 1 title
+  -> content
+
+
+$std::titled_box:
+  (
+    title
+    content
+  )
+  create_screen
+    std_types::titled_box
+      .title_of title
+      .content_of content
+
+# list box
+
+$first_visible_row_of ()
+$current_idx_of ()
+
+$std_types::list_box std_types::widget
+  .row_count_of undefined
+  .column_count_of undefined
+  .first_visible_row_of 1
+  .current_idx_of 1
+  .field_of undefined
+  .possible_values_of undefined
+  .is_focusable true
+
+$std_types::list_box/create_screen: (self)
+  $current_idx current_idx_of(self)
+  $items possible_values_of(self)
+  $row_count row_count_of(self)
+  $column_count column_count_of(self)
+  $item_count length_of(items)
+  !row_count
+    if
+      row_count.is_defined
+      -> min(row_count item_count)
+      -> item_count
+  !column_count
+    if
+      column_count.is_defined
+      -> column_count
+      -> map_reduce(items width_of max)
+  $width column_count+2
+  $height row_count+2
+  $box create_edit_box(current_template_screen width height self)
+  $text_box_clear_colour text_box_clear_colour_of(widget_settings)
+  $text_box_draw_colour text_box_draw_colour_of(widget_settings)
+  set_clear_colour &box text_box_clear_colour_of(widget_settings)
+  set_draw_colour &box label_draw_colour_of(widget_settings)
+  $first_row first_visible_row_of(self)
+  $y 2
+  from_to first_row first_row+row_count-1
+    : (idx)
+      $item items(idx)
+      if
+	idx == current_idx:
+	  set_clear_colour &box
+	    if
+	      has_focus
+	      -> focused_text_box_draw_colour_of(widget_settings)
+	      -> text_box_draw_colour
+	  set_draw_colour &box
+	    if
+	      has_focus
+	      -> focused_text_box_clear_colour_of(widget_settings)
+	      -> text_box_clear_colour
+	  clear &box 2 y width-2 1
+	  draw_text &box 2 y item
+	  inc &y
+	  next
+	:
+	  set_clear_colour &box text_box_clear_colour
+	  set_draw_colour &box text_box_draw_colour
+	  draw_text &box 2 y item
+	  inc &y
+	  next
+    -> box
+
+$std_types::list_box/handle_key_press: (self key)
+  case key
+    CURSOR_UP, CURSOR_DOWN:
+      $idx current_idx_of(self)
+      $items possible_values_of(self)
+      $n length_of(items)
+      $new_idx
+	cond
+	  -> key == CURSOR_UP && idx > 1 -> idx-1
+	  -> key == CURSOR_DOWN && idx < n -> idx+1
+	  -> true -> idx
+      $first_visible_row first_visible_row_of(self)
+      if
+	new_idx != idx:
+	  !self.current_idx_of new_idx
+	  !self.first_visible_row_of
+	    if
+	      new_idx < first_visible_row
+	      -> new_idx
+	      :
+		if
+		  new_idx > first_visible_row+row_count_of(self)-1
+		  -> new_idx-row_count_of(self)+1
+		  -> first_visible_row
+	  field_of(self) &current_dialog_data items(new_idx)
+	  -> self current_dialog_data REDRAW
+	-> undefined undefined undefined
+    -> undefined undefined undefined
+
+$std_types::list_box/handle_mouse_click: (self _x y)
+  $items possible_values_of(self)
   if
-    shortcut.is_a_character:
-      set_draw_colour &screen push_button_shortcut_colour_of(widget_settings)
-      draw_character screen 2 1 text(1)
-    -> screen
+    y >= 2 && y <= length_of(items)+1:
+      $new_idx first_visible_row_of(self)+y-2
+      !self.current_idx_of new_idx
+      field_of(self) &current_dialog_data items(new_idx)
+      -> self current_dialog_data REDRAW
+    -> undefined undefined undefined
+
+$std::list_box:
+  (
+    options*
+    field
+    possible_values
+  )
+  flatten &options
+  extract_options &options
+    ROWS = undefined $row_count
+    COLUMNS = undefined $column_count
+  create_screen
+    std_types::list_box
+      .row_count_of row_count
+      .column_count_of column_count
+      .field_of field
+      .possible_values_of possible_values
+
+$create_edit_box: (template width height info)
+  $dialog_clear_colour dialog_clear_colour_of(widget_settings)
+  $text_box_clear_colour text_box_clear_colour_of(widget_settings)
+  $highlight_colour text_box_highlight_colour_of(widget_settings)
+  $shadow_colour text_box_shadow_colour_of(widget_settings)
+  set_clear_colour &template text_box_clear_colour
+  $screen create_screen(template width height)
+
+  # top border
+  set_clear_colour &screen dialog_clear_colour
+  set_draw_colour &screen shadow_colour
+  draw_text &screen 1 1 string(" " dup("▁" width-2) " ")
+
+  from_to 2 height-1
+    : (row_no)
+      # left border
+      set_clear_colour &screen shadow_colour
+      set_draw_colour &screen dialog_clear_colour
+      draw_text &screen 1 row_no "▊"
+
+      # right border
+      set_clear_colour &screen dialog_clear_colour
+      set_draw_colour &screen highlight_colour
+      draw_text &screen width row_no "▎"
+
+      next
+    :
+      # bottom_border
+      draw_text &screen 1 height string(" " dup("▔" width-2) " ")
+
+      screen
+	.rectangles_of tuple(RECTANGLE info 1 1 width height)
 
 # Widget Groups
 
@@ -108,11 +483,13 @@ $std::horizontal_group:
     TOP = false $_do_align_top
     BOTTOM = false $do_align_bottom
     MIDDLE = false $do_align_middle
+  flatten &widgets
   $n length_of(widgets)
   $width map_reduce(widgets width_of plus)+2*(n-1)
   $height map_reduce(widgets height_of max)
   create_screen $group
-    template_screen(.clear_colour_of dialog_clear_colour_of(widget_settings))
+    current_template_screen
+      .clear_colour_of dialog_clear_colour_of(widget_settings)
     width height
   $x 1
   $rectangles empty_list
@@ -141,7 +518,7 @@ $std::horizontal_group:
 
       $add_delta: (item)
 	item $kind $info $rx $ry $rw $rh
-	-> tuple(kind info x+rx-1 ry rw rh)
+	-> tuple(kind info x+rx-1 y+ry-1 rw rh)
     ->
       group
 	.rectangles_of
@@ -162,11 +539,15 @@ $std::vertical_group:
     LEFT = false $_do_align_left
     RIGHT = false $do_align_right
     CENTER = false $do_align_center
+    NARROW = false $use_narrow_alignment
+  flatten &widgets
   $row_count length_of(widgets)
   $width map_reduce(widgets width_of max)
-  $height map_reduce(widgets height_of plus)+row_count-1
+  $height map_reduce(widgets height_of plus)
+  update_if_not use_narrow_alignment &height -> height+row_count-1
   create_screen $group
-    template_screen(.clear_colour_of dialog_clear_colour_of(widget_settings))
+    current_template_screen
+      .clear_colour_of dialog_clear_colour_of(widget_settings)
     width height
   $y 1
   $rectangles empty_list
@@ -190,12 +571,13 @@ $std::vertical_group:
 	  :
 	    push rectangles tuple(kind info x+rx-1 y+ry-1 rw rh)
       copy &group widget x y
-      plus &y height_of(widget)+1
+      plus &y height_of(widget)
+      update_if_not use_narrow_alignment &y -> y+1
       next
 
       $add_delta: (item)
 	item $kind $info $rx $ry $rw $rh
-	-> tuple(kind info rx y+ry-1 rw rh)
+	-> tuple(kind info x+rx-1 y+ry-1 rw rh)
     ->
       group
 	.rectangles_of
@@ -212,6 +594,7 @@ $std::table_group:
   (
     rows*
   )
+  update_if length_of(rows) == 1 && rows(1)(1).is_a_list &rows -> rows(1)
   $row_count length_of(rows)
   $column_count map_reduce(rows length_of max)
   $column_widths dup(list(0) column_count)
@@ -233,7 +616,8 @@ $std::table_group:
 	  $width reduce(column_widths plus)+column_count-1
 	  $height reduce(row_heights plus)+row_count-1
 	  create_screen $group
-	    template_screen(.clear_colour_of dialog_clear_colour_of(widget_settings))
+	    current_template_screen
+	      .clear_colour_of dialog_clear_colour_of(widget_settings)
 	    width height
 	  $rectangles empty_list
 	  $y 1
@@ -287,6 +671,18 @@ $std::table_group:
 			-> rectangles(1)
 			-> tuple(VERTICAL rectangles 1 1 width height)
 
+# Groups
+
+$std::okay_cancel_group:
+  horizontal_group
+    push_button("Ok" = OKAY)
+    push_button("Cancel" = CANCEL)
+
+$std::yes_no_group:
+  horizontal_group
+    push_button("Yes" = YES)
+    push_button("No" = NO)
+
 # Dialogs
 
 $std::yes_no_dialog:
@@ -295,15 +691,11 @@ $std::yes_no_dialog:
     info
     question
   )
-  create_dialog wm info
+  create_dialog wm info:
     vertical_group
       CENTER
-      text_box(question)
-      horizontal_group
-	push_button
-	  "Yes" = YES
-	push_button
-	  "No" = NO
+      label(question)
+      yes_no_group()
 
 $std::okay_dialog:
   (
@@ -311,10 +703,10 @@ $std::okay_dialog:
     info
     message
   )
-  create_dialog wm info
+  create_dialog wm info:
     vertical_group
       CENTER
-      text_box(message)
+      label(message)
       push_button
 	"Ok" = OKAY
 
@@ -327,9 +719,5 @@ $std::okay_cancel_dialog:
   create_dialog wm info
     vertical_group
       CENTER
-      text_box(message)
-      horizontal_group
-	push_button
-	  "Ok" = OKAY
-	push_button
-	  "Cancel" = CANCEL
+      label(message)
+      okay_cancel_group()

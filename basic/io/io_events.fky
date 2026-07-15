@@ -543,13 +543,18 @@ $std_types::io/run_at:
 
 $std_types::io/exit:
   (
-    self
-    exit_code
+    io
+    exit_code = EXIT_SUCCESS
+    err = undefined
   )
-  ->
-    self
-      .exit_code_of exit_code
-      .read_jobs_of empty_hash_table
+  !io
+    .exit_code_of exit_code
+    .read_jobs_of empty_hash_table
+  if
+    err.is_an_error:
+      log io "ERROR: @(err.to_error_message_string) - exiting"
+    :
+      log io "exiting"
 
 $std_types::io/is_empty:
   (
@@ -937,3 +942,16 @@ $std_types::io/handle_events: (io events)
 	push &new_events event
 	next
     -> io new_events
+
+$std::exit_on_error: (valid_io args*)
+  for_each args
+    : (arg)
+      if
+	arg.is_an_error:
+	  debug::dump 50 `arg
+	  exit &valid_io EXIT_FAILURE arg
+	  loop: # fetch events until the program terminates
+	    get_events! &valid_io $_events
+	    next!
+	next
+    pass

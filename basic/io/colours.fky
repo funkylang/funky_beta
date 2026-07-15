@@ -99,6 +99,13 @@ $std_types::character/blue_component_of:
   )
   -> chr.to_integer & 0xff
 
+$std::is_dark:
+  (
+    chr
+  )
+  $val chr.to_integer
+  -> ((val >> 24) & 0xff)+((val >> 16) & 0xff)+(val >> 8) < 0x180
+
 $std::colour_mixture:
   #
     Example:

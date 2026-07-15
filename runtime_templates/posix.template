@@ -1885,6 +1885,29 @@ FUNCTION std::closedir
     }
   }
 
+FUNCTION std::dirfd
+  {
+    CHECK_ARGUMENTS(1)
+    void *dir = NULL;
+    int result;
+    if (!directory_to_ptr(ARGUMENTS(0), &dir)) return;
+    ACTION(dirfd)
+      result = dirfd(dir);
+    INFO
+      PTR(dir)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
+	"DIRFD FAILED", errno, 0, NULL);
+    } else {
+      RETURN_SINGLE_RESULT(create__std_types__file_descriptor(result))
+    }
+  }
+
 FUNCTION std::dup2
   {
     CHECK_ARGUMENTS(2)

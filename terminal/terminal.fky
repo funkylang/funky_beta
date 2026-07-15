@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2026 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -134,6 +134,7 @@ $std::set_mouse_reporting ()
 $std::get_mouse_reporting ()
 
 $std::get_rectangle_at ()
+$std::update_rectangle_at ()
 $std::get_rectangle_by_key ()
 $std::get_next_rectangle ()
 $std::get_previous_rectangle ()
@@ -208,6 +209,12 @@ $std_types::terminal.serialization_fields_of
     `cursor_is_visible_of
     `current_buffer_of
 $std_types::terminal.current_buffer_of undefined
+
+$std::shortcut_of ()
+
+$std_types::rectangle_info std_types::object
+  .key_of undefined
+  .shortcut_of undefined
 
 $std::create_screen ()
 
@@ -869,6 +876,8 @@ $std_types::io/initialize_terminal:
   )
   run io initialize_terminal_action id options
 
+$TERMINAL .
+
 $initialize_terminal_action: (io id options)
   get_options options
     DRAW_COLOUR = BLACK $draw_colour
@@ -919,6 +928,8 @@ $initialize_terminal_action: (io id options)
 	.original_attributes_of original_attributes
 	.fd_of fd
 	.do_switch_cursor_on_of do_switch_cursor_off
+      register_resource &io TERMINAL terminal
+      log &io 4 -> "initialized terminal"
       -> io tuple(JOB_COMPLETED id terminal)
 
 $original_attributes_of ()
@@ -949,7 +960,8 @@ $std_types::terminal/finalize:
   update_if mouse_reporting_of(self) == MOVE &buf:
     append buf "@esc;[?9;1003;1006;1015l"
   write &io STDOUT_FILENO buf
-  run io reset_attributes self
+  run &io reset_attributes self
+  log io 4 -> "finalized terminal"
 
 $reset_attributes: (io terminal)
   set_terminal_attributes! $_success
@@ -2806,6 +2818,90 @@ $find_rectangle_at: (rectangle rx ry dx dy)
 			    next
     -> undefined
 
+$std_types::screen/update_rectangle_at:
+  (
+    self
+    x
+    y
+    info
+  )
+  $rectangles rectangles_of(self)
+  if
+    rectangles.is_undefined
+    -> self
+    :
+      find_and_update_rectangle_at &rectangles x y 0 0 info
+      -> self(.rectangles_of rectangles)
+
+$find_and_update_rectangle_at: (rectangle rx ry dx dy new_info)
+  rectangle $kind $info $x $y $w $h
+  if
+    rx >= x && rx < x+w && ry >= y && ry < y+h:
+      if
+	kind == RECTANGLE
+	-> tuple(kind new_info x y w h)
+	:
+	  $ndx x-1
+	  $ndy y-1
+	  minus &rx ndx
+	  minus &ry ndy
+	  plus &dx ndx
+	  plus &dy ndy
+	  $s 1
+	  $e length_of(info)
+	  if
+	    kind == HORIZONTAL:
+	      loop:
+		$i s+e .div. 2
+		info(i) $_kind $_info $x_i $_y_i $w_i $_h_i
+		if
+		  rx < x_i:
+		    if
+		      i == s
+		      -> rectangle
+		      :
+			!e i-1
+			next
+		  :
+		    if
+		      rx < x_i+w_i:
+			 find_and_update_rectangle_at
+			   &info(i) rx ry x-1 y-1 new_info
+			 -> tuple(kind info x y w h)
+		      :
+			if
+			  i == e
+			  -> rectangles_of
+			  :
+			    !s i+1
+			    next
+	    :
+	      loop:
+		$i s+e .div. 2
+		info(i) $_kind $_info $_x_i $y_i $_w_i $h_i
+		if
+		  ry < y_i:
+		    if
+		      i == s
+		      -> rectangle
+		      :
+			!e i-1
+			next
+		  :
+		    if
+		      ry < y_i+h_i:
+			find_and_update_rectangle_at
+			  &info(i) rx ry x-1 y-1 new_info
+			-> tuple(kind info x y w h)
+		      :
+			if
+			  i == e
+			  -> rectangle
+			  :
+			    !s i+1
+			    next
+    -> rectangle
+
 $std_types::screen/get_rectangle_by_key:
   (
     self
@@ -2822,20 +2918,20 @@ $std_types::screen/get_rectangle_by_key:
 	  key.is_a_character
 	  -> key.to_lower_case
 	  -> key
+	0 0
 
-$find_rectangle_by_key: (rectangle key)
-  rectangle $kind $info
+$find_rectangle_by_key: (rectangle key dx dy)
+  rectangle $kind $info $x $y $w $h
   case kind
     RECTANGLE:
-      info $shortcut
       if
-	shortcut == key
-	-> rectangle
+	shortcut_of(info) == key
+	-> tuple(info x+dx y+dy w h)
 	-> undefined
     :
       for_each info
 	: (item)
-	  $result find_rectangle_by_key(item key)
+	  $result find_rectangle_by_key(item key x+dx-1 y+dy-1)
 	  if
 	    result.is_defined
 	    -> result
@@ -2886,6 +2982,7 @@ $find_next_rectangle: (rectangle rx ry dx dy)
 	  loop:
 	    $i s+e .div. 2
 	    info(i) $_kind $_info $x_i $_y_i $w_i
+	    plus &x_i x-1
 	    if
 	      rx < x_i:
 		if
@@ -2896,14 +2993,13 @@ $find_next_rectangle: (rectangle rx ry dx dy)
 		    next
 	      :
 		if
-		  rx < x_i+w_i
-		  :
+		  rx < x_i+w_i:
 		    $rect find_next_rectangle(info(i) rx ry x-1 y-1)
 		    if
 		      RECTANGLE == rect: # found one match
 			if
-			  i < n
-			  -> find_first_rectangle(info(i+1) x-1 y-1)
+			  i < n:
+			    -> find_first_rectangle(info(i+1) x-1 y-1)
 			  -> RECTANGLE
 		      -> rect
 		  :
@@ -2915,10 +3011,11 @@ $find_next_rectangle: (rectangle rx ry dx dy)
 			next
 	VERTICAL:
 	  $s 1
-	  $e length_of(info)
+	  $e n
 	  loop:
 	    $i s+e .div. 2
 	    info(i) $_kind $_info $_x_i $y_i $_w_i $h_i
+	    plus &y_i y-1
 	    if
 	      ry < y_i:
 		if
@@ -2934,8 +3031,8 @@ $find_next_rectangle: (rectangle rx ry dx dy)
 		    if
 		      RECTANGLE == rect: # found one match
 			if
-			  i < n
-			  -> find_first_rectangle(info(i+1) x-1 y-1)
+			  i < n:
+			    -> find_first_rectangle(info(i+1) x-1 y-1)
 			  -> RECTANGLE
 		      -> rect
 		  :
@@ -2992,6 +3089,7 @@ $find_previous_rectangle: (rectangle rx ry dx dy)
 	  loop:
 	    $i s+e .div. 2
 	    info(i) $_kind $_info $x_i $_y_i $w_i
+	    plus &x_i x-1
 	    if
 	      rx < x_i:
 		if
@@ -3024,6 +3122,7 @@ $find_previous_rectangle: (rectangle rx ry dx dy)
 	  loop:
 	    $i s+e .div. 2
 	    info(i) $_kind $_info $_x_i $y_i $_w_i $h_i
+	    plus &y_i y-1
 	    if
 	      ry < y_i:
 		if
@@ -3158,3 +3257,35 @@ $std_types::screen/range:
 	  .width_of width
 	  .height_of height
 	  .rows_of rows
+
+$std_types::screen/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  $attribute_indent tabs_and_spaces(indent+2)
+  tabs_and_spaces &indent
+  if
+    depth <= 1
+    -> "<screen @(width_of(self)) x @(height_of(self))>@nl;"
+    :
+      $header "
+
+	@(indent)std_types::screen
+	@(attribute_indent)width: @(width_of(self))
+	@(attribute_indent)height: @(height_of(self))
+      if
+	depth == 1
+	-> header
+	:
+	  append
+	    header
+	    map_reduce
+	      rows_of(self): (row)
+		$text ""
+		from_to_by 1 length_of(row) 3
+		  : (i)
+		    push &text row(i)
+		    next
+		  -> append(attribute_indent text "@nl;")
