@@ -179,26 +179,8 @@ typedef enum {
 typedef struct {
   TAG tag;
   long offset;
-  int64_t value;
-} UPDATE_INT64_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
-  int32_t value;
-} UPDATE_INT32_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
-  int16_t value;
-} UPDATE_INT16_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
-  int8_t value;
-} UPDATE_INT8_ARRAY_DATA_SET_VALUE;
+  NODE *value;
+} UPDATE_ARRAY_DATA_SET_VALUE;
 
 typedef struct {
   TAG tag;
@@ -209,38 +191,14 @@ typedef struct {
 typedef struct {
   TAG tag;
   long offset;
-  NODE *value;
-} UPDATE_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
-  double value;
-} UPDATE_FLOAT64_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
-  float value;
-} UPDATE_FLOAT32_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
-  uint64_t value;
-} UPDATE_UINT64_ARRAY_DATA_SET_VALUE;
-
-typedef struct {
-  TAG tag;
-  long offset;
   uint32_t value;
-} UPDATE_UINT32_ARRAY_DATA_SET_VALUE;
+} UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE;
 
 typedef struct {
   TAG tag;
   long offset;
-  uint16_t value;
-} UPDATE_UINT16_ARRAY_DATA_SET_VALUE;
+  int8_t value;
+} UPDATE_INT8_ARRAY_DATA_SET_VALUE;
 
 typedef struct {
   TAG tag;
@@ -251,8 +209,50 @@ typedef struct {
 typedef struct {
   TAG tag;
   long offset;
+  int16_t value;
+} UPDATE_INT16_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  uint16_t value;
+} UPDATE_UINT16_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  int32_t value;
+} UPDATE_INT32_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
   uint32_t value;
-} UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE;
+} UPDATE_UINT32_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  int64_t value;
+} UPDATE_INT64_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  uint64_t value;
+} UPDATE_UINT64_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  float value;
+} UPDATE_FLOAT32_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  double value;
+} UPDATE_FLOAT64_ARRAY_DATA_SET_VALUE;
 
 typedef struct {
   void *type;
