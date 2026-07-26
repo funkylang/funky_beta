@@ -179,7 +179,7 @@ RUNTIME_VERSION="$RUNTIME_MAJOR_VERSION.$RUNTIME_MINOR_VERSION.$RUNTIME_PATCH"
 
 DLL_VERSION="$RUNTIME_MAJOR_VERSION"
   # runtime-DLL version *required* by Funky executables
-  # and used for all DLLs built for Simplicity libraries
+  # and used for all DLLs built for Funky libraries
   # they don't care about the runtime minor version or revision
 
 PACKAGE_VERSION=`cat VERSION`

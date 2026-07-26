@@ -1,4 +1,4 @@
-To install Simplicity from scratch run the following commands:
+To install Funky from scratch run the following commands:
 
 ./configure
 make
