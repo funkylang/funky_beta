@@ -205,6 +205,7 @@ std::CLEAR_COLOUR UNIQUE_ITEM
 std::CLICKS UNIQUE_ITEM
 std::CLOSE UNIQUE_ITEM
 std::CLOSED UNIQUE_ITEM
+std::COLUMNS UNIQUE_ITEM
 std::CONNECT UNIQUE_ITEM
 std::CONNECT_TERMINAL UNIQUE_ITEM
 std::CONTENT UNIQUE_ITEM
@@ -327,6 +328,7 @@ std::DEEPPINK CONSTANT
 std::DEEPSKYBLUE CONSTANT
 std::DEFAULT UNIQUE_ITEM
 std::DELETE UNIQUE_ITEM
+std::DIALOG_CLOSED UNIQUE_ITEM
 std::DIGIT CONSTANT
 std::DIMGRAY CONSTANT
 std::DIMGREY CONSTANT
@@ -568,6 +570,7 @@ std::MOVE UNIQUE_ITEM
 std::MULTI_VALUED_OPTION UNIQUE_ITEM
 std::NAMED_PIPE BUILTIN_OBJECT
 std::NAME_BASED_UUID UNIQUE_ITEM
+std::NARROW UNIQUE_ITEM
 std::NAVAJOWHITE CONSTANT
 std::NAVY CONSTANT
 std::NEW_WINDOW_SIZE UNIQUE_ITEM
@@ -608,10 +611,13 @@ std::RECEIVE_CTRL_C_AND_CTRL_Z UNIQUE_ITEM
 std::RECEIVE_CTRL_Q_AND_CTRL_S UNIQUE_ITEM
 std::RECEIVE_SIGWINCH UNIQUE_ITEM
 std::RED CONSTANT
+std::REDRAW UNIQUE_ITEM
+std::REDRAW_ALL UNIQUE_ITEM
 std::REGULAR_FILE BUILTIN_OBJECT
 std::RETURN UNIQUE_ITEM
 std::RIGHT UNIQUE_ITEM
 std::ROSYBROWN CONSTANT
+std::ROWS UNIQUE_ITEM
 std::ROYALBLUE CONSTANT
 std::RUNTIME_ERROR UNIQUE_ITEM
 std::SADDLEBROWN CONSTANT
@@ -816,6 +822,7 @@ std::character_height_of POLYMORPHIC_FUNCTION
 std::character_width_of POLYMORPHIC_FUNCTION
 std::chdir BUILTIN_FUNCTION
 std::check FUNCTION
+std::check_box FUNCTION
 std::chmod BUILTIN_FUNCTION
 std::chown BUILTIN_FUNCTION
 std::chroot BUILTIN_FUNCTION
@@ -828,6 +835,7 @@ std::close_connection FUNCTION
 std::closed_connection FUNCTION
 std::closedir BUILTIN_FUNCTION
 std::colour_mixture FUNCTION
+std::column_count_of POLYMORPHIC_FUNCTION
 std::command_line_arguments BUILTIN_OBJECT
 std::common_prefix POLYMORPHIC_FUNCTION
 std::concatenate FUNCTION
@@ -857,6 +865,8 @@ std::create_window_manager POLYMORPHIC_FUNCTION
 std::csi FUNCTION
 std::current_cursor_x OBJECT
 std::current_cursor_y OBJECT
+std::current_dialog_data OBJECT
+std::current_template_screen OBJECT
 std::current_time BUILTIN_FUNCTION
 std::current_time_of POLYMORPHIC_FUNCTION
 std::cursor_home IO_FUNCTION
@@ -864,6 +874,7 @@ std::cursor_off IO_FUNCTION
 std::cursor_on IO_FUNCTION
 std::cursor_x_of POLYMORPHIC_FUNCTION
 std::cursor_y_of POLYMORPHIC_FUNCTION
+std::data_fields_of POLYMORPHIC_FUNCTION
 std::date_and_time BUILTIN_FUNCTION
 std::day_of POLYMORPHIC_FUNCTION
 std::day_of_week_of POLYMORPHIC_FUNCTION
@@ -881,7 +892,8 @@ std::device_of POLYMORPHIC_FUNCTION
 std::dialog_clear_colour_of POLYMORPHIC_FUNCTION
 std::difference POLYMORPHIC_FUNCTION
 std::dimension_count_of POLYMORPHIC_FUNCTION
-std::directory IO_FUNCTION
+std::directory POLYMORPHIC_FUNCTION
+std::dirfd BUILTIN_FUNCTION
 std::disable_logging POLYMORPHIC_FUNCTION
 std::div POLYMORPHIC_FUNCTION
 std::do IO_FUNCTION
@@ -973,6 +985,8 @@ std::flush POLYMORPHIC_FUNCTION
 std::focus_next_window POLYMORPHIC_FUNCTION
 std::focus_previous_window POLYMORPHIC_FUNCTION
 std::focus_window POLYMORPHIC_FUNCTION
+std::focused_text_box_clear_colour_of POLYMORPHIC_FUNCTION
+std::focused_text_box_draw_colour_of POLYMORPHIC_FUNCTION
 std::for_each POLYMORPHIC_FUNCTION
 std::format FUNCTION
 std::fourth FUNCTION
@@ -1041,12 +1055,15 @@ std::group_id_of POLYMORPHIC_FUNCTION
 std::handle_dom_input_event FUNCTION
 std::handle_event POLYMORPHIC_FUNCTION
 std::handle_events POLYMORPHIC_FUNCTION
+std::handle_key_press POLYMORPHIC_FUNCTION
+std::handle_mouse_click POLYMORPHIC_FUNCTION
 std::handle_web_client_events FUNCTION
 std::handle_web_server_events FUNCTION
 std::handle_websocket_terminal_events IO_FUNCTION
 std::handle_window_event POLYMORPHIC_FUNCTION
 std::hangup_on_close POLYMORPHIC_FUNCTION
 std::has_a_visible_cursor POLYMORPHIC_FUNCTION
+std::has_focus OBJECT
 std::has_prefix POLYMORPHIC_FUNCTION
 std::has_suffix POLYMORPHIC_FUNCTION
 std::hash POLYMORPHIC_FUNCTION
@@ -1070,7 +1087,7 @@ std::inc FUNCTION
 std::indented FUNCTION
 std::initialize POLYMORPHIC_FUNCTION
 std::initialize_logging IO_FUNCTION
-std::initialize_rendering FUNCTION
+std::initialize_rendering POLYMORPHIC_FUNCTION
 std::initialize_terminal POLYMORPHIC_FUNCTION
 std::initialized_array BUILTIN_FUNCTION
 std::initialized_boolean_array BUILTIN_FUNCTION
@@ -1145,9 +1162,11 @@ std::is_an_iterator POLYMORPHIC_FUNCTION
 std::is_an_octet_string POLYMORPHIC_FUNCTION
 std::is_an_upper_case_letter_character BUILTIN_FUNCTION
 std::is_an_uppercase_letter FUNCTION
+std::is_dark FUNCTION
 std::is_defined POLYMORPHIC_FUNCTION
 std::is_empty POLYMORPHIC_FUNCTION
 std::is_even FUNCTION
+std::is_focusable POLYMORPHIC_FUNCTION
 std::is_listening BUILTIN_FUNCTION
 std::is_not_empty POLYMORPHIC_FUNCTION
 std::is_odd FUNCTION
@@ -1163,6 +1182,9 @@ std::key_to_name VARIABLE
 std::key_value_pair FUNCTION
 std::keys_of FUNCTION
 std::kill BUILTIN_FUNCTION
+std::label FUNCTION
+std::label_clear_colour_of POLYMORPHIC_FUNCTION
+std::label_draw_colour_of POLYMORPHIC_FUNCTION
 std::last_item_of POLYMORPHIC_FUNCTION
 std::last_key_of POLYMORPHIC_FUNCTION
 std::lcg FUNCTION
@@ -1174,6 +1196,7 @@ std::line_spacing_of POLYMORPHIC_FUNCTION
 std::link BUILTIN_FUNCTION
 std::link_count_of POLYMORPHIC_FUNCTION
 std::list BUILTIN_FUNCTION
+std::list_box FUNCTION
 std::ln POLYMORPHIC_FUNCTION
 std::load POLYMORPHIC_FUNCTION
 std::load_configuration POLYMORPHIC_FUNCTION
@@ -1238,6 +1261,7 @@ std::normalize FUNCTION
 std::not POLYMORPHIC_FUNCTION
 std::oct FUNCTION
 std::okay_cancel_dialog FUNCTION
+std::okay_cancel_group FUNCTION
 std::okay_dialog FUNCTION
 std::on POLYMORPHIC_FUNCTION
 std::on_not POLYMORPHIC_FUNCTION
@@ -1272,6 +1296,7 @@ std::plot_y_resolution_of POLYMORPHIC_FUNCTION
 std::plus POLYMORPHIC_FUNCTION
 std::pop POLYMORPHIC_FUNCTION
 std::port_no_of POLYMORPHIC_FUNCTION
+std::possible_values_of POLYMORPHIC_FUNCTION
 std::pow BUILTIN_FUNCTION
 std::prepare_update POLYMORPHIC_FUNCTION
 std::previous_item_of POLYMORPHIC_FUNCTION
@@ -1292,6 +1317,7 @@ std::push_button_clear_colour_of POLYMORPHIC_FUNCTION
 std::push_button_draw_colour_of POLYMORPHIC_FUNCTION
 std::push_button_shortcut_colour_of POLYMORPHIC_FUNCTION
 std::put POLYMORPHIC_FUNCTION
+std::radio_button FUNCTION
 std::random_seed_of POLYMORPHIC_FUNCTION
 std::range POLYMORPHIC_FUNCTION
 std::read POLYMORPHIC_FUNCTION
@@ -1328,6 +1354,7 @@ std::reverse POLYMORPHIC_FUNCTION
 std::rgb_character FUNCTION
 std::root_device_of POLYMORPHIC_FUNCTION
 std::round POLYMORPHIC_FUNCTION
+std::row_count_of POLYMORPHIC_FUNCTION
 std::rows_and_columns FUNCTION
 std::run POLYMORPHIC_FUNCTION
 std::run_at POLYMORPHIC_FUNCTION
@@ -1377,6 +1404,7 @@ std::shell_of POLYMORPHIC_FUNCTION
 std::shift_left POLYMORPHIC_FUNCTION
 std::shift_right POLYMORPHIC_FUNCTION
 std::shm_unlink BUILTIN_FUNCTION
+std::shortcut_of POLYMORPHIC_FUNCTION
 std::show_message POLYMORPHIC_FUNCTION
 std::shrink POLYMORPHIC_FUNCTION
 std::shutdown BUILTIN_FUNCTION
@@ -1418,13 +1446,15 @@ std::tabs_and_spaces FUNCTION
 std::tan BUILTIN_FUNCTION
 std::terminate IO_FUNCTION
 std::text_attributes_of POLYMORPHIC_FUNCTION
-std::text_box FUNCTION
 std::text_box_clear_colour_of POLYMORPHIC_FUNCTION
 std::text_box_draw_colour_of POLYMORPHIC_FUNCTION
+std::text_box_highlight_colour_of POLYMORPHIC_FUNCTION
+std::text_box_shadow_colour_of POLYMORPHIC_FUNCTION
 std::third FUNCTION
 std::time_shift_of POLYMORPHIC_FUNCTION
 std::timeout_for_reads POLYMORPHIC_FUNCTION
 std::times POLYMORPHIC_FUNCTION
+std::titled_box FUNCTION
 std::to_base64 POLYMORPHIC_FUNCTION
 std::to_binop POLYMORPHIC_FUNCTION
 std::to_error_message_string FUNCTION
@@ -1471,6 +1501,7 @@ std::until POLYMORPHIC_FUNCTION
 std::update POLYMORPHIC_FUNCTION
 std::update_if POLYMORPHIC_FUNCTION
 std::update_if_not POLYMORPHIC_FUNCTION
+std::update_rectangle_at POLYMORPHIC_FUNCTION
 std::update_window_manager FUNCTION
 std::upgrade_to_websocket FUNCTION
 std::upper_bound_of POLYMORPHIC_FUNCTION
@@ -1490,6 +1521,7 @@ std::waitpid BUILTIN_FUNCTION
 std::which IO_FUNCTION
 std::while FUNCTION
 std::while_not FUNCTION
+std::widget_options_of POLYMORPHIC_FUNCTION
 std::widget_settings TYPE
 std::width_of POLYMORPHIC_FUNCTION
 std::window_count_of POLYMORPHIC_FUNCTION
@@ -1506,6 +1538,7 @@ std::x_of POLYMORPHIC_FUNCTION
 std::y_of POLYMORPHIC_FUNCTION
 std::year_of POLYMORPHIC_FUNCTION
 std::yes_no_dialog FUNCTION
+std::yes_no_group FUNCTION
 std::zip POLYMORPHIC_FUNCTION
 std_types-2.0::group OBJECT
 std_types-2.0::line OBJECT
@@ -1526,9 +1559,11 @@ std_types::bresenham_iterator TYPE
 std_types::capture TYPE
 std_types::character BUILTIN_TYPE
 std_types::character_array BUILTIN_TYPE
+std_types::check_box TYPE
 std_types::collection TYPE
 std_types::date_and_time BUILTIN_TYPE
 std_types::device_id BUILTIN_TYPE
+std_types::dialog TYPE
 std_types::directory BUILTIN_TYPE
 std_types::dirent BUILTIN_TYPE
 std_types::error BUILTIN_TYPE
@@ -1565,6 +1600,7 @@ std_types::lb2_table TYPE
 std_types::lcg TYPE
 std_types::line TYPE
 std_types::list BUILTIN_TYPE
+std_types::list_box TYPE
 std_types::many TYPE
 std_types::mersenne_twister TYPE
 std_types::number BUILTIN_TYPE
@@ -1575,8 +1611,11 @@ std_types::passwd BUILTIN_TYPE
 std_types::polymorphic_function BUILTIN_TYPE
 std_types::polymorphic_function_with_setter BUILTIN_TYPE
 std_types::process_id BUILTIN_TYPE
+std_types::push_button TYPE
+std_types::radio_button TYPE
 std_types::random_number_generator TYPE
 std_types::real BUILTIN_TYPE
+std_types::rectangle_info TYPE
 std_types::resource TYPE
 std_types::screen TYPE
 std_types::seek_type BUILTIN_TYPE
@@ -1591,6 +1630,7 @@ std_types::string BUILTIN_TYPE
 std_types::table TYPE
 std_types::terminal TYPE
 std_types::terminal_attributes BUILTIN_TYPE
+std_types::titled_box TYPE
 std_types::true BUILTIN_TYPE
 std_types::tuple BUILTIN_TYPE
 std_types::uint16_array BUILTIN_TYPE
@@ -1604,4 +1644,5 @@ std_types::value_range BUILTIN_TYPE
 std_types::view TYPE
 std_types::web_terminal TYPE
 std_types::wide_string BUILTIN_TYPE
+std_types::widget TYPE
 std_types::window_manager TYPE
