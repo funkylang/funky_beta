@@ -719,7 +719,6 @@ void open_failed(void);
 void close_failed(void);
 void read_error(void);
 void write_error(void);
-void flush_failed(void);
 NODE *create_function(const TAB_NUM *code);
 NODE *create_list(long count);
 void set_list_item(NODE *list, long idx, NODE *value);

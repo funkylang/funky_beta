@@ -1124,12 +1124,3 @@ FUNCTION void write_error
       "WRITE ERROR", errno, 0, NULL);
   }
 
-FUNCTION void flush_failed
-  (
-    void
-  )
-  {
-    create_error_message(
-      module__builtin.constants_base[unique__std__IO_ERROR-1],
-      "FLUSH FAILED", errno, 0, NULL);
-  }

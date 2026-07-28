@@ -513,7 +513,6 @@ enum {
   var_std__read,
   var_std__write,
   var_std__close,
-  var_std__flush,
   var_std_types__generic_array,
   var_std__create_empty_array,
   var_std_types__array,
@@ -4983,16 +4982,6 @@ void write_error
     create_error_message(
       module__builtin.constants_base[unique__std__IO_ERROR-1],
       "WRITE ERROR", errno, 0, NULL);
-  }
-
-void flush_failed
-  (
-    void
-  )
-  {
-    create_error_message(
-      module__builtin.constants_base[unique__std__IO_ERROR-1],
-      "FLUSH FAILED", errno, 0, NULL);
   }
 
 int close_fd(int *fd_p) {
@@ -29026,11 +29015,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
-    FOT_POLYMORPHIC, 0, 0,
-    "flush\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
     FOT_TYPE, 0, 0,
     "generic_array\000std_types", NULL,
     {"object\000std_types"},
@@ -31937,7 +31921,7 @@ FUNKY_MODULE module__builtin = {
   "_builtin",
   0, 0,
   4, 0,
-  421, 487,
+  421, 486,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table

@@ -841,11 +841,4 @@ POLY std::close
 
     See also: std::open_file
 
-POLY std::flush
-  #
-    flushes all buffers associated with the resource
 
-    Parameter:
-      resource # the resource to be flushed
-
-    Topic: Input-Output
