@@ -5,10 +5,13 @@ Uses funky_symbol_source.py to locate the file, then extracts the
 actual definition block from template files (.template) or Funky
 modules (.fky).
 
+With --base-only, skip implementations and only show the base definition.
+By default, implementations are included for polymorphic functions.
+
 Usage:
     python3 funky_symbol_definition.py std::println
     python3 funky_symbol_definition.py std_types::object
-    python3 funky_symbol_definition.py std::plus
+    python3 funky_symbol_definition.py --base-only std::fill_trapezoid
 """
 
 import re
@@ -19,9 +22,21 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TOOL_DIR = Path(__file__).resolve().parent
 SOURCE_TOOL = TOOL_DIR / "funky_symbol_source.py"
+IMPL_TOOL = TOOL_DIR / "funky_symbol_implementations.py"
 
 # Template keywords that start a top-level definition
 TEMPLATE_KEYWORDS = r"TYPE|FUNCTION|METHOD|OBJECT|POLY|UNIQUE|CODE"
+
+
+def get_implementations(symbol: str) -> list[str]:
+    """Return implementation names for a polymorphic function via funky_symbol_implementations.py."""
+    r = subprocess.run(
+        ["python3", str(IMPL_TOOL), symbol],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        return []
+    return r.stdout.strip().split('\n') if r.stdout.strip() else []
 
 
 def get_source_file(symbol: str) -> Path:
@@ -171,18 +186,13 @@ def symbol_variants(symbol: str) -> list[str]:
     return candidates
 
 
-def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} SYMBOL", file=sys.stderr)
-        print("  e.g. std::println  std_types__string/std__put", file=sys.stderr)
-        sys.exit(1)
-
-    symbol = sys.argv[1]
+def find_definition(symbol: str) -> str | None:
+    """Look up and print the definition of a single symbol. Returns the definition text or None."""
     source_path = get_source_file(symbol)
 
     if not source_path.is_file():
         print(f"Error: source file not found: {source_path}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
     source_text = source_path.read_text()
     ext = source_path.suffix
@@ -202,15 +212,37 @@ def main():
                 break
     else:
         print(f"Error: unsupported file type '{ext}' for {source_path}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
     if block is None:
         rel = str(source_path.relative_to(REPO_ROOT))
         real = unmangle(symbol)
         print(f"Error: could not find the definition of '{real}' in {rel}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
-    print(block, end="")
+    return block
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Extract source definition of a Funky symbol.")
+    parser.add_argument("symbol", help="Symbol name (e.g. std::println)")
+    parser.add_argument("--base-only", action="store_true",
+                        help="Only print the base definition, skip implementations")
+    args = parser.parse_args()
+
+    symbol = args.symbol
+
+    block = find_definition(symbol)
+    if block is not None:
+        print(block, end="")
+
+    if not args.base_only:
+        impls = get_implementations(symbol)
+        for impl in impls:
+            impl_block = find_definition(impl)
+            if impl_block is not None:
+                print(impl_block, end="")
 
 
 if __name__ == "__main__":
