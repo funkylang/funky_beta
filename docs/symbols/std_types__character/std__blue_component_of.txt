@@ -17,8 +17,10 @@
 
   Example:
 
+    <require basic/stdlib>
     <require basic/io/colours>
     <require basic/io/css_colours>
+
     dump! `blue_component_of(CORAL)
 
   Output:

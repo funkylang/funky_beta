@@ -51,7 +51,6 @@ def process_doc(path):
     try:
         with os.fdopen(fd, 'w') as f:
             f.write('#!/usr/bin/env fkyrun\n')
-            f.write('<require basic/stdlib>\n\n')
             f.write('\n'.join(code_lines))
             f.write('\n')
         result = subprocess.run(
@@ -91,17 +90,39 @@ def process_doc(path):
     error_start, error_end = find_section('Error output')
     footer_start = next((i for i, l in enumerate(lines) if re.match(r'^\(\(', l)), None)
 
+    # helper to remove a section by index range
+    def remove(start, end):
+        if start is None:
+            return lines
+        return lines[:start] + (lines[end:] if end else lines[start + 1:])
+
     # --- insert or replace ---
-    if section_name == 'Output' and output_start is not None:
-        lines = lines[:output_start] + new_section + (lines[output_end:] if output_end else lines[output_start + 1:])
-        print(f"  Output section replaced")
-    elif section_name == 'Error output' and error_start is not None:
-        lines = lines[:error_start] + new_section + (lines[error_end:] if error_end else lines[error_start + 1:])
-        print(f"  Error output section replaced")
-    else:
-        insert = footer_start if footer_start else len(lines)
-        lines = lines[:insert] + new_section + lines[insert:]
-        print(f"  {section_name} section added")
+    if section_name == 'Output':
+        if output_start is not None:
+            lines = lines[:output_start] + new_section + (lines[output_end:] if output_end else lines[output_start + 1:])
+            print("  Output section replaced")
+        else:
+            insert = footer_start if footer_start else len(lines)
+            lines = lines[:insert] + new_section + lines[insert:]
+            print("  Output section added")
+        # remove stale Error output
+        error_start2, error_end2 = find_section('Error output')
+        if error_start2 is not None:
+            lines = remove(error_start2, error_end2)
+            print("  stale Error output removed")
+    elif section_name == 'Error output':
+        if error_start is not None:
+            lines = lines[:error_start] + new_section + (lines[error_end:] if error_end else lines[error_start + 1:])
+            print("  Error output section replaced")
+        else:
+            insert = footer_start if footer_start else len(lines)
+            lines = lines[:insert] + new_section + lines[insert:]
+            print("  Error output section added")
+        # remove stale Output
+        output_start2, output_end2 = find_section('Output')
+        if output_start2 is not None:
+            lines = remove(output_start2, output_end2)
+            print("  stale Output removed")
 
     doc_path.write_text('\n'.join(lines))
     return True
