@@ -11,15 +11,16 @@ Output format (one per line, sorted):
     symbol_name TYPE (source_file)
 
 Where TYPE is one of:
-    POLYMORPHIC_FUNCTION, FUNCTION, BUILTIN_FUNCTION, IO_FUNCTION
-    TYPE_FUNCTION, BUILTIN_TYPE_FUNCTION
-    TYPE, BUILTIN_TYPE
-    OBJECT, BUILTIN_OBJECT
-    METHOD, BUILTIN_METHOD, IO_METHOD, BUILTIN_IO_METHOD
-    ATTRIBUTE, BUILTIN_ATTRIBUTE
+    POLYMORPHIC_FUNCTION, POLYMORPHIC_FUNCTION_WITH_SETTER, FUNCTION, IO_FUNCTION
+    TYPE_FUNCTION
+    TYPE
+    OBJECT
+    METHOD, IO_METHOD
+    ATTRIBUTE
     UNIQUE_ITEM, CONSTANT, VARIABLE
 
 source_file is the original .fky or .template source (relative to repo root).
+Symbols from runtime_templates/ are builtins; from library dirs are module symbols.
 
 Usage:
     python3 funky_symbol_list.py
@@ -46,8 +47,8 @@ FOT_ENTRY = re.compile(
 )
 
 # const_idx for FOT_INITIALIZED
-#  func_ns__name   -> FUNCTION/BUILTIN_FUNCTION (no sign = BUILTIN)
-# -func_ns__name   -> FUNCTION (negative sign = compiled module function)
+#  func_ns__name   -> FUNCTION (no sign = template builtin)
+# -func_ns__name   -> FUNCTION (negative sign = compiled module)
 # -uni_ns__name    -> UNIQUE_ITEM (negative + uni_ prefix)
 # -chr_NNN / -num_NNN / -list_... etc. -> CHARACTER/NUMBER/LIST constant
 CONST_IDX = re.compile(r'\{\.const_idx\s*=\s*(-?)(func_|uni_|chr_|num_|list_|tuple_|sequence_|value_range_)(\S+)')
@@ -57,18 +58,18 @@ FUNC_TABLE = re.compile(r'\bt_func_(\S+?)\[')
 
 # FUNCTION_INFO: maps back to t_func table name
 FUNC_INFO = re.compile(
-    r'static\s+FUNCTION_INFO\s+i_func_(\S+)\s*=\s*\{\s*t_func_(\S+?)\s*,'
+    r'static\s+FUNCTION_INFO\s+i_func_(\S+)\s*=\s*\{\s*t_func_(\S+?)\s*,',
 )
 
 # ATTRIBUTE_DEFINITION block: static ATTRIBUTE_DEFINITION ns__type__attributes[] = { ... };
 # Entry format: {left, right} where left is var_name, -var_name, or TYPE_FUNCTION
 # and right is -func_*, -var_*, -num_*, etc.
 ATTR_DEF_HEADER = re.compile(
-    r'static\s+ATTRIBUTE_DEFINITION\s+(\S+)__attributes\s*\[\s*\]\s*=\s*\{'
+    r'static\s+ATTRIBUTE_DEFINITION\s+(\S+)__attributes\s*\[\s*\]\s*=\s*\{',
 )
 # Individual entry: {var_name, value} or {-var_name, value} or {TYPE_FUNCTION, value}
 ATTR_DEF_ENTRY = re.compile(
-    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_)\S+)\s*\}'
+    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_)\S+)\s*\}',
 )
 IO_CHECK = re.compile(r'CHECK_IO_ACCESS_RIGHTS')
 
@@ -87,6 +88,39 @@ TEMPLATE_FUNCTION = re.compile(
 # Template UNIQUE declarations (default namespace: std)
 TEMPLATE_UNIQUE = re.compile(
     r'^UNIQUE\s+(\S+)',
+    re.MULTILINE,
+)
+
+# Template OBJECT declarations: OBJECT std::NAME or OBJECT std::NAME -> type
+# Also matches PUBLIC OBJECT
+TEMPLATE_OBJECT = re.compile(
+    r'^(?:PUBLIC\s+)?OBJECT\s+(\S+)',
+    re.MULTILINE,
+)
+
+# Template TYPE declarations: TYPE namespace::name
+# Also matches PUBLIC TYPE
+TEMPLATE_TYPE_DECL = re.compile(
+    r'^(?:PUBLIC\s+)?TYPE\s+(\S+)',
+    re.MULTILINE,
+)
+
+# Template POLY declarations: POLY namespace::name (normal polymorphic function)
+TEMPLATE_POLY = re.compile(
+    r'^POLY\s+(\S+)',
+    re.MULTILINE,
+)
+
+# Template ATTR declarations: ATTR namespace::name (polymorphic function with setter)
+TEMPLATE_ATTR = re.compile(
+    r'^ATTR\s+(\S+)',
+    re.MULTILINE,
+)
+
+# Template ATTRIBUTE declarations: ATTRIBUTE type.attribute_name
+# Format: ATTRIBUTE std_types::passwd.username_of
+TEMPLATE_ATTRIBUTE_DECL = re.compile(
+    r'^ATTRIBUTE\s+(\S+)',
     re.MULTILINE,
 )
 
@@ -117,6 +151,8 @@ def decode_mangled(name):
     if "___" not in name:
         return None
     base, method = name.split("___", 1)
+    # Decode method name: ns__method -> ns::method
+    method = method.replace("__", "::")
     return f"{base.replace('__', '::')}/{method}"
 
 
@@ -126,19 +162,15 @@ def classify_fot(fot_type, namespace, is_builtin, attr_count=0):
         return None
     mapping = {
         "POLYMORPHIC": "POLYMORPHIC_FUNCTION",
-        "TYPE": "BUILTIN_TYPE" if is_builtin else "TYPE",
-        "OBJECT": "BUILTIN_OBJECT" if is_builtin else "TYPE",
+        "TYPE": "TYPE",
+        "OBJECT": "OBJECT",
         "UNINITIALIZED": "VARIABLE",
     }
     base = mapping.get(fot_type)
     if fot_type == "DERIVED":
-        # FOT_DERIVED with attr_count > 0 is a TYPE (has attributes/methods)
-        # FOT_DERIVED with attr_count == 0 is an OBJECT instance
         if is_builtin:
-            return "TYPE" if attr_count > 0 else "BUILTIN_OBJECT"
-        else:
-            # Non-builtin: OBJECTs are also TYPEs
-            return "TYPE"
+            return "TYPE" if attr_count > 0 else "OBJECT"
+        return "TYPE"
     return base
 
 
@@ -160,17 +192,23 @@ def parse_c_file(c_path, is_builtin=False):
         )
         if not ns or ns in PRIVATE_NAMESPACES:
             continue
-        if fot_type == "INITIALIZED":
+        if fot_type == "POLYMORPHIC":
+            kind = classify_fot(fot_type, ns, is_builtin, attr_count)
+            if kind is None:
+                continue
+            # Check for has_a_setter = true within the struct initializer block
+            block = text[end:end + 200]
+            if "has_a_setter = true" in block:
+                kind = "POLYMORPHIC_FUNCTION_WITH_SETTER"
+            symbols[f"{ns}::{name}"] = (kind, src)
+        elif fot_type == "INITIALIZED":
             idx = CONST_IDX.search(text[end:end + 200])
             if idx:
                 sign, prefix = idx.group(1), idx.group(2)
                 if prefix == "uni_":
                     kind = "UNIQUE_ITEM"
                 elif prefix == "func_":
-                    if sign == '':
-                        kind = "BUILTIN_FUNCTION"
-                    else:
-                        kind = "FUNCTION"
+                    kind = "FUNCTION"
                 else:
                     # chr_, num_, list_, tuple_, sequence_, value_range_
                     kind = "CONSTANT"
@@ -221,13 +259,9 @@ def parse_templates():
         src = rel_path(tmpl)
 
         # Scan all code blocks for CHECK_IO_ACCESS_RIGHTS
-        # Functions/methods are followed by { ... } blocks
-        # We track which symbol names appear with IO checks
         io_blocks = set()
         for m in IO_CHECK.finditer(text):
-            # Look backwards to find the enclosing FUNCTION/METHOD
             before = text[:m.start()]
-            # Find the most recent FUNCTION or METHOD declaration
             for decl in TEMPLATE_METHOD.finditer(before):
                 io_blocks.add(decl.start())
             for decl in TEMPLATE_FUNCTION.finditer(before):
@@ -251,10 +285,20 @@ def parse_templates():
                 name = name[:name.index("(")].strip()
             if "::" not in name:
                 continue
+            # Implicit using std: resolve method part if it lacks a namespace
+            type_part, method_part = name.split("/", 1)
+            if "::" not in method_part:
+                method_part = f"std::{method_part}"
+                name = f"{type_part}/{method_part}"
+            # _type method IS the type function (/:), matches builtins.c ___type
+            if method_part == "std::_type":
+                name = f"{type_part}/:"
+                symbols[name] = ("TYPE_FUNCTION", src)
+                continue
             if m.start() in io_blocks:
-                symbols[name] = ("BUILTIN_IO_METHOD", src)
+                symbols[name] = ("IO_METHOD", src)
             else:
-                symbols[name] = ("BUILTIN_METHOD", src)
+                symbols[name] = ("METHOD", src)
 
         # Extract FUNCTION declarations (with ::)
         for m in TEMPLATE_FUNCTION.finditer(text):
@@ -268,15 +312,67 @@ def parse_templates():
                 name = name[:name.index("(")].strip()
             if "::" not in name:
                 continue
+            # Implicit using std: resolve method part if it lacks a namespace
+            if "/" in name:
+                type_part, method_part = name.split("/", 1)
+                if "::" not in method_part:
+                    name = f"{type_part}/std::{method_part}"
             if m.start() in io_blocks:
-                symbols[name] = ("BUILTIN_IO_FUNCTION", src)
+                symbols[name] = ("IO_FUNCTION", src)
             else:
-                symbols[name] = ("BUILTIN_FUNCTION", src)
+                symbols[name] = ("FUNCTION", src)
 
         # Extract UNIQUE declarations (namespace defaults to std)
         for m in TEMPLATE_UNIQUE.finditer(text):
             name = m.group(1).strip()
             symbols[f"std::{name}"] = ("UNIQUE_ITEM", src)
+
+        # Extract OBJECT declarations
+        for m in TEMPLATE_OBJECT.finditer(text):
+            raw = m.group(1).strip()
+            # Strip trailing " -> type" if present
+            if " -> " in raw:
+                raw = raw.split(" -> ")[0]
+            if "::" not in raw:
+                continue
+            symbols[raw] = ("OBJECT", src)
+
+        # Extract TYPE declarations (only those with :: namespace)
+        for m in TEMPLATE_TYPE_DECL.finditer(text):
+            raw = m.group(1).strip()
+            if "::" not in raw:
+                continue
+            ns = raw.split("::")[0]
+            if ns in PRIVATE_NAMESPACES:
+                continue
+            symbols[raw] = ("TYPE", src)
+
+        # Extract POLY declarations (polymorphic functions)
+        for m in TEMPLATE_POLY.finditer(text):
+            raw = m.group(1).strip()
+            if "::" not in raw:
+                continue
+            symbols[raw] = ("POLYMORPHIC_FUNCTION", src)
+
+        # Extract ATTR declarations (polymorphic functions with setter)
+        for m in TEMPLATE_ATTR.finditer(text):
+            raw = m.group(1).strip()
+            if "::" not in raw:
+                continue
+            symbols[raw] = ("POLYMORPHIC_FUNCTION_WITH_SETTER", src)
+
+        # Extract ATTRIBUTE declarations: ATTRIBUTE type.attribute_name
+        for m in TEMPLATE_ATTRIBUTE_DECL.finditer(text):
+            raw = m.group(1).strip()
+            if "::" not in raw:
+                continue
+            # Split on the dot separator: type.attribute_name
+            dot_idx = raw.index(".")
+            type_part = raw[:dot_idx]
+            attr_name = raw[dot_idx+1:]
+            # Implicit using std: attribute names default to std namespace
+            symbol = f"{type_part}/std::{attr_name}"
+            symbols[symbol] = ("ATTRIBUTE", src)
 
     return symbols
 
@@ -343,6 +439,8 @@ def parse_attribute_definitions():
                         attr_name = left.lstrip('-')
                         if attr_name.startswith("var_"):
                             attr_name = attr_name[4:]
+                        # Decode mangled namespace: std__foo -> std::foo
+                        attr_name = attr_name.replace("__", "::")
                         if not attr_name:
                             continue
 
@@ -385,7 +483,7 @@ def parse_builtins_attributes():
             # Filter private namespaces and entries with no namespace
             ns = base.split("__", 1)[0] if "__" in base else ""
             if ns and ns not in PRIVATE_NAMESPACES:
-                symbols[f"{decoded}/:"] = ("BUILTIN_TYPE_FUNCTION", src)
+                symbols[f"{decoded}/:"] = ("TYPE_FUNCTION", src)
 
     # Parse ATTRIBUTE_DEFINITION blocks
     for header in ATTR_DEF_HEADER.finditer(text):
@@ -415,18 +513,20 @@ def parse_builtins_attributes():
             left = entry.group(1)
             right = entry.group(2)
 
-            # Strip "var_" prefix from left side
-            attr_name = left
+            # Strip optional "-" sign and "var_" prefix from left side
+            attr_name = left.lstrip('-')
             if attr_name.startswith("var_"):
                 attr_name = attr_name[4:]
+            # Decode mangled namespace: std__foo -> std::foo
+            attr_name = attr_name.replace("__", "::")
             if not attr_name:
                 continue
 
             symbol = f"{type_prefix}/{attr_name}"
             if right.startswith("func_") or right.startswith("-func_"):
-                symbols[symbol] = ("BUILTIN_METHOD", src)
+                symbols[symbol] = ("METHOD", src)
             else:
-                symbols[symbol] = ("BUILTIN_ATTRIBUTE", src)
+                symbols[symbol] = ("ATTRIBUTE", src)
 
     return symbols
 
@@ -453,11 +553,9 @@ def parse_compiled_io():
                 # Decode table_name to symbol
                 decoded = decode_mangled(table_name)
                 if decoded:
-                    # Check if already classified as FUNCTION — upgrade to IO_FUNCTION
                     io_symbols[decoded] = "IO_METHOD"
                 else:
                     # Regular function (no /), check for std:: prefix after decoding
-                    # table_name without ___ is a regular function like std__println
                     parts = table_name.split("__", 1)
                     if len(parts) == 2:
                         ns, func = parts
@@ -493,24 +591,19 @@ def main():
                 all_symbols[name] = ("IO_FUNCTION", src)
             elif old_kind == "METHOD":
                 all_symbols[name] = ("IO_METHOD", src)
-            elif old_kind in ("BUILTIN_FUNCTION", "BUILTIN_METHOD"):
-                new_kind = io_kind.replace("METHOD", "BUILTIN_METHOD" if "BUILTIN" in old_kind else "BUILTIN_METHOD")
-                all_symbols[name] = (new_kind, src)
         elif io_kind not in {v[0] for v in all_symbols.values()}:
             all_symbols[name] = (io_kind, "unknown")
 
     # Template methods and functions (overwrites builtins with proper template source)
     all_symbols.update(parse_templates())
 
-    # Upgrade OBJECT/BUILTIN_OBJECT -> TYPE/BUILTIN_TYPE when type function,
-    # methods, or attributes exist for them.
-    # An OBJECT 'std::foo' becomes a TYPE if any symbol 'std::foo/*' exists.
+    # Upgrade OBJECT -> TYPE when type function, methods, or attributes exist.
     for name in list(all_symbols.keys()):
         kind, src = all_symbols[name]
-        if kind in ("OBJECT", "BUILTIN_OBJECT"):
+        if kind == "OBJECT":
             prefix = f"{name}/"
             if any(child.startswith(prefix) for child in all_symbols):
-                all_symbols[name] = ("BUILTIN_TYPE" if "BUILTIN" in kind else "TYPE", src)
+                all_symbols[name] = ("TYPE", src)
 
     # Output sorted
     for name in sorted(all_symbols):
