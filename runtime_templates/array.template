@@ -59,7 +59,7 @@ RECORD ARRAY_UPDATES
   long length
   char buffer[]
 
-ATTR std::create_empty_array
+POLY std::create_empty_array
 
 CODE
   static ARRAY_VIEW *create_array_view

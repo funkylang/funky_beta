@@ -29025,7 +29025,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "create_empty_array\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_TYPE, 0, 4,
