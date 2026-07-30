@@ -47,6 +47,7 @@ Makefile
 !tools/funky_symbol_definition
 !tools/funky_symbol_list
 !tools/generate_all_symbols
+!tools/funky_verify_examples
 html/all_symbols.txt
 adv2.fky
 ai.sml
