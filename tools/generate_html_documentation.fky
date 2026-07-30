@@ -78,7 +78,7 @@ do:
   on_not do_update_only:
     mkpath! "html/topics/"
     mkpath! "html/symbols/"
-    save! "html/all_symbols.txt" create_all_symbols_text()
+    #save! "html/all_symbols.txt" create_all_symbols_text()
     save! "html/topics/index.html" create_topics_index_page()
     save! "html/symbols/index.html" create_symbols_index_page()
     save! "html/symbols/type_index.html" create_type_index_page()
@@ -1208,7 +1208,7 @@ $link_filename: (filename)
 		      to_path
 		      "/"
 
-$create_all_symbols_text:
+#$create_all_symbols_text:
   $buf ""
   for_each all_symbols
     : (name info)
