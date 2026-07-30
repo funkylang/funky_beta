@@ -125,16 +125,25 @@ def find_fky_def(source: str, symbol: str) -> str | None:
 
     Regular function:    $namespace::symbol:
     Polymorphic decl:    $namespace::symbol ()
+    Constant/variable:   $namespace::symbol value
 
     Returns the header line + body up to the next top-level definition.
     """
     escaped = re.escape(symbol)
-    pattern = re.compile(
+    # Function/poly pattern: $namespace::symbol:  or  $namespace::symbol ()
+    func_pattern = re.compile(
         r'\$\s*' + escaped + r'(?:[ \t]*:[ \t]*|[ \t]+\(\))',
         re.MULTILINE,
     )
+    # Constant/value pattern: $namespace::symbol value (no colon, no parens)
+    const_pattern = re.compile(
+        r'(?:^|(?<=\n))\$\s*' + escaped + r'\s+\S+',
+        re.MULTILINE,
+    )
 
-    m = pattern.search(source)
+    m = func_pattern.search(source)
+    if not m:
+        m = const_pattern.search(source)
     if not m:
         return None
 
