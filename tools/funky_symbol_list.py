@@ -502,6 +502,16 @@ def main():
     # Template methods and functions (overwrites builtins with proper template source)
     all_symbols.update(parse_templates())
 
+    # Upgrade OBJECT/BUILTIN_OBJECT -> TYPE/BUILTIN_TYPE when type function,
+    # methods, or attributes exist for them.
+    # An OBJECT 'std::foo' becomes a TYPE if any symbol 'std::foo/*' exists.
+    for name in list(all_symbols.keys()):
+        kind, src = all_symbols[name]
+        if kind in ("OBJECT", "BUILTIN_OBJECT"):
+            prefix = f"{name}/"
+            if any(child.startswith(prefix) for child in all_symbols):
+                all_symbols[name] = ("BUILTIN_TYPE" if "BUILTIN" in kind else "TYPE", src)
+
     # Output sorted
     for name in sorted(all_symbols):
         kind, src = all_symbols[name]
