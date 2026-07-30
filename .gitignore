@@ -17,6 +17,8 @@
 !html
 html/symbols
 html/topics
+html/manual.html
+patches/
 .*
 *.o
 *.c
