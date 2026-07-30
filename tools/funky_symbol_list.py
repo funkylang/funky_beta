@@ -8,7 +8,7 @@ Unlike html/all_symbols.txt which omits method implementations, this lists
 EVERY symbol including polymorphic function implementations.
 
 Output format (one per line, sorted):
-    symbol_name TYPE
+    symbol_name TYPE (source_file)
 
 Where TYPE is one of:
     POLYMORPHIC_FUNCTION, FUNCTION, BUILTIN_FUNCTION, IO_FUNCTION
@@ -18,6 +18,8 @@ Where TYPE is one of:
     METHOD, BUILTIN_METHOD, IO_METHOD, BUILTIN_IO_METHOD
     ATTRIBUTE, BUILTIN_ATTRIBUTE
     UNIQUE_ITEM, CONSTANT, VARIABLE
+
+source_file is the original .fky or .template source (relative to repo root).
 
 Usage:
     python3 funky_symbol_list.py
@@ -44,10 +46,10 @@ FOT_ENTRY = re.compile(
 )
 
 # const_idx for FOT_INITIALIZED
-#  func_ns__name   → FUNCTION/BUILTIN_FUNCTION (no sign = BUILTIN)
-# -func_ns__name   → FUNCTION (negative sign = compiled module function)
-# -uni_ns__name    → UNIQUE_ITEM (negative + uni_ prefix)
-# -chr_NNN / -num_NNN / -list_... etc. → CHARACTER/NUMBER/LIST constant
+#  func_ns__name   -> FUNCTION/BUILTIN_FUNCTION (no sign = BUILTIN)
+# -func_ns__name   -> FUNCTION (negative sign = compiled module function)
+# -uni_ns__name    -> UNIQUE_ITEM (negative + uni_ prefix)
+# -chr_NNN / -num_NNN / -list_... etc. -> CHARACTER/NUMBER/LIST constant
 CONST_IDX = re.compile(r'\{\.const_idx\s*=\s*(-?)(func_|uni_|chr_|num_|list_|tuple_|sequence_|value_range_)(\S+)')
 
 # t_func_name[] bytecode table declarations (matches "t_func_name[] = {")
@@ -89,10 +91,28 @@ TEMPLATE_UNIQUE = re.compile(
 )
 
 
-def decode_mangled(name):
-    """Decode t_func mangling: split on first ___ → type/method, rest __ → ::.
+def rel_path(p):
+    """Return repo-relative path string."""
+    return str(Path(p).relative_to(REPO_ROOT))
 
-    e.g., std_types__screen___fill_trapezoid → std_types::screen/fill_trapezoid
+
+def fky_source(c_path):
+    """Return the .fky source file for a compiled module .c file."""
+    fky = Path(c_path).with_suffix('.fky')
+    if fky.is_file():
+        return rel_path(fky)
+    return rel_path(c_path)
+
+
+def template_source(c_path):
+    """Return template path for builtins.c (used as fallback)."""
+    return "runtime/builtins.c"
+
+
+def decode_mangled(name):
+    """Decode t_func mangling: split on first ___ -> type/method, rest __ -> ::.
+
+    e.g., std_types__screen___fill_trapezoid -> std_types::screen/fill_trapezoid
     """
     if "___" not in name:
         return None
@@ -123,10 +143,15 @@ def classify_fot(fot_type, namespace, is_builtin, attr_count=0):
 
 
 def parse_c_file(c_path, is_builtin=False):
-    """Parse one .c file: FOT entries + bytecode tables."""
+    """Parse one .c file: FOT entries + bytecode tables.
+
+    Returns dict of {symbol: (kind, source_file)}.
+    """
     symbols = {}
     io_tables = set()
     text = c_path.read_text()
+
+    src = template_source(c_path) if is_builtin else fky_source(c_path)
 
     # Collect FOT entries
     for m in FOT_ENTRY.finditer(text):
@@ -155,9 +180,9 @@ def parse_c_file(c_path, is_builtin=False):
             kind = classify_fot(fot_type, ns, is_builtin, attr_count)
             if kind is None:
                 continue
-        symbols[f"{ns}::{name}"] = kind
+        symbols[f"{ns}::{name}"] = (kind, src)
 
-    # Collect FUNC_INFO → t_func mapping + IO_CALL detection
+    # Collect FUNC_INFO -> t_func mapping + IO_CALL detection
     for m in FUNC_INFO.finditer(text):
         func_name, table_name = m.group(1), m.group(2)
         # Find the t_func table body and check for IO_CALL
@@ -177,20 +202,23 @@ def parse_c_file(c_path, is_builtin=False):
         decoded = decode_mangled(func_name)
         if decoded:
             if func_name in io_tables:
-                symbols[decoded] = "IO_METHOD"
+                symbols[decoded] = ("IO_METHOD", src)
             elif decoded not in symbols:
-                symbols[decoded] = "METHOD"
+                symbols[decoded] = ("METHOD", src)
 
     return symbols
 
 
 def parse_templates():
-    """Parse .template files for METHOD, FUNCTION, and IO detection."""
+    """Parse .template files for METHOD, FUNCTION, and IO detection.
+
+    Returns dict of {symbol: (kind, source_file)}.
+    """
     symbols = {}
-    io_symbols = set()
 
     for tmpl in sorted(TEMPLATES_DIR.glob("*.template")):
         text = tmpl.read_text()
+        src = rel_path(tmpl)
 
         # Scan all code blocks for CHECK_IO_ACCESS_RIGHTS
         # Functions/methods are followed by { ... } blocks
@@ -224,9 +252,9 @@ def parse_templates():
             if "::" not in name:
                 continue
             if m.start() in io_blocks:
-                symbols[name] = "BUILTIN_IO_METHOD"
+                symbols[name] = ("BUILTIN_IO_METHOD", src)
             else:
-                symbols[name] = "BUILTIN_METHOD"
+                symbols[name] = ("BUILTIN_METHOD", src)
 
         # Extract FUNCTION declarations (with ::)
         for m in TEMPLATE_FUNCTION.finditer(text):
@@ -241,14 +269,14 @@ def parse_templates():
             if "::" not in name:
                 continue
             if m.start() in io_blocks:
-                symbols[name] = "BUILTIN_IO_FUNCTION"
+                symbols[name] = ("BUILTIN_IO_FUNCTION", src)
             else:
-                symbols[name] = "BUILTIN_FUNCTION"
+                symbols[name] = ("BUILTIN_FUNCTION", src)
 
         # Extract UNIQUE declarations (namespace defaults to std)
         for m in TEMPLATE_UNIQUE.finditer(text):
             name = m.group(1).strip()
-            symbols[f"std::{name}"] = "UNIQUE_ITEM"
+            symbols[f"std::{name}"] = ("UNIQUE_ITEM", src)
 
     return symbols
 
@@ -266,7 +294,9 @@ def parse_attribute_definitions():
       Right: -func_* (METHOD), -var_*/-num_*/-chr_* (ATTRIBUTE)
 
     Symbol names: namespace::type/attr_name
-    TYPE_FUNCTION becomes: namespace::type/
+    TYPE_FUNCTION becomes: namespace::type/:
+
+    Returns dict of {symbol: (kind, source_file)}.
     """
     symbols = {}
 
@@ -276,6 +306,7 @@ def parse_attribute_definitions():
             continue
         for c_file in sorted(lib_dir.rglob("*.c")):
             text = c_file.read_text()
+            src = fky_source(c_file)
 
             for header in ATTR_DEF_HEADER.finditer(text):
                 mangled = header.group(1)
@@ -306,7 +337,7 @@ def parse_attribute_definitions():
 
                     if left == "TYPE_FUNCTION":
                         symbol = f"{type_prefix}/:"
-                        symbols[symbol] = "TYPE_FUNCTION"
+                        symbols[symbol] = ("TYPE_FUNCTION", src)
                     else:
                         # Strip leading "-" and "var_" prefix
                         attr_name = left.lstrip('-')
@@ -317,9 +348,9 @@ def parse_attribute_definitions():
 
                         symbol = f"{type_prefix}/{attr_name}"
                         if right.startswith("-func_") or right.startswith("func_"):
-                            symbols[symbol] = "METHOD"
+                            symbols[symbol] = ("METHOD", src)
                         else:
-                            symbols[symbol] = "ATTRIBUTE"
+                            symbols[symbol] = ("ATTRIBUTE", src)
 
     return symbols
 
@@ -330,20 +361,23 @@ def parse_builtins_attributes():
     builtins.c differs from module files:
       - No TYPE_FUNCTION — use ___type suffix on function names instead
       - No negative signs: {var_name, func_NAME}
-      - Attribute names embed namespace: var_std__bit_and → std::bit_and
+      - Attribute names embed namespace: var_std__bit_and -> std::bit_and
       - Types in builtin_types namespace are private (filtered)
 
     Also detects type functions via ___type suffix:
-      static void ns__type___type() → ns::type/ (type function)
+      static void ns__type___type() -> ns::type/: (type function)
+
+    Returns dict of {symbol: (kind, source_file)}.
     """
     symbols = {}
     text = BUILTINS_C.read_text()
+    src = "runtime/builtins.c"
 
     # Detect type functions by ___type suffix: static void ns__type___type (void)
     # Note: must NOT match "static void *create__..." (function pointers)
     for m in re.finditer(r'static\s+void\s+(\S+___type)\s*\(', text):
         func_name = m.group(1)
-        # Decode: ns__type___type → ns::type/
+        # Decode: ns__type___type -> ns::type/
         parts = func_name.rsplit("___", 1)
         if len(parts) == 2 and parts[1] == "type":
             base = parts[0]
@@ -351,7 +385,7 @@ def parse_builtins_attributes():
             # Filter private namespaces and entries with no namespace
             ns = base.split("__", 1)[0] if "__" in base else ""
             if ns and ns not in PRIVATE_NAMESPACES:
-                symbols[f"{decoded}/:"] = "BUILTIN_TYPE_FUNCTION"
+                symbols[f"{decoded}/:"] = ("BUILTIN_TYPE_FUNCTION", src)
 
     # Parse ATTRIBUTE_DEFINITION blocks
     for header in ATTR_DEF_HEADER.finditer(text):
@@ -390,15 +424,18 @@ def parse_builtins_attributes():
 
             symbol = f"{type_prefix}/{attr_name}"
             if right.startswith("func_") or right.startswith("-func_"):
-                symbols[symbol] = "BUILTIN_METHOD"
+                symbols[symbol] = ("BUILTIN_METHOD", src)
             else:
-                symbols[symbol] = "BUILTIN_ATTRIBUTE"
+                symbols[symbol] = ("BUILTIN_ATTRIBUTE", src)
 
     return symbols
 
 
 def parse_compiled_io():
-    """Scan compiled .c files for t_func tables containing IO_CALL/IO_TAIL_CALL."""
+    """Scan compiled .c files for t_func tables containing IO_CALL/IO_TAIL_CALL.
+
+    Returns dict of {symbol: kind} (source_file not tracked here, used for upgrades).
+    """
     io_symbols = {}
     for lib in LIBRARIES:
         lib_dir = REPO_ROOT / lib
@@ -447,26 +484,28 @@ def main():
             all_symbols.update(parse_c_file(c_file, is_builtin=False))
     all_symbols.update(parse_attribute_definitions())
 
-    # IO detection from compiled code (upgrade FUNCTION → IO_FUNCTION, METHOD → IO_METHOD)
+    # IO detection from compiled code (upgrade FUNCTION -> IO_FUNCTION, METHOD -> IO_METHOD)
     compiled_io = parse_compiled_io()
     for name, io_kind in compiled_io.items():
         if name in all_symbols:
-            old = all_symbols[name]
-            if old == "FUNCTION":
-                all_symbols[name] = "IO_FUNCTION"
-            elif old == "METHOD":
-                all_symbols[name] = "IO_METHOD"
-            elif old in ("BUILTIN_FUNCTION", "BUILTIN_METHOD"):
-                all_symbols[name] = io_kind.replace("METHOD", "BUILTIN_METHOD" if "BUILTIN" in old else "BUILTIN_METHOD")
-        elif io_kind not in all_symbols.values():
-            all_symbols[name] = io_kind
+            old_kind, src = all_symbols[name]
+            if old_kind == "FUNCTION":
+                all_symbols[name] = ("IO_FUNCTION", src)
+            elif old_kind == "METHOD":
+                all_symbols[name] = ("IO_METHOD", src)
+            elif old_kind in ("BUILTIN_FUNCTION", "BUILTIN_METHOD"):
+                new_kind = io_kind.replace("METHOD", "BUILTIN_METHOD" if "BUILTIN" in old_kind else "BUILTIN_METHOD")
+                all_symbols[name] = (new_kind, src)
+        elif io_kind not in {v[0] for v in all_symbols.values()}:
+            all_symbols[name] = (io_kind, "unknown")
 
-    # Template methods and functions
+    # Template methods and functions (overwrites builtins with proper template source)
     all_symbols.update(parse_templates())
 
     # Output sorted
     for name in sorted(all_symbols):
-        print(f"{name} {all_symbols[name]}")
+        kind, src = all_symbols[name]
+        print(f"{name} {kind} ({src})")
 
 
 if __name__ == "__main__":
