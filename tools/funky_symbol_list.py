@@ -71,6 +71,12 @@ ATTR_DEF_HEADER = re.compile(
 ATTR_DEF_ENTRY = re.compile(
     r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_)\S+)\s*\}',
 )
+
+# TAB_NUM bytecode table headers
+TAB_NUM_HEADER = re.compile(r'^static TAB_NUM t_(\w+)\[\] = \{$', re.MULTILINE)
+
+# used_namespaces entries: {"namespace", major, minor}
+USED_NS_ENTRY = re.compile(r'\{"(\w+)"')
 IO_CHECK = re.compile(r'CHECK_IO_ACCESS_RIGHTS')
 
 # Template METHOD declarations
@@ -176,9 +182,7 @@ def classify_fot(fot_type, namespace, is_builtin, attr_count=0):
     }
     base = mapping.get(fot_type)
     if fot_type == "DERIVED":
-        if is_builtin:
-            return "TYPE" if attr_count > 0 else "OBJECT"
-        return "TYPE"
+        return "TYPE" if attr_count > 0 else "OBJECT"
     return base
 
 
@@ -383,6 +387,105 @@ def parse_templates():
             symbols[symbol] = ("ATTRIBUTE", src)
 
     return symbols
+
+
+def extract_tab_tables(text):
+    """Return list of (table_name, list_of_body_lines) from TAB_NUM tables."""
+    tables = []
+    for m in TAB_NUM_HEADER.finditer(text):
+        table_name = m.group(1)
+        body_lines = []
+        for line in text[m.end():].split('\n'):
+            stripped = line.strip()
+            if not stripped:
+                continue
+            if stripped.startswith('}'):
+                break
+            if line[0] in (' ', '\t'):
+                body_lines.append(line)
+            else:
+                break
+        tables.append((table_name, body_lines))
+    return tables
+
+
+def parse_instruction(line):
+    """Parse a bytecode instruction line.
+    Returns (functor, args, result_count, results) or None."""
+    stripped = line.split('//')[0].strip().rstrip(',')
+    if not stripped or stripped.startswith('POS(') or stripped.startswith('LET, -1'):
+        return None
+    fields = [f.strip() for f in stripped.split(',')]
+    if not fields or not fields[0] or (len(fields) <= 2 and fields[0].lstrip('-').isdigit()):
+        return None
+    try:
+        arg_count = int(fields[1])
+    except (ValueError, IndexError):
+        return None
+    if arg_count < 0:
+        arg_count = 0
+    idx = 2 + arg_count
+    if idx >= len(fields):
+        return None
+    result_spec = fields[idx]
+    io = re.match(r'IO_CALL\((\d+)\)', result_spec)
+    if io:
+        result_count = int(io.group(1))
+    elif result_spec in ('TAIL_CALL', 'IO_TAIL_CALL'):
+        result_count = 0
+    else:
+        try:
+            result_count = int(result_spec)
+        except ValueError:
+            return None
+    results = fields[idx + 1:idx + 1 + result_count]
+    return fields[0], fields[2:2 + arg_count], result_count, results
+
+
+def get_used_namespaces(text):
+    """Extract used namespace names from used_namespaces table."""
+    m = re.search(r'static FUNKY_NAMESPACE used_namespaces\[\] = \{', text)
+    if not m:
+        return []
+    block = text[m.end():m.end() + 2000]
+    end = block.find('}')
+    return USED_NS_ENTRY.findall(block[:end]) if end >= 0 else []
+
+
+def parse_module_variables():
+    """Scan TAB_NUM tables across all library modules to find variable destinations.
+    Returns set of fully qualified symbol names that are actual variables."""
+    variables = set()
+    for lib in LIBRARIES:
+        lib_dir = REPO_ROOT / lib
+        if not lib_dir.is_dir():
+            continue
+        for c_file in sorted(lib_dir.rglob('*.c')):
+            text = c_file.read_text()
+            used_ns = get_used_namespaces(text)
+            if not used_ns:
+                continue
+            tables = extract_tab_tables(text)
+            no_ns_vars = set()
+            for _table_name, body in tables:
+                for line in body:
+                    parsed = parse_instruction(line)
+                    if parsed is None:
+                        continue
+                    _, _, _, results = parsed
+                    for r in results:
+                        if r.startswith('var_') and not re.match(r'^var_\d', r):
+                            name = r[4:]
+                            if '__' in name:
+                                ns = name.split('__')[0]
+                                if ns not in PRIVATE_NAMESPACES:
+                                    variables.add(name.replace('__', '::'))
+                            else:
+                                no_ns_vars.add(name)
+            for v in no_ns_vars:
+                for ns in used_ns:
+                    variables.add(f'{ns}::{v}')
+    return variables
 
 
 def parse_attribute_definitions():
@@ -596,6 +699,13 @@ def main():
 
     # IO detection from compiled code (upgrade FUNCTION -> IO_FUNCTION, METHOD -> IO_METHOD)
     compiled_io = parse_compiled_io()
+
+    # Detect variables from TAB_NUM bytecode (upgrade OBJECT -> VARIABLE)
+    module_vars = parse_module_variables()
+    for name in module_vars:
+        if name in all_symbols and all_symbols[name][0] == 'OBJECT':
+            _, src = all_symbols[name]
+            all_symbols[name] = ('VARIABLE', src)
     for name, io_kind in compiled_io.items():
         if name in all_symbols:
             old_kind, src = all_symbols[name]
@@ -610,6 +720,7 @@ def main():
     all_symbols.update(parse_templates())
 
     # Upgrade OBJECT -> TYPE when type function, methods, or attributes exist.
+    # (Only objects that were not already upgraded to VARIABLE)
     for name in list(all_symbols.keys()):
         kind, src = all_symbols[name]
         if kind == "OBJECT":
