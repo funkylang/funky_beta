@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Extract the source file path where a Funky symbol is defined.
 
-Reads the HTML doc page and prints the 'defined in' file path.
+Reads html/all_symbols.txt and prints the 'defined in' file path.
 
 Usage:
     python3 funky_symbol_source.py std::println
@@ -13,31 +13,25 @@ import re
 import sys
 from pathlib import Path
 
-HTML_DIR = Path(__file__).resolve().parent.parent / "html" / "symbols"
+ALL_SYMBOLS = Path(__file__).resolve().parent.parent / "html" / "all_symbols.txt"
 
 
-def symbol_to_html(symbol: str) -> Path:
-    """Convert a symbol name to its HTML path.
-
-    Accepts both forms:
-        std::println   ->  std__println.html
-        std__println    ->  std__println.html
-    """
-    fname = symbol.replace("::", "__") + ".html"
-    parts = fname.split("/")
-    return HTML_DIR.joinpath(*parts)
-
-
-def extract_source(html_path: Path) -> str | None:
-    """Extract the 'defined in' source path from an HTML doc page."""
-    text = html_path.read_text()
-
-    # Match the 'defined in' footer anchor text:
-    #   (defined in <a href="...">basic/io/io.fky</a>)
-    m = re.search(r'\(defined in <a [^>]*>([^<]+)</a>\)', text)
-    if m:
-        return m.group(1)
-
+def find_source(symbol: str) -> str | None:
+    """Look up a symbol in all_symbols.txt and return its source file path."""
+    text = ALL_SYMBOLS.read_text()
+    # Unmangle __ to :: for lookup
+    sym = symbol.replace('__', '::')
+    # Match symbol exactly at start of line
+    pattern = re.compile(rf'^{re.escape(sym)}\s', re.MULTILINE)
+    m = pattern.search(text)
+    if m is None:
+        return None
+    line = text[m.start():text.index('\n', m.start())]
+    # Source file is the last parenthesized group: (path/to/file)
+    src = line.rfind('(')
+    end = line.rfind(')')
+    if src >= 0 and end > src:
+        return line[src + 1:end]
     return None
 
 
@@ -48,25 +42,15 @@ def main():
         sys.exit(1)
 
     symbol = sys.argv[1]
-    html_path = symbol_to_html(symbol)
 
-    if not html_path.is_file():
-        print(f"Error: HTML page not found for '{symbol}'", file=sys.stderr)
-        print(f"  looked in: {html_path}", file=sys.stderr)
-        parent = html_path.parent
-        if parent.is_dir():
-            stem = html_path.stem
-            candidates = sorted(
-                [p.name for p in parent.glob("*.html")
-                 if stem.replace("__", "z") in p.name.replace("__", "z")]
-            )[:5]
-            if candidates:
-                print("  similar:", ", ".join(candidates), file=sys.stderr)
+    if not ALL_SYMBOLS.is_file():
+        print(f"Error: {ALL_SYMBOLS} not found", file=sys.stderr)
+        print("  run tools/generate_all_symbols first", file=sys.stderr)
         sys.exit(1)
 
-    src = extract_source(html_path)
+    src = find_source(symbol)
     if src is None:
-        print(f"Error: no 'defined in' footer in {html_path.name}", file=sys.stderr)
+        print(f"Error: symbol '{symbol}' not found in {ALL_SYMBOLS.name}", file=sys.stderr)
         sys.exit(1)
 
     print(src)

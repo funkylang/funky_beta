@@ -40,6 +40,11 @@ compiler/configuration.c
 runtime/platform.h
 Makefile
 !tools
+!tools/funky_symbol_source
+!tools/funky_symbol_implementations
+!tools/funky_symbol_definition
+!tools/funky_symbol_list
+!tools/generate_all_symbols
 adv2.fky
 ai.sml
 all_kinds_of_variables.fky

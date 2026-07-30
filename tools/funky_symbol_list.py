@@ -143,16 +143,24 @@ def template_source(c_path):
     return "runtime/builtins.c"
 
 
+def add_std_namespace(name):
+    """Add implicit 'std::' namespace if the name has no explicit namespace."""
+    if "::" not in name:
+        return f"std::{name}"
+    return name
+
+
 def decode_mangled(name):
     """Decode t_func mangling: split on first ___ -> type/method, rest __ -> ::.
 
-    e.g., std_types__screen___fill_trapezoid -> std_types::screen/fill_trapezoid
+    e.g., std_types__screen___fill_trapezoid -> std_types::screen/std::fill_trapezoid
     """
     if "___" not in name:
         return None
     base, method = name.split("___", 1)
-    # Decode method name: ns__method -> ns::method
+    # Decode method name: ns__method -> ns::method, then add implicit std:: if missing
     method = method.replace("__", "::")
+    method = add_std_namespace(method)
     return f"{base.replace('__', '::')}/{method}"
 
 
@@ -443,6 +451,8 @@ def parse_attribute_definitions():
                         attr_name = attr_name.replace("__", "::")
                         if not attr_name:
                             continue
+                        # Add implicit std:: if no explicit namespace
+                        attr_name = add_std_namespace(attr_name)
 
                         symbol = f"{type_prefix}/{attr_name}"
                         if right.startswith("-func_") or right.startswith("func_"):
@@ -521,6 +531,8 @@ def parse_builtins_attributes():
             attr_name = attr_name.replace("__", "::")
             if not attr_name:
                 continue
+            # Add implicit std:: if no explicit namespace
+            attr_name = add_std_namespace(attr_name)
 
             symbol = f"{type_prefix}/{attr_name}"
             if right.startswith("func_") or right.startswith("-func_"):
