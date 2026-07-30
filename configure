@@ -644,6 +644,7 @@ do
   $APPLICATION"
 done
 printf " \\
+  all_symbols \
   html_documentation"
 printf " \\
   html/manual.html"
@@ -699,6 +700,7 @@ done
 echo "${TAB}rm -rf html/topics"
 echo "${TAB}rm -rf html/symbols"
 echo "${TAB}rm -f html/manual.html"
+echo "${TAB}rm -f html/all_symbols.txt"
 
 echo
 echo '.PHONY: install'
@@ -837,6 +839,19 @@ echo
 echo '.PHONY: html_documentation'
 echo 'html_documentation: generate_html_documentation'
 echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" tools/generate_html_documentation"
+
+echo
+echo '.PHONY: all_symbols'
+echo -n 'all_symbols: runtime'
+for LIBNAME in $ALL_LIBRARIES
+do
+  printf " \\
+  $LIBNAME"
+done
+echo
+echo "${TAB}tools/generate_all_symbols"
+
+echo
 
 echo
 echo -n "compiler/funky$EXE_EXTENSION: \$(funky_OBJECTS) libfky$DLL_EXTENSION"
