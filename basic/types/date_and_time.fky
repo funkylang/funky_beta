@@ -23,6 +23,37 @@
 #
   Topic: Date and Time
 
+$std_types::date_and_time.serialization_tag_of "date_and_time"
+
+$std_types::date_and_time/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str string("date_and_time " to_string(self) "@nl;")
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::date_and_time.deserializer_of:
+  (
+    _tag
+    argument
+  )
+  $parts split(argument " ")
+  $date_parts split(parts(1) "-")
+  $year date_parts(1).to_number
+  $month date_parts(2).to_number
+  $day date_parts(3).to_number
+  $time_parts split(parts(2) ":")
+  $hour time_parts(1).to_number
+  $minute time_parts(2).to_number
+  $second time_parts(3).to_number
+  -> date_and_time(year month day hour minute second)
+
+register_type &deserializers std_types::date_and_time
+
 $std_types::date_and_time/to_string:
   #
     returns a string representation of the date-and-time object
@@ -30,7 +61,7 @@ $std_types::date_and_time/to_string:
     Topics: Date and Time, Strings
 
     See also: year_of, month_of, day_of, hour_of, minute_of, second_of,
-	      day_of_week_of, time_shift_of
+		day_of_week_of, time_shift_of
 
     Example:
 
