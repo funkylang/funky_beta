@@ -84,7 +84,8 @@ FUNCTION std::from_unix_time
 
 FUNCTION std::date_and_time
   {
-    CHECK_ARGUMENTS(6)
+    MIN_ARGUMENTS(6)
+    MAX_ARGUMENTS(7)
     int year, month, day, hour, minute;
     double second;
 
@@ -135,6 +136,11 @@ FUNCTION std::date_and_time
     }
     days += day-1;
     seconds += 86400*(uint64_t)days+3600*hour+60*minute;
+    if (ARGC == 7) {
+      int64_t tz;
+      CHECK(to_int64(ARGUMENTS(6), &tz))
+      seconds -= tz;
+    }
     RETURN_SINGLE_RESULT(
       CREATE(std_types::date_and_time, seconds, nanoseconds))
   }

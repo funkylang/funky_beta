@@ -20,22 +20,26 @@ enum {
   num_2 = -11,
   num_3 = -12,
   string_4 = -13,
-  func_std_types__date_and_time___to_string = -14,
-  string_5 = -15,
-  num_1000 = -16,
+  num_4 = -14,
+  minus_num_1 = -15,
+  string_5 = -16,
   lambda_3 = -17,
-  num_0 = -18,
+  num_3600 = -18,
   lambda_4 = -19,
-  num_3600 = -20,
-  string_6 = -21,
-  lambda_5 = -22,
-  lambda_6 = -23,
-  lambda_7 = -24,
-  lambda_8 = -25,
+  num_0 = -20,
+  func_std_types__date_and_time___to_string = -21,
+  string_6 = -22,
+  num_1000 = -23,
+  lambda_5 = -24,
+  lambda_6 = -25,
   string_7 = -26,
-  chr_32 = -27,
-  chr_46 = -28,
-  str__GMT = -29
+  lambda_7 = -27,
+  lambda_8 = -28,
+  lambda_9 = -29,
+  lambda_10 = -30,
+  chr_32 = -31,
+  chr_46 = -32,
+  str__GMT = -33
 };
 
 enum {
@@ -55,11 +59,17 @@ enum {
   var_if, // extern
   var_deserializer_of, // extern polymorphic
   var_split, // extern
+  var_to_integer, // extern
   var_to_number, // extern
+  var_53_4_offset, // dynamic
+  var_range, // extern
+  var_std__equal, // extern
+  var_std__not, // extern
+  var_std__times, // extern
   var_date_and_time, // extern
   var_deserializers, // extern
   var_register_type, // extern
-  var_77_4_ts, // dynamic
+  var_82_4_ts, // dynamic
   var_time_shift_of, // extern
   var_std__plus, // extern
   var_second_of, // extern
@@ -71,7 +81,6 @@ enum {
   var_minute_of, // extern
   var_floor, // extern
   var_std__minus, // extern
-  var_std__times, // extern
   var_std__less, // extern
   var_std__over, // extern
   var_true, // extern
@@ -138,47 +147,57 @@ static FUNCTION_INFO i_lambda_2 = {
 };
 
 static TAB_NUM t_func_std_types__date_and_time___deserializer_of[] = {
-  11, // locals
+  13, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 42_5_argument
+  LOCAL(3), // 42_5_argument
   // $parts split(argument " ")
-  var_split, 2, LOCAL(2), string_2, 1, LOCAL(3),
+  var_split, 2, LOCAL(3), string_2, 1, LOCAL(4),
   // parts(1) "-")
-  LOCAL(3), 1, num_1, 1, LOCAL(1),
-  // $date_parts split(parts(1) "-")
-  var_split, 2, LOCAL(1), string_3, 1, LOCAL(4),
-  // date_parts(1).to_number
   LOCAL(4), 1, num_1, 1, LOCAL(1),
-  // $year date_parts(1).to_number
-  var_to_number, 1, LOCAL(1), 1, LOCAL(5),
-  // date_parts(2).to_number
-  LOCAL(4), 1, num_2, 1, LOCAL(1),
-  // $month date_parts(2).to_number
-  var_to_number, 1, LOCAL(1), 1, LOCAL(6),
-  // date_parts(3).to_number
-  LOCAL(4), 1, num_3, 1, LOCAL(1),
-  // $day date_parts(3).to_number
-  var_to_number, 1, LOCAL(1), 1, LOCAL(7),
+  // $date_parts split(parts(1) "-")
+  var_split, 2, LOCAL(1), string_3, 1, LOCAL(5),
+  // date_parts(1).to_integer
+  LOCAL(5), 1, num_1, 1, LOCAL(1),
+  // $year date_parts(1).to_integer
+  var_to_integer, 1, LOCAL(1), 1, LOCAL(6),
+  // date_parts(2).to_integer
+  LOCAL(5), 1, num_2, 1, LOCAL(1),
+  // $month date_parts(2).to_integer
+  var_to_integer, 1, LOCAL(1), 1, LOCAL(7),
+  // date_parts(3).to_integer
+  LOCAL(5), 1, num_3, 1, LOCAL(1),
+  // $day date_parts(3).to_integer
+  var_to_integer, 1, LOCAL(1), 1, LOCAL(8),
   // parts(2) ":")
-  LOCAL(3), 1, num_2, 1, LOCAL(1),
+  LOCAL(4), 1, num_2, 1, LOCAL(1),
   // $time_parts split(parts(2) ":")
-  var_split, 2, LOCAL(1), string_4, 1, LOCAL(8),
-  // time_parts(1).to_number
-  LOCAL(8), 1, num_1, 1, LOCAL(1),
-  // $hour time_parts(1).to_number
-  var_to_number, 1, LOCAL(1), 1, LOCAL(9),
-  // time_parts(2).to_number
-  LOCAL(8), 1, num_2, 1, LOCAL(1),
-  // $minute time_parts(2).to_number
-  var_to_number, 1, LOCAL(1), 1, LOCAL(10),
+  var_split, 2, LOCAL(1), string_4, 1, LOCAL(9),
+  // time_parts(1).to_integer
+  LOCAL(9), 1, num_1, 1, LOCAL(1),
+  // $hour time_parts(1).to_integer
+  var_to_integer, 1, LOCAL(1), 1, LOCAL(10),
+  // time_parts(2).to_integer
+  LOCAL(9), 1, num_2, 1, LOCAL(1),
+  // $minute time_parts(2).to_integer
+  var_to_integer, 1, LOCAL(1), 1, LOCAL(11),
   // time_parts(3).to_number
-  LOCAL(8), 1, num_3, 1, LOCAL(1),
+  LOCAL(9), 1, num_3, 1, LOCAL(1),
   // $second time_parts(3).to_number
-  var_to_number, 1, LOCAL(1), 1, LOCAL(11),
-  // date_and_time(year month day hour minute second)
-  var_date_and_time, 6, LOCAL(5), LOCAL(6), LOCAL(7), LOCAL(9), LOCAL(10), LOCAL(11), 1, LOCAL(1),
-  // -> date_and_time(year month day hour minute second)
+  var_to_number, 1, LOCAL(1), 1, LOCAL(12),
+  // parts(3) 4 -1)
+  LOCAL(4), 1, num_3, 1, LOCAL(1),
+  // $offset range(parts(3) 4 -1)
+  var_range, 3, LOCAL(1), num_4, minus_num_1, 1, var_53_4_offset,
+  // offset != ""
+  var_std__equal, 2, var_53_4_offset, string_5, 1, LOCAL(1),
+  // offset != ""
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if $time_shift
+  var_if, 3, LOCAL(2), lambda_3, lambda_4, 1, LOCAL(13),
+  // date_and_time(year month day hour minute second time_shift)
+  var_date_and_time, 7, LOCAL(6), LOCAL(7), LOCAL(8), LOCAL(10), LOCAL(11), LOCAL(12), LOCAL(13), 1, LOCAL(1),
+  // -> date_and_time(year month day hour minute second time_shift)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(44, 3),
   POS(45, 21),
@@ -197,33 +216,71 @@ static TAB_NUM t_func_std_types__date_and_time___deserializer_of[] = {
   POS(51, 3),
   POS(52, 11),
   POS(52, 3),
-  POS(53, 6),
+  POS(53, 17),
   POS(53, 3),
-  LOCAL(4),
-  LOCAL(9),
-  LOCAL(8),
-  LOCAL(10),
-  LOCAL(7),
+  POS(55, 5),
+  POS(55, 5),
+  POS(54, 3),
+  POS(58, 6),
+  POS(58, 3),
   LOCAL(5),
-  LOCAL(6),
+  LOCAL(10),
+  LOCAL(9),
   LOCAL(11),
-  LOCAL(3),
-  LOCAL(2)
+  LOCAL(8),
+  LOCAL(6),
+  LOCAL(7),
+  LOCAL(12),
+  LOCAL(13),
+  LOCAL(4),
+  LOCAL(3)
 };
 
 static FUNCTION_INFO i_func_std_types__date_and_time___deserializer_of = {
-  t_func_std_types__date_and_time___deserializer_of, NULL, 19, 10,
-  {"45_4_date_parts\000", "50_4_hour\000", "49_4_time_parts\000", "51_4_minute\000", "48_4_day\000", "46_4_year\000", "47_4_month\000", "52_4_second\000", "44_4_parts\000", "42_5_argument\000"}
+  t_func_std_types__date_and_time___deserializer_of, NULL, 24, 11,
+  {"45_4_date_parts\000", "50_4_hour\000", "49_4_time_parts\000", "51_4_minute\000", "48_4_day\000", "46_4_year\000", "47_4_month\000", "52_4_second\000", "54_7_time_shift\000", "44_4_parts\000", "42_5_argument\000"}
+};
+
+static TAB_NUM t_lambda_3[] = {
+  2, // locals
+  0, // parameters
+  // to_integer*3600
+  var_to_integer, 1, var_53_4_offset, 1, LOCAL(1),
+  // to_integer*3600
+  var_std__times, 2, LOCAL(1), num_3600, 1, LOCAL(2),
+  //  offset.to_integer*3600
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(56, 15),
+  POS(56, 15),
+  POS(56, 7)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 3, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_4[] = {
+  0, // locals
+  0, // parameters
+  //  0
+  LET, 1, num_0, TAIL_CALL,
+  POS(57, 7)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__date_and_time___to_string[] = {
   20, // locals
   1, // parameters
-  LOCAL(18), // 75_5_self
+  LOCAL(18), // 80_5_self
   // $ts time_shift_of(self)
-  var_time_shift_of, 1, LOCAL(18), 1, var_77_4_ts,
+  var_time_shift_of, 1, LOCAL(18), 1, var_82_4_ts,
   // $t self+ts
-  var_std__plus, 2, LOCAL(18), var_77_4_ts, 1, LOCAL(19),
+  var_std__plus, 2, LOCAL(18), var_82_4_ts, 1, LOCAL(19),
   // $second second_of(t)
   var_second_of, 1, LOCAL(19), 1, LOCAL(20),
   // year_of(t)
@@ -231,21 +288,21 @@ static TAB_NUM t_func_std_types__date_and_time___to_string[] = {
   // month_of(t) 2 "0")
   var_month_of, 1, LOCAL(19), 1, LOCAL(2),
   // pad_left(month_of(t) 2 "0")
-  var_pad_left, 3, LOCAL(2), num_2, string_5, 1, LOCAL(3),
+  var_pad_left, 3, LOCAL(2), num_2, string_6, 1, LOCAL(3),
   // day_of(t) 2 "0")
   var_day_of, 1, LOCAL(19), 1, LOCAL(4),
   // pad_left(day_of(t) 2 "0")
-  var_pad_left, 3, LOCAL(4), num_2, string_5, 1, LOCAL(5),
+  var_pad_left, 3, LOCAL(4), num_2, string_6, 1, LOCAL(5),
   // hour_of(t)
   var_hour_of, 1, LOCAL(19), 1, LOCAL(6),
   // minute_of(t) 2 "0")
   var_minute_of, 1, LOCAL(19), 1, LOCAL(7),
   // pad_left(minute_of(t) 2 "0")
-  var_pad_left, 3, LOCAL(7), num_2, string_5, 1, LOCAL(8),
+  var_pad_left, 3, LOCAL(7), num_2, string_6, 1, LOCAL(8),
   // floor(second) 2 "0")
   var_floor, 1, LOCAL(20), 1, LOCAL(9),
   // pad_left(floor(second) 2 "0")
-  var_pad_left, 3, LOCAL(9), num_2, string_5, 1, LOCAL(10),
+  var_pad_left, 3, LOCAL(9), num_2, string_6, 1, LOCAL(10),
   // floor(second))) 3 "0")
   var_floor, 1, LOCAL(20), 1, LOCAL(11),
   // second-floor(second))) 3 "0")
@@ -255,88 +312,53 @@ static TAB_NUM t_func_std_types__date_and_time___to_string[] = {
   // floor(1000*(second-floor(second))) 3 "0")
   var_floor, 1, LOCAL(13), 1, LOCAL(14),
   // pad_left(floor(1000*(second-floor(second))) 3 "0")
-  var_pad_left, 3, LOCAL(14), num_3, string_5, 1, LOCAL(15),
+  var_pad_left, 3, LOCAL(14), num_3, string_6, 1, LOCAL(15),
   // cond
-  var_cond, 3, lambda_3, lambda_5, lambda_7, 1, LOCAL(16),
+  var_cond, 3, lambda_5, lambda_7, lambda_9, 1, LOCAL(16),
   // string
   var_string, 15, LOCAL(1), string_3, LOCAL(3), string_3, LOCAL(5), chr_32, LOCAL(6), string_4, LOCAL(8), string_4, LOCAL(10), chr_46, LOCAL(15), str__GMT, LOCAL(16), 1, LOCAL(17),
   // ->
   LET, 1, LOCAL(17), TAIL_CALL,
-  POS(77, 3),
-  POS(78, 3),
-  POS(79, 3),
-  POS(82, 7),
-  POS(84, 16),
-  POS(84, 7),
-  POS(86, 16),
-  POS(86, 7),
-  POS(88, 7),
-  POS(90, 16),
-  POS(90, 7),
-  POS(92, 16),
-  POS(92, 7),
-  POS(94, 35),
-  POS(94, 28),
-  POS(94, 22),
-  POS(94, 16),
-  POS(94, 7),
-  POS(96, 7),
-  POS(81, 5),
-  POS(80, 3),
+  POS(82, 3),
+  POS(83, 3),
+  POS(84, 3),
+  POS(87, 7),
+  POS(89, 16),
+  POS(89, 7),
+  POS(91, 16),
+  POS(91, 7),
+  POS(93, 7),
+  POS(95, 16),
+  POS(95, 7),
+  POS(97, 16),
+  POS(97, 7),
+  POS(99, 35),
+  POS(99, 28),
+  POS(99, 22),
+  POS(99, 16),
+  POS(99, 7),
+  POS(101, 7),
+  POS(86, 5),
+  POS(85, 3),
   LOCAL(20),
-  LOCAL(18),
-  LOCAL(19)
+  LOCAL(19),
+  LOCAL(18)
 };
 
 static FUNCTION_INFO i_func_std_types__date_and_time___to_string = {
   t_func_std_types__date_and_time___to_string, NULL, 21, 3,
-  {"79_4_second\000", "75_5_self\000", "78_4_t\000"}
-};
-
-static TAB_NUM t_lambda_3[] = {
-  1, // locals
-  0, // parameters
-  // 0 -> string("+" ts/3600)
-  var_std__less, 2, num_0, var_77_4_ts, 1, LOCAL(1),
-  //  ts > 0 -> string("+" ts/3600)
-  LET, 2, LOCAL(1), lambda_4, TAIL_CALL,
-  POS(97, 17),
-  POS(97, 11)
-};
-
-static FUNCTION_INFO i_lambda_3 = {
-  t_lambda_3, NULL, 2, 0,
-  {}
-};
-
-static TAB_NUM t_lambda_4[] = {
-  2, // locals
-  0, // parameters
-  // ts/3600)
-  var_std__over, 2, var_77_4_ts, num_3600, 1, LOCAL(1),
-  // string("+" ts/3600)
-  var_string, 2, string_6, LOCAL(1), 1, LOCAL(2),
-  //  string("+" ts/3600)
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(97, 33),
-  POS(97, 22),
-  POS(97, 21)
-};
-
-static FUNCTION_INFO i_lambda_4 = {
-  t_lambda_4, NULL, 3, 0,
-  {}
+  {"84_4_second\000", "83_4_t\000", "80_5_self\000"}
 };
 
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
-  // ts < 0 -> ts/3600
-  var_std__less, 2, var_77_4_ts, num_0, 1, LOCAL(1),
-  //  ts < 0 -> ts/3600
+  // 0 -> string("+" ts/3600)
+  var_std__less, 2, num_0, var_82_4_ts, 1, LOCAL(1),
+  //  ts > 0 -> string("+" ts/3600)
   LET, 2, LOCAL(1), lambda_6, TAIL_CALL,
-  POS(98, 12),
-  POS(98, 11)
+  POS(102, 17),
+  POS(102, 11)
 };
 
 static FUNCTION_INFO i_lambda_5 = {
@@ -345,44 +367,79 @@ static FUNCTION_INFO i_lambda_5 = {
 };
 
 static TAB_NUM t_lambda_6[] = {
-  1, // locals
+  2, // locals
   0, // parameters
-  // ts/3600
-  var_std__over, 2, var_77_4_ts, num_3600, 1, LOCAL(1),
-  //  ts/3600
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(98, 22),
-  POS(98, 21)
+  // ts/3600)
+  var_std__over, 2, var_82_4_ts, num_3600, 1, LOCAL(1),
+  // string("+" ts/3600)
+  var_string, 2, string_7, LOCAL(1), 1, LOCAL(2),
+  //  string("+" ts/3600)
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(102, 33),
+  POS(102, 22),
+  POS(102, 21)
 };
 
 static FUNCTION_INFO i_lambda_6 = {
-  t_lambda_6, NULL, 2, 0,
+  t_lambda_6, NULL, 3, 0,
   {}
 };
 
 static TAB_NUM t_lambda_7[] = {
-  0, // locals
+  1, // locals
   0, // parameters
-  //  true -> ""
-  LET, 2, var_true, lambda_8, TAIL_CALL,
-  POS(99, 11)
+  // ts < 0 -> ts/3600
+  var_std__less, 2, var_82_4_ts, num_0, 1, LOCAL(1),
+  //  ts < 0 -> ts/3600
+  LET, 2, LOCAL(1), lambda_8, TAIL_CALL,
+  POS(103, 12),
+  POS(103, 11)
 };
 
 static FUNCTION_INFO i_lambda_7 = {
-  t_lambda_7, NULL, 1, 0,
+  t_lambda_7, NULL, 2, 0,
   {}
 };
 
 static TAB_NUM t_lambda_8[] = {
-  0, // locals
+  1, // locals
   0, // parameters
-  //  ""
-  LET, 1, string_7, TAIL_CALL,
-  POS(99, 19)
+  // ts/3600
+  var_std__over, 2, var_82_4_ts, num_3600, 1, LOCAL(1),
+  //  ts/3600
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(103, 22),
+  POS(103, 21)
 };
 
 static FUNCTION_INFO i_lambda_8 = {
-  t_lambda_8, NULL, 1, 0,
+  t_lambda_8, NULL, 2, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_9[] = {
+  0, // locals
+  0, // parameters
+  //  true -> ""
+  LET, 2, var_true, lambda_10, TAIL_CALL,
+  POS(104, 11)
+};
+
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 1, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_10[] = {
+  0, // locals
+  0, // parameters
+  //  ""
+  LET, 1, string_5, TAIL_CALL,
+  POS(104, 19)
+};
+
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 1, 0,
   {}
 };
 
@@ -392,7 +449,7 @@ static TAB_NUM t_module_entry[] = {
   // register_type &deserializers std_types::date_and_time
   var_register_type, 2, var_deserializers, var_std_types__date_and_time, 1, var_deserializers,
   LET, 1, 0, TAIL_CALL,
-  POS(55, 1)
+  POS(60, 1)
 };
 
 static FUNCTION_INFO i_module_entry = {
@@ -414,19 +471,23 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_POSITIVE_INT64, 0, {.value = 3}},
   {FLT_STRING_8, 1, {.str_8 = ":"}},
+  {FLT_POSITIVE_INT64, 0, {.value = 4}},
+  {FLT_NEGATIVE_INT64, 0, {.value = 1}},
+  {FLT_STRING_8, 0, {.str_8 = ""}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_POSITIVE_INT64, 0, {.value = 3600}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_POSITIVE_INT64, 0, {.value = 0}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__date_and_time___to_string}},
   {FLT_STRING_8, 1, {.str_8 = "0"}},
   {FLT_POSITIVE_INT64, 0, {.value = 1000}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
-  {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
-  {FLT_POSITIVE_INT64, 0, {.value = 3600}},
-  {FLT_STRING_8, 1, {.str_8 = "+"}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_STRING_8, 1, {.str_8 = "+"}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
-  {FLT_STRING_8, 0, {.str_8 = ""}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
   {FLT_CHARACTER, 0, {.value = 32}},
   {FLT_CHARACTER, 0, {.value = 46}},
   {FLT_STRING_8, 4, {.str_8 = " GMT"}},
@@ -516,107 +577,131 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_number\000", NULL,
+    "to_integer\000", NULL,
     {.position = POS(46, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "date_and_time\000", NULL,
-    {.position = POS(53, 6)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "deserializers\000", NULL,
-    {.position = POS(55, 16)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "register_type\000", NULL,
-    {.position = POS(55, 1)}
+    "to_number\000", NULL,
+    {.position = POS(52, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "77_4_ts\000", NULL
+    "53_4_offset\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "time_shift_of\000", NULL,
-    {.position = POS(77, 7)}
+    "range\000", NULL,
+    {.position = POS(53, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL,
-    {.position = POS(78, 6)}
+    "equal\000std", NULL,
+    {.position = POS(55, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "second_of\000", NULL,
-    {.position = POS(79, 11)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "year_of\000", NULL,
-    {.position = POS(82, 7)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "month_of\000", NULL,
-    {.position = POS(84, 16)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "pad_left\000", NULL,
-    {.position = POS(84, 7)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "day_of\000", NULL,
-    {.position = POS(86, 16)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "hour_of\000", NULL,
-    {.position = POS(88, 7)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "minute_of\000", NULL,
-    {.position = POS(90, 16)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "floor\000", NULL,
-    {.position = POS(92, 16)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL,
-    {.position = POS(94, 28)}
+    "not\000std", NULL,
+    {.position = POS(55, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "times\000std", NULL,
-    {.position = POS(94, 22)}
+    {.position = POS(56, 15)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "date_and_time\000", NULL,
+    {.position = POS(58, 6)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "deserializers\000", NULL,
+    {.position = POS(60, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "register_type\000", NULL,
+    {.position = POS(60, 1)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "82_4_ts\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "time_shift_of\000", NULL,
+    {.position = POS(82, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "plus\000std", NULL,
+    {.position = POS(83, 6)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "second_of\000", NULL,
+    {.position = POS(84, 11)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "year_of\000", NULL,
+    {.position = POS(87, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "month_of\000", NULL,
+    {.position = POS(89, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "pad_left\000", NULL,
+    {.position = POS(89, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "day_of\000", NULL,
+    {.position = POS(91, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "hour_of\000", NULL,
+    {.position = POS(93, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "minute_of\000", NULL,
+    {.position = POS(95, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "floor\000", NULL,
+    {.position = POS(97, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "minus\000std", NULL,
+    {.position = POS(99, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(97, 17)}
+    {.position = POS(102, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "over\000std", NULL,
-    {.position = POS(97, 33)}
+    {.position = POS(102, 33)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(99, 12)}
+    {.position = POS(104, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "cond\000", NULL,
-    {.position = POS(96, 7)}
+    {.position = POS(101, 7)}
   }
 };
 
@@ -634,8 +719,8 @@ FUNKY_MODULE module__basic__types__date_and_time = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  30, // number of constants
-  36, // number of variables
+  34, // number of constants
+  41, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

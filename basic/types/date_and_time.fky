@@ -43,14 +43,19 @@ $std_types::date_and_time.deserializer_of:
   )
   $parts split(argument " ")
   $date_parts split(parts(1) "-")
-  $year date_parts(1).to_number
-  $month date_parts(2).to_number
-  $day date_parts(3).to_number
+  $year date_parts(1).to_integer
+  $month date_parts(2).to_integer
+  $day date_parts(3).to_integer
   $time_parts split(parts(2) ":")
-  $hour time_parts(1).to_number
-  $minute time_parts(2).to_number
+  $hour time_parts(1).to_integer
+  $minute time_parts(2).to_integer
   $second time_parts(3).to_number
-  -> date_and_time(year month day hour minute second)
+  $offset range(parts(3) 4 -1)
+  if $time_shift
+    offset != ""
+    -> offset.to_integer*3600
+    -> 0
+  -> date_and_time(year month day hour minute second time_shift)
 
 register_type &deserializers std_types::date_and_time
 

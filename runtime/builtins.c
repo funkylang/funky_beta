@@ -17336,8 +17336,12 @@ static void entry__std__from_unix_time (void)
 
 static void entry__std__date_and_time (void)
   {
-    if (TLS_argument_count != 6) {
-      invalid_arguments();
+    if (TLS_argument_count < 6) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 7) {
+      too_many_arguments();
       return;
     }
     int year, month, day, hour, minute;
@@ -17400,6 +17404,11 @@ static void entry__std__date_and_time (void)
     }
     days += day-1;
     seconds += 86400*(uint64_t)days+3600*hour+60*minute;
+    if (main_argc == 7) {
+      int64_t tz;
+      if (!to_int64(TLS_arguments[6], &tz)) return;
+      seconds -= tz;
+    }
     {
       NODE *result__node = (NODE *)(create__std_types__date_and_time(seconds, nanoseconds));
       TLS_arguments[0] = result__node;
@@ -27603,7 +27612,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__to_integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__width_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std__from_unix_time}},
-  {FLT_C_FUNCTION, 6, {.func = entry__std__date_and_time}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__date_and_time}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__year_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__month_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__day_of}},

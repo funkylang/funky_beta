@@ -832,6 +832,10 @@ echo "libfky$LIB_EXTENSION: \$(runtime_OBJECTS)"
 echo "${TAB}ar rcs libfky$LIB_EXTENSION \$(runtime_OBJECTS)"
 
 echo
+echo 'runtime/builtins.c runtime/builtins.h: runtime_templates/*.template'
+echo "${TAB}./generate_builtins"
+
+echo
 echo '.PHONY: funky'
 echo "funky: compiler/funky$EXE_EXTENSION"
 
