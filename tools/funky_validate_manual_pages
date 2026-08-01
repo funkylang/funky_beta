@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+"""Validate Funky manual page docs against conventions and all_symbols.txt.
+
+Usage:
+    tools/funky_validate_manual_pages [DOC_PATH ...]
+
+With no arguments, validates all files under docs/symbols/.
+With paths, validates only the specified files.
+
+Exit 0 if all clean, exit 1 if any issues found.
+"""
+
+import re
+import sys
+import os
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent.parent
+SYMBOLS_FILE = BASE / "html" / "all_symbols.txt"
+DOCS_DIR = BASE / "docs" / "symbols"
+
+KIND_MAP = {
+    "FUNCTION": "a builtin function",
+    "IO_FUNCTION": "a builtin I/O-function",
+    "POLYMORPHIC_FUNCTION": "a polymorphic function",
+    "POLYMORPHIC_FUNCTION_WITH_SETTER": "a polymorphic function with setter",
+    "METHOD": "a builtin method",
+    "IO_METHOD": "an I/O method",
+    "TYPE": "a builtin type derived from std_types::object",
+    "TYPE_FUNCTION": "a type function",
+    "UNIQUE_ITEM": "a unique item",
+    "CONSTANT": "a constant",
+    "VARIABLE": "a variable",
+    "ATTRIBUTE": "an attribute",
+}
+
+# Kinds that do not need Parameters/Results sections
+NO_PARAMS_RESULTS = {"TYPE", "UNIQUE_ITEM", "CONSTANT", "VARIABLE", "ATTRIBUTE", "TYPE_FUNCTION"}
+
+
+def load_symbols():
+    """Load html/all_symbols.txt into a dict of symbol_name -> kind."""
+    symbols = {}
+    if not SYMBOLS_FILE.exists():
+        print(f"  WARN: {SYMBOLS_FILE} not found — skipping KIND checks")
+        return symbols
+    with open(SYMBOLS_FILE) as f:
+        for line in f:
+            parts = line.strip().split(None, 2)
+            if len(parts) >= 2:
+                symbols[parts[0]] = parts[1]
+    return symbols
+
+
+def validate_file(filepath, symbols):
+    """Return a list of issue strings for a single doc file."""
+    issues = []
+    f = filepath.relative_to(BASE)
+
+    with open(filepath) as fh:
+        content = fh.read()
+    lines = content.split("\n")
+
+    if not lines:
+        issues.append(f"{f}: empty file")
+        return issues
+
+    header = lines[0].strip()
+
+    # --- Header format ---
+    m = re.match(r"^#\s+(.+?)\s+\((.+?)\)", header)
+    if not m:
+        issues.append(f"{f}: header not parsable: {header}")
+        return issues
+
+    sym = m.group(1)
+    kind_text = m.group(2)
+
+    # __ in header (should be ::)
+    if "__" in header:
+        issues.append(f"{f}: header has __ mangling (should use ::): {header}")
+
+    # --- KIND cross-reference ---
+    sym_kind = symbols.get(sym)
+    if sym_kind:
+        expected = KIND_MAP.get(sym_kind, sym_kind)
+        if kind_text != expected:
+            issues.append(
+                f"{f}: header says '{kind_text}', "
+                f"all_symbols.txt says '{expected}' ({sym_kind})"
+            )
+
+    # --- I/O warning presence ---
+    has_io_warning = "**This function must be called with I/O-access rights!**" in content
+    is_io = "I/O-function" in header or "I/O method" in header
+    if has_io_warning and not is_io:
+        issues.append(f"{f}: has I/O warning but KIND is not I/O")
+    if is_io and not has_io_warning:
+        issues.append(f"{f}: KIND is I/O but missing I/O-access warning")
+
+    # --- I/O warning placement (must be AFTER Results, before body) ---
+    if has_io_warning:
+        io_pos = content.index("**This function must be called with I/O-access rights!**")
+        result_pos = content.rfind("Result:")
+        if result_pos < 0:
+            issues.append(f"{f}: I/O warning present but no Results section")
+        elif io_pos < result_pos:
+            issues.append(f"{f}: I/O warning appears before Results section")
+
+    # --- Required sections (skip for types, constants, attributes, etc.) ---
+    if sym_kind not in NO_PARAMS_RESULTS:
+        if "Parameters:" not in content and "Parameter:" not in content:
+            issues.append(f"{f}: missing Parameters/Parameter section")
+        if "Results:" not in content and "Result:" not in content:
+            issues.append(f"{f}: missing Results/Result section")
+        if "Example:" not in content:
+            issues.append(f"{f}: missing Example section")
+        if "Output:" not in content and "Error output:" not in content:
+            issues.append(f"{f}: missing Output/Error output section")
+
+    # --- Line width ---
+    for i, line in enumerate(lines, 1):
+        if len(line.rstrip("\n")) > 80:
+            issues.append(f"{f}:{i}: line exceeds 80 chars ({len(line.rstrip())})")
+
+    # --- No backticks outside Example/Output code blocks ---
+    # Strip out indented code blocks (4+ spaces) before checking
+    prose_lines = []
+    for line in lines:
+        if line.startswith("    "):
+            continue
+        prose_lines.append(line)
+    prose = "\n".join(prose_lines)
+    if "`" in prose:
+        issues.append(f"{f}: contains backticks in prose (forbidden in docs)")
+
+    # --- No ## headers ---
+    if re.search(r"^  ##", content, re.MULTILINE):
+        issues.append(f"{f}: contains ## markdown headers (forbidden)")
+
+    # --- Timestamp ---
+    last_lines = [l.strip() for l in lines[-5:] if l.strip()]
+    ts_ok = any(re.search(r"\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}", l) for l in last_lines)
+    if not ts_ok:
+        issues.append(f"{f}: missing or malformed timestamp")
+
+    # --- Credit line ---
+    if "((generated by Hermes - an AI agent))" not in content:
+        # Allow other credits for non-Hermes generated docs
+        if "((generated by" not in content:
+            issues.append(f"{f}: missing credit line")
+
+    # --- Defined-in line ---
+    if "((defined in" not in content:
+        issues.append(f"{f}: missing ((defined in ...)) line")
+
+    return issues
+
+
+def collect_doc_files(paths):
+    """Collect doc files from explicit paths or all of docs/symbols/."""
+    if paths:
+        files = [BASE / p for p in paths]
+    else:
+        files = sorted(DOCS_DIR.rglob("*.txt"))
+    return [f for f in files if f.is_file()]
+
+
+def main():
+    paths = sys.argv[1:] if len(sys.argv) > 1 else []
+    symbols = load_symbols()
+    files = collect_doc_files(paths)
+
+    if not files:
+        print("No doc files found.")
+        return 1
+
+    all_issues = []
+    files_ok = 0
+    files_bad = 0
+
+    for filepath in files:
+        issues = validate_file(filepath, symbols)
+        if issues:
+            files_bad += 1
+            all_issues.extend(issues)
+        else:
+            files_ok += 1
+
+    if all_issues:
+        for iss in all_issues:
+            print(f"  ISSUE: {iss}")
+        print(f"\n{files_ok}/{len(files)} files OK, {files_bad} with issues "
+              f"({len(all_issues)} total)")
+        return 1
+    else:
+        print(f"All {len(files)} files OK.")
+        return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
