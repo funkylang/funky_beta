@@ -28,7 +28,7 @@
   Error output:
 
     ERROR: An expression expected IN LINE 3 OF FILE /tmp/tmpc2p_vdg1.fky
-    
+
     array = std::int64_array(10)
           ^
 

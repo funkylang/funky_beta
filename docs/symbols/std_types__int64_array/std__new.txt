@@ -20,7 +20,7 @@
   Error output:
 
     ERROR: An expression expected IN LINE 2 OF FILE /tmp/tmp262fbqoj.fky
-    
+
     array = [1, 2, 3]
           ^
 
