@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+"""Print commit ids and messages of Hermes commits that are truly new (not on origin/master).
+
+A commit is "truly new" when its subject does not match any commit already on origin/master.
+Commits re-applied via patch get new hashes but the same subject — those are excluded.
+"""
+
+import subprocess
+import sys
+
+
+def main():
+    repo = "/home/hermes/funky_beta"
+
+    local_only_subjects = subprocess.check_output(
+        ["git", "log", "--format=%s", "origin/master..HEAD"],
+        cwd=repo
+    ).decode().strip().split("\n")
+
+    origin_subjects = set(subprocess.check_output(
+        ["git", "log", "--format=%s", "origin/master"],
+        cwd=repo
+    ).decode().strip().split("\n"))
+
+    # Get full hashes for the truly new ones
+    local_only_hashes = subprocess.check_output(
+        ["git", "log", "--format=%h", "origin/master..HEAD"],
+        cwd=repo
+    ).decode().strip().split("\n")
+
+    for h, s in zip(local_only_hashes, local_only_subjects):
+        if s not in origin_subjects:
+            print(f"{h} {s}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
