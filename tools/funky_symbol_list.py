@@ -270,14 +270,25 @@ def parse_templates():
         text = tmpl.read_text()
         src = rel_path(tmpl)
 
-        # Scan all code blocks for CHECK_IO_ACCESS_RIGHTS
+        # Scan for CHECK_IO_ACCESS_RIGHTS and find which function/method owns it.
+        # The parser uses indentation for scope -- CHECK_IO_ACCESS_RIGHTS must be
+        # on an indented line (inside a body block). The nearest FUNCTION/METHOD
+        # declaration before that indented line is the owner.
         io_blocks = set()
         for m in IO_CHECK.finditer(text):
-            before = text[:m.start()]
-            for decl in TEMPLATE_METHOD.finditer(before):
-                io_blocks.add(decl.start())
+            line_start = text.rfind('\n', 0, m.start()) + 1
+            line = text[line_start:m.start()]
+            if line and line[0] not in (' ', '\t'):
+                continue
+            before = text[:line_start]
+            last_decl = None
             for decl in TEMPLATE_FUNCTION.finditer(before):
-                io_blocks.add(decl.start())
+                last_decl = decl
+            for decl in TEMPLATE_METHOD.finditer(before):
+                if last_decl is None or decl.start() > last_decl.start():
+                    last_decl = decl
+            if last_decl is not None:
+                io_blocks.add(last_decl.start())
 
         # Extract METHOD declarations
         for m in TEMPLATE_METHOD.finditer(text):
