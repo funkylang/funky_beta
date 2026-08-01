@@ -74,24 +74,38 @@ def process_doc(path):
     # new_section: blank line + header + blank + indented content + blank
     new_section = ['', f'  {section_name}:', ''] + [f'    {line}' for line in content.split('\n')] + ['']
 
-    # --- find existing Output/Error sections and footer ---
+    # --- find section range based on indentation ---
+    # Section body is all lines that are blank or indented with 4+ spaces.
+    # Ends at the first non-blank line that is not indented with 4+ spaces.
     def find_section(name):
-        start = next((i for i, l in enumerate(lines) if re.match(rf'^  {name}:$', l)), None)
-        if start is None:
+        header_idx = next((i for i, l in enumerate(lines) if re.match(rf'^  {name}:$', l)), None)
+        if header_idx is None:
             return None, None, None
-        # include blank line before section in the range
-        range_start = start
-        if start > 0 and lines[start - 1].strip() == '':
-            range_start = start - 1
-        end = next(
-            (i for i in range(start + 1, len(lines))
-             if re.match(r'^  [\w ]+:$', lines[i]) or re.match(r'^\(\(', lines[i])),
-            None,
-        )
-        # include blank line after section in the range
-        if end is not None and end > start and lines[end - 1].strip() == '':
-            end = end - 1
-        return range_start, end, start
+        # range_start includes the blank line before the header
+        range_start = header_idx
+        if header_idx > 0 and lines[header_idx - 1].strip() == '':
+            range_start = header_idx - 1
+        # Find end: body lines are blank or start with 4+ spaces
+        body_start = header_idx + 1
+        end = body_start
+        for i in range(body_start, len(lines)):
+            line = lines[i]
+            if line.strip() == '':
+                # blank line — could be part of body or gap; include it
+                end = i + 1
+            elif line.startswith('    '):
+                # indented 4+ spaces — part of body
+                end = i + 1
+            elif re.match(r'^  [\w ]+:$', line):
+                # next section header — stop
+                break
+            elif re.match(r'^\(\(', line):
+                # footer — stop
+                break
+            else:
+                # non-blank, not indented, not a section — stop
+                break
+        return range_start, end, header_idx
 
     output_range_start, output_end, output_header = find_section('Output')
     error_range_start, error_end, error_header = find_section('Error output')

@@ -126,6 +126,9 @@ def find_fky_def(source: str, symbol: str) -> str | None:
     Regular function:    $namespace::symbol:
     Polymorphic decl:    $namespace::symbol ()
     Constant/variable:   $namespace::symbol value
+    Attribute (standalone): $TYPE.attr_name value
+    Attribute (inside TYPE block): .attr_name value
+      -- shorthand for $TYPE.attr_name value per the type definition
 
     Returns the header line + body up to the next top-level definition.
     """
@@ -135,7 +138,7 @@ def find_fky_def(source: str, symbol: str) -> str | None:
         r'\$\s*' + escaped + r'(?:[ \t]*:[ \t]*|[ \t]+\(\))',
         re.MULTILINE,
     )
-    # Constant/value pattern: $namespace::symbol value (no colon, no parens)
+    # Constant/value/attribute pattern: $namespace::symbol value (no colon, no parens)
     const_pattern = re.compile(
         r'(?:^|(?<=\n))\$\s*' + escaped + r'\s+\S+',
         re.MULTILINE,
@@ -144,31 +147,48 @@ def find_fky_def(source: str, symbol: str) -> str | None:
     m = func_pattern.search(source)
     if not m:
         m = const_pattern.search(source)
+    if m:
+        block_start = m.start()
+        header_end = source.index('\n', block_start) + 1
+        # Collect lines until next top-level definition
+        remaining = source[header_end:]
+        lines = remaining.split('\n')
+        collected: list[str] = []
+
+        for line in lines:
+            stripped = line.lstrip()
+            if not stripped:
+                collected.append(line)
+                continue
+            # Only break on top-level definitions (column 0)
+            if not line[0].isspace() and (stripped.startswith('$') or stripped.startswith('<')):
+                break
+            collected.append(line)
+
+        result = source[block_start:header_end] + '\n'.join(collected)
+        if not result.endswith('\n'):
+            result += '\n'
+        return result
+
+    # Dot-attribute inside a TYPE block: .attr_name value
+    # The symbol is "std_types::window_manager.current_time_of"
+    # The source has ".current_time_of undefined" inside the TYPE block
+    # which is shorthand for "$std_types::window_manager.current_time_of undefined"
+    local_attr = symbol.rsplit('.', 1)[-1] if '.' in symbol else symbol
+    type_name = symbol.rsplit('.', 1)[0] if '.' in symbol else symbol
+    dot_attr_pattern = re.compile(
+        r'(?:^|(?<=\n))(\s+)\.' + re.escape(local_attr) + r'(\s+\S+)',
+        re.MULTILINE,
+    )
+
+    m = dot_attr_pattern.search(source)
     if not m:
         return None
 
-    block_start = m.start()
-    header_end = source.index('\n', block_start) + 1
-
-    # Collect lines until next top-level definition
-    remaining = source[header_end:]
-    lines = remaining.split('\n')
-    collected: list[str] = []
-
-    for line in lines:
-        stripped = line.lstrip()
-        if not stripped:
-            collected.append(line)
-            continue
-        # Only break on top-level definitions (column 0)
-        if not line[0].isspace() and (stripped.startswith('$') or stripped.startswith('<')):
-            break
-        collected.append(line)
-
-    result = source[block_start:header_end] + '\n'.join(collected)
-    if not result.endswith('\n'):
-        result += '\n'
-    return result
+    # Return the expanded form so the reader sees the full symbol name
+    indent = m.group(1)
+    value = m.group(2)
+    return f"${type_name}.{local_attr}{value}\n"
 
 
 # ---------------------------------------------------------------------------
@@ -184,6 +204,7 @@ def symbol_variants(symbol: str) -> list[str]:
     """Generate candidate source names for a symbol.
 
     Source files often omit the 'std::' qualifier on method names.
+    Attributes use dot notation (TYPE.attr) instead of slash notation.
     """
     real = unmangle(symbol)
     if '/' not in real:
@@ -192,6 +213,10 @@ def symbol_variants(symbol: str) -> list[str]:
     candidates = [real]
     if method_part.startswith("std::"):
         candidates.append(type_part + "/" + method_part[5:])
+        candidates.append(type_part + "." + method_part[5:])
+    else:
+        candidates.append(type_part + "/" + method_part)
+        candidates.append(type_part + "." + method_part)
     return candidates
 
 

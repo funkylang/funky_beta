@@ -315,6 +315,23 @@ def parse_templates():
                 name = f"{type_part}/{method_part}"
             # _type method IS the type function (/:), matches builtins.c ___type
             if method_part == "std::_type":
+                # Check if the body is just a RUNTIME_ERROR stub
+                # Templates use indentation for scope - body ends when
+                # indentation returns to the METHOD declaration level or less.
+                method_indent = len(m.group(0)) - len(m.group(0).lstrip())
+                body_end = m.end()
+                for line in text[body_end:].split('\n'):
+                    stripped = line.strip()
+                    if not stripped:
+                        continue
+                    line_indent = len(line) - len(line.lstrip())
+                    if line_indent <= method_indent:
+                        break
+                    body_end = text.index(line, body_end) + len(line) + 1
+                body = text[m.end():body_end]
+                if 'RUNTIME_ERROR' in body:
+                    # Skip boring stubs - only meaningful type functions belong in the list
+                    continue
                 name = f"{type_part}/:"
                 symbols[name] = ("TYPE_FUNCTION", src)
                 continue
@@ -595,19 +612,8 @@ def parse_builtins_attributes():
     text = BUILTINS_C.read_text()
     src = "runtime/builtins.c"
 
-    # Detect type functions by ___type suffix: static void ns__type___type (void)
-    # Note: must NOT match "static void *create__..." (function pointers)
-    for m in re.finditer(r'static\s+void\s+(\S+___type)\s*\(', text):
-        func_name = m.group(1)
-        # Decode: ns__type___type -> ns::type/
-        parts = func_name.rsplit("___", 1)
-        if len(parts) == 2 and parts[1] == "type":
-            base = parts[0]
-            decoded = base.replace("__", "::")
-            # Filter private namespaces and entries with no namespace
-            ns = base.split("__", 1)[0] if "__" in base else ""
-            if ns and ns not in PRIVATE_NAMESPACES:
-                symbols[f"{decoded}/:"] = ("TYPE_FUNCTION", src)
+    # Type functions are detected only from .template files (parse_templates).
+    # Templates are the sole source of truth - they filter out RUNTIME_ERROR stubs.
 
     # Parse ATTRIBUTE_DEFINITION blocks
     for header in ATTR_DEF_HEADER.finditer(text):
