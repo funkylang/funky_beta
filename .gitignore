@@ -127,3 +127,4 @@ examples/*
 !examples/fib.fky
 !examples/star_and_sinus.fky
 !examples/ws
+!tools/push_new_commits

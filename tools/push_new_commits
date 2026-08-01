@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+"""Create patches for truly new Hermes commits and copy to clipboard.
+
+A commit is "truly new" when its subject does not match any commit on origin/master.
+Re-applied commits with different hashes are excluded.
+"""
+
+import subprocess
+import sys
+
+
+def main():
+    repo = "/home/hermes/funky_beta"
+
+    local_only_subjects = subprocess.check_output(
+        ["git", "log", "--format=%s", "origin/master..HEAD"],
+        cwd=repo
+    ).decode().strip().split("\n")
+
+    origin_subjects = set(subprocess.check_output(
+        ["git", "log", "--format=%s", "origin/master"],
+        cwd=repo
+    ).decode().strip().split("\n"))
+
+    local_only_hashes = subprocess.check_output(
+        ["git", "log", "--format=%h", "origin/master..HEAD"],
+        cwd=repo
+    ).decode().strip().split("\n")
+
+    # Collect truly new commit hashes (newest first from log)
+    new_hashes = []
+    for h, s in zip(local_only_hashes, local_only_subjects):
+        if s not in origin_subjects:
+            new_hashes.append(h)
+
+    if not new_hashes:
+        print("(no truly new commits)")
+        return 0
+
+    # The oldest truly new hash is the first parent of the range
+    oldest = new_hashes[-1]
+    newest = new_hashes[0]
+
+    # Create patch for the range of truly new commits
+    patch = subprocess.check_output(
+        ["git", "format-patch", "--stdout", f"{oldest}^..{newest}"],
+        cwd=repo
+    )
+
+    # Copy to clipboard
+    subprocess.run(["xclip", "-selection", "clipboard"], input=patch)
+
+    count = len(new_hashes)
+    print(f"{count} patch{'es' if count != 1 else ''} copied to clipboard")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
