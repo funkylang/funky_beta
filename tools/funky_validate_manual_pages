@@ -2,10 +2,11 @@
 """Validate Funky manual page docs against conventions and all_symbols.txt.
 
 Usage:
-    tools/funky_validate_manual_pages [DOC_PATH ...]
+    tools/funky_validate_manual_pages DOC_PATH
+    tools/funky_validate_manual_pages
 
+With one path, validates that single file.
 With no arguments, validates all files under docs/symbols/.
-With paths, validates only the specified files.
 
 Exit 0 if all clean, exit 1 if any issues found.
 """
@@ -14,19 +15,20 @@ import re
 import sys
 import os
 from pathlib import Path
+from difflib import get_close_matches
 
 BASE = Path(__file__).resolve().parent.parent
 SYMBOLS_FILE = BASE / "html" / "all_symbols.txt"
 DOCS_DIR = BASE / "docs" / "symbols"
 
 KIND_MAP = {
-    "FUNCTION": "a builtin function",
-    "IO_FUNCTION": "a builtin I/O-function",
+    "FUNCTION": "a function",
+    "IO_FUNCTION": "an I/O-function",
     "POLYMORPHIC_FUNCTION": "a polymorphic function",
     "POLYMORPHIC_FUNCTION_WITH_SETTER": "a polymorphic function with setter",
-    "METHOD": "a builtin method",
+    "METHOD": "a method",
     "IO_METHOD": "an I/O method",
-    "TYPE": "a builtin type derived from std_types::object",
+    "TYPE": "a type derived from std_types::object",
     "TYPE_FUNCTION": "a type function",
     "UNIQUE_ITEM": "a unique item",
     "CONSTANT": "a constant",
@@ -36,6 +38,33 @@ KIND_MAP = {
 
 # Kinds that do not need Parameters/Results sections
 NO_PARAMS_RESULTS = {"TYPE", "UNIQUE_ITEM", "CONSTANT", "VARIABLE", "ATTRIBUTE", "TYPE_FUNCTION"}
+
+# All valid section names as they appear in docs (exact prefix, with colon)
+VALID_SECTIONS = [
+    "Parameter:", "Parameters:",
+    "Options:",
+    "Result:", "Results:",
+    "Topic:", "Topics:",
+    "Example:",
+    "Output:",
+    "Error output:",
+    "See also:",
+    "Related topics:",
+]
+
+def load_valid_topics():
+    """Load valid topic names from docs/topics/ directory."""
+    topics = set()
+    for entry in os.listdir(DOCS_DIR.parent / "topics"):
+        if entry.endswith(".txt"):
+            name = entry[:-4].replace("_", " ")
+            topics.add(name)
+    return topics
+
+# Section patterns for detection (indented with 2 spaces)
+SECTION_RE = re.compile(r'^  (' + '|'.join(re.escape(s) for s in VALID_SECTIONS) + r')(.*)$')
+
+IO_WARNING = "**This function must be called with I/O-access rights!**"
 
 
 def load_symbols():
@@ -52,8 +81,8 @@ def load_symbols():
     return symbols
 
 
-def validate_file(filepath, symbols):
-    """Return a list of issue strings for a single doc file."""
+def validate_file(filepath, symbols, valid_topics):
+    """Return a list of (line_number, message) tuples for a single doc file."""
     issues = []
     f = filepath.relative_to(BASE)
 
@@ -62,97 +91,204 @@ def validate_file(filepath, symbols):
     lines = content.split("\n")
 
     if not lines:
-        issues.append(f"{f}: empty file")
+        issues.append((0, "empty file"))
         return issues
 
     header = lines[0].strip()
 
     # --- Header format ---
-    m = re.match(r"^#\s+(.+?)\s+\((.+?)\)", header)
+    m = re.match(r"^#\s+(.+?)\s+\((.+?)\)$", header)
     if not m:
-        issues.append(f"{f}: header not parsable: {header}")
+        issues.append((1, f"header not in format '# symbol_name (type description)': {header}"))
         return issues
 
     sym = m.group(1)
     kind_text = m.group(2)
 
     # __ in header (should be ::)
-    if "__" in header:
-        issues.append(f"{f}: header has __ mangling (should use ::): {header}")
+    if "__" in sym:
+        issues.append((1, f"symbol name uses __ mangling '{sym}' — should use '::': {sym.replace('__', '::')}"))
 
     # --- KIND cross-reference ---
     sym_kind = symbols.get(sym)
     if sym_kind:
         expected = KIND_MAP.get(sym_kind, sym_kind)
         if kind_text != expected:
-            issues.append(
-                f"{f}: header says '{kind_text}', "
-                f"all_symbols.txt says '{expected}' ({sym_kind})"
-            )
+            issues.append((1, f"header says '{kind_text}' but all_symbols.txt expects '{expected}' ({sym_kind})"))
+
+    # --- Blank line after header ---
+    if len(lines) > 1 and lines[1].strip() != "":
+        issues.append((2, "missing blank line after header"))
+
+    # --- Detect section lines and check they are on fresh paragraphs ---
+    found_sections = set()
+    topic_sections = []  # (line_idx, "Topic:"|"Topics:", raw_text)
+    for i in range(len(lines)):
+        line = lines[i]
+        stripped = line.strip()
+
+        # Check for I/O warning
+        if stripped == IO_WARNING:
+            if i > 0 and lines[i - 1].strip() != "":
+                issues.append((i + 1, f"I/O warning not on fresh paragraph (line {i} is: '{lines[i - 1].strip()}')"))
+            found_sections.add("I/O warning")
+            continue
+
+        # Check for valid section names
+        sec_match = SECTION_RE.match(line)
+        if sec_match:
+            section_name = sec_match.group(1)
+            found_sections.add(section_name)
+            if i > 0 and lines[i - 1].strip() != "":
+                issues.append((i + 1, f"'{section_name}' not on fresh paragraph (line {i} is: '{lines[i - 1].strip()}')"))
+            if section_name in ("Topic:", "Topics:"):
+                topic_sections.append((i, section_name, sec_match.group(2).strip()))
+            continue
+
+        # Detect possible section typos: line starts with 2 spaces, contains ':',
+        # and doesn't match any valid section, parameter value, or code
+        trimmed = stripped.rstrip()
+        if line.startswith("  ") and not line.startswith("    ") and ":" in trimmed:
+            candidate = trimmed
+            # Skip if it looks like a parameter/result value (indented further or contains ': ')
+            if not trimmed.startswith("*"):
+                # Check if it's close to a valid section name
+                for valid in VALID_SECTIONS:
+                    if candidate.startswith(valid):
+                        break
+                else:
+                    # Not a valid section prefix — check for typo
+                    close = get_close_matches(candidate, VALID_SECTIONS, n=1, cutoff=0.8)
+                    if close:
+                        issues.append((i + 1, f"possible section name typo '{candidate}' — did you mean '{close[0]}'?"))
+
+    # --- Validate topics ---
+    for i, sec_name, raw_text in topic_sections:
+        topics = [t.strip() for t in raw_text.split(",")]
+        if sec_name == "Topic:":
+            if len(topics) > 1:
+                issues.append((i + 1, f"Topic: allows only one topic (got {len(topics)}), use Topics: instead"))
+        elif sec_name == "Topics:":
+            if len(topics) < 2:
+                issues.append((i + 1, f"Topics: requires two or more (got {len(topics)}), use Topic: instead"))
+        for topic in topics:
+            if topic not in valid_topics:
+                suggestions = get_close_matches(topic, valid_topics, n=3, cutoff=0.6)
+                if suggestions:
+                    issues.append((i + 1, f"topic '{topic}' not found — did you mean: {', '.join(suggestions)}?"))
+                else:
+                    issues.append((i + 1, f"topic '{topic}' not found"))
+
+    # --- Required sections presence ---
+    has_parameter = "Parameter:" in found_sections or "Parameters:" in found_sections
+    has_result = "Result:" in found_sections or "Results:" in found_sections
+    has_example = "Example:" in found_sections
+    has_output = "Output:" in found_sections or "Error output:" in found_sections
+    has_topic = "Topic:" in found_sections or "Topics:" in found_sections
+    has_see_also = "See also:" in found_sections
+    has_io_warning = "I/O warning" in found_sections
+
+    is_io = "I/O-function" in header or "I/O method" in header
+    needs_params_results = sym_kind not in NO_PARAMS_RESULTS
+
+    if needs_params_results:
+        if not has_parameter:
+            issues.append((0, "missing Parameters/Parameter section"))
+        if not has_result:
+            issues.append((0, "missing Results/Result section"))
+        if not has_example:
+            issues.append((0, "missing Example section"))
+        if not has_output:
+            issues.append((0, "missing Output/Error output section"))
+    if not has_topic:
+        issues.append((0, "missing Topic/Topics section"))
+    if not has_see_also:
+        issues.append((0, "missing See also section"))
 
     # --- I/O warning presence ---
-    has_io_warning = "**This function must be called with I/O-access rights!**" in content
-    is_io = "I/O-function" in header or "I/O method" in header
     if has_io_warning and not is_io:
-        issues.append(f"{f}: has I/O warning but KIND is not I/O")
+        issues.append((0, "has I/O-access warning but KIND is not I/O"))
     if is_io and not has_io_warning:
-        issues.append(f"{f}: KIND is I/O but missing I/O-access warning")
+        issues.append((0, "KIND is I/O but missing I/O-access rights warning"))
 
-    # --- I/O warning placement (must be AFTER Results, before body) ---
+    # --- I/O warning placement (must be AFTER Results) ---
     if has_io_warning:
-        io_pos = content.index("**This function must be called with I/O-access rights!**")
-        result_pos = content.rfind("Result:")
-        if result_pos < 0:
-            issues.append(f"{f}: I/O warning present but no Results section")
-        elif io_pos < result_pos:
-            issues.append(f"{f}: I/O warning appears before Results section")
+        io_line_idx = None
+        for i, line in enumerate(lines):
+            if line.strip() == IO_WARNING:
+                io_line_idx = i
+                break
+        result_line_idx = None
+        for i, line in enumerate(lines):
+            if SECTION_RE.match(line):
+                sec = SECTION_RE.match(line).group(1)
+                if sec in ("Result:", "Results:"):
+                    result_line_idx = i
+                    break
+        if result_line_idx is not None and io_line_idx is not None:
+            if io_line_idx < result_line_idx:
+                issues.append((0, "I/O-access warning appears before Results section"))
 
-    # --- Required sections (skip for types, constants, attributes, etc.) ---
-    if sym_kind not in NO_PARAMS_RESULTS:
-        if "Parameters:" not in content and "Parameter:" not in content:
-            issues.append(f"{f}: missing Parameters/Parameter section")
-        if "Results:" not in content and "Result:" not in content:
-            issues.append(f"{f}: missing Results/Result section")
-        if "Example:" not in content:
-            issues.append(f"{f}: missing Example section")
-        if "Output:" not in content and "Error output:" not in content:
-            issues.append(f"{f}: missing Output/Error output section")
+    # --- Results section followed by blank line ---
+    for i in range(len(lines)):
+        sec_match = SECTION_RE.match(lines[i])
+        if sec_match and sec_match.group(1) in ("Result:", "Results:"):
+            j = i + 1
+            while j < len(lines) and lines[j].startswith("    "):
+                j += 1
+            if j < len(lines) and lines[j].strip() != "":
+                issues.append((j + 1, f"Result value on line {i+1} not followed by blank line (line {j+1} is: '{lines[j].strip()}')"))
+
+    # --- Footer format ---
+    last_non_blank = []
+    for i in range(len(lines) - 1, -1, -1):
+        if lines[i].strip():
+            last_non_blank.append((i + 1, lines[i].strip()))
+    last_non_blank.reverse()
+
+    # Any line starting with (( is a footer candidate
+    footer_lines = [l for _, l in last_non_blank if l.startswith("((")]
+
+    if not footer_lines:
+        issues.append((0, "missing footer lines — expected ((defined in ...)), ((generated by ...)), ((timestamp))"))
+    else:
+        defined = [l for l in footer_lines if l.startswith("((defined in")]
+        if not defined:
+            issues.append((0, "missing ((defined in ...)) line"))
+        elif not defined[0].endswith("))"):
+            issues.append((0, f"((defined in ...)) line missing closing )): {defined[0]}"))
+
+        credit = [l for l in footer_lines if "generated by" in l]
+        if not credit:
+            issues.append((0, "missing credit line ((generated by ...))"))
+        elif not credit[0].endswith("))"):
+            issues.append((0, f"credit line missing closing )): {credit[0]}"))
+
+        # Timestamp: check all last non-blank lines for date pattern
+        timestamp_lines = [l for _, l in last_non_blank if re.search(r"\d{4}-\d{2}-\d{2}", l)]
+        if not timestamp_lines:
+            issues.append((0, "missing timestamp line"))
+        else:
+            ts = timestamp_lines[-1]
+            if not re.match(r"^\(\(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\)\)$", ts):
+                issues.append((0, f"timestamp not in format ((YYYY-MM-DD HH:MM:SS)): {ts}"))
 
     # --- Line width ---
     for i, line in enumerate(lines, 1):
-        if len(line.rstrip("\n")) > 80:
-            issues.append(f"{f}:{i}: line exceeds 80 chars ({len(line.rstrip())})")
+        if len(line) > 80:
+            issues.append((i, f"line exceeds 80 chars ({len(line)} chars): '{line[:60]}...'"))
 
-    # --- No backticks outside Example/Output code blocks ---
-    # Strip out indented code blocks (4+ spaces) before checking
-    prose_lines = []
-    for line in lines:
+    # --- No backticks outside indented code blocks ---
+    for i, line in enumerate(lines, 1):
         if line.startswith("    "):
             continue
-        prose_lines.append(line)
-    prose = "\n".join(prose_lines)
-    if "`" in prose:
-        issues.append(f"{f}: contains backticks in prose (forbidden in docs)")
+        if "`" in line:
+            issues.append((i, f"backtick found in prose: '{line.strip()}'"))
 
-    # --- No ## headers ---
-    if re.search(r"^  ##", content, re.MULTILINE):
-        issues.append(f"{f}: contains ## markdown headers (forbidden)")
-
-    # --- Timestamp ---
-    last_lines = [l.strip() for l in lines[-5:] if l.strip()]
-    ts_ok = any(re.search(r"\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}", l) for l in last_lines)
-    if not ts_ok:
-        issues.append(f"{f}: missing or malformed timestamp")
-
-    # --- Credit line ---
-    if "((generated by Hermes - an AI agent))" not in content:
-        # Allow other credits for non-Hermes generated docs
-        if "((generated by" not in content:
-            issues.append(f"{f}: missing credit line")
-
-    # --- Defined-in line ---
-    if "((defined in" not in content:
-        issues.append(f"{f}: missing ((defined in ...)) line")
+    # --- No ## markdown headers ---
+    for i, line in enumerate(lines, 1):
+        if re.match(r"^  ##", line):
+            issues.append((i, f"## markdown header found (forbidden): '{line.strip()}'"))
 
     return issues
 
@@ -160,15 +296,22 @@ def validate_file(filepath, symbols):
 def collect_doc_files(paths):
     """Collect doc files from explicit paths or all of docs/symbols/."""
     if paths:
-        files = [BASE / p for p in paths]
+        files = []
+        for p in paths:
+            fp = BASE / p
+            if fp.is_file():
+                files.append(fp)
+            else:
+                print(f"  ERROR: file not found: {p}")
+        return files
     else:
-        files = sorted(DOCS_DIR.rglob("*.txt"))
-    return [f for f in files if f.is_file()]
+        return sorted(DOCS_DIR.rglob("*.txt"))
 
 
 def main():
     paths = sys.argv[1:] if len(sys.argv) > 1 else []
     symbols = load_symbols()
+    valid_topics = load_valid_topics()
     files = collect_doc_files(paths)
 
     if not files:
@@ -180,21 +323,26 @@ def main():
     files_bad = 0
 
     for filepath in files:
-        issues = validate_file(filepath, symbols)
+        issues = validate_file(filepath, symbols, valid_topics)
         if issues:
             files_bad += 1
-            all_issues.extend(issues)
+            all_issues.append((filepath, issues))
         else:
             files_ok += 1
 
     if all_issues:
-        for iss in all_issues:
-            print(f"  ISSUE: {iss}")
-        print(f"\n{files_ok}/{len(files)} files OK, {files_bad} with issues "
-              f"({len(all_issues)} total)")
+        for filepath, issues in all_issues:
+            f = filepath.relative_to(BASE)
+            print(f"{f}:")
+            for line_num, msg in issues:
+                if line_num == 0:
+                    print(f"  ISSUE: {msg}")
+                else:
+                    print(f"  {line_num}: {msg}")
+        print(f"\n{files_ok}/{len(files)} files OK, {files_bad} with issues")
         return 1
     else:
-        print(f"All {len(files)} files OK.")
+        print(f"All {len(files)} file{'s' if len(files) != 1 else ''} OK.")
         return 0
 
 
