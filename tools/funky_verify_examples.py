@@ -71,58 +71,76 @@ def process_doc(path):
         section_name = 'Error output'
         content = stderr.strip() if stderr.strip() else f'EXIT CODE {exit_code}'
 
-    # new_section: blank line separator + header + blank + indented content
-    new_section = [f'  {section_name}:', ''] + [f'    {line}' for line in content.split('\n')] + ['']
+    # new_section: blank line + header + blank + indented content + blank
+    new_section = ['', f'  {section_name}:', ''] + [f'    {line}' for line in content.split('\n')] + ['']
 
     # --- find existing Output/Error sections and footer ---
     def find_section(name):
         start = next((i for i, l in enumerate(lines) if re.match(rf'^  {name}:$', l)), None)
         if start is None:
-            return None, None
+            return None, None, None
+        # include blank line before section in the range
+        range_start = start
+        if start > 0 and lines[start - 1].strip() == '':
+            range_start = start - 1
         end = next(
             (i for i in range(start + 1, len(lines))
              if re.match(r'^  [\w ]+:$', lines[i]) or re.match(r'^\(\(', lines[i])),
             None,
         )
-        return start, end
+        # include blank line after section in the range
+        if end is not None and end > start and lines[end - 1].strip() == '':
+            end = end - 1
+        return range_start, end, start
 
-    output_start, output_end = find_section('Output')
-    error_start, error_end = find_section('Error output')
+    output_range_start, output_end, output_header = find_section('Output')
+    error_range_start, error_end, error_header = find_section('Error output')
     footer_start = next((i for i, l in enumerate(lines) if re.match(r'^\(\(', l)), None)
 
     # helper to remove a section by index range
-    def remove(start, end):
-        if start is None:
+    def remove(rs, end, hs):
+        if rs is None:
             return lines
-        return lines[:start] + (lines[end:] if end else lines[start + 1:])
+        return lines[:rs] + (lines[end:] if end else lines[hs + 1:])
 
     # --- insert or replace ---
     if section_name == 'Output':
-        if output_start is not None:
-            lines = lines[:output_start] + new_section + (lines[output_end:] if output_end else lines[output_start + 1:])
+        if output_header is not None:
+            lines = lines[:output_range_start] + new_section + (lines[output_end:] if output_end else lines[output_header + 1:])
             print("  Output section replaced")
         else:
             insert = footer_start if footer_start else len(lines)
             lines = lines[:insert] + new_section + lines[insert:]
             print("  Output section added")
         # remove stale Error output
-        error_start2, error_end2 = find_section('Error output')
-        if error_start2 is not None:
-            lines = remove(error_start2, error_end2)
+        e_rs2, e_end2, e_hs2 = find_section('Error output')
+        if e_hs2 is not None:
+            lines = remove(e_rs2, e_end2, e_hs2)
             print("  stale Error output removed")
     elif section_name == 'Error output':
-        if error_start is not None:
-            lines = lines[:error_start] + new_section + (lines[error_end:] if error_end else lines[error_start + 1:])
+        if error_header is not None:
+            lines = lines[:error_range_start] + new_section + (lines[error_end:] if error_end else lines[error_header + 1:])
             print("  Error output section replaced")
         else:
             insert = footer_start if footer_start else len(lines)
             lines = lines[:insert] + new_section + lines[insert:]
             print("  Error output section added")
         # remove stale Output
-        output_start2, output_end2 = find_section('Output')
-        if output_start2 is not None:
-            lines = remove(output_start2, output_end2)
+        o_rs2, o_end2, o_hs2 = find_section('Output')
+        if o_hs2 is not None:
+            lines = remove(o_rs2, o_end2, o_hs2)
             print("  stale Output removed")
+
+    # deduplicate consecutive blank lines (keep max 1)
+    deduped = []
+    prev_blank = False
+    for line in lines:
+        is_blank = line.strip() == ''
+        if is_blank and prev_blank:
+            continue
+        deduped.append(line)
+        prev_blank = is_blank
+    lines = deduped
 
     doc_path.write_text('\n'.join(lines))
     return True
