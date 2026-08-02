@@ -833,7 +833,7 @@ echo "${TAB}ar rcs libfky$LIB_EXTENSION \$(runtime_OBJECTS)"
 
 echo
 echo 'runtime/builtins.c runtime/builtins.h: runtime_templates/*.template'
-echo "${TAB}./generate_builtins"
+echo "${TAB}./tools/generate_builtins"
 
 echo
 echo '.PHONY: funky'
