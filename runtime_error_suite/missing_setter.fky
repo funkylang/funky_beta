@@ -1,0 +1,16 @@
+#!/usr/bin/env fkyrun
+
+$obj std_types::object
+$obj.attr_of undefined
+
+$attr_of ()
+$method ()
+
+$obj/method: (self)
+  println! attr_of(self)
+
+do:
+  !obj.attr_of 11
+  method! obj
+  attr_of &obj 47
+  method! obj

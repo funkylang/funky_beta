@@ -1,0 +1,5 @@
+TYPE MISMATCH!
+  stack trace:
+  new (called from illegal_cast_2.fky, line: 30, column: 1)
+  <anonymous function> (called from wrapper)
+  <anonymous function> (called from toplevel)

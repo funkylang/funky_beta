@@ -1,0 +1,8 @@
+INVALID ATTRIBUTE REDEFINITION (profession_of)!
+  on object my_types::name
+    first_name_of: undefined
+    last_name_of: undefined
+  stack trace:
+  new (called from illegal_cast_1.fky, line: 30, column: 1)
+  <anonymous function> (called from wrapper)
+  <anonymous function> (called from toplevel)

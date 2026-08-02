@@ -1,0 +1,37 @@
+#!/usr/bin/env fkyrun
+
+do:
+  println! "values: 3, amount: 10)"
+  $iter bresenham_delta(3 10)
+  repeat 3:
+    next_value &iter $delta
+    println! delta
+    next!
+
+do:
+  println!
+  println! "values: 4, amount: 10)"
+  println! "4 values; total amount: 10)"
+  $iter bresenham_delta(4 10)
+  repeat 4:
+    next_value &iter $delta
+    println! delta
+    next!
+
+do:
+  println!
+  println! "values: 3, amount: 11)"
+  $iter bresenham_delta(3 11)
+  repeat 3:
+    next_value &iter $delta
+    println! delta
+    next!
+
+do:
+  println!
+  println! "values: 4, amount: 11)"
+  $iter bresenham_delta(4 11)
+  repeat 4:
+    next_value &iter $delta
+    println! delta
+    next!

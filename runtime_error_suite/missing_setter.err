@@ -1,0 +1,7 @@
+ATTRIBUTE HAS NO SETTER (attr_of)!
+  on object obj
+    attr_of: 11
+  stack trace:
+  attr_of (called from missing_setter.fky, line: 15, column: 3)
+  <anonymous function> (called from wrapper)
+  <anonymous function> (called from toplevel)

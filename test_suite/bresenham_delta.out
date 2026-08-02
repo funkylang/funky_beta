@@ -1,0 +1,22 @@
+values: 3, amount: 10)
+3
+4
+3
+
+values: 4, amount: 10)
+4 values; total amount: 10)
+2
+3
+2
+3
+
+values: 3, amount: 11)
+4
+3
+4
+
+values: 4, amount: 11)
+3
+2
+3
+3

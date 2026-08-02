@@ -1,0 +1,8 @@
+#!/usr/bin/env fkyrun
+
+p! (: (x) -> 2*x) (: (x) -> 3*x)
+
+$p: (f1 f2)
+  from_to 1 5: (i)
+    println! i ": " f1(i) ", " f2(i)
+    next!

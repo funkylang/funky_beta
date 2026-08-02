@@ -1,0 +1,25 @@
+#!/usr/bin/env fkyrun
+
+$bookmarks empty_key_order_set
+
+!bookmarks(3) true
+!bookmarks(28) true
+!bookmarks(15) true
+!bookmarks(44) true
+
+dump! `first_item_of(bookmarks)
+dump! `last_item_of(bookmarks)
+
+dump! `next_item_of(bookmarks 1)
+dump! `next_item_of(bookmarks 3)
+dump! `next_item_of(bookmarks 12)
+dump! `next_item_of(bookmarks 28)
+dump! `next_item_of(bookmarks 44)
+dump! `next_item_of(bookmarks 46)
+
+dump! `previous_item_of(bookmarks 1)
+dump! `previous_item_of(bookmarks 3)
+dump! `previous_item_of(bookmarks 12)
+dump! `previous_item_of(bookmarks 28)
+dump! `previous_item_of(bookmarks 44)
+dump! `previous_item_of(bookmarks 46)
