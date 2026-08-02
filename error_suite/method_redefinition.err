@@ -1,0 +1,4 @@
+ERROR: Argument should be a slot assignment IN LINE 16 OF FILE ./error_suite/method_redefinition.fky
+
+  !obj/method: (self)
+       ^
