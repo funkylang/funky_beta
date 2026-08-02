@@ -1,14 +1,48 @@
 # Date and Time
 
-  Dates are based on the UNIX epoch.
+  Dates and times are represented by <std_types::date_and_time> objects,
+  which store a specific point in time with nanosecond precision internally
+  as seconds and nanoseconds since the UNIX epoch (1970-01-01 00:00:00 UTC).
+
+  There are three ways to create a date-and-time object:
+
+  * <std::date_and_time> constructs from calendar components (year, month,
+    day, hour, minute, second, and an optional timezone offset in seconds)
+
+  * <std::from_unix_time> constructs from a count of seconds since the epoch
+
+  * <std::current_time> queries the system clock
+
+  Accessor functions extract calendar components: <std::year_of>,
+  <std::month_of>, <std::day_of>, <std::hour_of>, <std::minute_of>,
+  <std::second_of>, and <std::seconds_since_epoch>. The <std::day_of_week_of>
+  function returns the day of the week (1 for Monday through 7 for Sunday).
+  The <std::time_shift_of> function returns the timezone offset in seconds.
+
+  Date-and-time objects support arithmetic with real-valued time deltas
+  in seconds using <std::plus> and <std::minus>, and comparison using
+  <std::less> and <std::equal>.
+
+  Printing a date-and-time object produces formatted output in
+  YYYY-MM-DD HH:MM:SS.mmm GMT+N/-N format.
 
   Example:
 
-    current_time! $t
-    println! t
+    $t1 date_and_time(2024 1 1 12 0 0)
+    println! "start: " t1
+    $t2 t1+3600
+    println! "plus 3600s: " t2
+    $delta t2-t1
+    println! "delta (seconds): " delta
+    if t1 < t2
+      : println! "t1 is before t2"
+      : println! "t1 is not before t2"
 
   Output:
 
-    2025-05-24 19:12:06.699 GMT+2
+    start: 2024-01-01 13:00:00.000 GMT+1
+    plus 3600s: 2024-01-01 14:00:00.000 GMT+1
+    delta (seconds): 3600
+    t1 is before t2
 
 ((defined in basic/types/date_and_time.fky))
