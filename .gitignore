@@ -128,3 +128,4 @@ examples/*
 !examples/star_and_sinus.fky
 !examples/ws
 !tools/push_new_commits
+!tools/mp

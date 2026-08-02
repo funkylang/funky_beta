@@ -1,0 +1,110 @@
+#!/bin/bash
+# mp — open a Funky manual page in elinks
+# Usage:
+#   mp writeln           — open symbol (auto-finds std__writeln_to.html)
+#   mp std::println      — open symbol with explicit namespace
+#   mp "Control Flow"    — open topic (space → underscore mangling)
+
+set -euo pipefail
+
+# Prefer FUNKY_BETA env var, fall back to script-relative path
+REPO_ROOT="${FUNKY_BETA:-$(cd "$(dirname "$0")/.." && pwd)}"
+SYMBOLS_DIR="$REPO_ROOT/html/symbols"
+TOPICS_DIR="$REPO_ROOT/html/topics"
+
+NAME="$*"
+
+# No arguments — show usage
+if [[ $# -eq 0 ]]; then
+    cat <<'USAGE'
+mp — open a Funky manual page in elinks
+
+Usage:
+  mp <symbol>                     open a symbol page
+  mp <type>/<method>              open a method on a type
+  mp <topic>                      open a topic page
+
+Examples:
+  mp std_types::string            # type page
+  mp std::println                 # symbol
+  mp std::writeln_to              # symbol with explicit namespace
+  mp std_types::string/length_of  # method on type
+  mp octet_string/append          # abbreviated type, std:: auto-added
+  mp Network Clients and Servers  # multi-word topic
+  mp "Control Flow"               # quoted topic
+USAGE
+    exit 0
+fi
+
+# Topic: space → underscore, look in topics
+TOPIC_FILE="$TOPICS_DIR/${NAME// /_}.html"
+if [[ -f "$TOPIC_FILE" ]]; then
+    exec elinks "$TOPIC_FILE"
+fi
+
+# Symbol: :: → __ mangling, / → directory separator
+MANGLED="${NAME//::/__}"
+MANGLED="${MANGLED//\//__}"
+SYMBOL_FILE="$SYMBOLS_DIR/${MANGLED}.html"
+if [[ -f "$SYMBOL_FILE" ]]; then
+    exec elinks "$SYMBOL_FILE"
+fi
+
+# Method with /: split into type dir + method file
+if [[ "$NAME" == *"/"* ]]; then
+    IFS='/' read -r TYPE_PART METHOD_PART <<< "$NAME"
+    TYPE_MANGLED="${TYPE_PART//::/__}"
+    METHOD_MANGLED="${METHOD_PART//::/__}"
+    DIR="$SYMBOLS_DIR/${TYPE_MANGLED}"
+
+    # Exact method name
+    METHOD_FILE="$DIR/${METHOD_MANGLED}.html"
+    if [[ -f "$METHOD_FILE" ]]; then
+        exec elinks "$METHOD_FILE"
+    fi
+
+    # Try prepending std__ if method has no namespace
+    if [[ "$METHOD_PART" != *"::"* ]]; then
+        METHOD_FILE="$DIR/std__${METHOD_MANGLED}.html"
+        if [[ -f "$METHOD_FILE" ]]; then
+            exec elinks "$METHOD_FILE"
+        fi
+    fi
+
+    # Try prepending std_types:: if type has no namespace
+    if [[ "$TYPE_PART" != *"::"* ]]; then
+        DIR="$SYMBOLS_DIR/std_types__${TYPE_MANGLED}"
+        METHOD_FILE="$DIR/${METHOD_MANGLED}.html"
+        if [[ -f "$METHOD_FILE" ]]; then
+            exec elinks "$METHOD_FILE"
+        fi
+        if [[ "$METHOD_PART" != *"::"* ]]; then
+            METHOD_FILE="$DIR/std__${METHOD_MANGLED}.html"
+            if [[ -f "$METHOD_FILE" ]]; then
+                exec elinks "$METHOD_FILE"
+            fi
+        fi
+    fi
+fi
+
+# Try prepending "std::" if no namespace given
+if [[ "$NAME" != *"::"* && "$NAME" != *"/"* ]]; then
+    SYMBOL_FILE="$SYMBOLS_DIR/std__${MANGLED}.html"
+    if [[ -f "$SYMBOL_FILE" ]]; then
+        exec elinks "$SYMBOL_FILE"
+    fi
+fi
+
+# Fuzzy: glob match in symbols (recursive)
+shopt -s nullglob
+MATCHES=( "$SYMBOLS_DIR"/*"${MANGLED}"*.html )
+if [[ ${#MATCHES[@]} -eq 1 ]]; then
+    exec elinks "${MATCHES[0]}"
+elif [[ ${#MATCHES[@]} -gt 1 ]]; then
+    echo "Ambiguous '${NAME}' — matches:"
+    printf '  %s\n' "${MATCHES[@]#"$SYMBOLS_DIR/"}"
+    exit 1
+fi
+
+echo "Not found: '${NAME}'"
+exit 1
