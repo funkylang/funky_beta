@@ -26,6 +26,7 @@ tools/chat_with_vicuna
 tools/extract_documentation
 tools/reformat_c
 tools/generate_html_documentation
+tools/generate_builtins
 tools/sml2html
 
 # ─── Generated HTML docs ─────────────────────────────────────────────────

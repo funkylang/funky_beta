@@ -682,6 +682,7 @@ do
   echo "${TAB}rm -f libfky-${LIBNAME}${DLL_EXTENSION}"
   echo "${TAB}rm -f libfky-${LIBNAME}${LIB_EXTENSION}"
 done
+echo "${TAB}rm -f tools/generate_builtins"
 for TOOL in $TOOLS
 do
   echo "${TAB}rm -f tools/$TOOL$EXE_EXTENSION"
@@ -830,6 +831,10 @@ echo "${TAB}\$(CC) \$(RUNTIME_DLL_OPTIONS)" $LDFLAGS "\$(runtime_OBJECTS)" \
 echo
 echo "libfky$LIB_EXTENSION: \$(runtime_OBJECTS)"
 echo "${TAB}ar rcs libfky$LIB_EXTENSION \$(runtime_OBJECTS)"
+
+echo
+echo 'tools/generate_builtins: tools/generate_builtins.c'
+echo "${TAB}\$(CC) $CC_OPTIONS -o tools/generate_builtins tools/generate_builtins.c"
 
 echo
 echo 'runtime/builtins.c runtime/builtins.h: runtime_templates/*.template'
