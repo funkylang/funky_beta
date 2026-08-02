@@ -17,6 +17,7 @@ new_tedi/tedi
 new_tedi/fde
 new_tedi/tedi_light
 new_tedi/*.c
+parser_generator/*.c
 compiler/configuration.c
 compiler/configuration.fky
 Makefile
