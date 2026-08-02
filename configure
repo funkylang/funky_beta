@@ -837,7 +837,7 @@ echo 'tools/generate_builtins: tools/generate_builtins.c'
 echo "${TAB}\$(CC) $CC_OPTIONS -o tools/generate_builtins tools/generate_builtins.c"
 
 echo
-echo 'runtime/builtins.c runtime/builtins.h: runtime_templates/*.template'
+echo 'runtime/builtins.c runtime/builtins.h: tools/generate_builtins runtime_templates/*.template'
 echo "${TAB}./tools/generate_builtins"
 
 echo
