@@ -44,7 +44,7 @@ $LOAD_SYMBOLS/job_completed: (_self io state buf _context)
   for_each lines
     : (line)
       $name line .before. ' '
-      $kind range(line .behind. ' ' 1 -2)
+      $kind (line .behind. ' ') .before. ' '
       !symbols(name) kind
       next
     :
