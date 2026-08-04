@@ -8,9 +8,9 @@ Unlike html/all_symbols.txt which omits method implementations, this lists
 EVERY symbol including polymorphic function implementations.
 
 Output format (one per line, sorted):
-    symbol_name TYPE (source_file)
+    symbol_name KIND BASE (source_file)
 
-Where TYPE is one of:
+Where KIND is one of:
     POLYMORPHIC_FUNCTION, POLYMORPHIC_FUNCTION_WITH_SETTER, FUNCTION, IO_FUNCTION
     TYPE_FUNCTION
     TYPE
@@ -18,6 +18,9 @@ Where TYPE is one of:
     METHOD, IO_METHOD
     ATTRIBUTE
     UNIQUE_ITEM, CONSTANT, VARIABLE
+
+BASE is the parent type for TYPE/OBJECT entries, or "-" for all other kinds
+and the three root types (std_types::object, std_types::undefined, std_types::error).
 
 source_file is the original .fky or .template source (relative to repo root).
 Symbols from runtime_templates/ are builtins; from library dirs are module symbols.
@@ -58,10 +61,10 @@ FUNC_TABLE = re.compile(r'\bt_func_(\S+?)\[')
 
 # FUNCTION_INFO: maps back to t_func table name
 FUNC_INFO = re.compile(
-    r'static\s+FUNCTION_INFO\s+i_func_(\S+)\s*=\s*\{\s*t_func_(\S+?)\s*,',
+    r'static\s+FUNCTION_INFO\s+i_func_(\S+)\s*=\s*\{\s*t_func_(\S+)\s*,',
 )
 
-# ATTRIBUTE_DEFINITION block: static ATTRIBUTE_DEFINITION ns__type__attributes[] = { ... };
+# ATTRIBUTE_DEFINITION block: static ATTRIBUTE_DEFINITION ns__type__attributes[] = { ... }
 # Entry format: {left, right} where left is var_name, -var_name, or TYPE_FUNCTION
 # and right is -func_*, -var_*, -num_*, etc.
 ATTR_DEF_HEADER = re.compile(
@@ -97,17 +100,17 @@ TEMPLATE_UNIQUE = re.compile(
     re.MULTILINE,
 )
 
-# Template OBJECT declarations: OBJECT std::NAME or OBJECT std::NAME -> type
+# Template OBJECT declarations: OBJECT std::NAME or OBJECT std::NAME -> parent
 # Also matches PUBLIC OBJECT
 TEMPLATE_OBJECT = re.compile(
-    r'^(?:PUBLIC\s+)?OBJECT\s+(\S+)',
+    r'^(?:PUBLIC\s+)?OBJECT\s+(.+)',
     re.MULTILINE,
 )
 
-# Template TYPE declarations: TYPE namespace::name
+# Template TYPE declarations: TYPE namespace::name or TYPE namespace::name -> parent
 # Also matches PUBLIC TYPE
 TEMPLATE_TYPE_DECL = re.compile(
-    r'^(?:PUBLIC\s+)?TYPE\s+(\S+)',
+    r'^(?:PUBLIC\s+)?TYPE\s+(.+)',
     re.MULTILINE,
 )
 
@@ -129,6 +132,12 @@ TEMPLATE_ATTRIBUTE_DECL = re.compile(
     r'^ATTRIBUTE\s+(\S+)',
     re.MULTILINE,
 )
+
+# FOT DERIVED/OBJECT/TYPE value: extract parent name from the struct initializer
+# Builtins.c format: .type = &FOT_ns_type
+FOT_PARENT_BUILTIN = re.compile(r'\.type\s*=\s*&FOT_(\w+)_(\w+)')
+# Module .c format: {"parent_name\000parent_namespace"}
+FOT_PARENT_MODULE = re.compile(r'\{"([^\\]+?)\\000([^"]*)"\}')
 
 
 def rel_path(p):
@@ -186,10 +195,38 @@ def classify_fot(fot_type, namespace, is_builtin, attr_count=0):
     return base
 
 
+def extract_fot_parent(text, start_pos):
+    """Extract the parent type from a FOT DERIVED/OBJECT/TYPE struct initializer.
+
+    Looks for .type = &FOT_ns_type within 500 chars after the FOT entry.
+    Returns the parent type as 'ns::type' or None.
+    """
+    # Try builtins.c format first, fall back to module .c format
+    is_module_format = False
+    m = FOT_PARENT_BUILTIN.search(text[start_pos:start_pos + 500])
+    if not m:
+        m = FOT_PARENT_MODULE.search(text[start_pos:start_pos + 500])
+        is_module_format = True
+    if m:
+        if is_module_format:
+            # Module .c: {"parent_name\000parent_namespace"} — same order as FOT_ENTRY
+            type_name, ns = m.group(1), m.group(2)
+        else:
+            ns, type_name = m.group(1), m.group(2)
+        # Decode mangled parent name
+        if "__" in ns:
+            ns = ns.replace("__", "::")
+        if "__" in type_name:
+            type_name = type_name.replace("__", "::")
+        return f"{ns}::{type_name}"
+    return None
+
+
 def parse_c_file(c_path, is_builtin=False):
     """Parse one .c file: FOT entries + bytecode tables.
 
-    Returns dict of {symbol: (kind, source_file)}.
+    Returns dict of {symbol: (kind, base, source_file)}.
+    base is None for non-type symbols.
     """
     symbols = {}
     io_tables = set()
@@ -212,7 +249,7 @@ def parse_c_file(c_path, is_builtin=False):
             block = text[end:end + 200]
             if "has_a_setter = true" in block:
                 kind = "POLYMORPHIC_FUNCTION_WITH_SETTER"
-            symbols[f"{ns}::{name}"] = (kind, src)
+            symbols[f"{ns}::{name}"] = (kind, None, src)
         elif fot_type == "INITIALIZED":
             idx = CONST_IDX.search(text[end:end + 200])
             if idx:
@@ -226,11 +263,16 @@ def parse_c_file(c_path, is_builtin=False):
                     kind = "CONSTANT"
             else:
                 kind = "CONSTANT"
+            symbols[f"{ns}::{name}"] = (kind, None, src)
         else:
             kind = classify_fot(fot_type, ns, is_builtin, attr_count)
             if kind is None:
                 continue
-        symbols[f"{ns}::{name}"] = (kind, src)
+            # Extract base type for DERIVED, OBJECT, TYPE entries
+            base = None
+            if fot_type in ("DERIVED", "OBJECT", "TYPE"):
+                base = extract_fot_parent(text, end)
+            symbols[f"{ns}::{name}"] = (kind, base, src)
 
     # Collect FUNC_INFO -> t_func mapping + IO_CALL detection
     for m in FUNC_INFO.finditer(text):
@@ -252,9 +294,9 @@ def parse_c_file(c_path, is_builtin=False):
         decoded = decode_mangled(func_name)
         if decoded:
             if func_name in io_tables:
-                symbols[decoded] = ("IO_METHOD", src)
+                symbols[decoded] = ("IO_METHOD", None, src)
             elif decoded not in symbols:
-                symbols[decoded] = ("METHOD", src)
+                symbols[decoded] = ("METHOD", None, src)
 
     return symbols
 
@@ -262,7 +304,8 @@ def parse_c_file(c_path, is_builtin=False):
 def parse_templates():
     """Parse .template files for METHOD, FUNCTION, and IO detection.
 
-    Returns dict of {symbol: (kind, source_file)}.
+    Returns dict of {symbol: (kind, base, source_file)}.
+    base is populated for TYPE/OBJECT entries with -> parent syntax.
     """
     symbols = {}
 
@@ -302,7 +345,7 @@ def parse_templates():
             # Strip trailing alias
             if " (" not in name:
                 parts = name.split(None, 1)
-                if len(parts) == 2 and "::" not in parts[1] and "/" not in parts[1]:
+                if len(parts) == 2 and "::" not in parts[1] and "/" not in parts[0]:
                     name = parts[0]
             if "(" in name:
                 name = name[:name.index("(")].strip()
@@ -333,12 +376,12 @@ def parse_templates():
                     # Skip boring stubs - only meaningful type functions belong in the list
                     continue
                 name = f"{type_part}/:"
-                symbols[name] = ("TYPE_FUNCTION", src)
+                symbols[name] = ("TYPE_FUNCTION", None, src)
                 continue
             if m.start() in io_blocks:
-                symbols[name] = ("IO_METHOD", src)
+                symbols[name] = ("IO_METHOD", None, src)
             else:
-                symbols[name] = ("METHOD", src)
+                symbols[name] = ("METHOD", None, src)
 
         # Extract FUNCTION declarations (with ::)
         for m in TEMPLATE_FUNCTION.finditer(text):
@@ -358,48 +401,55 @@ def parse_templates():
                 if "::" not in method_part:
                     name = f"{type_part}/std::{method_part}"
             if m.start() in io_blocks:
-                symbols[name] = ("IO_FUNCTION", src)
+                symbols[name] = ("IO_FUNCTION", None, src)
             else:
-                symbols[name] = ("FUNCTION", src)
+                symbols[name] = ("FUNCTION", None, src)
 
         # Extract UNIQUE declarations (namespace defaults to std)
         for m in TEMPLATE_UNIQUE.finditer(text):
             name = m.group(1).strip()
-            symbols[f"std::{name}"] = ("UNIQUE_ITEM", src)
+            symbols[f"std::{name}"] = ("UNIQUE_ITEM", None, src)
 
         # Extract OBJECT declarations
         for m in TEMPLATE_OBJECT.finditer(text):
             raw = m.group(1).strip()
-            # Strip trailing " -> type" if present
+            # Extract -> parent if present
+            base = None
             if " -> " in raw:
+                base = raw.split(" -> ")[1].strip()
                 raw = raw.split(" -> ")[0]
             if "::" not in raw:
                 continue
-            symbols[raw] = ("OBJECT", src)
+            symbols[raw] = ("OBJECT", base, src)
 
         # Extract TYPE declarations (only those with :: namespace)
         for m in TEMPLATE_TYPE_DECL.finditer(text):
             raw = m.group(1).strip()
+            # Extract -> parent if present
+            base = None
+            if " -> " in raw:
+                base = raw.split(" -> ")[1].strip()
+                raw = raw.split(" -> ")[0]
             if "::" not in raw:
                 continue
             ns = raw.split("::")[0]
             if ns in PRIVATE_NAMESPACES:
                 continue
-            symbols[raw] = ("TYPE", src)
+            symbols[raw] = ("TYPE", base, src)
 
         # Extract POLY declarations (polymorphic functions)
         for m in TEMPLATE_POLY.finditer(text):
             raw = m.group(1).strip()
             if "::" not in raw:
                 continue
-            symbols[raw] = ("POLYMORPHIC_FUNCTION", src)
+            symbols[raw] = ("POLYMORPHIC_FUNCTION", None, src)
 
         # Extract ATTR declarations (polymorphic functions with setter)
         for m in TEMPLATE_ATTR.finditer(text):
             raw = m.group(1).strip()
             if "::" not in raw:
                 continue
-            symbols[raw] = ("POLYMORPHIC_FUNCTION_WITH_SETTER", src)
+            symbols[raw] = ("POLYMORPHIC_FUNCTION_WITH_SETTER", None, src)
 
         # Extract ATTRIBUTE declarations: ATTRIBUTE type.attribute_name
         for m in TEMPLATE_ATTRIBUTE_DECL.finditer(text):
@@ -412,7 +462,7 @@ def parse_templates():
             attr_name = raw[dot_idx+1:]
             # Implicit using std: attribute names default to std namespace
             symbol = f"{type_part}/std::{attr_name}"
-            symbols[symbol] = ("ATTRIBUTE", src)
+            symbols[symbol] = ("ATTRIBUTE", None, src)
 
     return symbols
 
@@ -531,7 +581,7 @@ def parse_attribute_definitions():
     Symbol names: namespace::type/attr_name
     TYPE_FUNCTION becomes: namespace::type/:
 
-    Returns dict of {symbol: (kind, source_file)}.
+    Returns dict of {symbol: (kind, base, source_file)}.
     """
     symbols = {}
 
@@ -539,7 +589,7 @@ def parse_attribute_definitions():
         lib_dir = REPO_ROOT / lib
         if not lib_dir.is_dir():
             continue
-        for c_file in sorted(lib_dir.rglob("*.c")):
+        for c_file in sorted(lib_dir.rglob(".c")):
             text = c_file.read_text()
             src = fky_source(c_file)
 
@@ -572,7 +622,7 @@ def parse_attribute_definitions():
 
                     if left == "TYPE_FUNCTION":
                         symbol = f"{type_prefix}/:"
-                        symbols[symbol] = ("TYPE_FUNCTION", src)
+                        symbols[symbol] = ("TYPE_FUNCTION", None, src)
                     else:
                         # Strip leading "-" and "var_" prefix
                         attr_name = left.lstrip('-')
@@ -587,9 +637,9 @@ def parse_attribute_definitions():
 
                         symbol = f"{type_prefix}/{attr_name}"
                         if right.startswith("-func_") or right.startswith("func_"):
-                            symbols[symbol] = ("METHOD", src)
+                            symbols[symbol] = ("METHOD", None, src)
                         else:
-                            symbols[symbol] = ("ATTRIBUTE", src)
+                            symbols[symbol] = ("ATTRIBUTE", None, src)
 
     return symbols
 
@@ -606,7 +656,7 @@ def parse_builtins_attributes():
     Also detects type functions via ___type suffix:
       static void ns__type___type() -> ns::type/: (type function)
 
-    Returns dict of {symbol: (kind, source_file)}.
+    Returns dict of {symbol: (kind, base, source_file)}.
     """
     symbols = {}
     text = BUILTINS_C.read_text()
@@ -656,9 +706,9 @@ def parse_builtins_attributes():
 
             symbol = f"{type_prefix}/{attr_name}"
             if right.startswith("func_") or right.startswith("-func_"):
-                symbols[symbol] = ("METHOD", src)
+                symbols[symbol] = ("METHOD", None, src)
             else:
-                symbols[symbol] = ("ATTRIBUTE", src)
+                symbols[symbol] = ("ATTRIBUTE", None, src)
 
     return symbols
 
@@ -673,7 +723,7 @@ def parse_compiled_io():
         lib_dir = REPO_ROOT / lib
         if not lib_dir.is_dir():
             continue
-        for c_file in sorted(lib_dir.rglob("*.c")):
+        for c_file in sorted(lib_dir.rglob('*.c')):
             text = c_file.read_text()
             # Find all t_func_NNN[] tables with IO_CALL
             for m in FUNC_TABLE.finditer(text):
@@ -710,7 +760,7 @@ def main():
         lib_dir = REPO_ROOT / lib
         if not lib_dir.is_dir():
             continue
-        for c_file in sorted(lib_dir.rglob("*.c")):
+        for c_file in sorted(lib_dir.rglob('*.c')):
             all_symbols.update(parse_c_file(c_file, is_builtin=False))
     all_symbols.update(parse_attribute_definitions())
 
@@ -721,17 +771,17 @@ def main():
     module_vars = parse_module_variables()
     for name in module_vars:
         if name in all_symbols and all_symbols[name][0] == 'OBJECT':
-            _, src = all_symbols[name]
-            all_symbols[name] = ('VARIABLE', src)
+            _, base, src = all_symbols[name]
+            all_symbols[name] = ('VARIABLE', base, src)
     for name, io_kind in compiled_io.items():
         if name in all_symbols:
-            old_kind, src = all_symbols[name]
+            old_kind, base, src = all_symbols[name]
             if old_kind == "FUNCTION":
-                all_symbols[name] = ("IO_FUNCTION", src)
+                all_symbols[name] = ("IO_FUNCTION", base, src)
             elif old_kind == "METHOD":
-                all_symbols[name] = ("IO_METHOD", src)
+                all_symbols[name] = ("IO_METHOD", base, src)
         elif io_kind not in {v[0] for v in all_symbols.values()}:
-            all_symbols[name] = (io_kind, "unknown")
+            all_symbols[name] = (io_kind, None, "unknown")
 
     # Template methods and functions (overwrites builtins with proper template source)
     all_symbols.update(parse_templates())
@@ -739,16 +789,17 @@ def main():
     # Upgrade OBJECT -> TYPE when type function, methods, or attributes exist.
     # (Only objects that were not already upgraded to VARIABLE)
     for name in list(all_symbols.keys()):
-        kind, src = all_symbols[name]
+        kind, base, src = all_symbols[name]
         if kind == "OBJECT":
             prefix = f"{name}/"
             if any(child.startswith(prefix) for child in all_symbols):
-                all_symbols[name] = ("TYPE", src)
+                all_symbols[name] = ("TYPE", base, src)
 
-    # Output sorted
+    # Output sorted, with base column
     for name in sorted(all_symbols):
-        kind, src = all_symbols[name]
-        print(f"{name} {kind} ({src})")
+        kind, base, src = all_symbols[name]
+        base_str = base if base else "-"
+        print(f"{name} {kind} {base_str} ({src})")
 
 
 if __name__ == "__main__":
