@@ -997,7 +997,7 @@ $text_to_html: (text)
 	    $symbol_info all_symbols(title)
 	    if
 	      symbol_info.is_defined:
-		case kind_of(symbol_info)
+	        case kind_of(symbol_info)
 		  TYPE, BUILTIN_TYPE:
 		    $all_methods empty_key_order_table
 		    collect_methods !all_methods title symbol_info
@@ -1011,11 +1011,15 @@ $text_to_html: (text)
 			    :
 			      FOR_EACH all_methods: (name base)
 				$method append(base "/" name)
-				TR
-				  : TD: A "href" = method.to_filename name
+				if
+				  method .has_suffix. "/:"
+				  -> ""
 				  :
-				    TD "class" = "description"
-				      convert(get_short_description(method))
+				    TR
+				      : TD: A "href" = method.to_filename name
+				      :
+					TD "class" = "description"
+					  convert(get_short_description(method))
 
 		    $collect_methods: (base info)
 		      loop:

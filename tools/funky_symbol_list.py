@@ -72,7 +72,7 @@ ATTR_DEF_HEADER = re.compile(
 )
 # Individual entry: {var_name, value} or {-var_name, value} or {TYPE_FUNCTION, value}
 ATTR_DEF_ENTRY = re.compile(
-    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_)\S+)\s*\}',
+    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_|str_)\S+)\s*\}',
 )
 
 # TAB_NUM bytecode table headers
@@ -293,6 +293,10 @@ def parse_c_file(c_path, is_builtin=False):
         # Decode func_name to symbol name
         decoded = decode_mangled(func_name)
         if decoded:
+            # Skip methods on private-namespace types
+            type_ns = decoded.split("/")[0].split("::")[0]
+            if type_ns in PRIVATE_NAMESPACES:
+                continue
             if func_name in io_tables:
                 symbols[decoded] = ("IO_METHOD", None, src)
             elif decoded not in symbols:
@@ -351,6 +355,10 @@ def parse_templates():
                 name = name[:name.index("(")].strip()
             if "::" not in name:
                 continue
+            # Skip methods on private-namespace types (e.g. builtin_types)
+            type_ns = name.split("/")[0].split("::")[0]
+            if type_ns in PRIVATE_NAMESPACES:
+                continue
             # Implicit using std: resolve method part if it lacks a namespace
             type_part, method_part = name.split("/", 1)
             if "::" not in method_part:
@@ -378,6 +386,10 @@ def parse_templates():
                 name = f"{type_part}/:"
                 symbols[name] = ("TYPE_FUNCTION", None, src)
                 continue
+            # Skip internal methods (names starting with _)
+            method_base = method_part.split("::")[-1]
+            if method_base.startswith("_"):
+                continue
             if m.start() in io_blocks:
                 symbols[name] = ("IO_METHOD", None, src)
             else:
@@ -395,6 +407,11 @@ def parse_templates():
                 name = name[:name.index("(")].strip()
             if "::" not in name:
                 continue
+            # Skip functions on private-namespace types (e.g. builtin_types)
+            if "/" in name:
+                type_ns = name.split("/")[0].split("::")[0]
+                if type_ns in PRIVATE_NAMESPACES:
+                    continue
             # Implicit using std: resolve method part if it lacks a namespace
             if "/" in name:
                 type_part, method_part = name.split("/", 1)
@@ -589,7 +606,7 @@ def parse_attribute_definitions():
         lib_dir = REPO_ROOT / lib
         if not lib_dir.is_dir():
             continue
-        for c_file in sorted(lib_dir.rglob(".c")):
+        for c_file in sorted(lib_dir.rglob("*.c")):
             text = c_file.read_text()
             src = fky_source(c_file)
 
@@ -788,9 +805,10 @@ def main():
 
     # Upgrade OBJECT -> TYPE when type function, methods, or attributes exist.
     # (Only objects that were not already upgraded to VARIABLE)
+    # Also upgrade CONSTANT -> TYPE when children exist (e.g. tuple-based types).
     for name in list(all_symbols.keys()):
         kind, base, src = all_symbols[name]
-        if kind == "OBJECT":
+        if kind in ("OBJECT", "CONSTANT"):
             prefix = f"{name}/"
             if any(child.startswith(prefix) for child in all_symbols):
                 all_symbols[name] = ("TYPE", base, src)

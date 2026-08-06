@@ -120,7 +120,7 @@ $documentation::build_metadata: (_libraries)
       inc &line_no
       parse_line(line) $name $kind $base $source
       if
-	kind == "METHOD" || kind == "IO_METHOD" || kind == "TYPE_FUNCTION":
+	kind == "METHOD" || kind == "IO_METHOD" || kind == "TYPE_FUNCTION" || kind == "ATTRIBUTE":
 	  $parent name .before. '/'
 	  $method_name name .behind. '/'
 	  $group default_value(method_groups(parent) empty_key_order_table)
