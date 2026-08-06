@@ -1018,7 +1018,6 @@ $text_to_html: (text)
 				      convert(get_short_description(method))
 
 		    $collect_methods: (base info)
-		      debug::dump `base
 		      loop:
 			for_each methods_of(info)
 			  : (name _kind)
