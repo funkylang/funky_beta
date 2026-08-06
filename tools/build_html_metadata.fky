@@ -1,0 +1,147 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+  Hermes AI Agent
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace documentation>
+<namespace documentation_types>
+
+<using std>
+<using documentation>
+
+<allow unused>
+
+$documentation::kind_of ()
+$documentation::base_of ()
+$documentation::methods_of ()
+
+$documentation_types::symbol_info std_types::object
+$documentation_types::symbol_info.kind_of undefined
+$documentation_types::symbol_info.base_of undefined
+$documentation_types::symbol_info.methods_of empty_key_order_table
+
+# Kinds — unique items used by kind_of
+
+$documentation::ATTRIBUTE .
+$documentation::BUILTIN_FUNCTION .
+$documentation::BUILTIN_IO_FUNCTION .
+$documentation::BUILTIN_IO_METHOD .
+$documentation::BUILTIN_METHOD .
+$documentation::BUILTIN_OBJECT .
+$documentation::BUILTIN_TYPE .
+$documentation::FUNCTION .
+$documentation::IO_FUNCTION .
+$documentation::IO_METHOD .
+$documentation::CONSTANT .
+$documentation::METHOD .
+$documentation::OBJECT .
+$documentation::POLYMORPHIC_FUNCTION .
+$documentation::POLYMORPHIC_FUNCTION_WITH_SETTER .
+$documentation::TYPE .
+$documentation::TYPE_FUNCTION .
+$documentation::UNIQUE_ITEM .
+$documentation::UNKNOWN .
+$documentation::VARIABLE .
+
+$documentation::libraries list("basic" "terminal" "ai" "web")
+
+$definitions empty_hash_table
+
+# Map KIND string from all_symbols.txt to documentation unique item
+
+$kinds_map: (kind)
+  case kind
+    "ATTRIBUTE" -> documentation::ATTRIBUTE
+    "CONSTANT" -> documentation::CONSTANT
+    "FUNCTION" -> documentation::FUNCTION
+    "IO_FUNCTION" -> documentation::IO_FUNCTION
+    "IO_METHOD" -> documentation::IO_METHOD
+    "METHOD" -> documentation::METHOD
+    "OBJECT" -> documentation::OBJECT
+    "POLYMORPHIC_FUNCTION" -> documentation::POLYMORPHIC_FUNCTION
+    "POLYMORPHIC_FUNCTION_WITH_SETTER" -> documentation::POLYMORPHIC_FUNCTION_WITH_SETTER
+    "TYPE" -> documentation::TYPE
+    "TYPE_FUNCTION" -> documentation::TYPE_FUNCTION
+    "UNIQUE_ITEM" -> documentation::UNIQUE_ITEM
+    "VARIABLE" -> documentation::VARIABLE
+    -> documentation::UNKNOWN
+
+# Parse one line: "SYMBOL_NAME KIND BASE (source_file)"
+# Returns tuple(name kind base source)
+# BASE is "-" for non-type symbols, parsed as undefined.
+
+$parse_line: (line)
+  $source (line .behind. '(') .before. ')'
+  $rest (line .before. '(')
+  trim &rest
+  $symbol rest .before. ' '
+  $tail rest .behind. ' '
+  $kind tail .before. ' '
+  $raw_base tail .behind. ' '
+  trim &raw_base
+  $base
+    if
+      raw_base == "-":
+	-> undefined
+      -> raw_base
+  -> tuple(symbol kind base source)
+
+$documentation::build_metadata: (_libraries)
+  load! $all_symbols_text "html/all_symbols.txt"
+  on all_symbols_text.is_an_error:
+    Error! "Cannot read html/all_symbols.txt — run make all_symbols first"
+  from_utf8 &all_symbols_text
+  $lines split_into_lines(all_symbols_text)
+
+  # Collect methods grouped by parent type
+  $method_groups empty_key_order_table
+
+  # Build definitions, accumulating methods
+  $line_no 0
+  for_each !definitions !method_groups lines
+    : (line)
+      inc &line_no
+      parse_line(line) $name $kind $base $source
+      if
+	kind == "METHOD" || kind == "IO_METHOD" || kind == "TYPE_FUNCTION":
+	  $parent name .before. '/'
+	  $method_name name .behind. '/'
+	  $group default_value(method_groups(parent) empty_key_order_table)
+	  $item kinds_map(kind)
+	  !group(method_name) item
+	  !method_groups(parent) group
+	  next
+	:
+	  $info documentation_types::symbol_info
+	  $k kinds_map(kind)
+	  !info.kind_of k
+	  !info.base_of base
+	  !definitions(name) info
+	  next
+    -> definitions method_groups
+
+  # Merge methods_of into type definition entries
+  for_each method_groups
+    : (parent methods)
+      $info default_value(definitions(parent) documentation_types::symbol_info)
+      !info.methods_of methods
+      !definitions(parent) info
+      next
+    -> definitions

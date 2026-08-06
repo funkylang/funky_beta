@@ -24,7 +24,7 @@
 <require basic/export/html>
 <require basic/types/collections/tables/binary_table>
 <require basic/types/collections/tables/avl_table>
-<require ./build_symbol_metadata>
+<require ./build_html_metadata>
 
 <using std>
 <using html>
@@ -1018,6 +1018,7 @@ $text_to_html: (text)
 				      convert(get_short_description(method))
 
 		    $collect_methods: (base info)
+		      debug::dump `base
 		      loop:
 			for_each methods_of(info)
 			  : (name _kind)
