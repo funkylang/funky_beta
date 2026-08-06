@@ -1002,24 +1002,35 @@ $text_to_html: (text)
 		    $all_methods empty_key_order_table
 		    collect_methods !all_methods title symbol_info
 		    if
-		      all_methods.is_empty
-		      -> ""
-		      :
-			GROUP
-			  : H2 "Methods"
-			  : TABLE
-			    :
-			      FOR_EACH all_methods: (name base)
-				$method append(base "/" name)
-				if
-				  method .has_suffix. "/:"
-				  -> ""
-				  :
-				    TR
-				      : TD: A "href" = method.to_filename name
-				      :
-					TD "class" = "description"
-					  convert(get_short_description(method))
+		      all_methods(":").is_defined: # has a type function
+			!all_methods(":") undefined
+			append render_type_function() render_methods()
+		      render_methods
+
+		    $render_type_function:
+		      $method append(title "/:")
+		      GROUP
+		        : H2 "Type function"
+		        : A "href" = method.to_filename
+		        : P "class" = "description"
+		          convert(get_short_description(method))
+
+		    $render_methods:
+		      if
+			all_methods.is_empty
+			-> ""
+			:
+			  GROUP
+			    : H2 "Methods"
+			    : TABLE
+			      :
+				FOR_EACH all_methods: (name base)
+				  $method append(base "/" name)
+				  TR
+				    : TD: A "href" = method.to_filename name
+				    :
+				      TD "class" = "description"
+				        convert(get_short_description(method))
 
 		    $collect_methods: (base info)
 		      loop:
