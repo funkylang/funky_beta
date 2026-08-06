@@ -123,7 +123,10 @@ def validate_file(filepath, symbols, valid_topics):
 
     # --- Detect section lines and check they are on fresh paragraphs ---
     found_sections = set()
+    section_counts = {}  # section_name -> count
     topic_sections = []  # (line_idx, "Topic:"|"Topics:", raw_text)
+    example_indices = []  # line indices of "Example:" sections
+    output_indices = []   # line indices of "Output:" or "Error output:" sections
     for i in range(len(lines)):
         line = lines[i]
         stripped = line.strip()
@@ -140,6 +143,11 @@ def validate_file(filepath, symbols, valid_topics):
         if sec_match:
             section_name = sec_match.group(1)
             found_sections.add(section_name)
+            section_counts[section_name] = section_counts.get(section_name, 0) + 1
+            if section_name == "Example:":
+                example_indices.append(i)
+            if section_name in ("Output:", "Error output:"):
+                output_indices.append(i)
             if i > 0 and lines[i - 1].strip() != "":
                 issues.append((i + 1, f"'{section_name}' not on fresh paragraph (line {i} is: '{lines[i - 1].strip()}')"))
             # Blank line must follow Example: before code begins
@@ -194,6 +202,12 @@ def validate_file(filepath, symbols, valid_topics):
                     issues.append((i + 1, f"topic '{topic}' not found — did you mean: {', '.join(suggestions)}?"))
                 else:
                     issues.append((i + 1, f"topic '{topic}' not found"))
+
+    # --- Validate Example/Output pairing ---
+    num_examples = section_counts.get("Example:", 0)
+    num_outputs = section_counts.get("Output:", 0) + section_counts.get("Error output:", 0)
+    if num_examples > 0 and num_examples != num_outputs:
+        issues.append((0, f"Example/Output count mismatch: {num_examples} Example(s) but {num_outputs} Output/Error output section(s) — each Example must have exactly one Output or Error output"))
 
     # --- Required sections presence ---
     has_parameter = "Parameter:" in found_sections or "Parameters:" in found_sections

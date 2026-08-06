@@ -997,7 +997,7 @@ $text_to_html: (text)
 	    $symbol_info all_symbols(title)
 	    if
 	      symbol_info.is_defined:
-	        case kind_of(symbol_info)
+		case kind_of(symbol_info)
 		  TYPE, BUILTIN_TYPE:
 		    $all_methods empty_key_order_table
 		    collect_methods !all_methods title symbol_info
@@ -1010,10 +1010,10 @@ $text_to_html: (text)
 		    $render_type_function:
 		      $method append(title "/:")
 		      GROUP
-		        : H2 "Type function"
-		        : A "href" = method.to_filename
-		        : P "class" = "description"
-		          convert(get_short_description(method))
+			: H2 "Type function"
+			: A "href" = method.to_filename
+			: P "class" = "description"
+			  convert(get_short_description(method))
 
 		    $render_methods:
 		      if
@@ -1030,7 +1030,7 @@ $text_to_html: (text)
 				    : TD: A "href" = method.to_filename name
 				    :
 				      TD "class" = "description"
-				        convert(get_short_description(method))
+					convert(get_short_description(method))
 
 		    $collect_methods: (base info)
 		      loop:
