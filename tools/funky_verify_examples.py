@@ -56,7 +56,8 @@ def run_example(code_lines):
     finally:
         pathlib.Path(tmp_path).unlink()
     if exit_code == 0:
-        return 'Output', stdout.strip() if stdout.strip() else '(no output)'
+        output = stdout.strip() or stderr.strip() or '(no output)'
+        return 'Output', output
     else:
         return 'Error output', stderr.strip() if stderr.strip() else f'EXIT CODE {exit_code}'
 

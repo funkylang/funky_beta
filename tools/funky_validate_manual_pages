@@ -35,10 +35,11 @@ KIND_MAP = {
     "CONSTANT": "a constant",
     "VARIABLE": "a variable",
     "ATTRIBUTE": "an attribute",
+    "OBJECT": "an object",
 }
 
 # Kinds that do not need Parameters/Results sections
-NO_PARAMS_RESULTS = {"TYPE", "UNIQUE_ITEM", "CONSTANT", "VARIABLE", "ATTRIBUTE", "TYPE_FUNCTION"}
+NO_PARAMS_RESULTS = {"TYPE", "UNIQUE_ITEM", "CONSTANT", "VARIABLE", "ATTRIBUTE", "TYPE_FUNCTION", "OBJECT"}
 
 # All valid section names as they appear in docs (exact prefix, with colon)
 VALID_SECTIONS = [
