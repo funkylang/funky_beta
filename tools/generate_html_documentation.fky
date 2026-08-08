@@ -1068,9 +1068,7 @@ $text_to_html: (text)
 				      convert(get_short_description(type))
 		      -> ""
 		  -> ""
-	      :
-		debug::dump `title
-		-> ""
+	      -> ""
 
 $get_indent: (text)
   $i 1
@@ -1260,7 +1258,7 @@ $check_whether_everything_is_up_to_date:
 		  :
 		    $txt_filename string("docs/" path "/" name)
 		    $html_filename
-		      string("html/" path "/" name .before. '.' ".html")
+		      string("html/" path "/" before(name '.' -1) ".html")
 		    stat! $txt_info txt_filename
 		    stat! $html_info html_filename
 		    if!
@@ -1269,7 +1267,9 @@ $check_whether_everything_is_up_to_date:
 			>
 			  modification_time_of(txt_info)
 			  modification_time_of(html_info)
-		      -> false
+		      :
+			debug::dump `txt_filename `html_info
+			-> false
 		      next
 	  next
       -> true
