@@ -602,6 +602,22 @@ def parse_attribute_definitions():
     """
     symbols = {}
 
+    # Collect local polymorphic function names from all .fky sources
+    # A local poly is declared as $NAME () without explicit namespace prefix
+    # or $NS::NAME () where NS is not std.
+    local_polys = set()
+    for lib in LIBRARIES:
+        lib_dir = REPO_ROOT / lib
+        if not lib_dir.is_dir():
+            continue
+        for fky in lib_dir.rglob("*.fky"):
+            fky_text = fky.read_text()
+            for m in re.finditer(r'^\s*\$(\S+)\s*\(\s*[!]*\s*\)', fky_text, re.MULTILINE):
+                full_name = m.group(1)
+                # Extract the base name (last component after ::)
+                base = full_name.split("::")[-1]
+                local_polys.add(base)
+
     for lib in LIBRARIES:
         lib_dir = REPO_ROOT / lib
         if not lib_dir.is_dir():
@@ -648,6 +664,9 @@ def parse_attribute_definitions():
                         # Decode mangled namespace: std__foo -> std::foo
                         attr_name = attr_name.replace("__", "::")
                         if not attr_name:
+                            continue
+                        # Skip if this attribute name matches a local polymorphic function
+                        if attr_name in local_polys:
                             continue
                         # Add implicit std:: if no explicit namespace
                         attr_name = add_std_namespace(attr_name)
