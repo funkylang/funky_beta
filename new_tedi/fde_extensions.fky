@@ -264,6 +264,7 @@ $fde_context_help: (io state x y lines _info)
   if
     symbols.is_defined:
       $identifier get_identifier_at_xy(x y lines)
+      debug::dump `identifier
       if
 	identifier.is_defined:
 	  if
@@ -278,28 +279,35 @@ $fde_context_help: (io state x y lines _info)
 		    symbols(symbol).is_undefined
 		    next
 		    :
+		      debug::dump `symbol
 		      load_symbol symbol
-		:
-		  show_error_message &state "
-		    No help available for "@(identifier)"!
-		  -> io state
+		no_help_available
 
 	  $load_symbol: (symbol)
-	    replace_first &symbol "::" = "__"
-	    $filename "html/symbols/@(symbol).html"
-	    update_if_not
-	      do_enable_developer_mode_of(configuration_of(state))
-	      &filename:
-		append
-		  root_prefix
-		  installation_prefix()
-		  "/share/funky-"
-		  package_version()
-		  "/"
-		  filename
-	    load &io LOAD_HELP filename undefined tuple(filename undefined)
-	      # tuple(filename id): id == undefined -> open in new window
+	    if
+	      symbols(symbol).is_defined:
+		replace_all &symbol "::" = "__"
+		$filename "html/symbols/@(symbol).html"
+		update_if_not
+		  do_enable_developer_mode_of(configuration_of(state))
+		  &filename:
+		    append
+		      root_prefix
+		      installation_prefix()
+		      "/share/funky-"
+		      package_version()
+		      "/"
+		      filename
+		load &io LOAD_HELP filename undefined tuple(filename undefined)
+		  # tuple(filename id): id == undefined -> open in new window
+		-> io state
+	      no_help_available
+
+	  $no_help_available:
+	    show_error_message &state "
+	      No help available for "@(identifier)"!
 	    -> io state
+
 	-> io state
     :
       show_error_message &state "
@@ -1341,7 +1349,7 @@ $create_watch_screens: (page from to)
 $get_identifier_at_xy: (x y lines)
   $line lines(y)
   if
-    line.is_undefined
+    line.is_an_error || line.is_undefined
     -> undefined
     :
       $text text_of(line)
@@ -1353,60 +1361,90 @@ $get_identifier_at_xy: (x y lines)
 	  min &x indent+width_of(text)
 	  $pos get_position(text x-indent)
 	  $chr text(pos)
-	  update_if chr == ' ' &pos &chr -> pos-1 text(pos-1)
-	  update_if chr == '!' && pos > 1 &pos &chr -> pos-1 text(pos-1)
-	  update_if chr == ':' && pos > 1 &pos &chr:
+	  update_if chr == ' ' &pos -> pos-1
+	  update_if chr == '!' && pos > 1 &pos -> pos-1
+	  update_if chr == ':' && pos > 1 &pos:
 	    if
 	      pos > 1 && text(pos-1) == ':'
-	      -> pos-2 text(pos-2)
-	      -> pos-1 text(pos-1)
+	      -> pos-2
+	      -> pos-1
+	  update_if (chr == '/' || chr == '.') && pos < length_of(text) &pos
+	    -> pos+1
+	  get_identifier $start $end text pos
 	  if
-	    chr.is_a_letter || chr.is_a_digit || chr == '_' || chr == ':':
-	      $start pos
-	      $end pos
-	      loop:
-		if
-		  &&
-		    start > 1
-		    ||
-		      text(start-1).is_a_letter
-		      text(start-1).is_a_digit
-		      text(start-1) == '_'
-		  :
-		    dec &start
-		    next
-		  :
+	    start.is_defined
+	    :
+	      if
+		start > 2 && (text(start-1) == '/' || text(start-1) == '.')
+		:
+		  get_identifier $type_start $_type_end text start-2
+		  if
+		    type_start.is_defined
+		    -> replace_first(range(text type_start end) '.' = "/")
+		    -> range(text start end)
+		:
+		  if
+		    &&
+		      end+2 <= length_of(text)
+		      text(end+1) == '/' || text(end+1) == '.'
+		    :
+		      get_identifier $_type_start $type_end text end+2
+		      if
+			type_end.is_defined
+			-> replace_first(range(text start type_end) '.' = "/")
+			-> range(text start end)
+		    -> range(text start end)
+	    -> undefined
+
+  $get_identifier: (text pos)
+    $chr text(pos)
+    if
+      chr.is_a_letter || chr.is_a_digit || chr == '_' || chr == ':':
+	$start pos
+	$end pos
+	loop:
+	  if
+	    &&
+	      start > 1
+	      ||
+		text(start-1).is_a_letter
+		text(start-1).is_a_digit
+		text(start-1) == '_'
+	    :
+	      dec &start
+	      next
+	    :
+	      if
+		start > 2 && text(start-1) == ':' && text(start-2) == ':':
+		  minus &start 2
+		  next
+		:
+		  loop:
 		    if
-		      start > 2 && text(start-1) == ':' && text(start-2) == ':':
-			minus &start 2
+		      &&
+			end < length_of(text)
+			||
+			  text(end+1).is_a_letter
+			  text(end+1).is_a_digit
+			  text(end+1) == '_'
+		      :
+			inc &end
 			next
 		      :
-			loop:
-			  if
-			    &&
-			      end < length_of(text)
+			if
+			  &&
+			    end+1 < length_of(text)
+			    text(end+1) == ':'
+			    text(end+2) == ':'
+			  :
+			    plus &end 2
+			    next
+			  :
+			    $identifier range(text start end)
+			    if
 			      ||
-				text(end+1).is_a_letter
-				text(end+1).is_a_digit
-				text(end+1) == '_'
-			    :
-			      inc &end
-			      next
-			    :
-			      if
-				&&
-				  end+1 < length_of(text)
-				  text(end+1) == ':'
-				  text(end+2) == ':'
-				:
-				  plus &end 2
-				  next
-				:
-				  $identifier range(text start end)
-				  if
-				    ||
-				      identifier(1) == '_'
-				      count_occurrences(identifier ':') > 2
-				    -> undefined
-				    -> identifier
-	    -> undefined
+				identifier(1) == '_'
+				count_occurrences(identifier ':') > 2
+			      -> undefined undefined
+			      -> start end
+      -> undefined undefined
