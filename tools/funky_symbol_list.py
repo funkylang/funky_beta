@@ -145,12 +145,12 @@ def rel_path(p):
     return str(Path(p).relative_to(REPO_ROOT))
 
 
-def fky_source(c_path):
-    """Return the .fky source file for a compiled module .c file."""
-    fky = Path(c_path).with_suffix('.fky')
-    if fky.is_file():
-        return rel_path(fky)
-    return rel_path(c_path)
+def source_label(c_path):
+    """Return the source path label for a compiled module .c file.
+
+    Shows the .fky source name — does not probe the filesystem.
+    """
+    return rel_path(Path(c_path).with_suffix('.fky'))
 
 
 def template_source(c_path):
@@ -232,7 +232,7 @@ def parse_c_file(c_path, is_builtin=False):
     io_tables = set()
     text = c_path.read_text()
 
-    src = template_source(c_path) if is_builtin else fky_source(c_path)
+    src = template_source(c_path) if is_builtin else source_label(c_path)
 
     # Collect FOT entries
     for m in FOT_ENTRY.finditer(text):
@@ -583,6 +583,40 @@ def parse_module_variables():
     return variables
 
 
+def collect_module_polys(text):
+    """Extract polymorphic function names and namespaces from a .c file.
+
+    Returns dict mapping bare poly name -> namespace.
+    Empty namespace means local (module-private) poly.
+    """
+    polys = {}
+    for m in re.finditer(
+        r'FOT_POLYMORPHIC[\s\S]{0,50}?"([^"]*?)\\000([^"]*)"', text
+    ):
+        name, ns = m.group(1), m.group(2)
+        polys[name] = ns
+    return polys
+
+
+def resolve_attr_namespace(attr_name, local_polys):
+    """Resolve the namespace of a bare attribute name using module poly info.
+
+    Returns (resolved_name, is_local_poly):
+      - If attr_name has an explicit namespace (contains ::), return as-is.
+      - If attr_name is a local poly (empty namespace), return (None, True) to skip.
+      - If attr_name matches a namespaced poly, return with that namespace.
+      - Otherwise fall back to std::.
+    """
+    if "::" in attr_name:
+        return attr_name, False
+    ns = local_polys.get(attr_name)
+    if ns is None:
+        return f"std::{attr_name}", False
+    if ns == "":
+        return None, True
+    return f"{ns}::{attr_name}", False
+
+
 def parse_attribute_definitions():
     """Parse ATTRIBUTE_DEFINITION blocks in compiled module .c files.
 
@@ -602,29 +636,16 @@ def parse_attribute_definitions():
     """
     symbols = {}
 
-    # Collect local polymorphic function names from all .fky sources
-    # A local poly is declared as $NAME () without explicit namespace prefix
-    # or $NS::NAME () where NS is not std.
-    local_polys = set()
-    for lib in LIBRARIES:
-        lib_dir = REPO_ROOT / lib
-        if not lib_dir.is_dir():
-            continue
-        for fky in lib_dir.rglob("*.fky"):
-            fky_text = fky.read_text()
-            for m in re.finditer(r'^\s*\$(\S+)\s*\(\s*[!]*\s*\)', fky_text, re.MULTILINE):
-                full_name = m.group(1)
-                # Extract the base name (last component after ::)
-                base = full_name.split("::")[-1]
-                local_polys.add(base)
-
     for lib in LIBRARIES:
         lib_dir = REPO_ROOT / lib
         if not lib_dir.is_dir():
             continue
         for c_file in sorted(lib_dir.rglob("*.c")):
             text = c_file.read_text()
-            src = fky_source(c_file)
+            src = source_label(c_file)
+
+            # Collect polymorphic function names from this module
+            local_polys = collect_module_polys(text)
 
             for header in ATTR_DEF_HEADER.finditer(text):
                 mangled = header.group(1)
@@ -665,11 +686,11 @@ def parse_attribute_definitions():
                         attr_name = attr_name.replace("__", "::")
                         if not attr_name:
                             continue
-                        # Skip if this attribute name matches a local polymorphic function
-                        if attr_name in local_polys:
+                        # Resolve namespace or skip local polys
+                        resolved, skip = resolve_attr_namespace(attr_name, local_polys)
+                        if skip:
                             continue
-                        # Add implicit std:: if no explicit namespace
-                        attr_name = add_std_namespace(attr_name)
+                        attr_name = resolved
 
                         symbol = f"{type_prefix}/{attr_name}"
                         if right.startswith("-func_") or right.startswith("func_"):
