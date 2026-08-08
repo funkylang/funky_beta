@@ -72,7 +72,7 @@ ATTR_DEF_HEADER = re.compile(
 )
 # Individual entry: {var_name, value} or {-var_name, value} or {TYPE_FUNCTION, value}
 ATTR_DEF_ENTRY = re.compile(
-    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_|str_)\S+)\s*\}',
+    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_|str_|string_|list_|lambda_)\S+)\s*\}',
 )
 
 # TAB_NUM bytecode table headers
