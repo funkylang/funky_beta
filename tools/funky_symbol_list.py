@@ -167,20 +167,6 @@ def add_std_namespace(name):
     return name
 
 
-def decode_mangled(name):
-    """Decode t_func mangling: split on first ___ -> type/method, rest __ -> ::.
-
-    e.g., std_types__screen___fill_trapezoid -> std_types::screen/std::fill_trapezoid
-    """
-    if "___" not in name:
-        return None
-    base, method = name.split("___", 1)
-    # Decode method name: ns__method -> ns::method, then add implicit std:: if missing
-    method = method.replace("__", "::")
-    method = add_std_namespace(method)
-    return f"{base.replace('__', '::')}/{method}"
-
-
 def classify_fot(fot_type, namespace, is_builtin, attr_count=0):
     """Map FOT enum to symbol type string. Returns None to skip."""
     if not namespace or namespace in PRIVATE_NAMESPACES:
@@ -277,6 +263,9 @@ def parse_c_file(c_path, is_builtin=False):
             symbols[f"{ns}::{name}"] = (kind, base, src)
 
     # Collect FUNC_INFO -> t_func mapping + IO_CALL detection
+    # Resolve polymorphic function namespaces from this module so bare method
+    # names get the correct namespace (e.g. llama::open_model, not std::open_model).
+    local_polys = collect_module_polys(text)
     for m in FUNC_INFO.finditer(text):
         func_name, table_name = m.group(1), m.group(2)
         # Find the t_func table body and check for IO_CALL
@@ -292,8 +281,8 @@ def parse_c_file(c_path, is_builtin=False):
             t_body = text[t_end:t_end + 2000].split('}')[0]
             if 'IO_CALL' in t_body or 'IO_TAIL_CALL' in t_body:
                 io_tables.add(table_name)
-        # Decode func_name to symbol name
-        decoded = decode_mangled(func_name)
+        # Decode func_name to symbol name, resolving poly namespace
+        decoded = decode_mangled_method(func_name, local_polys)
         if decoded:
             # Skip methods on private-namespace types
             type_ns = decoded.split("/")[0].split("::")[0]
@@ -601,22 +590,42 @@ def collect_module_polys(text):
 
 
 def resolve_attr_namespace(attr_name, local_polys):
-    """Resolve the namespace of a bare attribute name using module poly info.
+    """Resolve the namespace of a bare attribute/method name using module poly info.
 
-    Returns (resolved_name, is_local_poly):
-      - If attr_name has an explicit namespace (contains ::), return as-is.
+    Handles mangled names (__ → ::) before checking.
+    Returns (resolved_name, is_skip):
       - If attr_name is a local poly (empty namespace), return (None, True) to skip.
+      - If attr_name is a private-namespace poly, return (None, True) to skip.
+      - If attr_name has an explicit namespace (contains ::), return as-is.
       - If attr_name matches a namespaced poly, return with that namespace.
       - Otherwise fall back to std::.
     """
+    attr_name = attr_name.replace("__", "::")
     if "::" in attr_name:
-        return attr_name, False
+        ns = attr_name.split("::")[0]
+        return (None, True) if ns in PRIVATE_NAMESPACES else (attr_name, False)
     ns = local_polys.get(attr_name)
     if ns is None:
         return f"std::{attr_name}", False
-    if ns == "":
+    if ns == "" or ns in PRIVATE_NAMESPACES:
         return None, True
     return f"{ns}::{attr_name}", False
+
+
+def decode_mangled_method(func_name, local_polys):
+    """Decode t_func mangling with namespace resolution.
+
+    Splits on first ___ into type/method, resolves the method namespace
+    via local polys, and filters private namespaces.
+    Returns fully qualified 'type/method' or None.
+    """
+    if "___" not in func_name:
+        return None
+    base, bare_method = func_name.split("___", 1)
+    resolved, skip = resolve_attr_namespace(bare_method, local_polys)
+    if skip:
+        return None
+    return f"{base.replace('__', '::')}/{resolved}"
 
 
 def parse_attribute_definitions():
@@ -688,7 +697,7 @@ def parse_attribute_definitions():
                         attr_name = attr_name.replace("__", "::")
                         if not attr_name:
                             continue
-                        # Resolve namespace or skip local polys
+                        # Resolve namespace or skip local/private polys
                         resolved, skip = resolve_attr_namespace(attr_name, local_polys)
                         if skip:
                             continue
@@ -794,6 +803,8 @@ def parse_compiled_io():
             continue
         for c_file in sorted(lib_dir.rglob('*.c')):
             text = c_file.read_text()
+            # Collect polymorphic function namespaces from this module
+            local_polys = collect_module_polys(text)
             # Find all t_func_NNN[] tables with IO_CALL
             for m in FUNC_TABLE.finditer(text):
                 table_name = m.group(1)
@@ -801,9 +812,12 @@ def parse_compiled_io():
                 body = text[body_start:body_start + 2000].split('}')[0]
                 if 'IO_CALL' not in body and 'IO_TAIL_CALL' not in body:
                     continue
-                # Decode table_name to symbol
-                decoded = decode_mangled(table_name)
+                # Decode table_name to symbol, resolving poly namespace
+                decoded = decode_mangled_method(table_name, local_polys)
                 if decoded:
+                    type_ns = decoded.split("/")[0].split("::")[0]
+                    if type_ns in PRIVATE_NAMESPACES:
+                        continue
                     io_symbols[decoded] = "IO_METHOD"
                 else:
                     # Regular function (no /), check for std:: prefix after decoding
