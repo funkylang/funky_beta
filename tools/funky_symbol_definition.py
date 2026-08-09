@@ -211,12 +211,14 @@ def symbol_variants(symbol: str) -> list[str]:
         return [real]
     type_part, method_part = real.split('/', 1)
     candidates = [real]
-    if method_part.startswith("std::"):
-        candidates.append(type_part + "/" + method_part[5:])
-        candidates.append(type_part + "." + method_part[5:])
-    else:
-        candidates.append(type_part + "/" + method_part)
-        candidates.append(type_part + "." + method_part)
+    if "::" in method_part:
+        # Method has a namespace prefix (e.g. "std::push" or "llama::open_model").
+        # Source files often omit it — try the bare method name too.
+        bare = method_part.split("::", 1)[1]
+        candidates.append(type_part + "/" + bare)
+        candidates.append(type_part + "." + bare)
+    candidates.append(type_part + "/" + method_part)
+    candidates.append(type_part + "." + method_part)
     return candidates
 
 
