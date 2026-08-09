@@ -71,8 +71,10 @@ ATTR_DEF_HEADER = re.compile(
     r'static\s+ATTRIBUTE_DEFINITION\s+(\S+)__attributes\s*\[\s*\]\s*=\s*\{',
 )
 # Individual entry: {var_name, value} or {-var_name, value} or {TYPE_FUNCTION, value}
+# Right side uses [^}]+ (not \S+) to avoid capturing the outer closing brace
+# of the ATTRIBUTE_DEFINITION block as part of the value.
 ATTR_DEF_ENTRY = re.compile(
-    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_|str_|string_|list_|lambda_)\S+)\s*\}',
+    r'\{(?:\s*)(-?var_\S+|TYPE_FUNCTION)\s*,\s*(-?(?:func_|var_|num_|chr_|uni_|str_|string_|list_|lambda_)[^}]+)\s*\}',
 )
 
 # TAB_NUM bytecode table headers
@@ -694,7 +696,17 @@ def parse_attribute_definitions():
 
                         symbol = f"{type_prefix}/{attr_name}"
                         if right.startswith("-func_") or right.startswith("func_"):
-                            symbols[symbol] = ("METHOD", None, src)
+                            # Check bytecode table for IO_CALL / IO_TAIL_CALL
+                            func_ref = right.lstrip("-").lstrip("func_")
+                            table_name = f"t_func_{func_ref}"
+                            table_match = re.search(
+                                rf"static\s+TAB_NUM\s+" + re.escape(table_name) + r"\[", text
+                            )
+                            has_io = False
+                            if table_match:
+                                t_body = text[table_match.end():table_match.end() + 2000].split("}")[0]
+                                has_io = "IO_CALL" in t_body or "IO_TAIL_CALL" in t_body
+                            symbols[symbol] = ("IO_METHOD" if has_io else "METHOD", None, src)
                         else:
                             symbols[symbol] = ("ATTRIBUTE", None, src)
 

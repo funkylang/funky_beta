@@ -377,13 +377,14 @@ def main():
         print("No doc files found.")
         return 1
 
-    # Update timestamps before validating
-    updated = 0
-    for filepath in files:
-        if update_timestamp(filepath):
-            updated += 1
-    if updated:
-        print(f"Updated timestamp on {updated} file{'s' if updated != 1 else ''}.")
+    # Update timestamps only on explicitly-passed files (not during full sweep)
+    if paths:
+        updated = 0
+        for filepath in files:
+            if update_timestamp(filepath):
+                updated += 1
+        if updated:
+            print(f"Updated timestamp on {updated} file{'s' if updated != 1 else ''}.")
 
     all_issues = []
     files_ok = 0
