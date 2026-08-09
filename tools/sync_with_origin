@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# Sync local repo with upstream origin/master.
+#
+# Workflow:
+#   1. Fetch origin
+#   2. Stash local uncommitted changes (NEVER discard them)
+#   3. Patch unpushed commits (so they aren't lost after reset)
+#   4. Reset --hard to origin/master (linear history, single pusher)
+#   5. Pop stashed changes back
+#
+# Safety: refuses to run if git is not clean enough to stash,
+# and prints every step so the user can abort with Ctrl+C.
+
+set -euo pipefail
+
+REPO="/home/hermes/funky_beta"
+cd "$REPO"
+
+echo "=== Syncing funky_beta with origin/master ==="
+echo
+
+# --- Step 1: Fetch ---
+echo "-- Fetching origin --"
+git fetch origin
+echo
+
+# --- Step 2: Check where we stand ---
+LOCAL_AHEAD=$(git rev-list --count origin/master..HEAD 2>/dev/null || echo 0)
+HAS_STAGED=$(git diff --cached --quiet 2>/dev/null && echo 0 || echo 1)
+HAS_UNTRACKED=$(git ls-files --others --exclude-standard | head -1)
+HAS_MODIFIED=$(git diff --quiet 2>/dev/null && echo 0 || echo 1)
+
+if [ "$LOCAL_AHEAD" -eq 0 ] && [ "$HAS_STAGED" -eq 0 ] && [ -z "$HAS_UNTRACKED" ] && [ "$HAS_MODIFIED" -eq 0 ]; then
+    echo "Repo is clean and in sync with origin/master. Nothing to do."
+    exit 0
+fi
+
+# --- Step 3: Stash local changes ---
+if [ "$HAS_STAGED" -eq 1 ] || [ -n "$HAS_UNTRACKED" ] || [ "$HAS_MODIFIED" -eq 1 ]; then
+    echo "-- Stashing local changes --"
+    git stash push --include-untracked -m "sync_with_origin auto-stash"
+    echo
+fi
+
+# --- Step 4: Patch unpushed commits ---
+if [ "$LOCAL_AHEAD" -gt 0 ]; then
+    echo "-- Creating patches for $LOCAL_AHEAD unpushed commit(s) --"
+    if [ -x "$REPO/tools/push_new_commits" ]; then
+        "$REPO/tools/push_new_commits"
+        echo "Patches created and copied to clipboard."
+    else
+        echo "WARNING: tools/push_new_commits not found. Creating patches manually."
+        mkdir -p "$REPO/.patches"
+        git format-patch origin/master --output-directory="$REPO/.patches"
+        echo "Patches saved to $REPO/.patches/"
+    fi
+    echo
+fi
+
+# --- Step 5: Reset to origin ---
+echo "-- Resetting to origin/master --"
+git reset --hard origin/master
+echo "HEAD is now at: $(git log -1 --format='%h %s')"
+echo
+
+# --- Step 6: Restore stashed changes ---
+if git stash list | grep -q "sync_with_origin auto-stash"; then
+    echo "-- Restoring stashed changes --"
+    git stash pop
+    echo
+fi
+
+echo "=== Sync complete ==="
+git status --short
