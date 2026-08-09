@@ -1,4 +1,4 @@
-# std_types::device_id/std::equal (a builtin method)
+# std_types::device_id/std::equal (a method)
 
   implements the equal operation for device ids
 

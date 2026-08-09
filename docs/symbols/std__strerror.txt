@@ -1,4 +1,4 @@
-# std::strerror (a builtin function)
+# std::strerror (a function)
 
   returns the error message for the given error number
 

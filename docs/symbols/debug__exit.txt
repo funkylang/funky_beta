@@ -1,4 +1,4 @@
-# debug::exit (a builtin function)
+# debug::exit (a function)
 
   terminates the program
 

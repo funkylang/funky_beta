@@ -1,4 +1,4 @@
-# std::EHOSTDOWN (a builtin object)
+# std::EHOSTDOWN (an object)
 
   the error number for "host is down"
 

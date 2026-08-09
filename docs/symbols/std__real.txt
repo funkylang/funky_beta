@@ -1,4 +1,4 @@
-# std::real (a builtin function)
+# std::real (a function)
 
   constructs a real number from its string representation
 

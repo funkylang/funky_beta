@@ -1,4 +1,4 @@
-# std::EFBIG (a builtin object)
+# std::EFBIG (an object)
 
   the error number for the error "file too large"
 

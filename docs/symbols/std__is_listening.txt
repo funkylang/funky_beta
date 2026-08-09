@@ -1,4 +1,4 @@
-# std::is_listening (a builtin I/O-function)
+# std::is_listening (an I/O-function)
 
   checks if a socket is listening for incoming connections
 

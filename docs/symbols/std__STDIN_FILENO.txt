@@ -1,4 +1,4 @@
-# std::STDIN_FILENO (a builtin object)
+# std::STDIN_FILENO (an object)
 
   the file descriptor for the standard input
 

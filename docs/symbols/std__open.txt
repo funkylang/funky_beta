@@ -1,4 +1,4 @@
-# std::open (a builtin I/O-function)
+# std::open (an I/O-function)
 
   opens a file
 

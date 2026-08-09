@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Remove "builtin " from the first line of all manual page docs (recursive).
+# Also fixes article agreement: "a I/..." -> "an I/...", "a object" -> "an object".
+set -euo pipefail
+
+funky="${FUNKY_BETA:-$(cd "$(dirname "$0")/.." && pwd)}"
+dir="$funky/docs/symbols"
+count=0
+
+# Walk every .txt under docs/symbols/ recursively
+while IFS= read -r f; do
+    first=$(head -1 "$f")
+    changed=0
+    if [[ "$first" == *"builtin "* ]]; then
+        sed -i '1s/ builtin / /g' "$f"
+        changed=1
+    fi
+    # After stripping "builtin ", fix article agreement
+    first2=$(head -1 "$f")
+    if [[ "$first2" == *"a I/"* ]]; then
+        sed -i '1s/ a I\// an I\//' "$f"
+        changed=1
+    fi
+    if [[ "$first2" == *"a object"* ]]; then
+        sed -i '1s/(a object)/(an object)/' "$f"
+        changed=1
+    fi
+    if (( changed )); then
+        count=$((count + 1))
+    fi
+done < <(find "$dir" -name '*.txt')
+
+echo "Done: updated $count files in $dir (recursive)"

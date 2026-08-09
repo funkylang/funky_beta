@@ -1,4 +1,4 @@
-# std::SIGHUP (a builtin object)
+# std::SIGHUP (an object)
 
   the signal number for hangup
 

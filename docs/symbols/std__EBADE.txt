@@ -1,4 +1,4 @@
-# std::EBADE (a builtin object)
+# std::EBADE (an object)
 
   the error number for a bad exchange descriptor
 

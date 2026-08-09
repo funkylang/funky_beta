@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::restart_output_on_any_character (a builtin method)
+# std_types::terminal_attributes/std::restart_output_on_any_character (a method)
 
   set or clear IXANY in c_iflag
 

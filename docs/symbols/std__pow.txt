@@ -1,4 +1,4 @@
-# std::pow (a builtin function)
+# std::pow (a function)
 
   computes the power of its first argument to the second argument
 

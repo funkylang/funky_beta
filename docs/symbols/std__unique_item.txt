@@ -1,4 +1,4 @@
-# std::unique_item (a builtin function)
+# std::unique_item (a function)
 
   returns the specified unique item
 

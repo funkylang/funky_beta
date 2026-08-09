@@ -1,4 +1,4 @@
-# std_types::real/std::exp (a builtin method)
+# std_types::real/std::exp (a method)
 
   computes the exponential function of its argument
 

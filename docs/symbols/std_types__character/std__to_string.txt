@@ -1,4 +1,4 @@
-# std_types::character/std::to_string (a builtin method)
+# std_types::character/std::to_string (a method)
 
   returns a single-character string containing only the specified character
 

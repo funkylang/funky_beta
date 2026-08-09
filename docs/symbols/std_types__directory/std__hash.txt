@@ -1,4 +1,4 @@
-# std_types::directory/std::hash (a builtin method)
+# std_types::directory/std::hash (a method)
 
   returns a hash value
 

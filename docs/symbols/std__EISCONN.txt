@@ -1,4 +1,4 @@
-# std::EISCONN (a builtin object)
+# std::EISCONN (an object)
 
   the error number for the error "Transport endpoint is already connected"
 

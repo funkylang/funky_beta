@@ -1,4 +1,4 @@
-# std::SIGPIPE (a builtin object)
+# std::SIGPIPE (an object)
 
   the signal number for a broken pipe
 

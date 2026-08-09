@@ -1,4 +1,4 @@
-# std_types::string (a builtin type derived from std_types::generic_list)
+# std_types::string (a type derived from std_types::generic_list)
 
   the prototype object for all strings
 

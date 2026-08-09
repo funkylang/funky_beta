@@ -1,4 +1,4 @@
-# std::installation_prefix (a builtin function)
+# std::installation_prefix (a function)
 
   returns the installation prefix of Funky
 

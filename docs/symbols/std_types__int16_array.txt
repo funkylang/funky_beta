@@ -1,4 +1,4 @@
-# std_types::int16_array (a builtin type derived from std_types::generic_array)
+# std_types::int16_array (a type derived from std_types::generic_array)
 
   an array of signed 16-bit numbers
 

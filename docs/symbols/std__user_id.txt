@@ -1,4 +1,4 @@
-# std::user_id (a builtin function)
+# std::user_id (a function)
 
   constructs a user id from its integer representation
 

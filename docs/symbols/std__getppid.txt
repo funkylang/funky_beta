@@ -1,4 +1,4 @@
-# std::getppid (a builtin I/O-function)
+# std::getppid (an I/O-function)
 
   returns the process ID of the parent of the calling process
 

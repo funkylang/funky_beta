@@ -1,4 +1,4 @@
-# std::EBADFD (a builtin object)
+# std::EBADFD (an object)
 
   the error number for a bad file descriptor
 

@@ -1,4 +1,4 @@
-# std::ENOBUFS (a builtin object)
+# std::ENOBUFS (an object)
 
   the error number for "no buffer space available"
 

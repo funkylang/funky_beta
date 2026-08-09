@@ -1,4 +1,4 @@
-# std_types::list/std::push (a builtin method)
+# std_types::list/std::push (a method)
 
   adds a single item at the end of the list
 

@@ -1,4 +1,4 @@
-# std::ECONNABORTED (a builtin object)
+# std::ECONNABORTED (an object)
 
   the error number for a connection abort
 

@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::write (a builtin I/O-method)
+# std_types::file_descriptor/std::write (an I/O-method)
 
   a low level write function
 

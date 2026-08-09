@@ -1,4 +1,4 @@
-# std::EMSGSIZE (a builtin object)
+# std::EMSGSIZE (an object)
 
   the error number for a message is too large
 

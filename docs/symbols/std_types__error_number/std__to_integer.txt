@@ -1,4 +1,4 @@
-# std_types::error_number/std::to_integer (a builtin method)
+# std_types::error_number/std::to_integer (a method)
 
   converts an error number into an integer number
 

@@ -1,4 +1,4 @@
-# std::EHOSTUNREACH (a builtin object)
+# std::EHOSTUNREACH (an object)
 
   the error number for "host is unreachable"
 

@@ -1,4 +1,4 @@
-# std::waitpid (a builtin I/O-function)
+# std::waitpid (an I/O-function)
 
   waits for a child process to terminate
 

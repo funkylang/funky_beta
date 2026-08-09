@@ -1,4 +1,4 @@
-# std_types::real/std::floor (a builtin method)
+# std_types::real/std::floor (a method)
 
   computes the greatest integral number smaller or equal than its argument
 

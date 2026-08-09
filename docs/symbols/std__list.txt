@@ -1,4 +1,4 @@
-# std::list (a builtin function)
+# std::list (a function)
 
   constructs a list from its arguments
 

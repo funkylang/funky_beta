@@ -1,4 +1,4 @@
-# std::EAFNOSUPPORT (a builtin object)
+# std::EAFNOSUPPORT (an object)
 
   the address family is not supported by the protocol family
 

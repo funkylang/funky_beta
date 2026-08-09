@@ -1,4 +1,4 @@
-# std::stat (a builtin I/O-function)
+# std::stat (an I/O-function)
 
   retrieves information about a file
 

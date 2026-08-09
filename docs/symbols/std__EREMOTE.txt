@@ -1,4 +1,4 @@
-# std::EREMOTE (a builtin object)
+# std::EREMOTE (an object)
 
   the error number for a remote error
 

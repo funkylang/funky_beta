@@ -1,4 +1,4 @@
-# std::mkdir (a builtin I/O-function)
+# std::mkdir (an I/O-function)
 
   creates a directory
 

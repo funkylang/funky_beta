@@ -1,4 +1,4 @@
-# std_types::signal_number/std::hash (a builtin method)
+# std_types::signal_number/std::hash (a method)
 
   returns a hash value
 

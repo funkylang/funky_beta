@@ -1,4 +1,4 @@
-# std::tuple_or_error (a builtin function)
+# std::tuple_or_error (a function)
 
   constructs a tuple from the specified arguments
 

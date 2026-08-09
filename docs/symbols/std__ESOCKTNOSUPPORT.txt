@@ -1,4 +1,4 @@
-# std::ESOCKTNOSUPPORT (a builtin object)
+# std::ESOCKTNOSUPPORT (an object)
 
   the error number for the error "socket type not supported"
 

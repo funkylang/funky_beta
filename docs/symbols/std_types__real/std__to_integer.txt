@@ -1,4 +1,4 @@
-# std_types::real/std::to_integer (a builtin method)
+# std_types::real/std::to_integer (a method)
 
   returns the integral part of the floating point number
 

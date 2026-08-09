@@ -1,4 +1,4 @@
-# std::EBADMSG (a builtin object)
+# std::EBADMSG (an object)
 
   the error number for a bad message
 

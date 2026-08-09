@@ -1,4 +1,4 @@
-# std::ECONNREFUSED (a builtin object)
+# std::ECONNREFUSED (an object)
 
   the connection was refused by the remote host
 

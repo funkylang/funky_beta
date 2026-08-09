@@ -1,4 +1,4 @@
-# std::ENOSPC (a builtin object)
+# std::ENOSPC (an object)
 
   the error number for "no space left on device"
 

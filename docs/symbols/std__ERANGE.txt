@@ -1,4 +1,4 @@
-# std::ERANGE (a builtin object)
+# std::ERANGE (an object)
 
   the error number for a mathematical result not representable
 

@@ -1,4 +1,4 @@
-# std::lseek (a builtin I/O-function)
+# std::lseek (an I/O-function)
 
   repositions the read/write file offset of the open file description
   associated with the specified file descriptor

@@ -1,4 +1,4 @@
-# std::ETIMEDOUT (a builtin object)
+# std::ETIMEDOUT (an object)
 
   the error number for a timeout
 

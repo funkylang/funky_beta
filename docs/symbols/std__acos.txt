@@ -1,4 +1,4 @@
-# std::acos (a builtin function)
+# std::acos (a function)
 
   computes the arc cosine of a value
 

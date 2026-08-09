@@ -1,4 +1,4 @@
-# std::ENOTRECOVERABLE (a builtin object)
+# std::ENOTRECOVERABLE (an object)
 
   the error number for a state where a previous error is too serious to
   proceed

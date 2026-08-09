@@ -1,4 +1,4 @@
-# std::EREMCHG (a builtin object)
+# std::EREMCHG (an object)
 
   the error number for a remote object has changed
 

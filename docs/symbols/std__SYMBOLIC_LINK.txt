@@ -1,4 +1,4 @@
-# std::SYMBOLIC_LINK (a builtin object)
+# std::SYMBOLIC_LINK (an object)
 
   the file type for symbolic links
 

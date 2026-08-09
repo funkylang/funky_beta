@@ -1,4 +1,4 @@
-# std_types::list/std::length_of (a builtin method)
+# std_types::list/std::length_of (a method)
 
   returns the number of items within the list
 

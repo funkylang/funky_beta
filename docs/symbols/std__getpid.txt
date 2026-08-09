@@ -1,4 +1,4 @@
-# std::getpid (a builtin I/O-function)
+# std::getpid (an I/O-function)
 
   returns the process ID of the calling process
 

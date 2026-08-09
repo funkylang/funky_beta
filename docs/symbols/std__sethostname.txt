@@ -1,4 +1,4 @@
-# std::sethostname (a builtin I/O-function)
+# std::sethostname (an I/O-function)
 
   sets the hostname
 

@@ -1,4 +1,4 @@
-# std::ELOOP (a builtin object)
+# std::ELOOP (an object)
 
   the error number for too many symbolic links encountered
 

@@ -1,4 +1,4 @@
-# std_types::wide_string/std::less (a builtin method)
+# std_types::wide_string/std::less (a method)
 
   compares the two strings character by character
 

@@ -1,4 +1,4 @@
-# std::uint8_array (a builtin function)
+# std::uint8_array (a function)
 
   constructs an empty array
 

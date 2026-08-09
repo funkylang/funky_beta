@@ -1,4 +1,4 @@
-# std::file_descriptor (a builtin function)
+# std::file_descriptor (a function)
 
   constructs a file descriptor from its integer representation
 

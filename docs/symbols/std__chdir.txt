@@ -1,4 +1,4 @@
-# std::chdir (a builtin I/O-function)
+# std::chdir (an I/O-function)
 
   changes the current working directory
 

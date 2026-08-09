@@ -1,4 +1,4 @@
-# std::EXIT_FAILURE (a builtin object)
+# std::EXIT_FAILURE (an object)
 
   status code for unsuccessful termination
 

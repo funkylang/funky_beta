@@ -1,4 +1,4 @@
-# std_types::real/std::plus (a builtin method)
+# std_types::real/std::plus (a method)
 
   implements the plus operation for real numbers
 

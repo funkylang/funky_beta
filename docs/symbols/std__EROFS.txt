@@ -1,4 +1,4 @@
-# std::EROFS (a builtin object)
+# std::EROFS (an object)
 
   the error number for a read-only file system
 

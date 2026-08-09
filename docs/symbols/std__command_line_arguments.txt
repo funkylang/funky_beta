@@ -1,4 +1,4 @@
-# std::command_line_arguments (a builtin object)
+# std::command_line_arguments (an object)
 
   a list containing the application's command line arguments
 

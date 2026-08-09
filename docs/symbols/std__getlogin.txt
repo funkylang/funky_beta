@@ -1,4 +1,4 @@
-# std::getlogin (a builtin I/O-function)
+# std::getlogin (an I/O-function)
 
   returns the login name of the user
 

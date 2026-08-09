@@ -1,4 +1,4 @@
-# std::ECHILD (a builtin object)
+# std::ECHILD (an object)
 
   the error number for "no child processes"
 

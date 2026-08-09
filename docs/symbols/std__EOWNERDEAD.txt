@@ -1,4 +1,4 @@
-# std::EOWNERDEAD (a builtin object)
+# std::EOWNERDEAD (an object)
 
   the error number for "owner dead"
 

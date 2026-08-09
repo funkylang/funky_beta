@@ -1,4 +1,4 @@
-# std::ENOERR (a builtin object)
+# std::ENOERR (an object)
 
   the error number for no error
 

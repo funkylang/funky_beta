@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::hangup_on_close (a builtin method)
+# std_types::terminal_attributes/std::hangup_on_close (a method)
 
   set or clear HUPCL in c_oflag
 

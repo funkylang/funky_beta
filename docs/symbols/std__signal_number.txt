@@ -1,4 +1,4 @@
-# std::signal_number (a builtin function)
+# std::signal_number (a function)
 
   constructs a signal number from its integer representation
 

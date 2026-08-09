@@ -1,4 +1,4 @@
-# std::environment_variables (a builtin object)
+# std::environment_variables (an object)
 
   a list containing the environment variables
 

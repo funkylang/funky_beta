@@ -1,4 +1,4 @@
-# std_types::character/std::less (a builtin method)
+# std_types::character/std::less (a method)
 
   implements the less operation for characters
 

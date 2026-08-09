@@ -1,4 +1,4 @@
-# std_types::tuple/std::typed_tuple (a builtin method)
+# std_types::tuple/std::typed_tuple (a method)
 
   clones the specified tuple and replace its contents
 

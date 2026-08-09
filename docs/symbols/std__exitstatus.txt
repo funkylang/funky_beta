@@ -1,4 +1,4 @@
-# std::exitstatus (a builtin function)
+# std::exitstatus (a function)
 
   extracts the exit status from a status value
 

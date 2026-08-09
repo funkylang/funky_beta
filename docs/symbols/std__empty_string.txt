@@ -1,4 +1,4 @@
-# std::empty_string (a builtin object)
+# std::empty_string (an object)
 
   the empty string
 

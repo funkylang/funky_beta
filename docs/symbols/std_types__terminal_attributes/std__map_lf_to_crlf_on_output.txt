@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::map_lf_to_crlf_on_output (a builtin method)
+# std_types::terminal_attributes/std::map_lf_to_crlf_on_output (a method)
 
   set or clear ONLCR in c_oflag
 

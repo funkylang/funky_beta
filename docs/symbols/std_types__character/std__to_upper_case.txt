@@ -1,4 +1,4 @@
-# std_types::character/std::to_upper_case (a builtin method)
+# std_types::character/std::to_upper_case (a method)
 
   converts to upper case
 

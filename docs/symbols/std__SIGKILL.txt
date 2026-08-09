@@ -1,4 +1,4 @@
-# std::SIGKILL (a builtin object)
+# std::SIGKILL (an object)
 
   the signal number for killing a process
 

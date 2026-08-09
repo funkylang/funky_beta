@@ -1,4 +1,4 @@
-# std::ELIBACC (a builtin object)
+# std::ELIBACC (an object)
 
   the error number for a permission error on a library file
 

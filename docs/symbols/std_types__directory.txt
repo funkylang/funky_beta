@@ -1,4 +1,4 @@
-# std_types::directory (a builtin type derived from std_types::object)
+# std_types::directory (a type derived from std_types::object)
 
   a directory
 

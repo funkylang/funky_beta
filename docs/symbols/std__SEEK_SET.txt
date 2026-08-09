@@ -1,4 +1,4 @@
-# std::SEEK_SET (a builtin object)
+# std::SEEK_SET (an object)
 
   the seek type for seeking relative to the beginning of the file
 

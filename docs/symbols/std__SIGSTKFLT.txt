@@ -1,4 +1,4 @@
-# std::SIGSTKFLT (a builtin object)
+# std::SIGSTKFLT (an object)
 
   the signal number for stack fault
 

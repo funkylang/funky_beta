@@ -1,4 +1,4 @@
-# std_types::wide_string (a builtin type derived from std_types::string)
+# std_types::wide_string (a type derived from std_types::string)
 
   a sequence of zero or more 32-bit characters
 

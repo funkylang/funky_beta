@@ -1,4 +1,4 @@
-# std::ENOTUNIQ (a builtin object)
+# std::ENOTUNIQ (an object)
 
   the error number for "name not unique on network"
 

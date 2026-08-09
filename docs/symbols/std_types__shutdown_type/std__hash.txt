@@ -1,4 +1,4 @@
-# std_types::shutdown_type/std::hash (a builtin method)
+# std_types::shutdown_type/std::hash (a method)
 
   implements the hash operation for shutdown types
 

@@ -1,4 +1,4 @@
-# std_types::int8_array/std::dimension_count_of (a builtin method)
+# std_types::int8_array/std::dimension_count_of (a method)
 
   implements the *dimension_count_of* operation
 

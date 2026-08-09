@@ -1,4 +1,4 @@
-# std_types::uint32_array/std::range (a builtin method)
+# std_types::uint32_array/std::range (a method)
 
   implements the range operation for uint32 arrays
 

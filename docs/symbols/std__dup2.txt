@@ -1,4 +1,4 @@
-# std::dup2 (a builtin I/O-function)
+# std::dup2 (an I/O-function)
 
   duplicates a file descriptor
 

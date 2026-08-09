@@ -1,4 +1,4 @@
-# std::getsid (a builtin I/O-function)
+# std::getsid (an I/O-function)
 
   returns the session ID of the process group specified by the process ID
 

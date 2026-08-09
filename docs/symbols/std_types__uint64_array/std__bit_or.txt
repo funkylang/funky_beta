@@ -1,4 +1,4 @@
-# std_types::uint64_array/std::bit_or (a builtin method)
+# std_types::uint64_array/std::bit_or (a method)
 
   implements the bitwise inclusive or operation for uint64 arrays
 

@@ -1,4 +1,4 @@
-# std::ENODEV (a builtin object)
+# std::ENODEV (an object)
 
   the error number for the error "no such device"
 

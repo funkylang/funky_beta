@@ -1,4 +1,4 @@
-# std::EL3RST (a builtin object)
+# std::EL3RST (an object)
 
   the error number for "software level 3 reset"
 

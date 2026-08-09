@@ -1,4 +1,4 @@
-# std::SIGCONT (a builtin object)
+# std::SIGCONT (an object)
 
   the signal number for continuing a stopped process
 

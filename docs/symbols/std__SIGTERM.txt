@@ -1,4 +1,4 @@
-# std::SIGTERM (a builtin object)
+# std::SIGTERM (an object)
 
   the signal number for termination
 

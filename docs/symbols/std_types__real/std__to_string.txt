@@ -1,4 +1,4 @@
-# std_types::real/std::to_string (a builtin method)
+# std_types::real/std::to_string (a method)
 
   returns a human readable string representation
 

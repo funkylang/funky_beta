@@ -1,4 +1,4 @@
-# std_types::real/std::negate (a builtin method)
+# std_types::real/std::negate (a method)
 
   returns the negated real value
 

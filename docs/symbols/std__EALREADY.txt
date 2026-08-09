@@ -1,4 +1,4 @@
-# std::EALREADY (a builtin object)
+# std::EALREADY (an object)
 
   the error number for "connection already in progress"
 

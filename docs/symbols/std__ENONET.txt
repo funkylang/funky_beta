@@ -1,4 +1,4 @@
-# std::ENONET (a builtin object)
+# std::ENONET (an object)
 
   the error number for the error "Machine is not on the network"
 

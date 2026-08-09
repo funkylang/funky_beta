@@ -1,4 +1,4 @@
-# debug::object_type (a builtin function)
+# debug::object_type (a function)
 
   returns the type of an object
 

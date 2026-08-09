@@ -1,4 +1,4 @@
-# std::umask (a builtin I/O-function)
+# std::umask (an I/O-function)
 
   sets the file mode creation mask of the process to the specified value
 

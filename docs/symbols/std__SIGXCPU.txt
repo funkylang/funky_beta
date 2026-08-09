@@ -1,4 +1,4 @@
-# std::SIGXCPU (a builtin object)
+# std::SIGXCPU (an object)
 
   the signal number for CPU time limit exceeded
 

@@ -1,4 +1,4 @@
-# std::ENOTDIR (a builtin object)
+# std::ENOTDIR (an object)
 
   the error number for the error "not a directory"
 

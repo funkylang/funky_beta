@@ -1,4 +1,4 @@
-# std::exec (a builtin I/O-function)
+# std::exec (an I/O-function)
 
   replaces the current process with the given command
 

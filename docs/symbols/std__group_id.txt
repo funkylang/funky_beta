@@ -1,4 +1,4 @@
-# std::group_id (a builtin function)
+# std::group_id (a function)
 
   constructs a group id from its integer representation
 

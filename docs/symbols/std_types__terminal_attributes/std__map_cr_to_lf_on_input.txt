@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::map_cr_to_lf_on_input (a builtin method)
+# std_types::terminal_attributes/std::map_cr_to_lf_on_input (a method)
 
   set or clear ICRNL in c_iflag
 

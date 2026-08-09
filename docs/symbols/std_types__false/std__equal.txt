@@ -1,4 +1,4 @@
-# std_types::false/std::equal (a builtin method)
+# std_types::false/std::equal (a method)
 
   is only equal to itself
 

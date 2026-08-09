@@ -1,4 +1,4 @@
-# std_types::polymorphic_function_with_setter (a builtin type derived from std_types::polymorphic_function)
+# std_types::polymorphic_function_with_setter (a type derived from std_types::polymorphic_function)
 
   the prototype object for all polymorphic functions with a setter
 

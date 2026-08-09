@@ -1,4 +1,4 @@
-# std::atan (a builtin function)
+# std::atan (a function)
 
   computes the arc tangent of a value
 

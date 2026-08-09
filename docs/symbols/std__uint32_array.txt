@@ -1,4 +1,4 @@
-# std::uint32_array (a builtin function)
+# std::uint32_array (a function)
 
   creates an array of unsigned 32-bit integers initialized to zero
 

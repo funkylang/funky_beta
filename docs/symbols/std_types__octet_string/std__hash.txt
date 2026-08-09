@@ -1,4 +1,4 @@
-# std_types::octet_string/std::hash (a builtin method)
+# std_types::octet_string/std::hash (a method)
 
   returns a numerical hash value
 

@@ -1,4 +1,4 @@
-# std::CHARACTER_DEVICE (a builtin object)
+# std::CHARACTER_DEVICE (an object)
 
   the file type for character devices
 

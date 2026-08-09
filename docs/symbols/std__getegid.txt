@@ -1,4 +1,4 @@
-# std::getegid (a builtin I/O-function)
+# std::getegid (an I/O-function)
 
   returns the effective group ID of the calling process
 

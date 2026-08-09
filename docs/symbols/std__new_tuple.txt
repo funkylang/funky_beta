@@ -1,4 +1,4 @@
-# std::new_tuple (a builtin function)
+# std::new_tuple (a function)
 
   constructs a tuple with specified type and fields
 

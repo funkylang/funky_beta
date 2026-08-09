@@ -1,4 +1,4 @@
-# std_types::seek_type/std::equal (a builtin method)
+# std_types::seek_type/std::equal (a method)
 
   implements the equal operation for seek types
 

@@ -1,4 +1,4 @@
-# std::send_file_descriptor (a builtin I/O-function)
+# std::send_file_descriptor (an I/O-function)
 
   sends a message and a file descriptor over a socket
 

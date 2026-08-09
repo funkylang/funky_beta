@@ -1,4 +1,4 @@
-# std::STDERR_FILENO (a builtin object)
+# std::STDERR_FILENO (an object)
 
   the file descriptor for the standard error stream
 

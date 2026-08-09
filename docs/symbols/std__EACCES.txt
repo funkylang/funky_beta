@@ -1,4 +1,4 @@
-# std::EACCES (a builtin object)
+# std::EACCES (an object)
 
   the error number for "permission denied"
 

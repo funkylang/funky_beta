@@ -1,4 +1,4 @@
-# std::boolean_array (a builtin function)
+# std::boolean_array (a function)
 
   creates an array of booleans initialized to false
 

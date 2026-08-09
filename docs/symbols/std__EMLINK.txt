@@ -1,4 +1,4 @@
-# std::EMLINK (a builtin object)
+# std::EMLINK (an object)
 
   the error number for too many links
 

@@ -1,4 +1,4 @@
-# std::DIRECTORY (a builtin object)
+# std::DIRECTORY (an object)
 
   the file type for directories
 

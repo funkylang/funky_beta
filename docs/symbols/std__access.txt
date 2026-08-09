@@ -1,4 +1,4 @@
-# std::access (a builtin I/O-function)
+# std::access (an I/O-function)
 
   checks access permissions for a file
 

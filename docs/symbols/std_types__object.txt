@@ -1,4 +1,4 @@
-# std_types::object (a builtin type)
+# std_types::object (a type)
 
   the prototype object for all regular objects
 

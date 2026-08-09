@@ -1,4 +1,4 @@
-# std_types::sequence (a builtin type derived from std_types::list)
+# std_types::sequence (a type derived from std_types::list)
 
   the prototype object for all sequences
 

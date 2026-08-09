@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::echo_characters (a builtin method)
+# std_types::terminal_attributes/std::echo_characters (a method)
 
   set or clear ECHO in c_lflag
 

@@ -1,4 +1,4 @@
-# std::initialized_boolean_array (a builtin function)
+# std::initialized_boolean_array (a function)
 
   constructs an initialized array
 

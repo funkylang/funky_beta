@@ -1,4 +1,4 @@
-# std::seek_type (a builtin function)
+# std::seek_type (a function)
 
   constructs a seek type from its integer representation
 

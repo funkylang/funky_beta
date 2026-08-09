@@ -1,4 +1,4 @@
-# std::shutdown (a builtin I/O-function)
+# std::shutdown (an I/O-function)
 
   shuts down part of a full-duplex connection
 

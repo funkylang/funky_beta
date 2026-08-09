@@ -1,4 +1,4 @@
-# std_types::unique_item/std::to_string (a builtin method)
+# std_types::unique_item/std::to_string (a method)
 
   returns a human readable presentation of the object
 

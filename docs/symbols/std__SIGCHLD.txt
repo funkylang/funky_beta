@@ -1,4 +1,4 @@
-# std::SIGCHLD (a builtin object)
+# std::SIGCHLD (an object)
 
   the signal number for child terminated or stopped
 

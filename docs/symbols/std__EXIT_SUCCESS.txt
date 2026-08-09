@@ -1,4 +1,4 @@
-# std::EXIT_SUCCESS (a builtin object)
+# std::EXIT_SUCCESS (an object)
 
   status code for successful termination
 

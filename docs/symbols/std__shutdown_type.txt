@@ -1,4 +1,4 @@
-# std::shutdown_type (a builtin function)
+# std::shutdown_type (a function)
 
   constructs a shutdown type from its integer representation
 

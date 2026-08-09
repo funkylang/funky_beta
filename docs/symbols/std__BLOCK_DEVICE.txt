@@ -1,4 +1,4 @@
-# std::BLOCK_DEVICE (a builtin object)
+# std::BLOCK_DEVICE (an object)
 
   the file type for block devices
 

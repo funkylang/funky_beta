@@ -1,4 +1,4 @@
-# std_types::real/std::times (a builtin method)
+# std_types::real/std::times (a method)
 
   implements the times operation for real numbers
 

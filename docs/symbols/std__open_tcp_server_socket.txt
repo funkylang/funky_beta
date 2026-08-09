@@ -1,4 +1,4 @@
-# std::open_tcp_server_socket (a builtin I/O-function)
+# std::open_tcp_server_socket (an I/O-function)
 
   opens a TCP socket to listen for incoming connections
 

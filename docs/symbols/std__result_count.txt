@@ -1,4 +1,4 @@
-# std::result_count (a builtin function)
+# std::result_count (a function)
 
   returns the expected number of results
 

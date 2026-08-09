@@ -1,4 +1,4 @@
-# std::ECHRNG (a builtin object)
+# std::ECHRNG (an object)
 
   the error number for a channel number out of range
 

@@ -1,4 +1,4 @@
-# std::SIGQUIT (a builtin object)
+# std::SIGQUIT (an object)
 
   the signal number for quit
 

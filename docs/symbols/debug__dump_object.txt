@@ -1,4 +1,4 @@
-# debug::dump_object (a builtin function)
+# debug::dump_object (a function)
 
   writes a string representation of an object to stderr
 

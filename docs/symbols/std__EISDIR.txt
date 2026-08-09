@@ -1,4 +1,4 @@
-# std::EISDIR (a builtin object)
+# std::EISDIR (an object)
 
   the error number for the error "Is a directory"
 

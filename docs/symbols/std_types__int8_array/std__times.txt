@@ -1,4 +1,4 @@
-# std_types::int8_array/std::times (a builtin method)
+# std_types::int8_array/std::times (a method)
 
   implements the *times* operation
 

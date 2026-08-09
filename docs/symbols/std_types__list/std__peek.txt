@@ -1,4 +1,4 @@
-# std_types::list/std::peek (a builtin method)
+# std_types::list/std::peek (a method)
 
   returns the last item of a non-empty list
 

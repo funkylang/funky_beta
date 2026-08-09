@@ -1,4 +1,4 @@
-# std::device_id (a builtin function)
+# std::device_id (a function)
 
   constructs a device id from its integer representation
 

@@ -1,4 +1,4 @@
-# std::getuid (a builtin I/O-function)
+# std::getuid (an I/O-function)
 
   returns the real user ID of the calling process
 

@@ -1,4 +1,4 @@
-# std_types::shared_memory/std::write_at (a builtin I/O-method)
+# std_types::shared_memory/std::write_at (an I/O-method)
 
   writes a byte string to a shared memory block at a given position
 

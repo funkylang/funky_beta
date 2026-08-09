@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::backspace_character_of (a builtin method)
+# std_types::terminal_attributes/std::backspace_character_of (a method)
 
   retrieve the character sent by the backspace key
 

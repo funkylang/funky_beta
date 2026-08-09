@@ -1,4 +1,4 @@
-# std::EADDRINUSE (a builtin object)
+# std::EADDRINUSE (an object)
 
   the address is already in use
 

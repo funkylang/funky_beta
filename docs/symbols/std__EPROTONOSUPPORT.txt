@@ -1,4 +1,4 @@
-# std::EPROTONOSUPPORT (a builtin object)
+# std::EPROTONOSUPPORT (an object)
 
   the error number for the error "protocol not supported"
 

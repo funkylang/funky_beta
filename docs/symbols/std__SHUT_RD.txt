@@ -1,4 +1,4 @@
-# std::SHUT_RD (a builtin object)
+# std::SHUT_RD (an object)
 
   shutdown read direction
 

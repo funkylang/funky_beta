@@ -1,4 +1,4 @@
-# std::ENOMEM (a builtin object)
+# std::ENOMEM (an object)
 
   the error number for "out of memory"
 

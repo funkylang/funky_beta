@@ -1,4 +1,4 @@
-# std::chmod (a builtin I/O-function)
+# std::chmod (an I/O-function)
 
   changes the mode of the specified file
 

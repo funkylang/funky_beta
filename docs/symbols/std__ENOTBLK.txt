@@ -1,4 +1,4 @@
-# std::ENOTBLK (a builtin object)
+# std::ENOTBLK (an object)
 
   the error number for the error "not a block device"
 

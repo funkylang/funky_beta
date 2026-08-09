@@ -1,4 +1,4 @@
-# std::initialized_uint8_array (a builtin function)
+# std::initialized_uint8_array (a function)
 
   constructs an initialized array
 

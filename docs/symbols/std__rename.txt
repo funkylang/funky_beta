@@ -1,4 +1,4 @@
-# std::rename (a builtin I/O-function)
+# std::rename (an I/O-function)
 
   renames a file
 

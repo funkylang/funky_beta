@@ -1,4 +1,4 @@
-# std_types::user_id/std::to_integer (a builtin method)
+# std_types::user_id/std::to_integer (a method)
 
   converts a user id into an integer number
 

@@ -1,4 +1,4 @@
-# std::ELIBMAX (a builtin object)
+# std::ELIBMAX (an object)
 
   the maximum number of shared libraries that can be loaded
 

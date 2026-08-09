@@ -1,4 +1,4 @@
-# std::ENOENT (a builtin object)
+# std::ENOENT (an object)
 
   the error number for "no such file or directory"
 

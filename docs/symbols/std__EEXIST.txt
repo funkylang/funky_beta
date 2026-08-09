@@ -1,4 +1,4 @@
-# std::EEXIST (a builtin object)
+# std::EEXIST (an object)
 
   the error number for the error "file exists"
 

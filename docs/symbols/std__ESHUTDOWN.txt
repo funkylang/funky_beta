@@ -1,4 +1,4 @@
-# std::ESHUTDOWN (a builtin object)
+# std::ESHUTDOWN (an object)
 
   the error number for "Transport endpoint is not connected"
 

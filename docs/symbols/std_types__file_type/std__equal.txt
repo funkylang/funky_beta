@@ -1,4 +1,4 @@
-# std_types::file_type/std::equal (a builtin method)
+# std_types::file_type/std::equal (a method)
 
   compares two file types for equality
 

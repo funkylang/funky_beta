@@ -1,4 +1,4 @@
-# std_types::int32_array/std::length_of (a builtin method)
+# std_types::int32_array/std::length_of (a method)
 
   implements the *length_of* operation
 

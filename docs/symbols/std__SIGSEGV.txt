@@ -1,4 +1,4 @@
-# std::SIGSEGV (a builtin object)
+# std::SIGSEGV (an object)
 
   the signal number for segmentation faults
 

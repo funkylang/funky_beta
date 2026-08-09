@@ -1,4 +1,4 @@
-# std::ETXTBSY (a builtin object)
+# std::ETXTBSY (an object)
 
   the error number for the error "text file busy"
 

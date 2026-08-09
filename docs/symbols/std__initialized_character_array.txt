@@ -1,4 +1,4 @@
-# std::initialized_character_array (a builtin function)
+# std::initialized_character_array (a function)
 
   constructs an initialized array
 

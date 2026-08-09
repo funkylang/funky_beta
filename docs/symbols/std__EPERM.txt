@@ -1,4 +1,4 @@
-# std::EPERM (a builtin object)
+# std::EPERM (an object)
 
   the operation was not permitted
 

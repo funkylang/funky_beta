@@ -1,4 +1,4 @@
-# std::kill (a builtin I/O-function)
+# std::kill (an I/O-function)
 
   sends a signal to a process
 

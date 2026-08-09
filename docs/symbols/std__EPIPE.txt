@@ -1,4 +1,4 @@
-# std::EPIPE (a builtin object)
+# std::EPIPE (an object)
 
   the error number for a broken pipe
 

@@ -1,4 +1,4 @@
-# std_types::array/std::dimension_count_of (a builtin method)
+# std_types::array/std::dimension_count_of (a method)
 
   returns the number of dimensions of a multidimensional array
 

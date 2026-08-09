@@ -1,4 +1,4 @@
-# std::EL3HLT (a builtin object)
+# std::EL3HLT (an object)
 
   the error number for "level 3 halted"
 

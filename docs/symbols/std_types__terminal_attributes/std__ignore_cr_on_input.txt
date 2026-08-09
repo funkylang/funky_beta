@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::ignore_cr_on_input (a builtin method)
+# std_types::terminal_attributes/std::ignore_cr_on_input (a method)
 
   get or set the IGNCR flag in the terminal attributes
 

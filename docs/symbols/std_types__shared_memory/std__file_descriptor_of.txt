@@ -1,4 +1,4 @@
-# std_types::shared_memory/std::file_descriptor_of (a builtin method)
+# std_types::shared_memory/std::file_descriptor_of (a method)
 
   returns the file descriptor of a shared memory block
 

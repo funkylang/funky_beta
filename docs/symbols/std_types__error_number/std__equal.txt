@@ -1,4 +1,4 @@
-# std_types::error_number/std::equal (a builtin method)
+# std_types::error_number/std::equal (a method)
 
   implements the equal operation for error numbers
 

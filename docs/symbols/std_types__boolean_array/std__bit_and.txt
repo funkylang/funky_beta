@@ -1,4 +1,4 @@
-# std_types::boolean_array/std::bit_and (a builtin method)
+# std_types::boolean_array/std::bit_and (a method)
 
   implements the *and* operation
 

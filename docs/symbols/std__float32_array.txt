@@ -1,4 +1,4 @@
-# std::float32_array (a builtin function)
+# std::float32_array (a function)
 
   constructs an empty array
 

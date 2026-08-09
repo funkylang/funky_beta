@@ -1,4 +1,4 @@
-# std_types::false (a builtin type derived from std_types::object)
+# std_types::false (a type derived from std_types::object)
 
   the prototype for the boolean value *false*
 

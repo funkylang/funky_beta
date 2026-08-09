@@ -1,4 +1,4 @@
-# std::EDOTDOT (a builtin object)
+# std::EDOTDOT (an object)
 
   the error number for a pathname that contains a ".." component
 

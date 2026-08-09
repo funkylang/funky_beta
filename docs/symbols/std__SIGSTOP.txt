@@ -1,4 +1,4 @@
-# std::SIGSTOP (a builtin object)
+# std::SIGSTOP (an object)
 
   the signal number for stopping a process
 

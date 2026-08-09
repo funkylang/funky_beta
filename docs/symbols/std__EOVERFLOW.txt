@@ -1,4 +1,4 @@
-# std::EOVERFLOW (a builtin object)
+# std::EOVERFLOW (an object)
 
   the error number for an overflow
 

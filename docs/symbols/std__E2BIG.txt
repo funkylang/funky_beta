@@ -1,4 +1,4 @@
-# std::E2BIG (a builtin object)
+# std::E2BIG (an object)
 
   the argument list is too long
 

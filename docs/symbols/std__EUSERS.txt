@@ -1,4 +1,4 @@
-# std::EUSERS (a builtin object)
+# std::EUSERS (an object)
 
   the error number for "Too many users"
 

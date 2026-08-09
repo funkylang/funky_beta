@@ -1,4 +1,4 @@
-# debug::has_io_access_rights (a builtin function)
+# debug::has_io_access_rights (a function)
 
   returns true if the current process has I/O-access rights
 

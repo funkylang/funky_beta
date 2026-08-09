@@ -1,4 +1,4 @@
-# std_types::real (a builtin type derived from std_types::number)
+# std_types::real (a type derived from std_types::number)
 
   the prototype object for all non-integral numbers
 

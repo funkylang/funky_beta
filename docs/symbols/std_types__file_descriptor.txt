@@ -1,4 +1,4 @@
-# std_types::file_descriptor (a builtin type derived from std_types::object)
+# std_types::file_descriptor (a type derived from std_types::object)
 
   a file descriptor
 

@@ -1,4 +1,4 @@
-# std::sin (a builtin function)
+# std::sin (a function)
 
   returns the sine of the argument
 

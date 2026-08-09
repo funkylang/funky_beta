@@ -1,4 +1,4 @@
-# std::SIGABRT (a builtin object)
+# std::SIGABRT (an object)
 
   the signal number for abort
 

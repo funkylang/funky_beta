@@ -1,4 +1,4 @@
-# std_types::real/std::hash (a builtin method)
+# std_types::real/std::hash (a method)
 
   returns an integer hash value
 

@@ -1,4 +1,4 @@
-# std::UNKNOWN_FILE_TYPE (a builtin object)
+# std::UNKNOWN_FILE_TYPE (an object)
 
   the file type for unknown file types
 

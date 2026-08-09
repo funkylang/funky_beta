@@ -1,4 +1,4 @@
-# std::package_version (a builtin function)
+# std::package_version (a function)
 
   returns the version of the Funky installation
 

@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::enable_xon_xoff_for_input (a builtin method)
+# std_types::terminal_attributes/std::enable_xon_xoff_for_input (a method)
 
   enables or disables XON/XOFF flow control for input
 

@@ -1,4 +1,4 @@
-# std::ETIME (a builtin object)
+# std::ETIME (an object)
 
   the error number for a timer expired
 

@@ -1,4 +1,4 @@
-# std::file_type (a builtin function)
+# std::file_type (a function)
 
   constructs a file type from its integer representation
 

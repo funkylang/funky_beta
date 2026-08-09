@@ -1,4 +1,4 @@
-# std::inode_number (a builtin function)
+# std::inode_number (a function)
 
   constructs an inode number from its integer representation
 

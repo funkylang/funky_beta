@@ -1,4 +1,4 @@
-# std_types::boolean_array/std::bit_or (a builtin method)
+# std_types::boolean_array/std::bit_or (a method)
 
   implements the *or* operation
 

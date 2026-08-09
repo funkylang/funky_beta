@@ -1,4 +1,4 @@
-# std_types::error/std::error_category_of (a builtin method)
+# std_types::error/std::error_category_of (a method)
 
   retrieves the error category of an error object
 

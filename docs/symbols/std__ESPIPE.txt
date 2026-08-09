@@ -1,4 +1,4 @@
-# std::ESPIPE (a builtin object)
+# std::ESPIPE (an object)
 
   the error number for the error "invalid seek"
 

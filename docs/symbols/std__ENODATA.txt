@@ -1,4 +1,4 @@
-# std::ENODATA (a builtin object)
+# std::ENODATA (an object)
 
   the error number for "no data available"
 

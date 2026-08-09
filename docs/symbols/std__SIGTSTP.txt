@@ -1,4 +1,4 @@
-# std::SIGTSTP (a builtin object)
+# std::SIGTSTP (an object)
 
   the signal number for stopping a process
 

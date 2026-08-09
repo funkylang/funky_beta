@@ -1,4 +1,4 @@
-# std::EPROTO (a builtin object)
+# std::EPROTO (an object)
 
   the error number for a protocol error
 

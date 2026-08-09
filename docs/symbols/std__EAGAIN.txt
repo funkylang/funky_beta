@@ -1,4 +1,4 @@
-# std::EAGAIN (a builtin object)
+# std::EAGAIN (an object)
 
   the error number for the "resource temporarily unavailable" error
 

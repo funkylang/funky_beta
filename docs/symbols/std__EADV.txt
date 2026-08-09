@@ -1,4 +1,4 @@
-# std::EADV (a builtin object)
+# std::EADV (an object)
 
   the error number for "advertise error"
 

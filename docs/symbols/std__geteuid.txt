@@ -1,4 +1,4 @@
-# std::geteuid (a builtin I/O-function)
+# std::geteuid (an I/O-function)
 
   returns the effective user ID of the calling process
 

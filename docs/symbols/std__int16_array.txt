@@ -1,4 +1,4 @@
-# std::int16_array (a builtin function)
+# std::int16_array (a function)
 
   constructs an empty array
 

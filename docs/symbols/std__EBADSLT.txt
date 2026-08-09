@@ -1,4 +1,4 @@
-# std::EBADSLT (a builtin object)
+# std::EBADSLT (an object)
 
   the error number for a bad slot
 

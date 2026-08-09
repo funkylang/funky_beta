@@ -1,4 +1,4 @@
-# std::SIGINT (a builtin object)
+# std::SIGINT (an object)
 
   the signal number for interrupt
 

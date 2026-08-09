@@ -1,4 +1,4 @@
-# std::SIGUSR2 (a builtin object)
+# std::SIGUSR2 (an object)
 
   the signal number for user-defined signal 2
 

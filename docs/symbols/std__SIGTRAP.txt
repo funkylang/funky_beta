@@ -1,4 +1,4 @@
-# std::SIGTRAP (a builtin object)
+# std::SIGTRAP (an object)
 
   the signal number for a trace trap
 

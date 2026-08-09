@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::close (a builtin I/O-method)
+# std_types::file_descriptor/std::close (an I/O-method)
 
   closes a file
 

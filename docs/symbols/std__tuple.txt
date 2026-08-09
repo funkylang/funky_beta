@@ -1,4 +1,4 @@
-# std::tuple (a builtin function)
+# std::tuple (a function)
 
   constructs a tuple from the specified arguments
 

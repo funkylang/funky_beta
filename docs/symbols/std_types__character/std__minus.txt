@@ -1,4 +1,4 @@
-# std_types::character/std::minus (a builtin method)
+# std_types::character/std::minus (a method)
 
   returns the nth-previous character or the difference between two characters
 

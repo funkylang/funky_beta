@@ -1,4 +1,4 @@
-# std::shm_unlink (a builtin I/O-function)
+# std::shm_unlink (an I/O-function)
 
   removes a shared memory object
 

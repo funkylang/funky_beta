@@ -1,4 +1,4 @@
-# std::SIGTTIN (a builtin object)
+# std::SIGTTIN (an object)
 
   the signal number for a background process attempting to read from the
   terminal

@@ -1,4 +1,4 @@
-# std_types::inode_number/std::to_integer (a builtin method)
+# std_types::inode_number/std::to_integer (a method)
 
   converts its argument into an integer number
 

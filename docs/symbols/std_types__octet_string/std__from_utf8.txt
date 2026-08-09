@@ -1,4 +1,4 @@
-# std_types::octet_string/std::from_utf8 (a builtin method)
+# std_types::octet_string/std::from_utf8 (a method)
 
   converts a string from utf-8 encoding to code points
 

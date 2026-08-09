@@ -1,4 +1,4 @@
-# std::ENOTTY (a builtin object)
+# std::ENOTTY (an object)
 
   the error number for "not a tty"
 

@@ -1,4 +1,4 @@
-# std_types::device_id/std::to_integer (a builtin method)
+# std_types::device_id/std::to_integer (a method)
 
   converts a device id into an integer number
 

@@ -1,4 +1,4 @@
-# std::EMFILE (a builtin object)
+# std::EMFILE (an object)
 
   the error number for too many open files
 

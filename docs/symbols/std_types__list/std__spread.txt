@@ -1,4 +1,4 @@
-# std_types::list/std::spread (a builtin method)
+# std_types::list/std::spread (a method)
 
   returns the items of a collection as separate results
 

@@ -1,4 +1,4 @@
-# std::SIGPWR (a builtin object)
+# std::SIGPWR (an object)
 
   the signal number for power failure
 

@@ -1,4 +1,4 @@
-# std::EBUSY (a builtin object)
+# std::EBUSY (an object)
 
   the error number for the error "device or resource busy"
 

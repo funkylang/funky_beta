@@ -1,4 +1,4 @@
-# std::SIGURG (a builtin object)
+# std::SIGURG (an object)
 
   the signal number for urgent data available on socket
 

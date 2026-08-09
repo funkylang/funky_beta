@@ -1,4 +1,4 @@
-# std::chroot (a builtin I/O-function)
+# std::chroot (an I/O-function)
 
   changes the root directory of the current process
 

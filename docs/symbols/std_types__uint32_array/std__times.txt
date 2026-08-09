@@ -1,4 +1,4 @@
-# std_types::uint32_array/std::times (a builtin method)
+# std_types::uint32_array/std::times (a method)
 
   implements the *times* operation for uint32 arrays
 

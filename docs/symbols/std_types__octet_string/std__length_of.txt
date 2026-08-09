@@ -1,4 +1,4 @@
-# std_types::octet_string/std::length_of (a builtin method)
+# std_types::octet_string/std::length_of (a method)
 
   returns the number of items within the list
 

@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::to_integer (a builtin method)
+# std_types::file_descriptor/std::to_integer (a method)
 
   converts a file descriptor into an integer number
 

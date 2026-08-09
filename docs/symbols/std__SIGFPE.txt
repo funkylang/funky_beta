@@ -1,4 +1,4 @@
-# std::SIGFPE (a builtin object)
+# std::SIGFPE (an object)
 
   the signal number for floating point exceptions
 

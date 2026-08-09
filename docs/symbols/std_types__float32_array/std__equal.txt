@@ -1,4 +1,4 @@
-# std_types::float32_array/std::equal (a builtin method)
+# std_types::float32_array/std::equal (a method)
 
   implements the *equal* operation for float32 arrays
 

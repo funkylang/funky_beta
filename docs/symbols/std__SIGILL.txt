@@ -1,4 +1,4 @@
-# std::SIGILL (a builtin object)
+# std::SIGILL (an object)
 
   the signal number for illegal instruction
 

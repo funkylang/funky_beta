@@ -1,4 +1,4 @@
-# std::EINVAL (a builtin object)
+# std::EINVAL (an object)
 
   the error number for an invalid argument
 

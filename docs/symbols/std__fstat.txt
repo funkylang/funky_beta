@@ -1,4 +1,4 @@
-# std::fstat (a builtin I/O-function)
+# std::fstat (an I/O-function)
 
   retrieves information about an open file descriptor
 

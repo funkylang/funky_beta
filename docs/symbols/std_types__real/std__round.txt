@@ -1,4 +1,4 @@
-# std_types::real/std::round (a builtin method)
+# std_types::real/std::round (a method)
 
   computes the nearest integral number for its argument
 

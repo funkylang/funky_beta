@@ -1,4 +1,4 @@
-# std_types::unique_item/std::equal (a builtin method)
+# std_types::unique_item/std::equal (a method)
 
   compares two unique items for equality
 

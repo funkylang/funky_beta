@@ -1,4 +1,4 @@
-# std::readdir (a builtin I/O-function)
+# std::readdir (an I/O-function)
 
   reads the next directory entry
 

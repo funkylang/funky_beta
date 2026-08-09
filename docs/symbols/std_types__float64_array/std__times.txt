@@ -1,4 +1,4 @@
-# std_types::float64_array/std::times (a builtin method)
+# std_types::float64_array/std::times (a method)
 
   implements the *times* operation for arrays of 64-bit floating point numbers
 

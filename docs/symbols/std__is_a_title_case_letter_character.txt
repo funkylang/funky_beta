@@ -1,4 +1,4 @@
-# std::is_a_title_case_letter_character (a builtin function)
+# std::is_a_title_case_letter_character (a function)
 
   returns <true> for title case letter characters
 

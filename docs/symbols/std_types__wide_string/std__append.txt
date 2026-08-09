@@ -1,4 +1,4 @@
-# std_types::wide_string/std::append (a builtin method)
+# std_types::wide_string/std::append (a method)
 
   appends two or more strings
 

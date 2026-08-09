@@ -1,4 +1,4 @@
-# std_types::error_number/std::hash (a builtin method)
+# std_types::error_number/std::hash (a method)
 
   implements the hash operation for error numbers
 

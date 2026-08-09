@@ -1,4 +1,4 @@
-# std::closedir (a builtin I/O-function)
+# std::closedir (an I/O-function)
 
   closes a directory stream
 

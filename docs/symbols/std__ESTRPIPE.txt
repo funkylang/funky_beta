@@ -1,4 +1,4 @@
-# std::ESTRPIPE (a builtin object)
+# std::ESTRPIPE (an object)
 
   the error number for a stream pipe error
 

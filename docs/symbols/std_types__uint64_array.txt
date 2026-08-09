@@ -1,4 +1,4 @@
-# std_types::uint64_array (a builtin type derived from std_types::generic_array)
+# std_types::uint64_array (a type derived from std_types::generic_array)
 
   an array of unsigned 64-bit numbers
 

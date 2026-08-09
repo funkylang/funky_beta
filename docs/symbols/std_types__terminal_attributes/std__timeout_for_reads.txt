@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::timeout_for_reads (a builtin method)
+# std_types::terminal_attributes/std::timeout_for_reads (a method)
 
   set or get the value of VTIME in c_cc; timeout is converted to/from seconds!
 

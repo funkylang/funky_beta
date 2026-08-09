@@ -1,4 +1,4 @@
-# std::ENOSR (a builtin object)
+# std::ENOSR (an object)
 
   the error number for "no stream resources"
 

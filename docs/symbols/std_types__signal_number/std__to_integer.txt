@@ -1,4 +1,4 @@
-# std_types::signal_number/std::to_integer (a builtin method)
+# std_types::signal_number/std::to_integer (a method)
 
   converts a signal number into an integer number
 

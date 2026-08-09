@@ -1,4 +1,4 @@
-# std::getenv (a builtin I/O-function)
+# std::getenv (an I/O-function)
 
   retrieves the value of an environment variable
 

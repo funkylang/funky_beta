@@ -1,4 +1,4 @@
-# std::wait (a builtin I/O-function)
+# std::wait (an I/O-function)
 
   suspends the execution until a child process terminates.
 

@@ -1,4 +1,4 @@
-# std::gethostname (a builtin I/O-function)
+# std::gethostname (an I/O-function)
 
   retrieves the hostname of the current machine
 

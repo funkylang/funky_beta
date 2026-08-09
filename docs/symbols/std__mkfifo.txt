@@ -1,4 +1,4 @@
-# std::mkfifo (a builtin I/O-function)
+# std::mkfifo (an I/O-function)
 
   creates a FIFO
 

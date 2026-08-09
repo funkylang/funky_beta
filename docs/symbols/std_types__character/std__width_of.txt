@@ -1,4 +1,4 @@
-# std_types::character/std::width_of (a builtin method)
+# std_types::character/std::width_of (a method)
 
   returns the width of the specified character in character positions
 

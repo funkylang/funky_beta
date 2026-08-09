@@ -1,4 +1,4 @@
-# std::integer (a builtin function)
+# std::integer (a function)
 
   constructs an integer from its string representation
 

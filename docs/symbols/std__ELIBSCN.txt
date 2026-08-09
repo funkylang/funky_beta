@@ -1,4 +1,4 @@
-# std::ELIBSCN (a builtin object)
+# std::ELIBSCN (an object)
 
   the error number for a library section had no defining symbols
 

@@ -1,4 +1,4 @@
-# std::array (a builtin function)
+# std::array (a function)
 
   constructs an empty array
 

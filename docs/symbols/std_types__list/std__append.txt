@@ -1,4 +1,4 @@
-# std_types::list/std::append (a builtin method)
+# std_types::list/std::append (a method)
 
   appends two or more lists
 

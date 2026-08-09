@@ -1,4 +1,4 @@
-# debug::string (a builtin function)
+# debug::string (a function)
 
   returns a string representation of the given object
 

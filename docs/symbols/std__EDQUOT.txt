@@ -1,4 +1,4 @@
-# std::EDQUOT (a builtin object)
+# std::EDQUOT (an object)
 
   the error number for "disk quota exceeded"
 

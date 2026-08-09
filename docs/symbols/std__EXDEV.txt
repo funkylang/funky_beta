@@ -1,4 +1,4 @@
-# std::EXDEV (a builtin object)
+# std::EXDEV (an object)
 
   the error number for "Cross-device link"
 

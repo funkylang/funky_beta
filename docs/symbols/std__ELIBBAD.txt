@@ -1,4 +1,4 @@
-# std::ELIBBAD (a builtin object)
+# std::ELIBBAD (an object)
 
   the error number for a corrupted shared library
 

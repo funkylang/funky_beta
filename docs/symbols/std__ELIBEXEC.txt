@@ -1,4 +1,4 @@
-# std::ELIBEXEC (a builtin object)
+# std::ELIBEXEC (an object)
 
   the error number for a library execution error
 

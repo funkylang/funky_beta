@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::output_speed (a builtin method)
+# std_types::terminal_attributes/std::output_speed (a method)
 
   sets or returns the output speed of a terminal
 

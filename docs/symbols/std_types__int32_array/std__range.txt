@@ -1,4 +1,4 @@
-# std_types::int32_array/std::range (a builtin method)
+# std_types::int32_array/std::range (a method)
 
   creates a new array with the elements in the given ranges
 

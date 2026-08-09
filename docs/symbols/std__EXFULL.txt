@@ -1,4 +1,4 @@
-# std::EXFULL (a builtin object)
+# std::EXFULL (an object)
 
   the error number for the "Too many levels of symbolic links" error
 

@@ -1,4 +1,4 @@
-# std_types::character_array/std::create_empty_array (a builtin method)
+# std_types::character_array/std::create_empty_array (a method)
 
   creates an empty new array based on the given template array
 

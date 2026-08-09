@@ -1,4 +1,4 @@
-# debug::total_garbage_collections (a builtin function)
+# debug::total_garbage_collections (a function)
 
   returns the number of garbage collection cycles so far
 

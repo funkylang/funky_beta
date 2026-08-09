@@ -1,4 +1,4 @@
-# std::STDOUT_FILENO (a builtin object)
+# std::STDOUT_FILENO (an object)
 
   the file descriptor for the standard output stream
 

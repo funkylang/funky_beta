@@ -1,4 +1,4 @@
-# std::ETOOMANYREFS (a builtin object)
+# std::ETOOMANYREFS (an object)
 
   the error number for "Too many references: cannot splice"
 

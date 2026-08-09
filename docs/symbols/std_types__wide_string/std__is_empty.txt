@@ -1,4 +1,4 @@
-# std_types::wide_string/std::is_empty (a builtin method)
+# std_types::wide_string/std::is_empty (a method)
 
   returns whether the quad-octet string is empty or not
 

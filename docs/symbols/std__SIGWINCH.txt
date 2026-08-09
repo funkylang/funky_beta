@@ -1,4 +1,4 @@
-# std::SIGWINCH (a builtin object)
+# std::SIGWINCH (an object)
 
   the signal number for window size changes
 

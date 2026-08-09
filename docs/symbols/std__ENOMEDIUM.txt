@@ -1,4 +1,4 @@
-# std::ENOMEDIUM (a builtin object)
+# std::ENOMEDIUM (an object)
 
   the error number for "No medium found"
 

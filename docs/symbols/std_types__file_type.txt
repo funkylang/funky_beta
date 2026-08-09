@@ -1,4 +1,4 @@
-# std_types::file_type (a builtin type derived from std_types::object)
+# std_types::file_type (a type derived from std_types::object)
 
   a file type
 

@@ -1,4 +1,4 @@
-# std_types::tuple (a builtin type derived from std_types::object)
+# std_types::tuple (a type derived from std_types::object)
 
   the prototype object for all tuples
 

@@ -1,4 +1,4 @@
-# std_types::list/std::pop (a builtin method)
+# std_types::list/std::pop (a method)
 
   removes and returns the last item of a non-empty list
 

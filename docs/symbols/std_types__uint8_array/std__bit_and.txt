@@ -1,4 +1,4 @@
-# std_types::uint8_array/std::bit_and (a builtin method)
+# std_types::uint8_array/std::bit_and (a method)
 
   implements the bitwise and operation for unsigned 8-bit arrays
 

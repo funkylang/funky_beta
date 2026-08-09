@@ -1,4 +1,4 @@
-# std::getcwd (a builtin I/O-function)
+# std::getcwd (an I/O-function)
 
   returns the current working directory
 

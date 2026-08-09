@@ -1,4 +1,4 @@
-# std::ENOPKG (a builtin object)
+# std::ENOPKG (an object)
 
   the error number for "package not installed"
 

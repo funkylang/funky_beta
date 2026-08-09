@@ -1,4 +1,4 @@
-# std::usleep (a builtin I/O-function)
+# std::usleep (an I/O-function)
 
   suspends the execution for the specified number of microsconds
 

@@ -1,4 +1,4 @@
-# std::unlink (a builtin I/O-function)
+# std::unlink (an I/O-function)
 
   removes a file
 

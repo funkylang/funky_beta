@@ -1,4 +1,4 @@
-# std::pselect (a builtin I/O-function)
+# std::pselect (an I/O-function)
 
   waits for one or more file descriptors to become ready
 

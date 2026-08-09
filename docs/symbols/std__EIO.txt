@@ -1,4 +1,4 @@
-# std::EIO (a builtin object)
+# std::EIO (an object)
 
   the error number for an I/O error
 

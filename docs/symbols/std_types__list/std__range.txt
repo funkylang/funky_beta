@@ -1,4 +1,4 @@
-# std_types::list/std::range (a builtin method)
+# std_types::list/std::range (a method)
 
   returns the specified subrange of the specified list
 

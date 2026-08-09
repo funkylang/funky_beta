@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::input_speed (a builtin method)
+# std_types::terminal_attributes/std::input_speed (a method)
 
   sets or gets the input speed of a terminal
 

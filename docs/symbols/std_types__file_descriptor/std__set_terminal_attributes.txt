@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::set_terminal_attributes (a builtin I/O-method)
+# std_types::file_descriptor/std::set_terminal_attributes (an I/O-method)
 
   updates the current terminal attributes
 

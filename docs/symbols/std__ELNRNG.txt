@@ -1,4 +1,4 @@
-# std::ELNRNG (a builtin object)
+# std::ELNRNG (an object)
 
   the error number for a level 2 not synchronized
 

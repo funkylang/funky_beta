@@ -1,4 +1,4 @@
-# std::ENOLCK (a builtin object)
+# std::ENOLCK (an object)
 
   the error number for "no locks available"
 

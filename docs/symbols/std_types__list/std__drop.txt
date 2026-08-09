@@ -1,4 +1,4 @@
-# std_types::list/std::drop (a builtin method)
+# std_types::list/std::drop (a method)
 
   removes the last item of a non-empty list
 

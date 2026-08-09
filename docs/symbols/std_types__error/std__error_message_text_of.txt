@@ -1,4 +1,4 @@
-# std_types::error/std::error_message_text_of (a builtin method)
+# std_types::error/std::error_message_text_of (a method)
 
   retrieves the error message text of an error object
 

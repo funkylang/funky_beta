@@ -1,4 +1,4 @@
-# std_types::character/std::to_integer (a builtin method)
+# std_types::character/std::to_integer (a method)
 
   returns the unicode codepoint of the specified character
 

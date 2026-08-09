@@ -1,4 +1,4 @@
-# std::ENFILE (a builtin object)
+# std::ENFILE (an object)
 
   the error number for too many open files
 

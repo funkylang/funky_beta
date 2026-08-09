@@ -1,4 +1,4 @@
-# std_types::uint64_array/std::bit_xor (a builtin method)
+# std_types::uint64_array/std::bit_xor (a method)
 
   implements the *xor* operation for uint64 arrays
 

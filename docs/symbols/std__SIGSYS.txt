@@ -1,4 +1,4 @@
-# std::SIGSYS (a builtin object)
+# std::SIGSYS (an object)
 
   the signal number for invalid system call
 

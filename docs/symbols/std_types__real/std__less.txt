@@ -1,4 +1,4 @@
-# std_types::real/std::less (a builtin method)
+# std_types::real/std::less (a method)
 
   implements the *less* operation for real numbers
 

@@ -1,4 +1,4 @@
-# std::EBADRQC (a builtin object)
+# std::EBADRQC (an object)
 
   the error number for a bad request code
 

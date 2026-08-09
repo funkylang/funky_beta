@@ -1,4 +1,4 @@
-# std::EADDRNOTAVAIL (a builtin object)
+# std::EADDRNOTAVAIL (an object)
 
   the error number for the error "address not available"
 

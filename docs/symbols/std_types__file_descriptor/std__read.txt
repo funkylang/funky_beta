@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::read (a builtin I/O-method)
+# std_types::file_descriptor/std::read (an I/O-method)
 
   reads data from a file descriptor
 

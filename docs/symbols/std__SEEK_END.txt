@@ -1,4 +1,4 @@
-# std::SEEK_END (a builtin object)
+# std::SEEK_END (an object)
 
   the seek type for seeking relative to the end of a file
 

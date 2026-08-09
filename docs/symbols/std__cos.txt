@@ -1,4 +1,4 @@
-# std::cos (a builtin function)
+# std::cos (a function)
 
   computes the cosine of the argument
 

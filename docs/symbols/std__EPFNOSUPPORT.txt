@@ -1,4 +1,4 @@
-# std::EPFNOSUPPORT (a builtin object)
+# std::EPFNOSUPPORT (an object)
 
   the error number for the error "protocol family not supported"
 

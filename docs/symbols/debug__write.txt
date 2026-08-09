@@ -1,4 +1,4 @@
-# debug::write (a builtin function)
+# debug::write (a function)
 
   writes the given string to stderr
 

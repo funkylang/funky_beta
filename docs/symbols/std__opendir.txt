@@ -1,4 +1,4 @@
-# std::opendir (a builtin I/O-function)
+# std::opendir (an I/O-function)
 
   opens a directory stream
 

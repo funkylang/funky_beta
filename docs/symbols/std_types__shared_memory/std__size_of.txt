@@ -1,4 +1,4 @@
-# std_types::shared_memory/std::size_of (a builtin method)
+# std_types::shared_memory/std::size_of (a method)
 
   returns the size of the shared memory block
 

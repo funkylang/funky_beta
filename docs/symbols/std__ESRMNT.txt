@@ -1,4 +1,4 @@
-# std::ESRMNT (a builtin object)
+# std::ESRMNT (an object)
 
   the error number for a remote object has been removed
 

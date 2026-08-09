@@ -1,4 +1,4 @@
-# std::ECANCELED (a builtin object)
+# std::ECANCELED (an object)
 
   the error number for "Operation canceled"
 

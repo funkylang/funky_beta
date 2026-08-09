@@ -1,4 +1,4 @@
-# std_types::real/std::minus (a builtin method)
+# std_types::real/std::minus (a method)
 
   implements the minus operation for real numbers
 

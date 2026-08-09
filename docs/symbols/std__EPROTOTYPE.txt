@@ -1,4 +1,4 @@
-# std::EPROTOTYPE (a builtin object)
+# std::EPROTOTYPE (an object)
 
   the error number for the error "Protocol wrong type for socket"
 

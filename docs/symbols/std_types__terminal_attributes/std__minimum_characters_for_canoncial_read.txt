@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::minimum_characters_for_canoncial_read (a builtin method)
+# std_types::terminal_attributes/std::minimum_characters_for_canoncial_read (a method)
 
   set or get the value of VMIN in c_cc
 

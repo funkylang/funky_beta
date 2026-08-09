@@ -1,4 +1,4 @@
-# std::EIDRM (a builtin object)
+# std::EIDRM (an object)
 
   the error number for "identifier removed"
 

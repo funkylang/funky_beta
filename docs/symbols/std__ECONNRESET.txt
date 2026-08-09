@@ -1,4 +1,4 @@
-# std::ECONNRESET (a builtin object)
+# std::ECONNRESET (an object)
 
   the error number for "connection reset by peer"
 

@@ -1,4 +1,4 @@
-# std_types::real/std::ln (a builtin method)
+# std_types::real/std::ln (a method)
 
   computes the logarithm to the base e
 

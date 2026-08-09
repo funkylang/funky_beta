@@ -1,4 +1,4 @@
-# std::SIGTTOU (a builtin object)
+# std::SIGTTOU (an object)
 
   the signal number for background write attempts on a control terminal
 

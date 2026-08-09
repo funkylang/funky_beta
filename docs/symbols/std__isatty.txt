@@ -1,4 +1,4 @@
-# std::isatty (a builtin I/O-function)
+# std::isatty (an I/O-function)
 
   checks if the specified file descriptor is a terminal
 

@@ -1,4 +1,4 @@
-# std::ENOPROTOOPT (a builtin object)
+# std::ENOPROTOOPT (an object)
 
   the error number for the error "Protocol not available"
 

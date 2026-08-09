@@ -1,4 +1,4 @@
-# std::SHUT_WR (a builtin object)
+# std::SHUT_WR (an object)
 
   the shutdown type for writing
 

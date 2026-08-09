@@ -1,4 +1,4 @@
-# std_types::octet_string/std::range (a builtin method)
+# std_types::octet_string/std::range (a method)
 
   returns a string containing the specified subrange
 

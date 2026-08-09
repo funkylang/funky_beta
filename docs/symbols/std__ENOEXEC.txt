@@ -1,4 +1,4 @@
-# std::ENOEXEC (a builtin object)
+# std::ENOEXEC (an object)
 
   the error number for the error "exec format error"
 

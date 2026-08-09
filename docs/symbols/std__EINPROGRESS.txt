@@ -1,4 +1,4 @@
-# std::EINPROGRESS (a builtin object)
+# std::EINPROGRESS (an object)
 
   the error number for "operation now in progress"
 

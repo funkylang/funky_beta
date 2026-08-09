@@ -1,4 +1,4 @@
-# std::character (a builtin function)
+# std::character (a function)
 
   returns the character with the specified unicode codepoint
 

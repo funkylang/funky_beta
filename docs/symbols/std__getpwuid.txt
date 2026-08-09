@@ -1,4 +1,4 @@
-# std::getpwuid (a builtin I/O-function)
+# std::getpwuid (an I/O-function)
 
   returns the password database entry for the specified user id
 

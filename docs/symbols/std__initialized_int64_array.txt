@@ -1,4 +1,4 @@
-# std::initialized_int64_array (a builtin function)
+# std::initialized_int64_array (a function)
 
   constructs an initialized array
 

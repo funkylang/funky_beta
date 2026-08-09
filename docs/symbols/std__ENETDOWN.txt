@@ -1,4 +1,4 @@
-# std::ENETDOWN (a builtin object)
+# std::ENETDOWN (an object)
 
   the network is down
 

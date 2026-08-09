@@ -1,4 +1,4 @@
-# std::ENOANO (a builtin object)
+# std::ENOANO (an object)
 
   the error number for "no anode"
 

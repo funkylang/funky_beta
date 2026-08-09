@@ -1,4 +1,4 @@
-# std::ESTALE (a builtin object)
+# std::ESTALE (an object)
 
   the error number for a stale file handle
 

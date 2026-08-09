@@ -1,4 +1,4 @@
-# std::ENOTSOCK (a builtin object)
+# std::ENOTSOCK (an object)
 
   the error number for the error "Socket operation on non-socket"
 

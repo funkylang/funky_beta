@@ -1,4 +1,4 @@
-# std::EINTR (a builtin object)
+# std::EINTR (an object)
 
   the error number for the "interrupted system call" error
 

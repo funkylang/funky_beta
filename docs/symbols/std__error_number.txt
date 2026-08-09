@@ -1,4 +1,4 @@
-# std::error_number (a builtin function)
+# std::error_number (a function)
 
   constructs an error number object from an integer
 

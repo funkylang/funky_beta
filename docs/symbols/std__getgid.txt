@@ -1,4 +1,4 @@
-# std::getgid (a builtin I/O-function)
+# std::getgid (an I/O-function)
 
   returns the real group ID of the calling process
 

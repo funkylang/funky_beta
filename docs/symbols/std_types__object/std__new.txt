@@ -1,4 +1,4 @@
-# std_types::object/std::new (a builtin method)
+# std_types::object/std::new (a method)
 
   creates a new object with inherited attributes
 

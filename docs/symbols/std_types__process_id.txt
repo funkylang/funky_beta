@@ -1,4 +1,4 @@
-# std_types::process_id (a builtin type derived from std_types::object)
+# std_types::process_id (a type derived from std_types::object)
 
   a process id
 

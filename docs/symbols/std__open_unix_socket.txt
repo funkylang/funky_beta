@@ -1,4 +1,4 @@
-# std::open_unix_socket (a builtin I/O-function)
+# std::open_unix_socket (an I/O-function)
 
   opens a UNIX domain socket
 

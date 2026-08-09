@@ -1,4 +1,4 @@
-# std::fsync (a builtin I/O-function)
+# std::fsync (an I/O-function)
 
   synchronizes the in-core state of the file with the storage device
 

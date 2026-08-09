@@ -1,4 +1,4 @@
-# std::ENOTEMPTY (a builtin object)
+# std::ENOTEMPTY (an object)
 
   the error number for the error "directory not empty"
 

@@ -1,4 +1,4 @@
-# std::create_process (a builtin I/O-function)
+# std::create_process (an I/O-function)
 
   creates a new child process
 

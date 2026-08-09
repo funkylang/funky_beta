@@ -1,4 +1,4 @@
-# std::REGULAR_FILE (a builtin object)
+# std::REGULAR_FILE (an object)
 
   the file type for regular files
 

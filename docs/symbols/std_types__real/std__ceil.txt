@@ -1,4 +1,4 @@
-# std_types::real/std::ceil (a builtin method)
+# std_types::real/std::ceil (a method)
 
   computes the smallest integral number greater or equal than its argument
 

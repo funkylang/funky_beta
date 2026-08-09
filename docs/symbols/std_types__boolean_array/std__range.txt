@@ -1,4 +1,4 @@
-# std_types::boolean_array/std::range (a builtin method)
+# std_types::boolean_array/std::range (a method)
 
   implements the *range* operation for boolean arrays
 

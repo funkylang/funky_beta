@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::generate_signals (a builtin method)
+# std_types::terminal_attributes/std::generate_signals (a method)
 
   set or clear ISIG in c_lflag
 

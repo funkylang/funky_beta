@@ -1,4 +1,4 @@
-# std_types::terminal_attributes/std::echo_new_lines (a builtin method)
+# std_types::terminal_attributes/std::echo_new_lines (a method)
 
   set or clear ECHONL in c_lflag
 

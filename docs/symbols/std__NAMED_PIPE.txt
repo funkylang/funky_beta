@@ -1,4 +1,4 @@
-# std::NAMED_PIPE (a builtin object)
+# std::NAMED_PIPE (an object)
 
   the file type for named pipes
 

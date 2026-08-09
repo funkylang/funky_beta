@@ -1,4 +1,4 @@
-# std::SIGALRM (a builtin object)
+# std::SIGALRM (an object)
 
   the signal number for alarm clock
 

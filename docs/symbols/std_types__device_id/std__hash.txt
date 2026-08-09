@@ -1,4 +1,4 @@
-# std_types::device_id/std::hash (a builtin method)
+# std_types::device_id/std::hash (a method)
 
   implements the hash operation for device ids
 

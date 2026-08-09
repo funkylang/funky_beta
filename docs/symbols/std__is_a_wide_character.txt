@@ -1,4 +1,4 @@
-# std::is_a_wide_character (a builtin function)
+# std::is_a_wide_character (a function)
 
   returns <true> for wide characters
 

@@ -1,4 +1,4 @@
-# std::ENAMETOOLONG (a builtin object)
+# std::ENAMETOOLONG (an object)
 
   the error number for a file name that is too long
 

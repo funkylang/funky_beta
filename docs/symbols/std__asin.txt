@@ -1,4 +1,4 @@
-# std::asin (a builtin function)
+# std::asin (a function)
 
   computes the arc sine of a value
 

@@ -1,4 +1,4 @@
-# std::ENETUNREACH (a builtin object)
+# std::ENETUNREACH (an object)
 
   the network is unreachable
 

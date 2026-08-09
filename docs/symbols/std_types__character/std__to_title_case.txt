@@ -1,4 +1,4 @@
-# std_types::character/std::to_title_case (a builtin method)
+# std_types::character/std::to_title_case (a method)
 
   converts to title case
 

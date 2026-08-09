@@ -1,4 +1,4 @@
-# std_types::terminal_attributes (a builtin type derived from std_types::object)
+# std_types::terminal_attributes (a type derived from std_types::object)
 
   a structure that stores the terminal attributes
 

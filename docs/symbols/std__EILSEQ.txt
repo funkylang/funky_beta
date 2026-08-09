@@ -1,4 +1,4 @@
-# std::EILSEQ (a builtin object)
+# std::EILSEQ (an object)
 
   the error number for an invalid or incomplete multibyte or wide character
 

@@ -1,4 +1,4 @@
-# std::process_id (a builtin function)
+# std::process_id (a function)
 
   constructs a process id from its integer representation
 

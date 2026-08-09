@@ -1,4 +1,4 @@
-# std_types::wide_string/std::width_of (a builtin method)
+# std_types::wide_string/std::width_of (a method)
 
   returns the number of character positions needed to print the string
 

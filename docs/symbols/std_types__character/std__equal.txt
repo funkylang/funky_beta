@@ -1,4 +1,4 @@
-# std_types::character/std::equal (a builtin method)
+# std_types::character/std::equal (a method)
 
   compares two characters for equality
 

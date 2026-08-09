@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::equal (a builtin method)
+# std_types::file_descriptor/std::equal (a method)
 
   compares two file descriptors for equality
 

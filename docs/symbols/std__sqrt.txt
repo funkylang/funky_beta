@@ -1,4 +1,4 @@
-# std::sqrt (a builtin function)
+# std::sqrt (a function)
 
   computes the square root of its argument
 

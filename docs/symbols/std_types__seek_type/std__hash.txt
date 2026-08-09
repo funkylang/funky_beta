@@ -1,4 +1,4 @@
-# std_types::seek_type/std::hash (a builtin method)
+# std_types::seek_type/std::hash (a method)
 
   implements the hash operation for seek types
 

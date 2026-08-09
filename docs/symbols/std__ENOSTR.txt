@@ -1,4 +1,4 @@
-# std::ENOSTR (a builtin object)
+# std::ENOSTR (an object)
 
   the error number for "Device not a stream"
 

@@ -1,4 +1,4 @@
-# std::ESRCH (a builtin object)
+# std::ESRCH (an object)
 
   the error number for "no such process"
 

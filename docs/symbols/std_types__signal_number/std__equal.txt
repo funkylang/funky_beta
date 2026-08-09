@@ -1,4 +1,4 @@
-# std_types::signal_number/std::equal (a builtin method)
+# std_types::signal_number/std::equal (a method)
 
   implements the equal operation for signal numbers
 

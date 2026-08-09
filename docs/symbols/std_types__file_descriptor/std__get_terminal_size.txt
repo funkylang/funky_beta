@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::get_terminal_size (a builtin I/O-method)
+# std_types::file_descriptor/std::get_terminal_size (an I/O-method)
 
   retrieves the current width and height of the terminal
 

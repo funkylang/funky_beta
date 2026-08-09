@@ -1,4 +1,4 @@
-# std::SIGPROF (a builtin object)
+# std::SIGPROF (an object)
 
   the signal number for profiling signals
 

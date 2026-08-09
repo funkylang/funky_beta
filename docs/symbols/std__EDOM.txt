@@ -1,4 +1,4 @@
-# std::EDOM (a builtin object)
+# std::EDOM (an object)
 
   the error number for a mathematical argument out of domain of the function
 

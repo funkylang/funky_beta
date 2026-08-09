@@ -1,4 +1,4 @@
-# std::ENOTCONN (a builtin object)
+# std::ENOTCONN (an object)
 
   the error number for "Transport endpoint is not connected"
 

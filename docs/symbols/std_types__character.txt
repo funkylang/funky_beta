@@ -1,4 +1,4 @@
-# std_types::character (a builtin type derived from std_types::object)
+# std_types::character (a type derived from std_types::object)
 
   a unicode code point encoded as a 32-bit value
 

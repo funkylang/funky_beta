@@ -1,4 +1,4 @@
-# std_types::real/std::over (a builtin method)
+# std_types::real/std::over (a method)
 
   implements the over operation for real numbers
 

@@ -1,4 +1,4 @@
-# std::pass (a builtin function)
+# std::pass (a function)
 
   does nothing
 

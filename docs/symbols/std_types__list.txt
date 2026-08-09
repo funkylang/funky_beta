@@ -1,4 +1,4 @@
-# std_types::list (a builtin type derived from std_types::generic_list)
+# std_types::list (a type derived from std_types::generic_list)
 
   an ordered, enumerated sequence of items
 

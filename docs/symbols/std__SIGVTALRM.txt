@@ -1,4 +1,4 @@
-# std::SIGVTALRM (a builtin object)
+# std::SIGVTALRM (an object)
 
   the signal number for virtual timer expired
 

@@ -1,4 +1,4 @@
-# std_types::function/std::parameter_count_of (a builtin method)
+# std_types::function/std::parameter_count_of (a method)
 
   the number of arguments to supply in calls to this function
 

@@ -1,4 +1,4 @@
-# std_types::signal_number (a builtin type derived from std_types::object)
+# std_types::signal_number (a type derived from std_types::object)
 
   a signal number
 

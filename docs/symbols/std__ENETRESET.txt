@@ -1,4 +1,4 @@
-# std::ENETRESET (a builtin object)
+# std::ENETRESET (an object)
 
   the error number for the "Network dropped connection on reset" error
 

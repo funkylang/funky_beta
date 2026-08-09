@@ -1,4 +1,4 @@
-# std::SIGXFSZ (a builtin object)
+# std::SIGXFSZ (an object)
 
   the signal number for file size limit exceeded
 

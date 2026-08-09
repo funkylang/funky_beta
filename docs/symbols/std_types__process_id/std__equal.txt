@@ -1,4 +1,4 @@
-# std_types::process_id/std::equal (a builtin method)
+# std_types::process_id/std::equal (a method)
 
   compares two process ids for equality
 

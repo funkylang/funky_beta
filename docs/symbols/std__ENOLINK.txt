@@ -1,4 +1,4 @@
-# std::ENOLINK (a builtin object)
+# std::ENOLINK (an object)
 
   the error number for the "no link" error
 

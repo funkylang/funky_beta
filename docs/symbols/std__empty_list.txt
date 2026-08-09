@@ -1,4 +1,4 @@
-# std::empty_list (a builtin object)
+# std::empty_list (an object)
 
   an empty list
 

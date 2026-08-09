@@ -1,4 +1,4 @@
-# std::character_array (a builtin function)
+# std::character_array (a function)
 
   constructs an empty array
 

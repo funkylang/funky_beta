@@ -1,4 +1,4 @@
-# std_types::file_descriptor/std::hash (a builtin method)
+# std_types::file_descriptor/std::hash (a method)
 
   returns a hash value for a file descriptor
 

@@ -1,4 +1,4 @@
-# std::get_first_mac_address (a builtin I/O-function)
+# std::get_first_mac_address (an I/O-function)
 
   returns the first available MAC address of the system
 

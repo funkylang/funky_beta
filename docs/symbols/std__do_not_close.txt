@@ -1,4 +1,4 @@
-# std::do_not_close (a builtin I/O-function)
+# std::do_not_close (an I/O-function)
 
   sets the close-on-exec flag of the specified file descriptor
 

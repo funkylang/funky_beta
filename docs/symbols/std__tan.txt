@@ -1,4 +1,4 @@
-# std::tan (a builtin function)
+# std::tan (a function)
 
   computes the tangent of a value
 

@@ -1,4 +1,4 @@
-# std::link (a builtin I/O-function)
+# std::link (an I/O-function)
 
   creates a hard link
 

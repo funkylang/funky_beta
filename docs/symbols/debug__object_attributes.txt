@@ -1,4 +1,4 @@
-# debug::object_attributes (a builtin function)
+# debug::object_attributes (a function)
 
   returns a list of all attributes of an object
 

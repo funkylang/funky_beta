@@ -1,4 +1,4 @@
-# std_types::uint32_array/std::equal (a builtin method)
+# std_types::uint32_array/std::equal (a method)
 
   implements the *equal* operation for unsigned 32-bit arrays
 

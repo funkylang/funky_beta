@@ -1,4 +1,4 @@
-# std_types::undefined (a builtin type)
+# std_types::undefined (a type)
 
   the prototype for the singleton undefined object
 

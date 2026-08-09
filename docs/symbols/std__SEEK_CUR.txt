@@ -1,4 +1,4 @@
-# std::SEEK_CUR (a builtin object)
+# std::SEEK_CUR (an object)
 
   the seek type for seeking relative to the current position
 

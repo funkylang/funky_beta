@@ -1,4 +1,4 @@
-# std::SIGIO (a builtin object)
+# std::SIGIO (an object)
 
   the signal number for I/O possible
 

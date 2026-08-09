@@ -1,4 +1,4 @@
-# std_types::error/std::error_details_of (a builtin method)
+# std_types::error/std::error_details_of (a method)
 
   retrieves the attribute associated with the error object
 

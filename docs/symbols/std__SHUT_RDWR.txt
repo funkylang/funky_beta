@@ -1,4 +1,4 @@
-# std::SHUT_RDWR (a builtin object)
+# std::SHUT_RDWR (an object)
 
   the shutdown type for reading and writing
 

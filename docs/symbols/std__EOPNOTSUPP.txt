@@ -1,4 +1,4 @@
-# std::EOPNOTSUPP (a builtin object)
+# std::EOPNOTSUPP (an object)
 
   the error number for the error "Operation not supported on socket"
 

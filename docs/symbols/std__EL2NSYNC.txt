@@ -1,4 +1,4 @@
-# std::EL2NSYNC (a builtin object)
+# std::EL2NSYNC (an object)
 
   the error number for "Level 2 not synchronized"
 

@@ -1,4 +1,4 @@
-# std::ENOSYS (a builtin object)
+# std::ENOSYS (an object)
 
   the error number for "Function not implemented"
 

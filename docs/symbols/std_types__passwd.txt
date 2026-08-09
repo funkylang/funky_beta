@@ -1,4 +1,4 @@
-# std_types::passwd (a builtin type derived from std_types::object)
+# std_types::passwd (a type derived from std_types::object)
 
   a POSIX passwd structure
 

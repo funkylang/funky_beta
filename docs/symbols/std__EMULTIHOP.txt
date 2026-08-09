@@ -1,4 +1,4 @@
-# std::EMULTIHOP (a builtin object)
+# std::EMULTIHOP (an object)
 
   the error number for a multihop attempted
 

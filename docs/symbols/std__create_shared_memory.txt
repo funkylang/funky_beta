@@ -1,4 +1,4 @@
-# std::create_shared_memory (a builtin I/O-function)
+# std::create_shared_memory (an I/O-function)
 
   creates a block of shared memory
 

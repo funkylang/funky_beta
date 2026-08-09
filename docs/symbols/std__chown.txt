@@ -1,4 +1,4 @@
-# std::chown (a builtin I/O-function)
+# std::chown (an I/O-function)
 
   changes the owner and group of the specified file
 

@@ -1,4 +1,4 @@
-# std::SIGBUS (a builtin object)
+# std::SIGBUS (an object)
 
   the signal number for a bus error
 

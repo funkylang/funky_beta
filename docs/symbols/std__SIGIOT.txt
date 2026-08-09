@@ -1,4 +1,4 @@
-# std::SIGIOT (a builtin object)
+# std::SIGIOT (an object)
 
   the signal number for I/O trap
 

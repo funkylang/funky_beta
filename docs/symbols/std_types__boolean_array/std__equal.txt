@@ -1,4 +1,4 @@
-# std_types::boolean_array/std::equal (a builtin method)
+# std_types::boolean_array/std::equal (a method)
 
   implements the *equal* operation
 

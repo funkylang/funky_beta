@@ -1,4 +1,4 @@
-# std_types::process_id/std::hash (a builtin method)
+# std_types::process_id/std::hash (a method)
 
   returns a hash value
 

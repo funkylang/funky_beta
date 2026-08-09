@@ -1,4 +1,4 @@
-# std::EDESTADDRREQ (a builtin object)
+# std::EDESTADDRREQ (an object)
 
   the error number for the error "Destination address required"
 

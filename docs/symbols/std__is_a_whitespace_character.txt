@@ -1,4 +1,4 @@
-# std::is_a_whitespace_character (a builtin function)
+# std::is_a_whitespace_character (a function)
 
   returns <true> for whitespace characters
 

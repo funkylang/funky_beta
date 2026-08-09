@@ -1,4 +1,4 @@
-# std::ENOMSG (a builtin object)
+# std::ENOMSG (an object)
 
   the error number for "no message of desired type"
 

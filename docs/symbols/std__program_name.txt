@@ -1,4 +1,4 @@
-# std::program_name (a builtin object)
+# std::program_name (an object)
 
   the name of the current process
 

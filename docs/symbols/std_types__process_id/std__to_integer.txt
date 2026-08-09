@@ -1,4 +1,4 @@
-# std_types::process_id/std::to_integer (a builtin method)
+# std_types::process_id/std::to_integer (a method)
 
   converts a process id into an integer number
 

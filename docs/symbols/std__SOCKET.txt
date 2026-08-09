@@ -1,4 +1,4 @@
-# std::SOCKET (a builtin object)
+# std::SOCKET (an object)
 
   the file type for sockets
 
