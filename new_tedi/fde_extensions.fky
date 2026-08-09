@@ -264,7 +264,6 @@ $fde_context_help: (io state x y lines _info)
   if
     symbols.is_defined:
       $identifier get_identifier_at_xy(x y lines)
-      debug::dump `identifier
       if
 	identifier.is_defined:
 	  if
@@ -279,7 +278,6 @@ $fde_context_help: (io state x y lines _info)
 		    symbols(symbol).is_undefined
 		    next
 		    :
-		      debug::dump `symbol
 		      load_symbol symbol
 		no_help_available
 
