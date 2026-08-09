@@ -1,0 +1,64 @@
+#
+  Copyright (C) 2026 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require ./widgets>
+
+$std::create_data_dialog: (wm data)
+  $fields data_fields_of(data)
+  $possible_field_values possible_values_of(data)
+  $widget_options default_value(widget_options_of(data) empty_hash_table)
+  initialize_rendering wm:
+    !current_dialog_data data
+    $widgets
+      map
+	fields
+	: (field)
+	  field $name $field_of
+	  $possible_values possible_field_values(name)
+	  $options default_value(widget_options(name) empty_list)
+	  update_if possible_values.is_undefined &possible_values
+	    -> possible_values_of(field_of)
+	  if
+	    field_of(data).is_a_unique_item:
+	      list
+		label(push(name ':'))
+		vertical_group
+		  NARROW
+		  map
+		    possible_values: (value)
+		      radio_button
+			value.to_string.to_lower_case
+			field_of = value
+	    :
+	      list
+		label(push(name ':'))
+		list_box
+		  options
+		  field_of
+		  possible_values
+    create_dialog wm data name_of(data):
+      vertical_group
+	CENTER
+	table_group
+	  widgets
+	horizontal_group
+	  push_button("Ok" = OKAY)
+	  push_button("Cancel" = CANCEL)
