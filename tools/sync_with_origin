@@ -26,11 +26,12 @@ echo
 
 # --- Step 2: Check where we stand ---
 LOCAL_AHEAD=$(git rev-list --count origin/master..HEAD 2>/dev/null || echo 0)
+ORIGIN_AHEAD=$(git rev-list --count HEAD..origin/master 2>/dev/null || echo 0)
 HAS_STAGED=$(git diff --cached --quiet 2>/dev/null && echo 0 || echo 1)
 HAS_UNTRACKED=$(git ls-files --others --exclude-standard | head -1)
 HAS_MODIFIED=$(git diff --quiet 2>/dev/null && echo 0 || echo 1)
 
-if [ "$LOCAL_AHEAD" -eq 0 ] && [ "$HAS_STAGED" -eq 0 ] && [ -z "$HAS_UNTRACKED" ] && [ "$HAS_MODIFIED" -eq 0 ]; then
+if [ "$LOCAL_AHEAD" -eq 0 ] && [ "$ORIGIN_AHEAD" -eq 0 ] && [ "$HAS_STAGED" -eq 0 ] && [ -z "$HAS_UNTRACKED" ] && [ "$HAS_MODIFIED" -eq 0 ]; then
     echo "Repo is clean and in sync with origin/master. Nothing to do."
     exit 0
 fi
