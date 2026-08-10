@@ -1,15 +1,35 @@
 # Lists
 
-  A list is a variable sized collection of elements.
+  A list is a variable-sized, ordered collection of heterogeneous elements.
 
-  The elements are accessed using a one-based index.
+  Elements are accessed with a one-based index. Negative indices count from
+  the end of the list (e.g. index `-1` is the last element).
 
-  Negative indices are supported and count from the end of the list.
+  Lists are one of the core data types in Funky. They are the underlying
+  container for "rest parameters" and the base type for strings, octet
+  strings, and wide strings.
 
-  Lists are one of the basic data types in Funky.
+  Lists are **immutable** — operations that "modify" a list return a new list
+  that shares structure with the original when possible (structure sharing).
+  This makes append, push, and range operations amortized O(1).
 
-  They are used to hold the values of so-called "rest parameters".
+  Key list operations:
 
-  Related topics: Collections
+  * Construction: `<std::list>`, `<std::empty_list>`
+  * Adding: `<std::push>` (single item), `<std::append>` (multiple lists)
+  * Removing: `<std::pop>` (returns last item), `<std::drop>` (discards last)
+  * Inspecting: `<std::peek>` (last item), `<std::range>` (sublist)
+  * Transforming: `<std::flatten>` (collapse nesting), `<std::spread>`
+    (return items as separate results)
+  * Reducing: `<std::reduce>`, `<std::reduce_rows>`, `<std::reduce_columns>`
+  * Properties: `<std::length_of>`, `<std::is_empty>`, `<std::is_not_empty>`
+
+  Converting between types:
+
+  * `<std::to_list>` — polymorphic conversion to a list
+  * `<std_types::list/std::to_hash_bag>` — from key-value pairs to a hash bag
+  * `<std_types::list/std::to_hash_table>` — from key-value pairs to a hash table
+
+  Related topics: Collections, Strings, Sets, Tables
 
 ((defined in basic/types/collections/lists/list.fky))
