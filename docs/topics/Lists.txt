@@ -9,7 +9,7 @@
   container for "rest parameters" and the base type for strings, octet
   strings, and wide strings.
 
-  Lists are **immutable** — operations that "modify" a list return a new list
+  Lists are **immutable** -- operations that "modify" a list return a new list
   that shares structure with the original when possible (structure sharing).
   This makes append, push, and range operations amortized O(1).
 
@@ -26,9 +26,9 @@
 
   Converting between types:
 
-  * `<std::to_list>` — polymorphic conversion to a list
-  * `<std_types::list/std::to_hash_bag>` — from key-value pairs to a hash bag
-  * `<std_types::list/std::to_hash_table>` — from key-value pairs to a hash table
+  * `<std::to_list>` -- polymorphic conversion to a list
+  * `<std_types::list/std::to_hash_bag>` -- from key-value pairs to a hash bag
+  * `<std_types::list/std::to_hash_table>` -- from key-value pairs to a hash table
 
   Related topics: Collections, Strings, Sets, Tables
 

@@ -1,7 +1,7 @@
 # Strings
 
   A string is an ordered sequence of characters. Each character is a tagged
-  unsigned 32-bit integer — typically a Unicode code point, but also usable
+  unsigned 32-bit integer -- typically a Unicode code point, but also usable
   for other values like 24-bit colour codes.
 
   Strings use one-based indexing. Negative indices count from the end.
@@ -23,7 +23,7 @@
   * Extraction: `<std::before>`, `<std::behind>`, `<std::between>`
     `<std::until>`, `<std::from>`
   * Truncation: `<std::truncate_before>`, `<std::truncate_behind>`
-    `<std::truncate_from>`, `<std::truncate_until>` — return the original
+    `<std::truncate_from>`, `<std::truncate_until>` -- return the original
     string if the expression is not found
   * Prefix/suffix: `<std::has_prefix>`, `<std::has_suffix>`,
     `<std::without_prefix>`, `<std::without_suffix>`
@@ -37,10 +37,10 @@
 
   Subtypes:
 
-  * `<std_types::octet_string>` — 8-bit characters, used for binary data
+  * `<std_types::octet_string>` -- 8-bit characters, used for binary data
     or UTF-8 encoded strings. Generated automatically when all characters
     fit in 8 bits.
-  * `<std_types::wide_string>` — fixed-width character encoding for
+  * `<std_types::wide_string>` -- fixed-width character encoding for
     terminal rendering. Create with `<std::to_wide>`.
 
   Strings share the list API: push, pop, drop, peek, range, append,
