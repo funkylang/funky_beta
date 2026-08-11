@@ -2,8 +2,8 @@
 """Validate Funky manual page docs against conventions and all_symbols.txt.
 
 Usage:
-    tools/funky_validate_manual_pages DOC_PATH
-    tools/funky_validate_manual_pages
+    tools/validate_existing_pages DOC_PATH
+    tools/validate_existing_pages
 
 With one path, validates that single file.
 With no arguments, validates all files under docs/symbols/.
@@ -14,7 +14,6 @@ Exit 0 if all clean, exit 1 if any issues found.
 import re
 import sys
 import os
-from datetime import datetime
 from pathlib import Path
 from difflib import get_close_matches
 
@@ -339,34 +338,6 @@ def collect_doc_files(paths):
         return sorted(DOCS_DIR.rglob("*.txt"))
 
 
-def update_timestamp(filepath):
-    """Update the timestamp line to the current time. Returns True if changed."""
-    with open(filepath) as fh:
-        lines = fh.readlines()
-
-    now = datetime.now().strftime("((%Y-%m-%d %H:%M:%S))")
-    changed = False
-    for i, line in enumerate(lines):
-        stripped = line.strip()
-        if re.match(r"^\(\(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\)\)$", stripped):
-            indent = line[:len(line) - len(line.lstrip())]
-            lines[i] = indent + now + "\n"
-            changed = True
-            break
-        elif re.search(r"\(\(\d{4}-\d{2}-\d{2}", stripped):
-            # Malformed timestamp — replace anyway
-            indent = line[:len(line) - len(line.lstrip())]
-            lines[i] = indent + now + "\n"
-            changed = True
-            break
-
-    if changed:
-        with open(filepath, "w") as fh:
-            fh.writelines(lines)
-
-    return changed
-
-
 def main():
     paths = sys.argv[1:] if len(sys.argv) > 1 else []
     symbols = load_symbols()
@@ -376,15 +347,6 @@ def main():
     if not files:
         print("No doc files found.")
         return 1
-
-    # Update timestamps only on explicitly-passed files (not during full sweep)
-    if paths:
-        updated = 0
-        for filepath in files:
-            if update_timestamp(filepath):
-                updated += 1
-        if updated:
-            print(f"Updated timestamp on {updated} file{'s' if updated != 1 else ''}.")
 
     all_issues = []
     files_ok = 0

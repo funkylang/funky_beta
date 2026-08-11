@@ -1,3 +1,0 @@
-#!/bin/bash
-cd "$(dirname "$0")"/..
-exec python3 tools/funky_verify_examples.py "$@"
