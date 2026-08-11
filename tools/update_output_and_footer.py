@@ -41,11 +41,17 @@ def update_footer(filepath):
             indent = line[:len(line) - len(line.lstrip())]
             lines[i] = indent + credit
             changed = True
+        # Remove ((revised)) entries — only users add annotations, not the tool
+        elif stripped == "((revised))":
+            lines[i] = None  # mark for removal
+            changed = True
 
     # Remove blank lines between footer ((...)) lines
     if changed:
         cleaned = []
         for i, line in enumerate(lines):
+            if line is None:  # removed ((revised))
+                continue
             if line.strip() == '' and i > 0 and i < len(lines) - 1:
                 prev_is_footer = lines[i-1].strip().startswith('((')
                 next_is_footer = lines[i+1].strip().startswith('((')

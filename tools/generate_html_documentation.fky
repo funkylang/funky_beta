@@ -1267,7 +1267,8 @@ $check_whether_everything_is_up_to_date:
 			>
 			  modification_time_of(txt_info)
 			  modification_time_of(html_info)
-		      -> false
+		      :
+			-> false
 		      next
 	  next
       -> true
