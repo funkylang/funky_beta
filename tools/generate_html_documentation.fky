@@ -1011,7 +1011,7 @@ $text_to_html: (text)
 		      $method append(title "/:")
 		      GROUP
 			: H2 "Type function"
-			: A "href" = method.to_filename
+			#: A "href" = method.to_filename
 			: P "class" = "description"
 			  convert(get_short_description(method))
 
