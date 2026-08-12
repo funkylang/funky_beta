@@ -87,7 +87,9 @@ def collect_example_lines(lines, start):
 
 
 def run_example(code_lines):
-    """Run code via fkyrun, return (section_name, content_string)."""
+    """Run code via fkyrun, return (section_name, content_string).
+    If both stdout and stderr have content, return ('Both', 'stdout\\n---\\nstderr').
+    """
     if not code_lines:
         return None, None
     fd, tmp_path = tempfile.mkstemp(suffix='.fky')
@@ -105,11 +107,16 @@ def run_example(code_lines):
         stdout, stderr, exit_code = '', 'TIMEOUT', 1
     finally:
         Path(tmp_path).unlink()
+    stdout_stripped = stdout.strip()
+    stderr_stripped = stderr.strip()
+    if stdout_stripped and stderr_stripped:
+        # Both stdout and stderr have content — return both
+        return 'Both', f'{stdout_stripped}\n---\n{stderr_stripped}'
     if exit_code == 0:
-        output = stdout.strip() or stderr.strip() or '(no output)'
+        output = stdout_stripped or stderr_stripped or '(no output)'
         return 'Output', output
     else:
-        return 'Error output', stderr.strip() if stderr.strip() else f'EXIT CODE {exit_code}'
+        return 'Error output', stderr_stripped if stderr_stripped else f'EXIT CODE {exit_code}'
 
 
 def find_all_section_ranges(lines, name):
@@ -215,32 +222,72 @@ def process_doc(path):
             print("  empty Example, skipped")
             continue
 
+        if section_name == 'Both':
+            # Split into Output: and Error output: sections
+            stdout_part, stderr_part = content.split('\n---\n', 1)
+            new_output = build_new_section('Output', stdout_part)
+            new_error = build_new_section('Error output', stderr_part)
+
+            # Find the range between this code block end and the next example (or end of file)
+            next_example_start = example_starts[real_idx + 1] if real_idx + 1 < len(example_starts) else len(lines)
+
+            # Collect sections to remove — use header position (hs) for range check,
+            # and remove from header position to avoid eating into the code block.
+            ranges_to_remove = []
+            for section_name_check in ['Error output', 'Output']:
+                for rs, end, hs in find_all_section_ranges(lines, section_name_check):
+                    if hs >= code_end and hs < next_example_start:
+                        ranges_to_remove.append((hs, end))
+            # Sort by start position descending so removal is from end first
+            ranges_to_remove.sort(key=lambda r: r[0], reverse=True)
+            for hs, end in ranges_to_remove:
+                lines = lines[:hs] + lines[end:]
+
+            # Insert both sections right after the code block
+            # code_end is unchanged because removals are all at positions >= code_end
+            insert = code_end
+            lines = lines[:insert] + new_output + new_error + lines[insert:]
+            content_changed = True
+            continue
+
         new_section = build_new_section(section_name, content)
-        footer_start = next((i for i, l in enumerate(lines) if re.match(r'^\(\(', l)), None)
 
         if matched:
+            # Extract existing content of the primary section for comparison
             kept_type, kept_range = matched
             rs, end, hs = kept_range
-            # Extract existing content for comparison
             existing_body = [l[4:] if l.startswith('    ') else l
                              for l in lines[hs+1:end] if l.strip() != '']
             existing_content = '\n'.join(existing_body)
             new_content = '\n'.join([l[4:] for l in new_section if l.startswith('    ')])
+            content_same = (kept_type == section_name and new_content == existing_content)
 
-            if kept_type != section_name:
-                # Type mismatch (e.g. was Output, now Error output) — always replace
-                lines = lines[:rs] + new_section + lines[end:]
-                content_changed = True
-            elif new_content != existing_content:
-                # Content actually changed
-                lines = lines[:rs] + new_section + lines[end:]
-                content_changed = True
+            # Count Output/Error output sections in range using header positions
+            next_example_start = example_starts[real_idx + 1] if real_idx + 1 < len(example_starts) else len(lines)
+            sections_in_range = []
+            for sn in ['Error output', 'Output']:
+                for rrs, rend, rhs in find_all_section_ranges(lines, sn):
+                    if rhs >= code_end and rhs < next_example_start:
+                        sections_in_range.append((rhs, rend, sn))
+
+            # For single result: expect exactly 1 section, otherwise clean up
+            if content_same and len(sections_in_range) == 1:
+                # Content unchanged and section count is correct — nothing to do
+                pass
             else:
-                pass  # unchanged — reported at end
+                # Remove ALL existing Output/Error output sections in range,
+                # then insert the correct one — avoids index-shifting bugs.
+                # Remove from end to start so indices stay valid.
+                # Use header position (rhs) not range_start to avoid eating into the code block.
+                sections_in_range.sort(key=lambda s: s[0], reverse=True)
+                for rhs, rend, _ in sections_in_range:
+                    lines = lines[:rhs] + lines[rend:]
+                # Insert right after the code block (code_end unchanged)
+                lines = lines[:code_end] + new_section + lines[code_end:]
+                content_changed = True
         else:
-            # No existing output — insert before footer
-            insert = footer_start if footer_start else len(lines)
-            lines = lines[:insert] + new_section + lines[insert:]
+            # No existing output — insert right after the code block
+            lines = lines[:code_end] + new_section + lines[code_end:]
             content_changed = True
 
     # deduplicate consecutive blank lines (keep max 1)

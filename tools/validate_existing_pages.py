@@ -204,10 +204,43 @@ def validate_file(filepath, symbols, valid_topics):
                     issues.append((i + 1, f"topic '{topic}' not found"))
 
     # --- Validate Example/Output pairing ---
+    # Walk document sequentially, pairing each Example with the section(s) that follow.
+    # An Example followed by Output: alone OR Error output: alone = one pair.
+    # An Example followed by Output: AND Error output: (consecutively) = one "Both" pair.
+    # A pair is CLOSED by the next Example, another section, or end of file.
+    example_output_pairs = 0
+    orphan_outputs = 0
+    in_example = False
+    has_output = False
+    for i in range(len(lines)):
+        sec_match = SECTION_RE.match(lines[i])
+        if sec_match:
+            section_name = sec_match.group(1)
+            if section_name == "Example:":
+                if in_example and has_output:
+                    example_output_pairs += 1  # close previous pair
+                in_example = True
+                has_output = False
+            elif section_name in ("Output:", "Error output:"):
+                if in_example:
+                    has_output = True  # mark that this Example has output (don't count yet)
+                else:
+                    orphan_outputs += 1
+            elif in_example:
+                # Another section before any output — close pair with no output
+                if has_output:
+                    example_output_pairs += 1
+                in_example = False
+                has_output = False
+    # Close final pair if still open
+    if in_example and has_output:
+        example_output_pairs += 1
+
     num_examples = section_counts.get("Example:", 0)
-    num_outputs = section_counts.get("Output:", 0) + section_counts.get("Error output:", 0)
-    if num_examples > 0 and num_examples != num_outputs:
-        issues.append((0, f"Example/Output count mismatch: {num_examples} Example(s) but {num_outputs} Output/Error output section(s) — each Example must have exactly one Output or Error output"))
+    if orphan_outputs > 0:
+        issues.append((0, f"Example/Output count mismatch: {num_examples} Example(s) but {orphan_outputs} orphan Output/Error output section(s) without a preceding Example"))
+    elif num_examples > 0 and example_output_pairs != num_examples:
+        issues.append((0, f"Example/Output count mismatch: {num_examples} Example(s) but {example_output_pairs} output pair(s) — each Example must have exactly one Output or Error output"))
 
     # --- Required sections presence ---
     has_parameter = "Parameter:" in found_sections or "Parameters:" in found_sections
