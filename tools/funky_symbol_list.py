@@ -589,6 +589,32 @@ def collect_module_polys(text):
     return polys
 
 
+# Global set of polymorphic function names that belong to private namespaces.
+# Populated by collect_private_polys() before any resolve_attr_namespace call.
+PRIVATE_POLY_NAMES = set()
+
+
+def collect_private_polys():
+    """Scan all compiled .c files for polymorphic functions in private namespaces.
+
+    Returns a set of bare function names (e.g. {'contents_of', 'retrieve'}.)
+    """
+    names = set()
+    for lib in LIBRARIES:
+        lib_dir = REPO_ROOT / lib
+        if not lib_dir.is_dir():
+            continue
+        for c_file in sorted(lib_dir.rglob("*.c")):
+            text = c_file.read_text()
+            for m in re.finditer(
+                r'FOT_POLYMORPHIC[\s\S]{0,50}?"([^"]*?)\\000([^\"]*)"', text
+            ):
+                name, ns = m.group(1), m.group(2)
+                if ns in PRIVATE_NAMESPACES:
+                    names.add(name)
+    return names
+
+
 def resolve_attr_namespace(attr_name, local_polys):
     """Resolve the namespace of a bare attribute/method name using module poly info.
 
@@ -598,6 +624,7 @@ def resolve_attr_namespace(attr_name, local_polys):
       - If attr_name is a private-namespace poly, return (None, True) to skip.
       - If attr_name has an explicit namespace (contains ::), return as-is.
       - If attr_name matches a namespaced poly, return with that namespace.
+      - If attr_name is a known private-namespace poly, return (None, True) to skip.
       - Otherwise fall back to std::.
     """
     attr_name = attr_name.replace("__", "::")
@@ -606,6 +633,10 @@ def resolve_attr_namespace(attr_name, local_polys):
         return (None, True) if ns in PRIVATE_NAMESPACES else (attr_name, False)
     ns = local_polys.get(attr_name)
     if ns is None:
+        # Check if this bare name belongs to a private-namespace poly
+        # declared in another module (e.g. basic_collections::contents_of)
+        if attr_name in PRIVATE_POLY_NAMES:
+            return None, True
         return f"std::{attr_name}", False
     if ns == "" or ns in PRIVATE_NAMESPACES:
         return None, True
@@ -832,6 +863,8 @@ def parse_compiled_io():
 
 def main():
     all_symbols = {}
+    # Collect private-namespace poly names before resolve_attr_namespace is used
+    PRIVATE_POLY_NAMES.update(collect_private_polys())
 
     # Builtins
     if BUILTINS_C.exists():
