@@ -1892,9 +1892,9 @@ static TAB_NUM t_func_hash_table_node___map_1[] = {
   LOCAL(2), // 435_26_self
   // map(self map_1)
   var_map, 2, LOCAL(2), var_map_1, 1, LOCAL(1),
-  // typed_tuple self map(self map_1)
-  var_typed_tuple, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
-  POS(436, 20),
+  // new hash_table_node map(self map_1)
+  var_new, 2, var_hash_table_node, LOCAL(1), TAIL_CALL,
+  POS(436, 23),
   POS(436, 3),
   LOCAL(2)
 };
@@ -1910,9 +1910,9 @@ static TAB_NUM t_func_hash_table_node___map_2[] = {
   LOCAL(2), // 438_26_self
   // map(self map_2)
   var_map, 2, LOCAL(2), var_map_2, 1, LOCAL(1),
-  // typed_tuple self map(self map_2)
-  var_typed_tuple, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
-  POS(439, 20),
+  // new hash_table_node map(self map_2)
+  var_new, 2, var_hash_table_node, LOCAL(1), TAIL_CALL,
+  POS(439, 23),
   POS(439, 3),
   LOCAL(2)
 };
@@ -4501,7 +4501,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "map\000", NULL,
-    {.position = POS(436, 20)}
+    {.position = POS(436, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
