@@ -1026,4 +1026,4 @@ ${TAB}  compiler/funky --print-c $FKYNAME > $FILENAME; \\"
 done
 
 echo 'html/manual.html: sml2html'
-echo "$TAB"tools/sml2html documentation/manual.sml \>html/manual.html
+echo "$TAB"LD_LIBRARY_PATH=\"`pwd`\" tools/sml2html documentation/manual.sml \>html/manual.html
