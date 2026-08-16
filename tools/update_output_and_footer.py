@@ -195,12 +195,16 @@ def run_example(code_lines):
         Path(tmp_path).unlink()
     stdout_stripped = stdout.strip()
     stderr_stripped = stderr.strip()
-    if stdout_stripped and stderr_stripped:
-        # Both stdout and stderr have content — return both
-        return 'Both', f'{stdout_stripped}\n---\n{stderr_stripped}'
     if exit_code == 0:
-        output = stdout_stripped or stderr_stripped or '(no output)'
-        return 'Output', output
+        if stdout_stripped and stderr_stripped:
+            output = f'{stdout_stripped}\n---\n{stderr_stripped}'
+            return 'Both', output
+        elif stderr_stripped:
+            return 'Error output', stderr_stripped
+        elif stdout_stripped:
+            return 'Output', stdout_stripped
+        else:
+            return 'Output', '(no output)'
     else:
         return 'Error output', stderr_stripped if stderr_stripped else f'EXIT CODE {exit_code}'
 

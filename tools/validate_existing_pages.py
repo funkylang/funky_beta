@@ -66,6 +66,7 @@ def load_valid_topics():
 SECTION_RE = re.compile(r'^  (' + '|'.join(re.escape(s) for s in VALID_SECTIONS) + r')(.*)$')
 
 IO_WARNING = "**This function must be called with I/O-access rights!**"
+IO_PROPAGATION_WARNING = "*This function propagates I/O-access rights to its callback body!*"
 
 
 def load_symbols():
@@ -136,6 +137,13 @@ def validate_file(filepath, symbols, valid_topics):
             if i > 0 and lines[i - 1].strip() != "":
                 issues.append((i + 1, f"I/O warning not on fresh paragraph (line {i} is: '{lines[i - 1].strip()}')"))
             found_sections.add("I/O warning")
+            continue
+
+        # Check for I/O propagation warning
+        if stripped == IO_PROPAGATION_WARNING:
+            if i > 0 and lines[i - 1].strip() != "":
+                issues.append((i + 1, f"I/O propagation warning not on fresh paragraph (line {i} is: '{lines[i - 1].strip()}')"))
+            found_sections.add("I/O propagation")
             continue
 
         # Check for valid section names
@@ -250,6 +258,7 @@ def validate_file(filepath, symbols, valid_topics):
     has_topic = "Topic:" in found_sections or "Topics:" in found_sections
     has_see_also = "See also:" in found_sections
     has_io_warning = "I/O warning" in found_sections
+    has_io_propagation = "I/O propagation" in found_sections
 
     is_io = "I/O-function" in header or "I/O method" in header
     needs_params_results = sym_kind not in NO_PARAMS_RESULTS
@@ -269,16 +278,16 @@ def validate_file(filepath, symbols, valid_topics):
         issues.append((0, "missing See also section"))
 
     # --- I/O warning presence ---
-    if has_io_warning and not is_io:
+    if (has_io_warning or has_io_propagation) and not is_io:
         issues.append((0, "has I/O-access warning but KIND is not I/O"))
-    if is_io and not has_io_warning:
+    if is_io and not (has_io_warning or has_io_propagation):
         issues.append((0, "KIND is I/O but missing I/O-access rights warning"))
 
     # --- I/O warning placement (must be AFTER Results) ---
-    if has_io_warning:
+    if has_io_warning or has_io_propagation:
         io_line_idx = None
         for i, line in enumerate(lines):
-            if line.strip() == IO_WARNING:
+            if line.strip() == IO_WARNING or line.strip() == IO_PROPAGATION_WARNING:
                 io_line_idx = i
                 break
         result_line_idx = None
