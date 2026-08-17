@@ -1162,6 +1162,7 @@ $convert: (text)
 $maybe_add_namespaces: (name)
   cond
     -> name.is_empty -> "[[EMPTY_NAME]]"
+    -> name .has_suffix. "/:" -> name
     -> name .contains. '/':
       append
 	maybe_add_namespaces(name .before. '/')
@@ -1180,11 +1181,17 @@ $to_filename: (name)
   link_filename name.to_absolute_filename
 
 $to_absolute_filename: (name)
-  mangle &name
   if
-    name(1) == '@@'
-    -> append("topics/" range(name 2 -1) ".html")
-    -> append("symbols/" name ".html")
+    name .has_suffix. "/:"
+    :
+      $mangled mangle(name .before. "/")
+      -> append("symbols/" mangled "/TYPE_FUNCTION.html")
+    :
+      mangle &name
+      if
+        name(1) == '@@'
+        -> append("topics/" range(name 2 -1) ".html")
+        -> append("symbols/" name ".html")
 
 $mangle: (name)
   replace_all name
