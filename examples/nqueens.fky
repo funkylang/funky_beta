@@ -1,0 +1,64 @@
+#!/usr/bin/env fkyrun
+
+# Finds a solution to the n-queens problem and draws the board.
+#
+# Usage: fkyrun nqueens.fky [n]
+
+program_parameters!
+  $n
+  list
+    OPTIONAL_PARAMETER "n" 8 to_integer "
+      number of queens to place
+
+
+$has_conflict: (columns row col)
+  from_to 1 row-1
+    : (r)
+      if
+	columns(r) == col || abs(row-r) == abs(col-columns(r))
+	-> true
+	next
+    -> false
+
+$solve_row: (columns row)
+  if
+    row > n
+    -> columns
+    :
+      from_to 1 n
+	: (col)
+	  if
+	    has_conflict(columns row col)
+	    next
+	    :
+	      $found solve_row(push(columns col) row+1)
+	      if
+		found.is_defined
+		-> found
+		next
+	-> undefined
+
+$row_string: (columns row col)
+  if
+    col > n
+    -> ""
+    :
+      if
+	columns(row) == col
+	-> string("Q " row_string(columns row col+1))
+	-> string("- " row_string(columns row col+1))
+
+$draw_board: (columns)
+  from_to 1 n
+    : (row)
+      println! row_string(columns row 1)
+      next!
+
+$solution solve_row(list() 1)
+if
+  solution.is_defined
+  :
+    draw_board! solution
+  :
+    eprintln! "no solution exists for @(n) queens"
+    exit! 1
