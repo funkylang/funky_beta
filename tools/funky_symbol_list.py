@@ -183,11 +183,16 @@ def classify_fot(fot_type, namespace, is_builtin, attr_count=0):
     return base
 
 
-def extract_fot_parent(text, start_pos):
+def extract_fot_parent(text, start_pos, local_polys=None):
     """Extract the parent type from a FOT DERIVED/OBJECT/TYPE struct initializer.
 
     Looks for .type = &FOT_ns_type within 500 chars after the FOT entry.
     Returns the parent type as 'ns::type' or None.
+
+    A value field with an EMPTY namespace is a variable's initial value,
+    not a parent type (genuine parents always carry a namespace). In that
+    case the bare name is resolved with the normal namespace rules
+    (local polys, private filter, std:: fallback).
     """
     # Try builtins.c format first, fall back to module .c format
     is_module_format = False
@@ -201,6 +206,10 @@ def extract_fot_parent(text, start_pos):
             type_name, ns = m.group(1), m.group(2)
         else:
             ns, type_name = m.group(1), m.group(2)
+        if not ns:
+            # Initial value of a variable, not a parent type
+            resolved, skip = resolve_attr_namespace(type_name, local_polys or {})
+            return None if skip else resolved
         # Decode mangled parent name
         if "__" in ns:
             ns = ns.replace("__", "::")
@@ -221,6 +230,11 @@ def parse_c_file(c_path, is_builtin=False):
     text = c_path.read_text()
 
     src = template_source(c_path) if is_builtin else source_label(c_path)
+
+    # Resolve polymorphic function namespaces from this module so bare names
+    # get the correct namespace (e.g. llama::open_model, not std::open_model).
+    # Also used to resolve variable initial values.
+    local_polys = collect_module_polys(text)
 
     # Collect FOT entries
     for m in FOT_ENTRY.finditer(text):
@@ -259,13 +273,10 @@ def parse_c_file(c_path, is_builtin=False):
             # Extract base type for DERIVED, OBJECT, TYPE entries
             base = None
             if fot_type in ("DERIVED", "OBJECT", "TYPE"):
-                base = extract_fot_parent(text, end)
+                base = extract_fot_parent(text, end, local_polys)
             symbols[f"{ns}::{name}"] = (kind, base, src)
 
     # Collect FUNC_INFO -> t_func mapping + IO_CALL detection
-    # Resolve polymorphic function namespaces from this module so bare method
-    # names get the correct namespace (e.g. llama::open_model, not std::open_model).
-    local_polys = collect_module_polys(text)
     for m in FUNC_INFO.finditer(text):
         func_name, table_name = m.group(1), m.group(2)
         # Find the t_func table body and check for IO_CALL
