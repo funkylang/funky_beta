@@ -19,8 +19,17 @@ Where KIND is one of:
     ATTRIBUTE
     UNIQUE_ITEM, CONSTANT, VARIABLE
 
-BASE is the parent type for TYPE/OBJECT entries, or "-" for all other kinds
-and the three root types (std_types::object, std_types::undefined, std_types::error).
+BASE is the parent type for TYPE/OBJECT entries, the initial value for
+VARIABLE entries, and the decoded initial value for CONSTANT entries:
+  - character constants: the Funky hex escape, e.g. '@0xffff;'
+  - integer constants:   bare number, e.g. 1
+  - real constants:      bare number, e.g. 3.1415926535897932846
+  - composite constants (tuples, lists, sequences, value ranges) and
+    anything that cannot be written as a single space-free token: "-"
+All other kinds and the three root types (std_types::object,
+std_types::undefined, std_types::error) use "-" for the base column.
+Constant values are decoded from the module's `constants_table[]` via the
+FOT `.const_idx` reference (runtime reads constants[const_idx - 1]).
 
 source_file is the original .fky or .template source (relative to repo root).
 Symbols from runtime_templates/ are builtins; from library dirs are module symbols.
@@ -219,11 +228,99 @@ def extract_fot_parent(text, start_pos, local_polys=None):
     return None
 
 
+def parse_enum_values(text):
+    """Parse all enum blocks in a .c file into {symbol: integer_value}.
+
+    Handles both explicit assignments (`name = -1`) and auto-increment
+    members (a bare `name` following an explicit one continues the run).
+    Constants use negative values; the auto-increment run for the
+    variable table is harmless (different prefixes, no collisions).
+    """
+    values = {}
+    for block in re.findall(r"enum\s*\{(.*?)\n\}", text, re.S):
+        auto = None
+        for line in block.split("\n"):
+            line = line.strip().rstrip(",")
+            m = re.match(r"(\w+)\s*=\s*(-?\d+)$", line)
+            if m:
+                auto = int(m.group(2))
+                values[m.group(1)] = auto
+                continue
+            m = re.match(r"(\w+)$", line)
+            if m:
+                auto = (auto + 1) if auto is not None else 0
+                values[m.group(1)] = auto
+    return values
+
+
+def parse_constants_table(text):
+    """Parse `static FUNKY_CONSTANT constants_table[] = { ... }`.
+
+    Returns a list of (kind, count, body) tuples in table order, where
+    kind is an FLT_* tag and body is the inner `{...}` initializer.
+    """
+    m = re.search(
+        r"static\s+FUNKY_CONSTANT\s+constants_table\[\]\s*=\s*\{(.*?)\n\};",
+        text, re.S,
+    )
+    if not m:
+        return []
+    return re.findall(r"\{(FLT_\w+),\s*(\d+),\s*(\{[^}]*\})\}", m.group(1))
+
+
+def decode_constant_body(kind, body):
+    """Render a single FUNKY_CONSTANT entry as a space-free value token.
+
+    Characters use the Funky hex escape `'@0x...;'`; integers and reals
+    are bare numbers. Composites (tuples, lists, sequences, value
+    ranges), strings, and anything else return "-" because they would
+    contain spaces if written as literals.
+    """
+    if kind == "FLT_CHARACTER":
+        m = re.search(r"\.value\s*=\s*(\d+)", body)
+        return "'@0x%x;'" % int(m.group(1)) if m else "-"
+    if kind in ("FLT_POSITIVE_INT64", "FLT_NEGATIVE_INT64"):
+        m = re.search(r"\.value\s*=\s*(\d+)", body)
+        if not m:
+            return "-"
+        v = int(m.group(1))
+        return str(-v) if kind == "FLT_NEGATIVE_INT64" else str(v)
+    if kind == "FLT_REAL":
+        m = re.search(r"\.real_value\s*=\s*([-+0-9.eE]+)", body)
+        return m.group(1) if m else "-"
+    return "-"
+
+
+def decode_constant_value(idx, const_enums, const_table):
+    """Decode a CONSTANT's value from its `.const_idx = ...` reference.
+
+    The FOT field negates the (negative) enum value to get the stored
+    const_idx; the runtime reads constants[const_idx - 1]. Returns the
+    rendered value token, or None when it cannot be resolved.
+    """
+    if not const_enums or not const_table:
+        return None
+    sign, prefix, rest = idx.group(1), idx.group(2), idx.group(3)
+    m = re.match(r"(\w+)", rest)
+    if not m:
+        return None
+    sym = prefix + m.group(1)
+    if sym not in const_enums:
+        return None
+    const_idx = -const_enums[sym] if sign == "-" else const_enums[sym]
+    tidx = const_idx - 1
+    if 0 <= tidx < len(const_table):
+        kind, _count, body = const_table[tidx]
+        return decode_constant_body(kind, body)
+    return None
+
+
 def parse_c_file(c_path, is_builtin=False):
     """Parse one .c file: FOT entries + bytecode tables.
 
     Returns dict of {symbol: (kind, base, source_file)}.
-    base is None for non-type symbols.
+    base is the parent type for TYPE/OBJECT entries, the decoded initial
+    value for CONSTANT entries, and None for all other kinds.
     """
     symbols = {}
     io_tables = set()
@@ -235,6 +332,10 @@ def parse_c_file(c_path, is_builtin=False):
     # get the correct namespace (e.g. llama::open_model, not std::open_model).
     # Also used to resolve variable initial values.
     local_polys = collect_module_polys(text)
+
+    # Enum values + constants table, used to decode CONSTANT initial values.
+    const_enums = parse_enum_values(text)
+    const_table = parse_constants_table(text)
 
     # Collect FOT entries
     for m in FOT_ENTRY.finditer(text):
@@ -265,7 +366,12 @@ def parse_c_file(c_path, is_builtin=False):
                     kind = "CONSTANT"
             else:
                 kind = "CONSTANT"
-            symbols[f"{ns}::{name}"] = (kind, None, src)
+            # Decoded constant value lives in the base slot (constants have
+            # no parent type); it survives the CONSTANT -> TYPE upgrade.
+            value = None
+            if kind == "CONSTANT" and idx:
+                value = decode_constant_value(idx, const_enums, const_table)
+            symbols[f"{ns}::{name}"] = (kind, value, src)
         else:
             kind = classify_fot(fot_type, ns, is_builtin, attr_count)
             if kind is None:
