@@ -978,21 +978,33 @@ $text_to_html: (text)
 	  title .contains. dot_or_slash:
 	    $type_name title .before. dot_or_slash
 	    $slot_name title .behind. dot_or_slash
-	    GROUP
-	      : H2 "Base object"
-	      : TABLE
-		: TR
-		    : TD: A "href" = type_name.to_filename type_name
-		    :
-		      TD "class" = "description"
-			convert(get_short_description(type_name))
-	      : H2 "Implements"
-	      : TABLE
-		: TR
-		    : TD: A "href" = slot_name.to_filename slot_name
-		    :
-		      TD "class" = "description"
-			convert(get_short_description(slot_name))
+	    if
+	      slot_name != ":"
+	      :
+	        GROUP
+	          : H2 "Base type"
+	          : TABLE
+			: TR
+			    : TD: A "href" = type_name.to_filename type_name
+			    :
+			      TD "class" = "description"
+				convert(get_short_description(type_name))
+	          : H2 "Implements"
+	          : TABLE
+			: TR
+			    : TD: A "href" = slot_name.to_filename slot_name
+			    :
+			      TD "class" = "description"
+				convert(get_short_description(slot_name))
+	      :
+	        GROUP
+	          : H2 "Base type"
+	          : TABLE
+			: TR
+			    : TD: A "href" = type_name.to_filename type_name
+			    :
+			      TD "class" = "description"
+				convert(get_short_description(type_name))
 	  :
 	    $symbol_info all_symbols(title)
 	    if
@@ -1011,9 +1023,12 @@ $text_to_html: (text)
 		      $method append(title "/:")
 		      GROUP
 			: H2 "Type function"
-			#: A "href" = method.to_filename
-			: P "class" = "description"
-			  convert(get_short_description(method))
+			: TABLE
+			  : TR
+			    : TD: A "href" = method.to_filename "More details"
+			    :
+			      TD "class" = "description"
+				convert(get_short_description(method))
 
 		    $render_methods:
 		      if
