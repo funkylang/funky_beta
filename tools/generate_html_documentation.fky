@@ -979,32 +979,32 @@ $text_to_html: (text)
 	    $type_name title .before. dot_or_slash
 	    $slot_name title .behind. dot_or_slash
 	    if
-	      slot_name != ":"
+	      slot_name == ":"
+	      -> render_base_type_section()
 	      :
-	        GROUP
-	          : H2 "Base type"
-	          : TABLE
-			: TR
-			    : TD: A "href" = type_name.to_filename type_name
-			    :
-			      TD "class" = "description"
-				convert(get_short_description(type_name))
-	          : H2 "Implements"
-	          : TABLE
-			: TR
-			    : TD: A "href" = slot_name.to_filename slot_name
-			    :
-			      TD "class" = "description"
-				convert(get_short_description(slot_name))
-	      :
-	        GROUP
-	          : H2 "Base type"
-	          : TABLE
-			: TR
-			    : TD: A "href" = type_name.to_filename type_name
-			    :
-			      TD "class" = "description"
-				convert(get_short_description(type_name))
+	        append
+	          render_base_type_section()
+	          render_implements_section()
+	
+	    $render_base_type_section:
+	      GROUP
+	        : H2 "Base type"
+	        : TABLE
+	          : TR
+	            : TD: A "href" = type_name.to_filename type_name
+	            :
+	              TD "class" = "description"
+	                convert(get_short_description(type_name))
+	
+	    $render_implements_section:
+	      GROUP
+	        : H2 "Implements"
+	        : TABLE
+	          : TR
+	            : TD: A "href" = slot_name.to_filename slot_name
+	            :
+	              TD "class" = "description"
+	                convert(get_short_description(slot_name))
 	  :
 	    $symbol_info all_symbols(title)
 	    if
