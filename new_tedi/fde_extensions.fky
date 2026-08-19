@@ -284,9 +284,16 @@ $fde_context_help: (io state x y lines _info)
 	  $load_symbol: (symbol)
 	    if
 	      symbols(symbol).is_defined:
-		replace_all &symbol "::" = "__"
-		$filename "html/symbols/@(symbol).html"
-		update_if_not
+	        $filename
+	          if
+	            symbol .has_suffix. "/:":
+	              $type_name symbol .before. "/"
+	              replace_all &type_name "::" = "__"
+	              -> "html/symbols/@(type_name)/TYPE_FUNCTION.html"
+	            :
+	              replace_all &symbol "::" = "__"
+	              -> "html/symbols/@(symbol).html"
+	        update_if_not
 		  do_enable_developer_mode_of(configuration_of(state))
 		  &filename:
 		    append
