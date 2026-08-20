@@ -36,6 +36,24 @@ $std_types::hash_bag std_types::hash_table
 
 $std::empty_hash_bag std_types::hash_bag
 
+$NONE .
+
+$std_types::hash_bag/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  if
+    NONE == value:
+      basic_collections::update_hash_table myself key
+    :
+      if
+	value.is_defined && value != 0:
+	  basic_collections::update_hash_table myself key value
+	:
+	   basic_collections::update_hash_table myself key undefined
+
 $std_types::hash_bag/add:
   (
     self
