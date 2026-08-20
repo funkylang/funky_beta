@@ -1,10 +1,10 @@
-# std_types::table (a type)
+# std_types::table (a type derived from std_types::object)
 
   the prototype object for all tables
 
   A table is a key-value-store. It associcates keys with values.
 
-  Topic: Collections
+  Topics: Tables, Collections
 
   See also: std_types::hash_table, std_types::key_order_table,
             std_types::association_list
