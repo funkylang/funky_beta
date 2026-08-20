@@ -1,0 +1,19 @@
+#!/usr/bin/env fkyrun
+
+$FIFO "/tmp/worldsim.fifo"
+
+try $error: unlink! FIFO
+
+mkfifo FIFO
+
+loop:
+  $fd open(FIFO "r")
+  read $buf fd 512
+  close fd
+  trim &buf
+  println buf
+  if
+    buf == "quit"
+    :
+      unlink FIFO
+    next

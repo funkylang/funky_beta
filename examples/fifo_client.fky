@@ -1,0 +1,7 @@
+#!/usr/bin/env fkyrun
+
+$SERVER_FIFO "/tmp/worldsim.fifo"
+
+$fd open(SERVER_FIFO "r+")
+write $bytes_written fd "Hello, world!"
+close fd

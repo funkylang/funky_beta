@@ -1,0 +1,32 @@
+#!/usr/bin/env fkyrun
+
+$N 100
+
+$primes initialized_boolean_array(N true)
+!primes(1) false
+
+from_to_by 4 N 2
+  : (i)
+    !primes(i) false
+    next
+  :
+    from_to_by 3 isqrt(N) 2
+      : (s)
+	if
+	  primes(s)
+	  :
+	    from_to_by s*s N 2*s
+	      : (i)
+		!primes(i) false
+		next
+	      next
+	  next
+      -> primes
+  !primes
+
+from_to 1 N: (i)
+  if
+    primes(i):
+      println! i
+      next
+    next

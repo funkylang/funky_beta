@@ -1,0 +1,28 @@
+#!/usr/bin/env fkyrun
+
+#
+  curl --request POST --url http://127.0.0.1:8080/completion --data \
+    '{"prompt": "The meaning of life, the","n_predict": 1}'
+
+$json "
+  {"prompt": "The meaning of life","n_predict": 1}
+
+open_tcp_socket! $fd "127.0.0.1" 8080
+write! $_bytes_written fd "
+  POST /completion HTTP/1.1@cr;
+  Content-Type: application/json@cr;
+  Content-Length: @(length_of(json))@cr;
+  Connection: close@cr;
+  @cr;
+  @(json)
+loop
+  :
+    read! fd $buf 4096
+    if
+      buf.is_empty:
+	close! fd
+	println!
+      :
+	print! buf
+	next!
+

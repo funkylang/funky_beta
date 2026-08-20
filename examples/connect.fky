@@ -1,0 +1,110 @@
+#!/usr/bin/env fkyrun
+
+program_parameters!
+  $servername
+  list
+    MANDATORY_PARAMETER "servername" "
+      the name of the server process to connect to
+  $name
+  list
+    VALUED_OPTION "name" "
+      use this name instead of your real username
+
+$server_fifo "/tmp/@(servername).fifo"
+
+getuid! $uid
+getpwuid! $pw uid
+
+update_if name.is_undefined &name -> username_of(pw)
+
+$fifo_path string(home_directory_of(pw) '/' name)
+
+$input_fifo "@(fifo_path).in"
+$output_fifo "@(fifo_path).out"
+
+try $error: unlink! input_fifo
+try !error: unlink! output_fifo
+
+open! $server_fd server_fifo "W"
+if
+  server_fd.is_an_error:
+    Error! "Server is not available!"
+  pass
+
+get_terminal_attributes! STDIN_FILENO $original_attributes
+$attributes original_attributes
+use_canonical_mode &attributes false # we want no line-buffering ...
+echo_characters &attributes false # ... and no echoing of typed in characters
+generate_signals &attributes false # we want to receive ctrl-c & ctrl-z
+enable_xon_xoff_for_output &attributes false # we want to receive ctrl-q & ctrl-s
+map_cr_to_lf_on_input &attributes false # we want to receive ctrl-m
+set_terminal_attributes! $success STDIN_FILENO attributes
+do:
+  #write! $bytes_written STDOUT_FILENO "@esc;[?1003;1006h"
+    # enable mouse tracking
+  pass
+
+umask! $_previous_mask "---------"
+mkfifo! input_fifo "rw-rw-r--"
+mkfifo! output_fifo "rw-rw--w-"
+
+$io std_types::io
+
+write &io server_fd fifo_path
+
+open! $fd_in input_fifo "R+" # we must open it for reading to prevent blocking
+open! $fd_out output_fifo "R"
+
+start_injecting_window_change_events &io
+
+start_reading_from &io STDIN_FILENO
+start_reading_from &io fd_out
+
+$do_send_size true
+
+loop:
+  get_events! &io $events
+  for_each events: (event)
+    event $type $fd $argument
+    case type
+      READ:
+	case fd
+	  STDIN_FILENO:
+	    write &io fd_in argument
+	    next!
+	  fd_out:
+	    if
+	      argument.is_empty:
+		quit!
+	      :
+		write &io STDOUT_FILENO argument
+		if do_send_size:
+		  get_terminal_size! STDIN_FILENO $width $height
+		  write &io fd_in "@esc;[8;@(height);@(width)t"
+		  !do_send_size false
+		  next!
+	  :
+	    next!
+      READ_FAILED:
+	next!
+      WRITE_COMPLETED:
+	case fd
+	  server_fd:
+	    close! server_fd
+	    next!
+	  :
+	    next!
+      WRITE_FAILED:
+	next!
+      :
+	next!
+
+$quit:
+  #write! $_bytes_written STDOUT_FILENO "@esc;[?1003l"
+    # disable mouse tracking
+  close! fd_in
+  close! fd_out
+  unlink! input_fifo
+  unlink! output_fifo
+  set_terminal_attributes! $_success STDIN_FILENO original_attributes
+  terminate!

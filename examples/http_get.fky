@@ -1,0 +1,18 @@
+#!/usr/bin/env fkyrun
+
+open_tcp_socket! $fd "funkylang.org" 80
+write! $_bytes_written fd "
+  GET / HTTP/1.1@cr;
+  Host: funkylang.org@cr;
+  Connection: close@cr;
+  @cr;
+loop
+  :
+    read! fd $buf 4096
+    if
+      buf.is_empty:
+	close! fd
+	println!
+      :
+	print! buf
+	next!

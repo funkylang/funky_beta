@@ -1,0 +1,65 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require terminal/widgets>
+<require terminal/window_manager>
+
+$TERMINAL .
+$log_level 4
+
+$terminal_of ()
+$window_manager_of ()
+
+$std_types::io
+  .terminal_of undefined
+  .window_manager_of undefined
+
+do:
+  $io std_types::io
+  $valid_io io # a valid IO-object to use in case of failure
+
+  enable_logging &io log_level
+  log &io -> "started logging (log-level: @(log_level))"
+
+  initialize_terminal &io TERMINAL RECEIVE_CTRL_C_AND_CTRL_Z
+
+  loop:
+    get_events! &io $events
+    exit_on_error! valid_io io events
+    !valid_io io # update the valid IO-object
+    handle_events &io &events # preprocess events
+    handle_application_events &io events
+    update_window_manager
+      &io &io.window_manager_of &io.terminal_of STDIN_FILENO
+    next!
+
+$handle_application_events: (io events)
+  for_each events
+    : (event)
+      event $type $id $data $_context
+      case type
+	KEY_PRESS:
+	  case data
+	    'q':
+	      exit io
+	    log_unhandled
+	JOB_COMPLETED:
+	  case id
+	    TERMINAL:
+	      $terminal data
+	      start_reading_from &io STDIN_FILENO
+	      register_handlers &io STDIN_FILENO READ = create_terminal_events
+	      start_injecting_window_change_events &io
+	      !io
+		.terminal_of terminal
+		.window_manager_of create_window_manager(terminal)
+	      next
+	    log_unhandled
+	log_unhandled
+
+      $log_unhandled:
+	log_unhandled_event &io event
+	next
+
+    -> io

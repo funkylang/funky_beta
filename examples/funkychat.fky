@@ -1,0 +1,127 @@
+#!/usr/bin/env fkyrun
+
+$pending_text_of ()
+
+$my_name truncate_until(program_name '/' -1)
+
+$registration_fifo "/tmp/@(my_name).fifo"
+
+try $error: unlink registration_fifo
+ignore umask("---------")
+mkfifo registration_fifo "rw-rw--w-"
+
+$registration_fd open(registration_fifo "R+")
+
+$users empty_hash_table
+
+$want_to_read empty_list
+$want_to_write empty_list
+
+$io std_types::io
+
+start_reading_from &io STDIN_FILENO
+start_reading_from &io registration_fd
+
+write &io STDOUT_FILENO "waiting for users to log-in@nl;"
+
+$main:
+  get_events &io $events
+  for_each events
+    : (event)
+      event $type $fd $argument
+      case type
+	READ:
+	  case fd
+	    STDIN_FILENO:
+	      trim &argument
+	      case argument
+		"quit", "exit":
+		  println "stopping the chat server"
+		  close registration_fd
+		  unlink registration_fifo
+		  terminate
+		:
+		  next
+	    registration_fd:
+	      if
+		argument.is_empty:
+		  println "registration fifo closed on write side"
+		  terminate
+		  next
+		:
+		  $username argument.trim
+		  $fd_in open("/tmp/@(username).in" "r")
+		  $fd_out open("/tmp/@(username).out" "w")
+		  !fd_in.username_of username
+		  !fd_out.username_of username
+		  start_reading_from &io fd_in
+		  write &io fd_out "Welcome @(username)!@nl;"
+		  send_all
+		    "
+		      @(username) entered the chat
+		    :
+		      !users(username) fd_out
+		      next
+	    :
+	      $username username_of(fd)
+	      if
+		argument.is_empty:
+		  quit
+		:
+		  if
+		    argument(1) == '/':
+		      $command range(argument 2 -1).trim
+		      case command
+			"quit":
+			  quit
+			:
+			  write &io users(username) "
+			    Unknown command "@(command)"!
+			  next
+		    :
+		      send_all "@(username): @(argument)"
+
+	      $quit:
+		write &io users(username) "
+		  bye
+		stop_reading_from &io fd
+		!users(username) undefined
+		send_all "
+		  @(username) left the chat
+	READ_FAILED:
+	  next
+	WRITE_COMPLETED:
+	  if
+	    fd != STDOUT_FILENO && users(username_of(fd)).is_undefined:
+	      close fd # sent "bye"-message
+	    pass
+	  next
+	WRITE_FAILED:
+	  next
+	SIGNAL:
+	  case argument
+	    WINDOW_CHANGED_SIZE:
+	      println "window changed size"
+	      next
+	    :
+	      println "some unhandled signal arrived"
+	      next
+	:
+	  println "some unhandled event received"
+	  next
+    main
+
+  $send_all:
+    (
+      message
+      continuation = next
+    )
+    write &io STDOUT_FILENO message
+    for_each users
+      : (user user_fd)
+	write &io user_fd message
+	next
+      -> !io
+    continuation
+
+main

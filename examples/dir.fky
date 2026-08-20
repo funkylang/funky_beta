@@ -1,0 +1,20 @@
+#!/usr/bin/env fkyrun
+
+print!
+  map_reduce
+    directory(".")
+    : (entry)
+      $type
+	case
+	  type_of(entry)
+	  BLOCK_DEVICE -> 'b'
+	  CHARACTER_DEVICE -> 'c'
+	  DIRECTORY -> 'd'
+	  NAMED_PIPE -> 'p'
+	  SYMBOLIC_LINK -> 'l'
+	  REGULAR_FILE -> '-'
+	  SOCKET -> 's'
+	  -> '?'
+      -> "
+	@(inode_number_of(entry).to_integer) @(type) @(name_of(entry))
+    append

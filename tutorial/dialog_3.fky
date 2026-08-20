@@ -1,0 +1,81 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require terminal/widgets>
+<require terminal/window_manager>
+
+$TERMINAL .
+$log_level 4
+
+$terminal_of ()
+$window_manager_of ()
+
+$std_types::io
+  .terminal_of undefined
+  .window_manager_of undefined
+
+do:
+  $io std_types::io
+  $valid_io io # a valid IO-object to use in case of failure
+
+  enable_logging &io log_level
+  log &io -> "started logging (log-level: @(log_level))"
+
+  initialize_terminal &io TERMINAL
+    RECEIVE_CTRL_C_AND_CTRL_Z
+    RECEIVE_CTRL_Q_AND_CTRL_S
+    MAP_CR
+    MOUSE_REPORTING = CLICKS
+
+  loop:
+    get_events! &io $events
+    exit_on_error! valid_io io events
+    !valid_io io # update the valid IO-object
+    handle_events &io &events # preprocess events
+    update_if window_manager_of(io).is_defined &io.window_manager_of &events:
+      handle_events window_manager_of(io) io events STDIN_FILENO
+    handle_application_events &io events
+    update_if window_manager_of(io).is_defined
+      &io &io.window_manager_of &io.terminal_of:
+	update_window_manager
+	  io window_manager_of(io) terminal_of(io) STDIN_FILENO
+    next!
+
+$handle_application_events: (io events)
+  for_each events
+    : (event)
+      event $type $id $data $_context
+      case type
+	KEY_PRESS:
+	  case data
+	    CTRL_Q:
+	      exit io
+	    log_unhandled
+	JOB_COMPLETED:
+	  case id
+	    TERMINAL:
+	      $terminal data
+	      start_reading_from &io STDIN_FILENO
+	      register_handlers &io STDIN_FILENO READ = create_terminal_events
+	      start_injecting_window_change_events &io
+	      $window_manager create_window_manager(terminal)
+	      set_menu &window_manager app_menu
+	      !io
+		.terminal_of terminal
+		.window_manager_of window_manager
+	      next
+	    log_unhandled
+	log_unhandled
+
+      $log_unhandled:
+	log_unhandled_event &io event
+	next
+
+    -> io
+
+$app_menu
+  list
+    "File" =
+      list
+	"Quit application (ctrl-q)" = CTRL_Q
