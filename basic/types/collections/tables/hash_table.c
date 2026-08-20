@@ -11,7 +11,7 @@ enum {
   tuple_77_1 = -2,
   list_83_1 = -3,
   uni_NONE = -4,
-  func_std_types__table = -5,
+  func_std_types__hash_table = -5,
   func_basic_collections__update_hash_table = -6,
   num_0xc0000000 = -7,
   lambda_1 = -8,
@@ -347,7 +347,7 @@ enum {
 };
 
 
-static TAB_NUM t_func_std_types__table[] = {
+static TAB_NUM t_func_std_types__hash_table[] = {
   3, // locals
   -3, // parameters
   MYSELF_PARAMETER, LOCAL(1), // 98_5_myself
@@ -361,8 +361,8 @@ static TAB_NUM t_func_std_types__table[] = {
   LOCAL(3)
 };
 
-static FUNCTION_INFO i_func_std_types__table = {
-  t_func_std_types__table, NULL, 1, 3,
+static FUNCTION_INFO i_func_std_types__hash_table = {
+  t_func_std_types__hash_table, NULL, 1, 3,
   {"98_5_myself\000", "99_5_key\000", "100_5_value\000"}
 };
 
@@ -3856,7 +3856,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_TUPLE, 3, {.arguments = tuple_77_1_arguments}},
   {FLT_LIST, 8, {.arguments = list_83_1_arguments}},
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
-  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__table}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_table}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__update_hash_table}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xc0000000}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
@@ -4044,6 +4044,7 @@ static ATTRIBUTE_DEFINITION std_types__hash_table__attributes[] = {
   {-var_is_a_hash_table, -var_true},
   {-var_contents_of, -var_empty_hash_table_entry},
   {-var_length_of, -num_0},
+  {TYPE_FUNCTION, -func_std_types__hash_table},
   {var_for_each, -func_std_types__hash_table___for_each},
   {var_map, -func_std_types__hash_table___map},
   {var_reduce, -func_std_types__hash_table___reduce},
@@ -4081,10 +4082,6 @@ static ATTRIBUTE_DEFINITION empty_collision_list_entry__attributes[] = {
   {var_map_reduce_2, -func_empty_collision_list_entry___map_reduce_2},
   {var_filter_1, -func_empty_collision_list_entry___filter_1},
   {var_filter_2, -func_empty_collision_list_entry___filter_2}
-};
-
-static ATTRIBUTE_DEFINITION std_types__table__attributes[] = {
-  {TYPE_FUNCTION, -func_std_types__table}
 };
 
 static ATTRIBUTE_DEFINITION hash_table_leaf__attributes[] = {
@@ -4183,7 +4180,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(36, 36)}
   },
   {
-    FOT_DERIVED, 0, 10,
+    FOT_DERIVED, 0, 11,
     "hash_table\000std_types", std_types__hash_table__attributes,
     {"table\000std_types"}
   },
@@ -4213,8 +4210,8 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
-    FOT_UNKNOWN, 0, 1,
-    "table\000std_types", std_types__table__attributes,
+    FOT_UNKNOWN, 0, 0,
+    "table\000std_types", NULL,
     {.position = POS(46, 24)}
   },
   {

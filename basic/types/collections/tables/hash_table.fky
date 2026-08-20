@@ -93,7 +93,7 @@ $hash_table_node
 
 $NONE .
 
-$std_types::table/:
+$std_types::hash_table/:
   (
     myself^
     key
