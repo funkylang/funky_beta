@@ -160,7 +160,9 @@ def collect_example_lines(lines, start):
     raw_code = []
     for i in range(start + 1, len(lines)):
         line = lines[i]
-        if re.match(r'^  [A-Z][\w ]+:$', line) or re.match(r'^\(\(', line):
+        # Section headers may carry content (e.g. "Related topics: A, B" in
+        # topic pages), so match header + optional content, not bare headers.
+        if re.match(r'^  [A-Z][\w ]+:.*$', line) or re.match(r'^\(\(', line):
             break
         raw_code.append(line)
     # strip 4-space indent, leading/trailing blank lines
