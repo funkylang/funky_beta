@@ -52,7 +52,7 @@ $std_types::hash_bag/:
 	value.is_defined && value != 0:
 	  basic_collections::update_hash_table myself key value
 	:
-	   basic_collections::update_hash_table myself key undefined
+	  basic_collections::update_hash_table myself key undefined
 
 $std_types::hash_bag/add:
   (

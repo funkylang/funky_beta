@@ -172,7 +172,7 @@ static TAB_NUM t_lambda_5[] = {
   0, // parameters
   // basic_collections::update_hash_table myself key undefined
   var_basic_collections__update_hash_table, 3, var_43_5_myself, var_44_5_key, var_undefined, TAIL_CALL,
-  POS(55, 12)
+  POS(55, 11)
 };
 
 static FUNCTION_INFO i_lambda_5 = {
@@ -602,7 +602,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(55, 60)}
+    {.position = POS(55, 59)}
   },
   {
     FOT_UNKNOWN, 0, 0,

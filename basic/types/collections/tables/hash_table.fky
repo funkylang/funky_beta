@@ -44,7 +44,6 @@ $empty_collision_list_entry.is_an_empty_entry true
 $std::to_hash_table ()
 
 $std_types::hash_table std_types::table
-  /: basic_collections::update_hash_table
   #
     a table for fast random access of items
 
@@ -94,11 +93,18 @@ $hash_table_node
 
 $NONE .
 
+$std_types::table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  basic_collections::update_hash_table myself key value
 
 $basic_collections::update_hash_table:
   # --> std_types::table
   (
-    myself^
+    myself
     key
     value = NONE
   )
