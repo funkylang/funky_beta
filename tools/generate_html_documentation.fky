@@ -985,7 +985,7 @@ $text_to_html: (text)
 	        append
 	          render_base_type_section()
 	          render_implements_section()
-	
+
 	    $render_base_type_section:
 	      GROUP
 	        : H2 "Base type"
@@ -995,7 +995,7 @@ $text_to_html: (text)
 	            :
 	              TD "class" = "description"
 	                convert(get_short_description(type_name))
-	
+
 	    $render_implements_section:
 	      GROUP
 	        : H2 "Implements"
