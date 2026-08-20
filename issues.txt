@@ -1,0 +1,46 @@
+issues.txt — known issues not fixed immediately
+=================================================
+
+  Format: one entry per issue.
+    Header:  [date] (priority: low|medium|high) short title
+    Body:    location, what is wrong, why deferred, proposed direction.
+
+  Priorities:
+    low    - works around, cosmetic, or narrow impact; fix when convenient
+    medium - affects normal workflows; fix soon
+    high   - breaks something important; fix as soon as possible
+
+
+[2026-08-20] (priority: low) FDE developer mode loads all_symbols.txt
+  from the installed prefix
+
+  Location:
+    new_tedi/fde_extensions.fky, symbol_plugin/initialize (line ~28)
+    new_tedi/main.fky (initialize_plugins at line 140)
+
+  Problem:
+    symbol_plugin/initialize always loads
+      <root_prefix><installation_prefix>/share/funky-<ver>/html/all_symbols.txt
+    i.e. the installed copy, even in developer mode. Context help (F3)
+    correctly switches to repo-local html/symbols/... pages in developer
+    mode, but the symbol table driving identifier lookup, namespace
+    resolution, and watch variables still comes from the stale installed
+    file.
+
+  Root cause:
+    Plugins are initialized before the configuration file is actually
+    loaded. load_configuration in main.fky is an async job; the
+    developer-mode flag only lands in state.configuration_of when the
+    LOAD_CONFIGURATION job completes, which is after initialize_plugins
+    has already run. symbol_plugin/initialize also only receives
+    (_id io) - no state, no configuration.
+
+  Proposed direction:
+    Defer symbol loading until the configuration is known, e.g. trigger
+    it from the LOAD_CONFIGURATION job continuation, or extend the plugin
+    initialize contract to receive the configuration.
+
+  Deferred because:
+    Developer mode still works; only the symbol table may be stale.
+    Fixing requires reworking the plugin initialization order, which is
+    more invasive than the symptom warrants for a "low" priority.
