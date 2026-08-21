@@ -40,7 +40,6 @@ KIND_MAP = {
     "POLYMORPHIC_FUNCTION_WITH_SETTER": "a polymorphic function with setter",
     "METHOD": "a method",
     "IO_METHOD": "an I/O method",
-    "TYPE": "a type derived from std_types::object",
     "TYPE_FUNCTION": "a type function",
     "UNIQUE_ITEM": "a unique item",
     "CONSTANT": "a constant",
@@ -82,16 +81,17 @@ IO_PROPAGATION_WARNING = "*This function propagates I/O-access rights to its cal
 
 
 def load_symbols():
-    """Load html/all_symbols.txt into a dict of symbol_name -> kind."""
+    """Load html/all_symbols.txt into a dict of symbol_name -> (kind, base)."""
     symbols = {}
     if not SYMBOLS_FILE.exists():
         print(f"  WARN: {SYMBOLS_FILE} not found — skipping KIND checks")
         return symbols
     with open(SYMBOLS_FILE) as f:
         for line in f:
-            parts = line.strip().split(None, 2)
+            parts = line.strip().split(None, 3)
             if len(parts) >= 2:
-                symbols[parts[0]] = parts[1]
+                base = "-" if len(parts) < 3 else parts[2]
+                symbols[parts[0]] = (parts[1], base)
     return symbols
 
 
@@ -295,11 +295,17 @@ def validate_file(filepath, symbols, valid_topics):
         issues.append((1, f"symbol name uses __ mangling '{sym}' — should use '::': {sym.replace('__', '::')}"))
 
     # --- KIND cross-reference ---
-    sym_kind = symbols.get(sym)
-    if sym_kind:
-        expected = KIND_MAP.get(sym_kind, sym_kind)
+    sym_entry = symbols.get(sym)
+    if sym_entry:
+        sym_kind, sym_base = sym_entry
+        if sym_kind == "TYPE":
+            expected = "a type" if sym_base == "-" else f"a type derived from {sym_base}"
+        else:
+            expected = KIND_MAP.get(sym_kind, sym_kind)
         if kind_text != expected:
             issues.append((1, f"header says '{kind_text}' but all_symbols.txt expects '{expected}' ({sym_kind})"))
+    else:
+        sym_kind = None
 
     # --- Blank line after header ---
     if len(lines) > 1 and lines[1].strip() != "":
