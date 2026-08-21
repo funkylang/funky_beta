@@ -402,7 +402,8 @@ enum {
   var_949_14_len, // dynamic
   var_for_each, // extern
   var_std__DIGIT, // initialized compound
-  var_std__LETTER, // initialized compound
+  var_std__LETTER, // dynamic
+  var_alt, // extern
   var_std__set, // derived
   var_std__hash_set, // extern
   var__END
@@ -4483,6 +4484,20 @@ static FUNCTION_INFO i_lambda_169 = {
   {}
 };
 
+static TAB_NUM t_module_entry[] = {
+  0, // locals
+  0, // parameters
+  // $std::LETTER alt('a'..'z' 'A'..'Z')
+  var_alt, 2, value_range_101_10, value_range_101_22, 1, var_std__LETTER,
+  LET, 1, 0, TAIL_CALL,
+  POS(957, 1)
+};
+
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static int value_range_101_10_arguments[] = {
   -chr_97, -chr_122
 };
@@ -4757,7 +4772,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__alt___match}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_167}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_168}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_169}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_169}},
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__FUNKY_IDENTIFIER__attributes[] = {
@@ -5438,9 +5454,13 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = -value_range_114_36}
   },
   {
-    FOT_INITIALIZED, 0, 0,
-    "LETTER\000std", NULL,
-    {.const_idx = -sequence_101_10}
+    FOT_UNINITIALIZED, 0, 0,
+    "LETTER\000std", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "alt\000", NULL,
+    {.position = POS(957, 14)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -5463,13 +5483,13 @@ FUNKY_MODULE module__basic__grammar = {
   "basic/grammar.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  250, // number of constants
-  144, // number of variables
+  251, // number of constants
+  145, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

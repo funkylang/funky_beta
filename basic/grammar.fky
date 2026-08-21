@@ -954,7 +954,7 @@ $std_types::alt/match:
     -> undefined
 
 $std::DIGIT '0'..'9'
-$std::LETTER 'a'..'z', 'A'..'Z'
+$std::LETTER alt('a'..'z' 'A'..'Z')
 #$std::ALPHANUMERIC set(std::LETTER std::DIGIT)
 
 $std::set std::hash_set
