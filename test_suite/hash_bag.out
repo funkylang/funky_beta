@@ -1,0 +1,84 @@
+hash_bag <4>
+"apple"
+2
+"banana"
+3
+
+2
+0
+----------
+missing: <undefined>
+2
+10
+2
+hash_bag <2>
+"banana"
+3
+
+1
+1
+----------
+hash_bag <6>
+"mango"
+1
+"pear"
+3
+"apple"
+1
+
+3
+hash_bag <4>
+"mango"
+1
+"apple"
+1
+
+2
+----------
+hash_bag <6>
+"mango"
+6
+"pear"
+9
+"apple"
+2
+
+3
+hash_bag <2>
+"pear"
+5
+
+1
+2
+2
+----------
+hash_bag <6>
+"mango"
+-4
+"apple"
+2
+"banana"
+2
+
+3
+3
+3
+----------
+hash_bag <4>
+"y"
+2
+"x"
+1
+
+2
+----------
+hash_bag <4>
+"apple"
+10
+"banana"
+3
+
+----------
+0
+apple = 10
+banana = 3
