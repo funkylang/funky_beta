@@ -16,7 +16,7 @@
 
     <require basic/stdlib>
     <require basic/export/json>
-    
+
     $data list("abc" 123 true)
     println! to_json(data)
 

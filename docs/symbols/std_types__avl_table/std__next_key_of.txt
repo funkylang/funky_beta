@@ -18,7 +18,7 @@
     <require basic/stdlib>
     <require basic/types/collections/tables/binary_table>
     <require basic/types/collections/tables/avl_table>
-    
+
     $scores empty_avl_table
     !scores("math") 95
     !scores("english") 88

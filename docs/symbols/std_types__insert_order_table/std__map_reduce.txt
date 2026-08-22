@@ -22,7 +22,7 @@
 
     <require basic/stdlib>
     <require basic/types/collections/tables/insert_order_table>
-    
+
     $stock empty_insert_order_table
     !stock("apples") 10
     !stock("pears") 20
