@@ -126,7 +126,7 @@ $std_types::generic_array/for_each:
     if
       basic_loops::from <= basic_loops::to # another item available?
       :
-	basic_loops::body basic_loops::self(basic_loops::from)
+	basic_loops::body! basic_loops::self(basic_loops::from)
 	  # supply only the value of each item
       break
 
@@ -134,7 +134,7 @@ $std_types::generic_array/for_each:
     if
       basic_loops::from <= basic_loops::to # another item available?
       :
-	basic_loops::body basic_loops::from basic_loops::self(basic_loops::from)
+	basic_loops::body! basic_loops::from basic_loops::self(basic_loops::from)
 	  # supply index *and* value of each item
       break
 
@@ -144,7 +144,7 @@ $std_types::generic_array/for_each:
       !next !break
       !basic_loops::from !basic_loops::to !basic_loops::self
       !basic_loops::body !basic_loops::finally
-    finally
+    finally!
 
   !break.basic_loops::saved_context_of saved_context
 
@@ -152,13 +152,13 @@ $std_types::generic_array/for_each:
     parameter_count_of(body) == 2:
       !next:
 	!basic_loops::from basic_loops::from+1 # increase the array index
-	iterate_2 # start the next iteration
-      iterate_2 # start the first iteration
+	iterate_2! # start the next iteration
+      iterate_2! # start the first iteration
     :
       !next:
 	!basic_loops::from basic_loops::from+1 # increase the array index
-	iterate_1 # start the next iteration
-      iterate_1 # start the first iteration
+	iterate_1! # start the next iteration
+      iterate_1! # start the first iteration
 
 $std_types::generic_array/map:
   #

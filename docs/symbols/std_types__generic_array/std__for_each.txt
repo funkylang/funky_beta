@@ -16,6 +16,13 @@
   If called with two arguments the first argument is the position number
   of the item within the array.
 
+  **This function works only for one-dimensional arrays!**
+
+  For an array with more than one dimension the *body* receives an error
+  object for each item of the first dimension instead of any array
+  content. To iterate over multi-dimensional arrays use nested *from_to*
+  loops instead.
+
   To start the next iteration of the loop a tail call to the *next*-function
   has to be performed.
 

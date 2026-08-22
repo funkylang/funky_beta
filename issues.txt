@@ -44,3 +44,50 @@ issues.txt — known issues not fixed immediately
     Developer mode still works; only the symbol table may be stale.
     Fixing requires reworking the plugin initialization order, which is
     more invasive than the symptom warrants for a "low" priority.
+
+
+[2026-08-22] (priority: low) Compiler silently accepts a `!` suffix after a
+  function name and turns the enclosing call into an I/O-call
+
+  Location:
+    Compiler (call-statement parsing or simplification). Observed in:
+      basic/loops.fky                  (from_to, repeat: basic_loops::body!, break!)
+      basic/types/collections/lists/list.fky        (generic_list/for_each)
+      basic/types/collections/arrays/array.fky      (generic_array/for_each,
+                                                     uncommitted change of 2026-08-22)
+
+  Problem:
+    A `!` placed directly after a function name in argument position is
+    syntactically wrong - the I/O suffix belongs to the functor of the call
+    statement, not to an argument. The compiler accepts it without warning and
+    changes the semantics of the call: the ENCLOSEING call becomes an I/O-call
+    (an `if` whose then-part contains such an argument gains I/O status, so its
+    branches run with I/O rights).
+
+    Verified 2026-08-22 with fkyrun: adding the suffixes to the body/break calls
+    of for_each makes the surrounding `if` an I/O-call, and the user callback
+    then receives I/O access. Without this quirk, array's for_each does not
+    propagate I/O rights to the callback (see manual page
+    std_types::generic_array/std::for_each).
+
+  Questions:
+    - Which compiler component accepts `!` after an identifier in argument
+      position (parser or simplifier)?
+    - Why does it attach I/O status to the enclosing call instead of rejecting
+      the form?
+    - Is this a deliberate rule added at some point (suspected) or leftover
+      from a refactor?
+    - Audit basic/ and terminal/ for `name!` in argument position; at minimum
+      all loop constructs above rely on it, so they propagate I/O rights via
+      the same undocumented mechanism.
+
+  Proposed direction:
+    Either document it as an explicit language feature (proper grammar + manual
+    page), or fix the affected sources to the intended form and tighten the
+    compiler to reject `name!` in argument position. Note: array.fky currently
+    carries an uncommitted change that depends on this rule; resolving this
+    issue decides whether it stays, gets reworked, or is reverted.
+
+  Deferred because:
+    Current code works through the tolerance; tightening the parser could break
+    many stdlib sources at once - needs the audit above before compiler work.

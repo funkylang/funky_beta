@@ -238,7 +238,7 @@ static TAB_NUM t_func_std_types__generic_array___for_each[] = {
   // !basic_loops::finally finally
   LET, 1, var_107_5_finally, 1, var_basic_loops__finally,
   // new !break basic_types::break_function: (myself^)
-  var_new, 2, var_basic_types__break_function, lambda_3, 1, var_break,
+  var_new, 2, var_basic_types__break_function, lambda_3, IO_CALL(1), var_break,
   // break.basic_loops::saved_context_of saved_context
   LET, -1, var_break, var_basic_loops__saved_context_of, LOCAL(5), var_break,
   // parameter_count_of(body) == 2:
@@ -246,7 +246,7 @@ static TAB_NUM t_func_std_types__generic_array___for_each[] = {
   // parameter_count_of(body) == 2:
   var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_4, lambda_5, TAIL_CALL,
+  var_if, 3, LOCAL(2), lambda_4, lambda_5, IO_TAIL_CALL,
   POS(109, 3),
   POS(119, 3),
   POS(120, 3),
@@ -276,7 +276,7 @@ static TAB_NUM t_func_iterate_1[] = {
   // basic_loops::to # another item available?
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_1, var_break, TAIL_CALL,
+  var_if, 3, LOCAL(2), lambda_1, var_break, IO_TAIL_CALL,
   POS(127, 28),
   POS(127, 28),
   POS(126, 5)
@@ -292,9 +292,9 @@ static TAB_NUM t_lambda_1[] = {
   0, // parameters
   // basic_loops::self(basic_loops::from)
   var_basic_loops__self, 1, var_basic_loops__from, 1, LOCAL(1),
-  // basic_loops::body basic_loops::self(basic_loops::from)
-  var_basic_loops__body, 1, LOCAL(1), TAIL_CALL,
-  POS(129, 27),
+  // basic_loops::body! basic_loops::self(basic_loops::from)
+  var_basic_loops__body, 1, LOCAL(1), IO_TAIL_CALL,
+  POS(129, 28),
   POS(129, 9)
 };
 
@@ -311,7 +311,7 @@ static TAB_NUM t_func_iterate_2[] = {
   // basic_loops::to # another item available?
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_2, var_break, TAIL_CALL,
+  var_if, 3, LOCAL(2), lambda_2, var_break, IO_TAIL_CALL,
   POS(135, 28),
   POS(135, 28),
   POS(134, 5)
@@ -327,9 +327,9 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   // basic_loops::self(basic_loops::from)
   var_basic_loops__self, 1, var_basic_loops__from, 1, LOCAL(1),
-  // basic_loops::body basic_loops::from basic_loops::self(basic_loops::from)
-  var_basic_loops__body, 2, var_basic_loops__from, LOCAL(1), TAIL_CALL,
-  POS(137, 45),
+  // basic_loops::body! basic_loops::from basic_loops::self(basic_loops::from)
+  var_basic_loops__body, 2, var_basic_loops__from, LOCAL(1), IO_TAIL_CALL,
+  POS(137, 46),
   POS(137, 9)
 };
 
@@ -348,8 +348,8 @@ static TAB_NUM t_lambda_3[] = {
   var_basic_loops__saved_context_of, 1, LOCAL(2), 1, LOCAL(1),
   // basic_loops::saved_context_of(myself)
   LOCAL(1), 0, 7, var_next, var_break, var_basic_loops__from, var_basic_loops__to, var_basic_loops__self, var_basic_loops__body, var_basic_loops__finally,
-  // finally
-  var_107_5_finally, 0, TAIL_CALL,
+  // finally!
+  var_107_5_finally, 0, IO_TAIL_CALL,
   POS(142, 5),
   POS(143, 5),
   POS(143, 5),
@@ -367,8 +367,8 @@ static TAB_NUM t_lambda_4[] = {
   0, // parameters
   // !next:
   LET, 1, lambda_next, 1, var_next,
-  // iterate_2 # start the first iteration
-  func_iterate_2, 0, TAIL_CALL,
+  // iterate_2! # start the first iteration
+  func_iterate_2, 0, IO_TAIL_CALL,
   POS(153, 7),
   POS(156, 7)
 };
@@ -383,8 +383,8 @@ static TAB_NUM t_lambda_next[] = {
   0, // parameters
   // !basic_loops::from basic_loops::from+1 # increase the array index
   var_std__plus, 2, var_basic_loops__from, num_1, 1, var_basic_loops__from,
-  // iterate_2 # start the next iteration
-  func_iterate_2, 0, TAIL_CALL,
+  // iterate_2! # start the next iteration
+  func_iterate_2, 0, IO_TAIL_CALL,
   POS(154, 9),
   POS(155, 9)
 };
@@ -399,8 +399,8 @@ static TAB_NUM t_lambda_5[] = {
   0, // parameters
   // !next:
   LET, 1, lambda_2_next, 1, var_next,
-  // iterate_1 # start the first iteration
-  func_iterate_1, 0, TAIL_CALL,
+  // iterate_1! # start the first iteration
+  func_iterate_1, 0, IO_TAIL_CALL,
   POS(158, 7),
   POS(161, 7)
 };
@@ -415,8 +415,8 @@ static TAB_NUM t_lambda_2_next[] = {
   0, // parameters
   // !basic_loops::from basic_loops::from+1 # increase the array index
   var_std__plus, 2, var_basic_loops__from, num_1, 1, var_basic_loops__from,
-  // iterate_1 # start the next iteration
-  func_iterate_1, 0, TAIL_CALL,
+  // iterate_1! # start the next iteration
+  func_iterate_1, 0, IO_TAIL_CALL,
   POS(159, 9),
   POS(160, 9)
 };
