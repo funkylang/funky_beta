@@ -1,0 +1,25 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+
+# Test array for_each with I/O in the body
+$a array(3)
+!a(1) 10
+!a(2) 20
+!a(3) 30
+
+for_each a
+  : (item)
+    println! "item: @(item)"
+    next!
+  pass
+
+# Verify iteration count with 2-param callback
+$count 0
+for_each !count a
+  : (_idx _val)
+    plus &count 1
+    next
+  -> count
+
+println! "count: @(count)"
