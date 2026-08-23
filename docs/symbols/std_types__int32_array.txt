@@ -38,7 +38,7 @@ indices: array(row_no col_no).
 
     $a int32_array(3 2)
     !a(2 1) 47
-    !a a(3 2 11)
+    !a(3 2) 11
     print_array! a
 
   Output:

@@ -36,7 +36,7 @@ Elements are accessed with one-based indices: array(row_no col_no).
 
     $a float32_array(3 2)
     !a(2 1) 47.0
-    !a a(3 2 11.0)
+    !a(3 2) 11.0
     print_array! a
 
   Output:

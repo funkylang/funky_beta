@@ -38,7 +38,7 @@ indices: array(row_no col_no).
 
     $a uint64_array(3 2)
     !a(2 1) 10
-    !a a(3 2 200)
+    !a(3 2) 200
     print_array! a
 
   Output:
