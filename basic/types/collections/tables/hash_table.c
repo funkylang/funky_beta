@@ -3329,8 +3329,8 @@ static TAB_NUM t_lambda_70[] = {
   0, // parameters
   // list
   var_list, 8, var_659_13_node_1, var_660_13_node_2, var_661_13_node_3, var_662_13_node_4, var_663_13_node_5, var_664_13_node_6, var_665_13_node_7, var_666_13_node_8, 1, LOCAL(1),
-  // typed_tuple
-  var_typed_tuple, 2, var_hash_table_node, LOCAL(1), 1, LOCAL(2),
+  // new
+  var_new, 2, var_hash_table_node, LOCAL(1), 1, LOCAL(2),
   // 
   LET, 2, LOCAL(2), var_667_4_deleted, TAIL_CALL,
   POS(695, 13),
@@ -3617,8 +3617,8 @@ static TAB_NUM t_lambda_81[] = {
   0, // parameters
   // list
   var_list, 8, var_707_13_node_1, var_708_13_node_2, var_709_13_node_3, var_710_13_node_4, var_711_13_node_5, var_712_13_node_6, var_713_13_node_7, var_714_13_node_8, 1, LOCAL(1),
-  // typed_tuple
-  var_typed_tuple, 2, var_hash_table_node, LOCAL(1), 1, LOCAL(2),
+  // new
+  var_new, 2, var_hash_table_node, LOCAL(1), 1, LOCAL(2),
   // 
   LET, 2, LOCAL(2), var_715_4_deleted, TAIL_CALL,
   POS(743, 13),

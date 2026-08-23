@@ -690,7 +690,7 @@ $hash_table_node/filter_1: (self)
 	  node_8.is_an_empty_entry
 	-> empty_hash_table_entry deleted
 	->
-	  typed_tuple
+	  new
 	    hash_table_node
 	    list
 	      node_1
@@ -738,7 +738,7 @@ $hash_table_node/filter_2: (self)
 	  node_8.is_an_empty_entry
 	-> empty_hash_table_entry deleted
 	->
-	  typed_tuple
+	  new
 	    hash_table_node
 	    list
 	      node_1
