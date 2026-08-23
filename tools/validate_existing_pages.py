@@ -500,6 +500,16 @@ def validate_file(filepath, symbols, valid_topics):
             if j < len(lines) and lines[j].strip() != "":
                 issues.append((j + 1, f"Result value on line {i+1} not followed by blank line (line {j+1} is: '{lines[j].strip()}')"))
 
+    # --- Section headers immediately followed by a blank line ---
+    # The first content of a Parameter/Parameters/Result/Results section must
+    # start on the line right after the header.
+    for i in range(len(lines) - 1):
+        sec_match = SECTION_RE.match(lines[i])
+        if (sec_match and sec_match.group(1) in ("Parameter:", "Parameters:",
+                                                 "Result:", "Results:")
+                and lines[i + 1].strip() == ""):
+            issues.append((i + 2, f"'{sec_match.group(1)}' section header followed by blank line"))
+
     # --- Footer format ---
     last_non_blank = []
     for i in range(len(lines) - 1, -1, -1):
