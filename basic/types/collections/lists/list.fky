@@ -508,11 +508,7 @@ $std_types::generic_list/map_reduce_rows:
     map_function
     reduce_function
   )
-  map_reduce self
-    : (items)
-      map items map_function
-    : (left right)
-      map left: (idx item) -> reduce_function(item right(idx))
+  map self: (item) map_reduce item map_function reduce_function
 
 $std_types::generic_list/map_reduce_columns:
   (
@@ -520,7 +516,11 @@ $std_types::generic_list/map_reduce_columns:
     map_function
     reduce_function
   )
-  map self: (item) map_reduce item map_function reduce_function
+  map_reduce self
+    : (items)
+      map items map_function
+    : (upper lower)
+      map upper: (idx item) -> reduce_function(item lower(idx))
 
 $std_types::generic_list/sort:
   (

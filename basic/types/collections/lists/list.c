@@ -112,9 +112,9 @@ enum {
   lambda_77 = -103,
   func_std_types__generic_list___map_reduce_rows = -104,
   lambda_78 = -105,
-  lambda_79 = -106,
-  lambda_80 = -107,
-  func_std_types__generic_list___map_reduce_columns = -108,
+  func_std_types__generic_list___map_reduce_columns = -106,
+  lambda_79 = -107,
+  lambda_80 = -108,
   lambda_81 = -109,
   func_std_types__generic_list___sort = -110,
   func_sort = -111,
@@ -347,10 +347,10 @@ enum {
   var_map_reduce_rows, // extern polymorphic
   var_508_5_map_function, // dynamic
   var_509_5_reduce_function, // dynamic
-  var_514_13_right, // dynamic
   var_map_reduce_columns, // extern polymorphic
-  var_520_5_map_function, // dynamic
-  var_521_5_reduce_function, // dynamic
+  var_516_5_map_function, // dynamic
+  var_517_5_reduce_function, // dynamic
+  var_522_14_lower, // dynamic
   var_sort, // extern polymorphic
   var_528_5_compare, // dynamic
   var_less, // extern
@@ -2340,8 +2340,8 @@ static TAB_NUM t_func_std_types__generic_list___map_reduce_rows[] = {
   LOCAL(1), // 507_5_self
   var_508_5_map_function,
   var_509_5_reduce_function,
-  // map_reduce self
-  var_map_reduce, 3, LOCAL(1), lambda_78, lambda_79, TAIL_CALL,
+  // map self: (item) map_reduce item map_function reduce_function
+  var_map, 2, LOCAL(1), lambda_78, TAIL_CALL,
   POS(511, 3),
   LOCAL(1)
 };
@@ -2354,87 +2354,87 @@ static FUNCTION_INFO i_func_std_types__generic_list___map_reduce_rows = {
 static TAB_NUM t_lambda_78[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 512_8_items
-  // map items map_function
-  var_map, 2, LOCAL(1), var_508_5_map_function, TAIL_CALL,
-  POS(513, 7),
+  LOCAL(1), // 511_14_item
+  // map_reduce item map_function reduce_function
+  var_map_reduce, 3, LOCAL(1), var_508_5_map_function, var_509_5_reduce_function, TAIL_CALL,
+  POS(511, 20),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_lambda_78 = {
   t_lambda_78, NULL, 1, 1,
-  {"512_8_items\000"}
-};
-
-static TAB_NUM t_lambda_79[] = {
-  1, // locals
-  2, // parameters
-  LOCAL(1), // 514_8_left
-  var_514_13_right,
-  // map left: (idx item) -> reduce_function(item right(idx))
-  var_map, 2, LOCAL(1), lambda_80, TAIL_CALL,
-  POS(515, 7),
-  LOCAL(1)
-};
-
-static FUNCTION_INFO i_lambda_79 = {
-  t_lambda_79, NULL, 1, 1,
-  {"514_8_left\000"}
-};
-
-static TAB_NUM t_lambda_80[] = {
-  4, // locals
-  2, // parameters
-  LOCAL(3), // 515_18_idx
-  LOCAL(4), // 515_22_item
-  // right(idx))
-  var_514_13_right, 1, LOCAL(3), 1, LOCAL(1),
-  // reduce_function(item right(idx))
-  var_509_5_reduce_function, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
-  // -> reduce_function(item right(idx))
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(515, 52),
-  POS(515, 31),
-  POS(515, 28),
-  LOCAL(4),
-  LOCAL(3)
-};
-
-static FUNCTION_INFO i_lambda_80 = {
-  t_lambda_80, NULL, 3, 2,
-  {"515_22_item\000", "515_18_idx\000"}
+  {"511_14_item\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_list___map_reduce_columns[] = {
   1, // locals
   3, // parameters
-  LOCAL(1), // 519_5_self
-  var_520_5_map_function,
-  var_521_5_reduce_function,
-  // map self: (item) map_reduce item map_function reduce_function
-  var_map, 2, LOCAL(1), lambda_81, TAIL_CALL,
-  POS(523, 3),
+  LOCAL(1), // 515_5_self
+  var_516_5_map_function,
+  var_517_5_reduce_function,
+  // map_reduce self
+  var_map_reduce, 3, LOCAL(1), lambda_79, lambda_80, TAIL_CALL,
+  POS(519, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std_types__generic_list___map_reduce_columns = {
   t_func_std_types__generic_list___map_reduce_columns, NULL, 1, 1,
-  {"519_5_self\000"}
+  {"515_5_self\000"}
 };
 
-static TAB_NUM t_lambda_81[] = {
+static TAB_NUM t_lambda_79[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 523_14_item
-  // map_reduce item map_function reduce_function
-  var_map_reduce, 3, LOCAL(1), var_520_5_map_function, var_521_5_reduce_function, TAIL_CALL,
-  POS(523, 20),
+  LOCAL(1), // 520_8_items
+  // map items map_function
+  var_map, 2, LOCAL(1), var_516_5_map_function, TAIL_CALL,
+  POS(521, 7),
   LOCAL(1)
 };
 
+static FUNCTION_INFO i_lambda_79 = {
+  t_lambda_79, NULL, 1, 1,
+  {"520_8_items\000"}
+};
+
+static TAB_NUM t_lambda_80[] = {
+  1, // locals
+  2, // parameters
+  LOCAL(1), // 522_8_upper
+  var_522_14_lower,
+  // map upper: (idx item) -> reduce_function(item lower(idx))
+  var_map, 2, LOCAL(1), lambda_81, TAIL_CALL,
+  POS(523, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_80 = {
+  t_lambda_80, NULL, 1, 1,
+  {"522_8_upper\000"}
+};
+
+static TAB_NUM t_lambda_81[] = {
+  4, // locals
+  2, // parameters
+  LOCAL(3), // 523_19_idx
+  LOCAL(4), // 523_23_item
+  // lower(idx))
+  var_522_14_lower, 1, LOCAL(3), 1, LOCAL(1),
+  // reduce_function(item lower(idx))
+  var_517_5_reduce_function, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
+  // -> reduce_function(item lower(idx))
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(523, 53),
+  POS(523, 32),
+  POS(523, 29),
+  LOCAL(4),
+  LOCAL(3)
+};
+
 static FUNCTION_INFO i_lambda_81 = {
-  t_lambda_81, NULL, 1, 1,
-  {"523_14_item\000"}
+  t_lambda_81, NULL, 3, 2,
+  {"523_23_item\000", "523_19_idx\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_list___sort[] = {
@@ -4314,9 +4314,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_77}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_list___map_reduce_rows}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_78}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_list___map_reduce_columns}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_79}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_80}},
-  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_list___map_reduce_columns}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_81}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_list___sort}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_sort}},
@@ -5019,21 +5019,21 @@ static FUNKY_VARIABLE variables_table[] = {
     "509_5_reduce_function\000", NULL
   },
   {
-    FOT_UNINITIALIZED, 0, 0,
-    "514_13_right\000", NULL
-  },
-  {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "map_reduce_columns\000", NULL,
-    {.position = POS(517, 26)}
+    {.position = POS(513, 26)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "520_5_map_function\000", NULL
+    "516_5_map_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "521_5_reduce_function\000", NULL
+    "517_5_reduce_function\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "522_14_lower\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
