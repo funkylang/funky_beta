@@ -311,6 +311,18 @@ def validate_file(filepath, symbols, valid_topics):
     if len(lines) > 1 and lines[1].strip() != "":
         issues.append((2, "missing blank line after header"))
 
+    # --- Short description must be a single line ---
+    # (it is used in generated tables of contents, etc., where a line
+    # break produces ugly output)
+    if len(lines) > 2 and lines[2].strip():
+        paragraph = 1
+        i = 3
+        while i < len(lines) and lines[i].startswith(" ") and lines[i].strip():
+            paragraph += 1
+            i += 1
+        if paragraph > 1:
+            issues.append((4, "short description must be a single line (used in tables of contents, etc.)"))
+
     # --- Detect section lines and check they are on fresh paragraphs ---
     found_sections = set()
     section_counts = {}  # section_name -> count
