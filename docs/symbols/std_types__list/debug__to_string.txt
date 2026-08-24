@@ -30,7 +30,7 @@
   Output:
 
     <list of 3 items>
-    
+
     list
       72
       45

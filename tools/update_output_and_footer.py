@@ -254,8 +254,13 @@ def find_all_section_ranges(lines, name):
 
 
 def build_new_section(section_name, content):
-    """Build replacement section lines: blank + header + blank + indented content + blank."""
-    return ['', f'  {section_name}:', ''] + [f'    {line}' for line in content.split('\n')] + ['']
+    """Build replacement section lines: blank + header + blank + indented content + blank.
+
+    Empty content lines stay truly empty — indenting them would leave
+    trailing whitespace (4 spaces) which git flags on commit.
+    """
+    indented = [f'    {line}' if line.strip() else '' for line in content.split('\n')]
+    return ['', f'  {section_name}:', ''] + indented + ['']
 
 
 def remove_range(lines, rs, end, hs):
