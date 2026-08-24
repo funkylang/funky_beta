@@ -1,7 +1,6 @@
 # std_types::generic_list/std::filter (a method)
 
-  returns a collection containing all the items that fulfill the
-  filter-condition
+  returns a collection of all items that fulfill the filter-condition
 
   Parameters:
     self: the collection to filter
