@@ -20,6 +20,9 @@
   receives two arguments. The reduce defaults to *append*. When the
   set is empty, the *unit* value is returned.
 
+  The order in which the mapped values are combined is not guaranteed,
+  so the reduce function must be associative.
+
   Topic: Sets
 
   See also: std_types::insert_order_set/std::to_list,

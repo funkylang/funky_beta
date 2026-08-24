@@ -15,6 +15,9 @@
   and the next item — and is applied pairwise across the set. When
   the set is empty, the *unit* value is returned.
 
+  The order in which the items are combined is not guaranteed, so the
+  reduce function must be associative.
+
   Topic: Sets
 
   See also: std_types::key_order_set/std::map_reduce,
