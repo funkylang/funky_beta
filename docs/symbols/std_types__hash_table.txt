@@ -1,4 +1,4 @@
-# std_types::hash_table (a type derived from std_types::object)
+# std_types::hash_table (a type derived from std_types::table)
 
   a table for fast random access of items
 

@@ -1,4 +1,4 @@
-# std_types::hash_set (a type derived from std_types::object)
+# std_types::hash_set (a type derived from std_types::set)
 
   a set for fast random access
 
