@@ -982,29 +982,29 @@ $text_to_html: (text)
 	      slot_name == ":"
 	      -> render_base_type_section()
 	      :
-	        append
-	          render_base_type_section()
-	          render_implements_section()
+		append
+		  render_base_type_section()
+		  render_implements_section()
 
 	    $render_base_type_section:
 	      GROUP
-	        : H2 "Base type"
-	        : TABLE
-	          : TR
-	            : TD: A "href" = type_name.to_filename type_name
-	            :
-	              TD "class" = "description"
-	                convert(get_short_description(type_name))
+		: H2 "Base type"
+		: TABLE
+		  : TR
+		    : TD: A "href" = type_name.to_filename type_name
+		    :
+		      TD "class" = "description"
+			convert(get_short_description(type_name))
 
 	    $render_implements_section:
 	      GROUP
-	        : H2 "Implements"
-	        : TABLE
-	          : TR
-	            : TD: A "href" = slot_name.to_filename slot_name
-	            :
-	              TD "class" = "description"
-	                convert(get_short_description(slot_name))
+		: H2 "Implements"
+		: TABLE
+		  : TR
+		    : TD: A "href" = slot_name.to_filename slot_name
+		    :
+		      TD "class" = "description"
+			convert(get_short_description(slot_name))
 	  :
 	    $symbol_info all_symbols(title)
 	    if
@@ -1149,11 +1149,20 @@ $convert: (text)
 		    !s i+1
 		    next
 	  '\':
-	    append &buf range(text s i-1)
-	    inc &i
-	    push &buf text(i)
-	    !s i+1
-	    next
+	    if
+	      i >= n
+	      next
+	      :
+		append &buf range(text s i-1)
+		inc &i
+		!s i+1
+		if
+		  text(i) == '<':
+		    append &buf "&lt;"
+		    next
+		  :
+		    push &buf text(i)
+		    next
 	  '<':
 	    append &buf range(text s i-1)
 	    !within_link true
@@ -1204,9 +1213,9 @@ $to_absolute_filename: (name)
     :
       mangle &name
       if
-        name(1) == '@@'
-        -> append("topics/" range(name 2 -1) ".html")
-        -> append("symbols/" name ".html")
+	name(1) == '@@'
+	-> append("topics/" range(name 2 -1) ".html")
+	-> append("symbols/" name ".html")
 
 $mangle: (name)
   replace_all name
