@@ -91,7 +91,6 @@ enum {
   var_parameter_count_of, // extern
   var_114_8_keys, // dynamic
   var_first_key_of, // extern polymorphic
-  var_key_of, // extern
   var_last_key_of, // extern polymorphic
   var_first_item_of, // extern polymorphic
   var_last_item_of, // extern polymorphic
@@ -474,11 +473,11 @@ static TAB_NUM t_func_std_types__insert_order_table___first_key_of[] = {
   3, // locals
   1, // parameters
   LOCAL(3), // 130_5_self
-  // key_of(self)(1)
-  var_key_of, 1, LOCAL(3), 1, LOCAL(1),
-  // key_of(self)(1)
+  // keys_of(self)(1)
+  var_keys_of, 1, LOCAL(3), 1, LOCAL(1),
+  // keys_of(self)(1)
   LOCAL(1), 1, num_1, 1, LOCAL(2),
-  // -> key_of(self)(1)
+  // -> keys_of(self)(1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(132, 6),
   POS(132, 6),
@@ -495,11 +494,11 @@ static TAB_NUM t_func_std_types__insert_order_table___last_key_of[] = {
   3, // locals
   1, // parameters
   LOCAL(3), // 138_5_self
-  // key_of(self)(-1)
-  var_key_of, 1, LOCAL(3), 1, LOCAL(1),
-  // key_of(self)(-1)
+  // keys_of(self)(-1)
+  var_keys_of, 1, LOCAL(3), 1, LOCAL(1),
+  // keys_of(self)(-1)
   LOCAL(1), 1, minus_num_1, 1, LOCAL(2),
-  // -> key_of(self)(-1)
+  // -> keys_of(self)(-1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(140, 6),
   POS(140, 6),
@@ -1122,11 +1121,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(126, 32)}
   },
   {
-    FOT_UNKNOWN, 0, 0,
-    "key_of\000", NULL,
-    {.position = POS(132, 6)}
-  },
-  {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "last_key_of\000", NULL,
     {.position = POS(134, 32)}
@@ -1261,7 +1255,7 @@ FUNKY_MODULE module__basic__types__collections__tables__insert_order_table = {
   0, // number of defined namespaces
   1, // number of used namespaces
   42, // number of constants
-  66, // number of variables
+  65, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,
