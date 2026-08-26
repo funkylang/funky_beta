@@ -11,7 +11,7 @@
     string: the string representation of the list
 
   The string representation is a multi-line string. At the default depth
-  of 1, a non-empty list is abbreviated as "<list of N items>" without
+  of 1, a non-empty list is abbreviated as "\<list of N items>" without
   showing its contents. Increasing the depth reveals the list's items,
   indented according to the indentation level.
 
