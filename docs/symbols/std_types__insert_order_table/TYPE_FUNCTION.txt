@@ -31,6 +31,8 @@
   See also: std::empty_insert_order_table, std_types::table,
             std_types::insert_order_set/:
 
+  Topic: Arrays
+
   Example:
 
     <require basic/stdlib>

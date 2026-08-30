@@ -27,6 +27,8 @@
 
   See also: std::empty_lb2_table, std_types::binary_table, std_types::avl_table
 
+  Topic: Arrays
+
   Example:
 
     <require basic/stdlib>

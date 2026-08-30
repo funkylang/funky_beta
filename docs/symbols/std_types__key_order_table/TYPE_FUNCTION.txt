@@ -30,6 +30,8 @@
 
   See also: std::empty_key_order_table, std_types::key_order_set/:
 
+  Topic: Arrays
+
   Example:
 
     $scores empty_key_order_table

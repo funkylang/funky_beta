@@ -30,6 +30,8 @@
 
   See also: std::empty_hash_table, std_types::hash_set/:
 
+  Topic: Arrays
+
   Example:
 
     $names empty_hash_table

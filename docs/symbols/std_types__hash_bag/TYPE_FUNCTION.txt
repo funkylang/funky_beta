@@ -29,6 +29,8 @@
   See also: std::empty_hash_bag, std_types::hash_table,
             std_types::hash_bag/std::add
 
+  Topic: Arrays
+
   Example:
 
     $shelves empty_hash_bag

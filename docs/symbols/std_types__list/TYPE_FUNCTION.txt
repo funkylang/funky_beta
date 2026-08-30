@@ -29,6 +29,8 @@ access or replace an item at a given index
 
   See also: std::list
 
+  Topic: Arrays
+
   Example:
 
     $items list(10 20 30)

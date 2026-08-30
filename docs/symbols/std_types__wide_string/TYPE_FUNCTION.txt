@@ -17,6 +17,8 @@
 
   See also: std_types::wide_string, std::get, std::put
 
+  Topic: Arrays
+
   Example:
 
     $s "你好"

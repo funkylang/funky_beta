@@ -25,6 +25,8 @@
 
   See also: std::empty_hash_set, std_types::hash_table/:
 
+  Topic: Arrays
+
   Example:
 
     $friends empty_hash_set

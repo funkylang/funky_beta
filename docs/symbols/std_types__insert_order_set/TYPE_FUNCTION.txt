@@ -25,6 +25,8 @@
 
   See also: std::empty_insert_order_set, std_types::insert_order_table/:
 
+  Topic: Arrays
+
   Example:
 
     $steps empty_insert_order_set

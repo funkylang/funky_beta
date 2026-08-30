@@ -31,6 +31,8 @@
 
   See also: std::empty_binary_table, std_types::avl_table, std_types::lb2_table
 
+  Topic: Arrays
+
   Example:
 
     <require basic/stdlib>

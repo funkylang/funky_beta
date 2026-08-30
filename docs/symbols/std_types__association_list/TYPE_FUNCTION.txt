@@ -26,6 +26,8 @@
 
   See also: std::empty_association_list, std_types::table
 
+  Topic: Arrays
+
   Example:
 
     <require basic/stdlib>
