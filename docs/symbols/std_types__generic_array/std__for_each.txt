@@ -1,4 +1,4 @@
-# std_types::generic_array/std::for_each (a method)
+# std_types::generic_array/std::for_each (an I/O method)
 
   iterates over all items of the array
 
@@ -9,6 +9,8 @@
 
   Results:
     the result(s) of the finally callback
+
+  **This function must be called with I/O-access rights!**
 
   For each item the statement sequence supplied as *body* is called
   with one or two arguments (depending on *body*'s parameter count).
