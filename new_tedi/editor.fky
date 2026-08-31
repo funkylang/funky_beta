@@ -2982,9 +2982,9 @@ $delete_line: (x y _lines info)
   -> y undefined x y info
 
 $tedi::save_contents: (io state _x _y lines info)
-  run_save_contents_job io state lines info undefined
+  run_save_contents_job io state lines info undefined lines_to_text
 
-$tedi::run_save_contents_job: (io state lines info completion_handler)
+$tedi::run_save_contents_job: (io state lines info completion_handler converter)
   !info.saved_version_of version_of(info)
   $page get_content(window_manager_of(state))
   !page.info_of info
@@ -2993,7 +2993,7 @@ $tedi::run_save_contents_job: (io state lines info completion_handler)
   set_title &state.window_manager_of filename
   update_if use_soft_line_breaks_of(info) &lines
     -> remove_all_soft_breaks(lines)
-  $text lines_to_text(range(lines 1 -1))
+  $text converter(range(lines 1 -1))
   run &io save_contents_action filename text completion_handler
   -> io state
 
@@ -3005,6 +3005,18 @@ $tedi::lines_to_text: (lines)
 	  $indent indent_of(line)
 	  $text text_of(line)
 	  append tabs_and_spaces(indent) text.to_utf8 "@nl;"
+	-> "@nl;"
+    append
+    ""
+
+$tedi::lines_to_spaced_text: (lines)
+  map_reduce lines
+    : (line)
+      if
+	line.is_defined:
+	  $indent indent_of(line)
+	  $text text_of(line)
+	  append spaces(indent) text.to_utf8 "@nl;"
 	-> "@nl;"
     append
     ""
@@ -3080,8 +3092,8 @@ $chmod_action: (io filename mode)
   chmod! filename mode
   -> io undefined
 
-$save_with_leading_spaces: (io state _x _y _lines _info)
-  -> io state
+$save_with_leading_spaces: (io state _x _y lines info)
+  run_save_contents_job io state lines info undefined lines_to_spaced_text
 
 $load_file: (state _x _y _lines _info)
   debug::println "load_file"

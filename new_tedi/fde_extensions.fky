@@ -320,7 +320,7 @@ $fde_context_help: (io state x y lines _info)
       -> io state
 
 $save_and_show_html: (io state _x _y lines info)
-  run_save_contents_job io state lines info save_html
+  run_save_contents_job io state lines info save_html lines_to_text
 
 $save_html: (io state filename)
   call &io SAVE_HTML "tools/generate_html_documentation" list("--update") filename
