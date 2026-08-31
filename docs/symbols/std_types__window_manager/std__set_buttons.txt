@@ -101,7 +101,7 @@
   value and a list of events and a boolean value and a boolean value and
   a boolean value and a boolean value and a boolean value and a boolean
   value and a boolean value and a boolean value and a boolean value and
- 
+
 CONTEXT EXCEEDED
 
 ((defined in terminal/window_manager.fky))

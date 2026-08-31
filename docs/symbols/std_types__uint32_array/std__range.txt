@@ -52,7 +52,7 @@ the original remains unchanged.
 
   Output:
 
-    000000c8 0000012c 
+    000000c8 0000012c
     00000258 000002bc
 
 ((defined in runtime_templates/array.template))
