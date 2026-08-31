@@ -1,6 +1,6 @@
 # std_types::int8_array/std::times (a method)
 
-  computes the dot product of two signed 8-bit arrays, returning a single number
+  computes the dot product of two same-shaped arrays
 
   Parameters:
     left: a signed 8-bit array
@@ -9,8 +9,8 @@
   Results:
     the scalar dot product as an integer
 
-  Both operands must have the same dimensions. Each pair of corresponding elements
-is multiplied and the results are summed into a single integer.
+  Both operands must share the same shape. The product of each pair
+  of corresponding elements is summed to produce a single integer.
 
   Topic: Arrays
 
