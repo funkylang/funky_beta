@@ -1276,7 +1276,7 @@ $check_whether_everything_is_up_to_date:
 	  : (entry)
 	    $name name_of(entry)
 	    if
-	      name(1) == '.'
+	      name(1) == '.' || name .contains. '~'
 	      next
 	      :
 		if
