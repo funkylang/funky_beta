@@ -190,7 +190,7 @@ $tedi_types::page/handle_paste_string: (page io state text)
   $window_manager window_manager_of(state)
   get_xy page window_manager $x $y
   $info info_of(page)
-  $insertions map(split_into_lines(text): (line) -> tedi_line(line))
+  $insertions map(split_into_lines(text): (line) -> tedi_line(line.trim_right))
   update_text
     &state
     y .. y-1
