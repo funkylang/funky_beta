@@ -1,0 +1,176 @@
+#
+  Copyright (C) 2026 by
+  Dipl.-Ing. Michael Niederle
+  Assisted by: Hermes AI Agent
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace llama>
+
+<require basic/import/json>
+<require basic/export/json>
+
+#
+  Topic: AI — llama-server HTTP API
+
+  Stateless completion via llama-server's OpenAI-compatible /v1/completions
+  endpoint. No model or sequence lifecycle on the client side — each call
+  is an independent request with automatic prefix caching handled by the
+  server.
+
+  Connection options (use std::ADDRESS and std::PORT_NO):
+    ADDRESS   server hostname or IP (default "127.0.0.1")
+    PORT_NO   server port (default 8080)
+
+  Model & generation options:
+    llama::MODEL_NAME      GGUF model name on the server (string)
+    llama::MAX_TOKENS      max tokens to generate (integer)
+    llama::TEMPERATURE     sampling temperature (real; lower = more deterministic)
+    llama::STOP            stop string; generation stops when this text appears
+
+  Sampling options:
+    llama::TOP_K             top-k sampling (integer)
+    llama::TOP_P             top-p nucleus sampling (real)
+    llama::MIN_P             min-p sampling (real)
+    llama::REPETITION_PENALTY repetition penalty (real, default 1.0)
+
+  Logit options:
+    llama::LOGPROBS  number of top logprobs per generated token (integer > 0)
+
+  Cache & determinism:
+    llama::CACHE_PROMPT  enable/disable KV cache reuse (boolean, default true)
+    llama::SEED          random seed for reproducible generation (integer)
+
+
+# Options — unique items for get_options key-value pairs:
+
+$llama::MODEL_NAME .
+$llama::MAX_TOKENS .
+$llama::TEMPERATURE .
+$llama::STOP .
+
+$llama::TOP_K .
+$llama::TOP_P .
+$llama::MIN_P .
+$llama::REPETITION_PENALTY .
+
+$llama::LOGPROBS .
+
+$llama::CACHE_PROMPT .
+$llama::SEED .
+
+
+$llama::complete:
+  (
+    prompt
+    options*
+  )
+  get_options options
+    ADDRESS = "127.0.0.1" $address
+    PORT_NO = 8080 $port_no
+    llama::MODEL_NAME = undefined $model_name
+    llama::MAX_TOKENS = undefined $max_tokens
+    llama::TEMPERATURE = undefined $temperature
+    llama::STOP = undefined $stop
+    llama::TOP_K = undefined $top_k
+    llama::TOP_P = undefined $top_p
+    llama::MIN_P = undefined $min_p
+    llama::REPETITION_PENALTY = undefined $repetition_penalty
+    llama::LOGPROBS = undefined $logprobs
+    llama::CACHE_PROMPT = undefined $cache_prompt
+    llama::SEED = undefined $seed
+
+  hash_table $request_body
+    "prompt" = prompt
+
+  update_if model_name.is_defined &request_body
+    -> request_body("model" model_name)
+
+  update_if max_tokens.is_defined &request_body
+    -> request_body("max_tokens" max_tokens)
+
+  update_if temperature.is_defined &request_body
+    -> request_body("temperature" temperature)
+
+  update_if stop.is_defined &request_body
+    -> request_body("stop" stop)
+
+  update_if top_k.is_defined &request_body
+    -> request_body("top_k" top_k)
+
+  update_if top_p.is_defined &request_body
+    -> request_body("top_p" top_p)
+
+  update_if min_p.is_defined &request_body
+    -> request_body("min_p" min_p)
+
+  update_if repetition_penalty.is_defined &request_body
+    -> request_body("repetition_penalty" repetition_penalty)
+
+  update_if logprobs.is_defined &request_body
+    -> request_body("logprobs" logprobs)
+
+  update_if cache_prompt.is_defined &request_body
+    -> request_body("cache_prompt" cache_prompt)
+
+  update_if seed.is_defined &request_body
+    -> request_body("seed" seed)
+
+  to_json $json
+    request_body
+
+  open_tcp_client_socket! $socket address port_no
+
+  write_to! $_ignored socket
+    "POST /v1/completions HTTP/1.1@cr;@nl;"
+    "Host: @(address):@(port_no)@cr;@nl;"
+    "Content-Type: application/json@cr;@nl;"
+    "Content-Length: @(length_of(json))@cr;@nl;"
+    "Connection: close@cr;@nl;"
+    "@cr;@nl;"
+    json
+
+  read_all_from! $raw socket
+  from_utf8 &raw
+
+  search $pos $_len "@cr;@nl;@cr;@nl;" raw
+  range $body raw pos+4 -1
+
+  from_json $response
+    body
+
+  close! $_ignored socket
+
+  $choices response("choices")
+  $first choices(1)
+  $generated_text first("text")
+
+  if logprobs.is_defined && logprobs > 0
+    :
+      $logits list()
+      $probs first("logprobs")
+      $probs_list probs("content")
+      from_to !logits 1 length_of(probs_list)
+	: (i)
+	  $entry probs_list(i)
+	  push &logits entry("token") = entry("logprob")
+	  next
+	-> logits
+      -> generated_text logits
+    -> generated_text
