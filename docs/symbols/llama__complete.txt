@@ -1,0 +1,157 @@
+# llama::complete (a function)
+
+  sends a prompt to a llama-server and returns the generated text
+
+  Parameters:
+      prompt    the text to complete (string or list of strings)
+      options*  key-value pairs for configuration
+
+  Results:
+      generated text (string)
+      metadata (hash table, returned if two results are requested)
+
+Send a text prompt to a llama-server's /v1/completions endpoint and return the
+AI-generated completion. The server handles prefix caching, so each call is
+independent -- no model or sequence lifecycle on the client.
+
+Configure the request with key-value options. Options set to <undefined> are
+omitted from the HTTP body, letting the server use its own defaults:
+
+**ADDRESS = "127.0.0.1"** -- host name or IP of the llama-server. Use
+ADDRESS = "192.168.1.50" to target a remote machine. Default is localhost.
+
+**CACHE_PROMPT = true** -- enable KV cache reuse for the prompt. When present,
+the server reuses cached key-value states from earlier requests, speeding up
+repeated prefixes. Since it defaults to true, specifying the option alone
+enables caching. To disable, pass CACHE_PROMPT = false, which can matter on
+models where caching affects the result. Default is
+true.
+
+**LOGPROBS = 5** -- number of top logit candidates per generated token. When set
+to an integer greater than 0 and metadata is requested, the metadata record
+includes a "logprobs" entry: a list of key-value pairs mapping each generated
+token to its logprob score. For example, LOGPROBS = 3 gives you the three most
+likely alternatives at each step. When omitted or zero, the "logprobs" entry is
+<undefined>. Default is <undefined> (no logits).
+
+**MAX_TOKENS = 50** -- maximum number of tokens the model may generate. Set to
+a small value like 5 for short completions, or 256 for longer responses. Without
+this limit, the server generates until it reaches an end-of-sequence token.
+Default is <undefined> (server decides).
+
+**MIN_P = 0.1** -- minimum probability ratio for sampling. The model keeps only
+tokens that are at least min-p times as likely as the most probable token. A
+value of 0.1 means any token with less than 10 percent of the best token's
+probability is dropped. Higher values narrow the pool; lower values allow more
+variation. Default is <undefined> (server decides).
+
+**MODEL_NAME = "/path/to/model.gguf"** -- path or alias of the GGUF model on
+the server. Pass the full filesystem path as seen by the server process. When
+omitted, the server uses whichever model it currently has loaded. Useful when
+multiple models are registered and you want to target a specific one. Default is
+<undefined> (server default model).
+
+**PORT_NO = 8080** -- port the llama-server listens on. Use PORT_NO = 4567
+for a non-standard port. Default is 8080.
+
+**REPETITION_PENALTY = 1.2** -- penalty applied to recently used tokens. A value
+of 1.0 (server default) means no penalty and the model samples freely. Values
+above 1.0 make repeated sequences less likely, reducing looping and redundancy.
+Try 1.1 for a gentle nudge or 1.3 for strong suppression. Default is <undefined>
+(server uses 1.0).
+
+**SEED = 42** -- random seed for reproducible generation. Using the same seed
+with identical prompt and parameters always produces the same output, which is
+useful for testing, debugging, or comparing results across runs. Each unique
+integer gives a different sequence. Default is <undefined> (random).
+
+**STOP = list(". " ".@nl;")** -- string or list of strings that halt generation
+when encountered. The model stops as soon as any
+stop text appears in its output, and the stop text itself is not returned.
+Pass a single string like STOP = "." to end at the first period, or a list of
+strings (e.g. STOP = list(". " ".@nl;")) to stop at multiple different markers.
+Can be useful for XML-style tags: STOP = "</thought>". Default is <undefined>
+(server decides).
+
+**TEMPERATURE = 0** -- controls sampling randomness. At 0 the model always picks
+the most likely token, producing the most predictable output. Values around 0.7
+add creative variation; values near 1.0 make output quite unpredictable. Default
+is <undefined> (server decides).
+
+**TOP_K = 40** -- limits the token pool to the K most likely candidates before
+applying further sampling. A value of 1 means greedy selection of the
+single best
+token; higher values like 50 or 100 allow broader exploration. Default is
+<undefined> (server decides).
+
+**TOP_P = 0.9** -- nucleus sampling threshold. The model considers only tokens
+whose cumulative probability exceeds this value, ignoring the unlikely tail. A
+value of 1.0 allows every token; 0.5 restricts to just the top half. Default is
+<undefined> (server decides).
+
+**This function must be called with I/O-access rights!** It opens a TCP socket
+to the llama-server and performs HTTP communication.
+
+  Topic: AI
+
+  See also: llama::MODEL_NAME, llama::MAX_TOKENS, llama::LOGPROBS
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/llama_server>
+
+    <using std>
+    <using llama>
+
+    complete! $answer "Once upon a time"
+      ADDRESS = "127.0.0.1"
+      PORT_NO = 8080
+      MAX_TOKENS = 5
+      TEMPERATURE = 0
+
+    println! answer
+
+  Output:
+
+    , in a magical land
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/llama_server>
+
+    <using std>
+    <using llama>
+
+    complete! $answer $meta "The capital of France is"
+      STOP = list(". " ".@nl;")
+      MAX_TOKENS = 5
+      TEMPERATURE = 0
+      LOGPROBS = 5
+
+    println! answer
+    debug::dump 99 `meta
+
+  Output:
+
+    Paris
+
+  Error output:
+
+    meta:
+      hash_table
+        "model" = "/home/hermes/Downloads/Qwen3.5-2B-Q4_K_M.gguf"
+        "prompt_tokens" = 5
+        "total_tokens" = 8
+        "completion_tokens" = 3
+        "logprobs" =
+          list
+            tuple
+              " Paris"
+              -0.711177289485931
+        "finish_reason" = "stop"
+
+((defined in ai/llama_server.fky))
+((generated by Hermes - an AI agent))
+((2026-09-09 00:43:43))

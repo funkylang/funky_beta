@@ -81,6 +81,7 @@ $llama::complete:
     prompt
     options*
   )
+  $rc result_count()
   get_options options
     ADDRESS = "127.0.0.1" $address
     PORT_NO = 8080 $port_no
@@ -161,16 +162,26 @@ $llama::complete:
   $first choices(1)
   $generated_text first("text")
 
-  if logprobs.is_defined && logprobs > 0
+  if
+    rc == 2
     :
-      $logits list()
-      $probs first("logprobs")
-      $probs_list probs("content")
-      from_to !logits 1 length_of(probs_list)
-	: (i)
-	  $entry probs_list(i)
-	  push &logits entry("token") = entry("logprob")
-	  next
-	-> logits
-      -> generated_text logits
+      hash_table $meta
+	"finish_reason" = first("finish_reason")
+	"model" = response("model")
+	"prompt_tokens" = response("usage")("prompt_tokens")
+	"completion_tokens" = response("usage")("completion_tokens")
+	"total_tokens" = response("usage")("total_tokens")
+      update_if logprobs.is_defined && logprobs > 0 &meta
+	:
+	  $logits list()
+	  $probs first("logprobs")
+	  $probs_list probs("content")
+	  from_to !logits 1 length_of(probs_list)
+	    : (i)
+	      $entry probs_list(i)
+	      push &logits entry("token") = entry("logprob")
+	      next
+	    -> logits
+	  -> meta("logprobs" logits)
+      -> generated_text meta
     -> generated_text
