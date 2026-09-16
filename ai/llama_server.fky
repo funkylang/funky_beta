@@ -22,8 +22,8 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <namespace llama>
+<namespace llama_types>
 
-<require basic/stdlib>
 <require basic/export/json>
 <require basic/import/json>
 
@@ -67,8 +67,9 @@ $stream_state std_types::object
 
 $std_types::io.stream_states_of empty_hash_table
 
-# Metadata type: returned with each READ event in streaming mode
-# (and with the non-streaming variant, once it exists).
+# Metadata type (llama_types::metadata): public type so other modules can
+# extend it; declared in the llama_types namespace. Returned with each READ
+# event in streaming mode (and with the non-streaming variant, once it exists).
 # Only fields actually returned by the server are reported; the
 # infrastructure fills them as they become known. Everything not yet
 # available stays <undefined>; text_of defaults to an empty string.
@@ -101,7 +102,7 @@ $llama::total_token_count_of ()
 $llama::cached_token_count_of ()
 $llama::logits_of ()
 
-$llama_metadata std_types::object
+$llama_types::metadata std_types::object
   .llama::text_of ""
   .llama::finish_reason_of undefined
   .llama::model_name_of undefined
@@ -705,7 +706,7 @@ $llama_logits_from_candidates: (candidates)
 	-> pairs
       -> pairs
 
-# Builds a llama_metadata object from an already-parsed SSE response, filling in
+# Builds a llama_types::metadata object from an already-parsed SSE response, filling in
 # every field the server provided in this message. Fields not present (or null)
 # stay <undefined>, so each token carries only what is known for that step.
 
@@ -717,7 +718,7 @@ $metadata_from_response: (parsed)
   # field the server supplied. Reading a missing key yields <undefined>, which
   # is exactly the value we want to store for "not reported yet".
 
-  $meta llama_metadata
+  $meta llama_types::metadata
   !meta.llama::text_of first_choice("text")
   !meta.llama::model_name_of parsed("model")
   !meta.llama::request_id_of parsed("id")
