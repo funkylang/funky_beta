@@ -23,65 +23,126 @@
 
 <namespace llama>
 
-<require basic/import/json>
+<require basic/stdlib>
 <require basic/export/json>
+<require basic/import/json>
 
+<using std>
+
+# Overload of llama::complete — dispatches on the first argument's type:
+#   string prompt -> blocking HTTP completion
+#   io object     -> schedules an async streaming completion via run
+
+$llama::complete ()
+
+# Per-stream state: one hash_table on the io object (keyed by fd)
+# storing a single stream_state object with all stream data.
+# (Private — implementation detail, not exported.)
+
+$header_done_of ()
+$raw_buffer_of ()
+$text_tail_of ()
+$stream_user_id_of ()
+$failed_of ()
+$error_body_of ()
+$read_failed_sent_of ()
+$do_return_metadata_of ()
+$do_one_shot_of ()
+$one_shot_body_of ()
+$number_of_logits_to_return_of ()
+$stream_states_of ()
+
+$stream_state std_types::object
+  .header_done_of false
+  .raw_buffer_of ""
+  .text_tail_of ""
+  .stream_user_id_of undefined
+  .do_return_metadata_of false
+  .do_one_shot_of false
+  .one_shot_body_of ""
+  .number_of_logits_to_return_of 0
+  .failed_of false
+  .error_body_of ""
+  .read_failed_sent_of false
+
+$std_types::io.stream_states_of empty_hash_table
+
+# Metadata type: returned with each READ event in streaming mode
+# (and with the non-streaming variant, once it exists).
+# Only fields actually returned by the server are reported; the
+# infrastructure fills them as they become known. Everything not yet
+# available stays <undefined>; text_of defaults to an empty string.
 #
-  Topic: AI — llama-server HTTP API
+# Attribute meanings:
+# - text_of: the text carried in this message (the token text while streaming)
+# - finish_reason_of: llama::LENGTH, llama::STOP, or llama::CONTENT_FILTER
+#   when the server has finished; undefined otherwise
+# - model_name_of: the model name/path as reported by the server
+# - request_id_of: the unique completion identifier (chatcmpl-...) from the server
+# - system_fingerprint_of: the system fingerprint string reported by the server
+# - creation_date_of: the date_and_time when the server created the completion
+# - prompt_token_count_of: the number of prompt tokens, as reported by the server
+# - completion_token_count_of: the number of completion tokens, as reported
+# - total_token_count_of: the total tokens, as reported
+# - cached_token_count_of: the cached prompt tokens, as reported
+# - logits_of: the logprobs the server returned (list of
+#   key_value_pairs token_text = probability; streaming: single list,
+#   non-streaming: list of such lists). Set only when LOGITS > 0.
 
-  Stateless completion via llama-server's OpenAI-compatible /v1/completions
-  endpoint. No model or sequence lifecycle on the client side — each call
-  is an independent request with automatic prefix caching handled by the
-  server.
+$llama::text_of ()
+$llama::finish_reason_of ()
+$llama::model_name_of ()
+$llama::request_id_of ()
+$llama::system_fingerprint_of ()
+$llama::creation_date_of ()
+$llama::prompt_token_count_of ()
+$llama::completion_token_count_of ()
+$llama::total_token_count_of ()
+$llama::cached_token_count_of ()
+$llama::logits_of ()
 
-  Connection options (use std::ADDRESS and std::PORT_NO):
-    ADDRESS   server hostname or IP (default "127.0.0.1")
-    PORT_NO   server port (default 8080)
+$llama_metadata std_types::object
+  .llama::text_of ""
+  .llama::finish_reason_of undefined
+  .llama::model_name_of undefined
+  .llama::request_id_of undefined
+  .llama::system_fingerprint_of undefined
+  .llama::creation_date_of undefined
+  .llama::prompt_token_count_of undefined
+  .llama::completion_token_count_of undefined
+  .llama::total_token_count_of undefined
+  .llama::cached_token_count_of undefined
+  .llama::logits_of undefined
 
-  Model & generation options:
-    llama::MODEL_NAME      GGUF model name on the server (string)
-    llama::MAX_TOKENS      max tokens to generate (integer)
-    llama::TEMPERATURE     sampling temperature (real; lower = more deterministic)
-    llama::STOP            stop string; generation stops when this text appears
-
-  Sampling options:
-    llama::TOP_K             top-k sampling (integer)
-    llama::TOP_P             top-p nucleus sampling (real)
-    llama::MIN_P             min-p sampling (real)
-    llama::REPETITION_PENALTY repetition penalty (real, default 1.0)
-
-  Logit options:
-    llama::LOGPROBS  number of top logprobs per generated token (integer > 0)
-
-  Cache & determinism:
-    llama::CACHE_PROMPT  enable/disable KV cache reuse (boolean, default true)
-    llama::SEED          random seed for reproducible generation (integer)
-
-
-# Options — unique items for get_options key-value pairs:
+# Option keys / finish reasons — dual purpose where the meanings coincide:
+# llama::STOP is both the option key for a stop string and the unique item
+# delivered as the finish reason when generation stopped at that string.
 
 $llama::MODEL_NAME .
 $llama::MAX_TOKENS .
 $llama::TEMPERATURE .
 $llama::STOP .
-
 $llama::TOP_K .
 $llama::TOP_P .
 $llama::MIN_P .
 $llama::REPETITION_PENALTY .
-
-$llama::LOGPROBS .
-
+$llama::LOGITS .
 $llama::CACHE_PROMPT .
 $llama::SEED .
+$llama::METADATA .
+$llama::ONE_SHOT .
+$llama::LENGTH .
+$llama::CONTENT_FILTER .
 
+# The blocking overload of llama::complete - synchronous HTTP request,
+# waiting for the full completion before returning. Moved verbatim from
+# ai/llama_server.fky; it and the io overload below share option items.
 
-$llama::complete:
+$std_types::string/llama::complete:
   (
     prompt
     options*
   )
-  $rc result_count()
   get_options options
     ADDRESS = "127.0.0.1" $address
     PORT_NO = 8080 $port_no
@@ -93,9 +154,23 @@ $llama::complete:
     llama::TOP_P = undefined $top_p
     llama::MIN_P = undefined $min_p
     llama::REPETITION_PENALTY = undefined $repetition_penalty
-    llama::LOGPROBS = undefined $logprobs
+    llama::LOGITS = false $logits_option
+    llama::METADATA = false $return_metadata
     llama::CACHE_PROMPT = undefined $cache_prompt
     llama::SEED = undefined $seed
+
+  # The LOGITS option normalizes to an integer count:
+  # false/undefined -> 0, true -> 1, N -> N.
+  $number_of_logits_to_return
+    case
+      logits_option
+      false -> 0
+      true -> 1
+      -> logits_option
+
+  # LOGITS implies METADATA: logits can only travel with metadata
+  update_if number_of_logits_to_return > 0 &return_metadata
+    -> true
 
   hash_table $request_body
     "prompt" = prompt
@@ -124,8 +199,8 @@ $llama::complete:
   update_if repetition_penalty.is_defined &request_body
     -> request_body("repetition_penalty" repetition_penalty)
 
-  update_if logprobs.is_defined &request_body
-    -> request_body("logprobs" logprobs)
+  update_if number_of_logits_to_return > 0 &request_body
+    -> request_body("logprobs" number_of_logits_to_return)
 
   update_if cache_prompt.is_defined &request_body
     -> request_body("cache_prompt" cache_prompt)
@@ -163,25 +238,576 @@ $llama::complete:
   $generated_text first("text")
 
   if
-    rc == 2
+    return_metadata
     :
-      hash_table $meta
-	"finish_reason" = first("finish_reason")
-	"model" = response("model")
-	"prompt_tokens" = response("usage")("prompt_tokens")
-	"completion_tokens" = response("usage")("completion_tokens")
-	"total_tokens" = response("usage")("total_tokens")
-      update_if logprobs.is_defined && logprobs > 0 &meta
-	:
-	  $logits list()
-	  $probs first("logprobs")
-	  $probs_list probs("content")
-	  from_to !logits 1 length_of(probs_list)
-	    : (i)
-	      $entry probs_list(i)
-	      push &logits entry("token") = entry("logprob")
-	      next
-	    -> logits
-	  -> meta("logprobs" logits)
-      -> generated_text meta
+      # Build the metadata with the same shared functions used by
+      # the streaming variant. Non-streaming logits are per token,
+      # so logits_of becomes a list of lists - one inner list per
+      # generated token.
+      metadata_from_response $meta response
+      update_if number_of_logits_to_return > 0 &meta:
+	$content first("logprobs")("content")
+	$token_logits list()
+	from_to !token_logits 1 length_of(content)
+	  : (i)
+	    push &token_logits llama_logits_from_candidates(content(i)("top_logprobs"))
+	    next
+	  -> token_logits
+	!meta.llama::logits_of token_logits
+	-> meta
+      -> meta
     -> generated_text
+
+# The io overload of llama::complete — async streaming variant.
+# Schedules a setup job that opens the socket, writes the POST request,
+# and registers handlers to re-dispatch events under the user id.
+
+$std_types::io/llama::complete:
+  (
+    self
+    user_id
+    prompt
+    options*
+  )
+  get_options options
+    ADDRESS = "127.0.0.1" $address
+    PORT_NO = 8080 $port_no
+    llama::MODEL_NAME = undefined $model_name
+    llama::MAX_TOKENS = undefined $max_tokens
+    llama::TEMPERATURE = undefined $temperature
+    llama::STOP = undefined $stop
+    llama::LOGITS = false $logits_option
+    llama::METADATA = false $return_metadata
+    llama::TOP_K = undefined $top_k
+    llama::TOP_P = undefined $top_p
+    llama::MIN_P = undefined $min_p
+    llama::REPETITION_PENALTY = undefined $repetition_penalty
+    llama::CACHE_PROMPT = undefined $cache_prompt
+    llama::SEED = undefined $seed
+    llama::ONE_SHOT = false $one_shot
+
+  hash_table $request_body
+    "prompt" = prompt
+    "stream" = true
+
+  # One-shot mode: a single complete response, not a token stream.
+  update_if one_shot &request_body
+    -> request_body("stream" false)
+
+  update_if model_name.is_defined &request_body
+    -> request_body("model" model_name)
+
+  update_if max_tokens.is_defined &request_body
+    -> request_body("max_tokens" max_tokens)
+
+  update_if temperature.is_defined &request_body
+    -> request_body("temperature" temperature)
+
+  update_if stop.is_defined &request_body
+    -> request_body("stop" stop)
+
+  update_if top_k.is_defined &request_body
+    -> request_body("top_k" top_k)
+
+  update_if top_p.is_defined &request_body
+    -> request_body("top_p" top_p)
+
+  update_if min_p.is_defined &request_body
+    -> request_body("min_p" min_p)
+
+  update_if repetition_penalty.is_defined &request_body
+    -> request_body("repetition_penalty" repetition_penalty)
+
+  # The LOGITS option normalizes to an integer count:
+  # false/undefined -> 0, true -> 1, N -> N.
+  $number_of_logits_to_return
+    case
+      logits_option
+      false -> 0
+      true -> 1
+      -> logits_option
+
+  # LOGITS implies METADATA: logits can only travel with metadata
+  update_if number_of_logits_to_return > 0 &return_metadata
+    -> true
+
+  update_if number_of_logits_to_return > 0 &request_body
+    -> request_body("logprobs" number_of_logits_to_return)
+
+  update_if cache_prompt.is_defined &request_body
+    -> request_body("cache_prompt" cache_prompt)
+
+  update_if seed.is_defined &request_body
+    -> request_body("seed" seed)
+
+  to_json $json request_body
+
+  # Build the full HTTP request text
+  $request_text "POST /v1/completions HTTP/1.1@cr;@nl;"
+  append &request_text "Host: @(address):@(port_no)@cr;@nl;"
+  append &request_text "Content-Type: application/json@cr;@nl;"
+  append &request_text "Content-Length: @(length_of(json))@cr;@nl;"
+  update_if one_shot &request_text
+    -> append(request_text "Connection: close@cr;@nl;")
+  append &request_text "@cr;@nl;"
+  append &request_text json
+
+  # Schedule the setup job via run — it will execute inside get_events
+  run self llama_complete_setup user_id address port_no request_text return_metadata one_shot number_of_logits_to_return
+
+# Setup function called by the io overload's "run" scheduling.
+# Opens the socket, writes the request, sets up per-fd state, and
+# registers event handlers for streaming completion.
+
+$llama_complete_setup:
+  (
+    io
+    user_id
+    address
+    port_no
+    request_text
+    return_metadata
+    one_shot
+    number_of_logits_to_return
+  )
+  open_tcp_client_socket! $socket address port_no
+
+  # Write the HTTP POST request (buffered, no syscall at this point)
+  write &io socket request_text
+
+  # Streaming state for this connection: one object holding all stream data
+  !io.stream_states_of(socket)
+    stream_state
+      .stream_user_id_of user_id
+      .do_return_metadata_of return_metadata
+      .do_one_shot_of one_shot
+      .number_of_logits_to_return_of number_of_logits_to_return
+
+  # Register handlers for READ, CLOSED and WRITE_FAILED events on this socket
+  register_handlers &io socket READ = handle_stream_read
+  register_handlers &io socket CLOSED = handle_stream_closed
+  register_handlers &io socket WRITE_FAILED = handle_stream_write_failed
+  register_handlers &io socket READ_FAILED = handle_stream_read_failed
+
+  # Start reading from the socket
+  start_reading_from &io socket true undefined
+
+  -> io undefined
+
+# READ_FAILED handler: a socket-level read error (e.g. the connection
+# dropped mid-stream) surfaces here with an error object as data.
+# Re-dispatch it under the user id; CLOSED follows from the io layer.
+
+$handle_stream_read_failed: (io fd data)
+  $state stream_states_of(io)(fd)
+  $user_id stream_user_id_of(state)
+
+  log &io 1 "READ ERROR on fd @(to_integer(fd))"
+
+  # Re-dispatch as READ_FAILED under the user id
+  -> io typed_tuple(std_types::event READ_FAILED user_id data)
+
+# WRITE_FAILED handler: a refused connection surfaces here (the non-blocking
+# connect treats EINPROGRESS as success, so open_tcp_client_socket cannot fail
+# early). Mark the stream and immediately re-dispatch a high-level WRITE_FAILED
+# under the user id; the CLOSED handler then delivers the terminal CLOSED event.
+
+$handle_stream_write_failed: (io fd data)
+  $state stream_states_of(io)(fd)
+  $user_id stream_user_id_of(state)
+
+  # Mark the stream: the closed handler must NOT emit high-level events
+  !io.stream_states_of(fd)
+    state
+      .read_failed_sent_of true
+
+  log &io 1 "CONNECTION FAILED on fd @(to_integer(fd)) - no server reachable"
+
+  # Immediately re-dispatch as WRITE_FAILED under the user id
+  -> io typed_tuple(std_types::event WRITE_FAILED user_id data)
+
+# READ handler: skip headers once; run stream_next on the stored per-connection state;
+# re-dispatch each complete message as a READ event under the user id. [DONE] itself
+# is never sent; the final non-empty message (carrying usage) is kept for metadata extraction.
+
+$handle_stream_read: (io fd data)
+  $state stream_states_of(io)(fd)
+
+  # Top-level check: if the stream already failed, accumulate raw error body
+  if
+    failed_of(state)
+    :
+      !io.stream_states_of(fd)
+	state
+	  .error_body_of append(error_body_of(state) data)
+      -> io undefined
+    :
+      if
+	header_done_of(state)
+	:
+	  # One-shot mode: collect the complete response body; parsing
+	  # happens once in the CLOSED handler (no chunked/SSE decoding).
+	  if
+	    do_one_shot_of(state)
+	    :
+	      !io.stream_states_of(fd)
+		state
+		  .one_shot_body_of append(one_shot_body_of(state) data)
+	      -> io undefined
+	    :
+	      # Streaming mode: decode and process the stream data.
+	      # The append feeds stream_next below.
+	      append $combined raw_buffer_of(state) data
+	      stream_next $new_buffer $new_text $messages
+		combined
+		text_tail_of(state)
+	      !io.stream_states_of(fd)
+		state
+		  .raw_buffer_of new_buffer
+		  .text_tail_of new_text
+	      !state stream_states_of(io)(fd) # re-read: write-back does not update the local copy
+
+	      # Get the user id for re-dispatching
+	      $user_id stream_user_id_of(state)
+	      $new_events empty_list
+
+	      # Process each extracted SSE message
+	      from_to 1 length_of(messages)
+		: (i)
+		  $msg messages(i)
+		  if
+		    msg == "[DONE]"
+		    :
+		      # Skip the [DONE] marker, don't forward it
+		      next
+		    :
+		      # Decode from UTF-8 and check if empty
+		      from_utf8 &msg
+		      if
+			msg.is_empty
+			:
+			  next
+			:
+
+			  # Parse the SSE message - the application sees token text, not JSON
+			  from_json $parsed_msg msg
+			  if
+			    parsed_msg.is_an_error
+			    :
+			      log &io 1 "FAILED TO PARSE SSE MESSAGE: @(msg)"
+			      next
+			    :
+			      # Build metadata from all fields the server provides in this
+			      # message. Depending on do_return_metadata_of, deliver either
+			      # the full metadata object (text inside text_of) or just the
+			      # token text - never raw JSON.
+			      metadata_from_response $meta parsed_msg
+			      # Logits: parse only when requested for this stream; each
+			      # streaming message carries exactly one generated token.
+			      # The final (empty-text) chunk has no logprobs, so reading the
+			      # path can yield an error object, which auto-propagates as an
+			      # argument; check at the call site and keep logits_of <undefined>.
+			      update_if
+				number_of_logits_to_return_of(state) > 0 &meta:
+				  $candidates parsed_msg("choices")(1)("logprobs")("content")(1)("top_logprobs")
+				  if
+				    candidates.is_an_error:
+				      !meta.llama::logits_of undefined
+				      -> meta
+				    :
+				      !meta.llama::logits_of llama_logits_from_candidates(candidates)
+				      -> meta
+			      if
+				do_return_metadata_of(state):
+				  push &new_events typed_tuple(std_types::event READ user_id meta)
+				  next
+				:
+				  push &new_events typed_tuple(std_types::event READ user_id llama::text_of(meta))
+				  next
+		-> io new_events
+	:
+	  # First read — accumulate until the full header (CRLF CRLF) arrived
+	  append $combined raw_buffer_of(state) data
+	  search $pos $_len "@cr;@nl;@cr;@nl;" combined
+	  if
+	    pos.is_undefined
+	    :
+	      # Store the fragment and wait for more data
+	      !io.stream_states_of(fd)
+		state
+		  .raw_buffer_of combined
+	      !state stream_states_of(io)(fd) # re-read: write-back does not update the local copy
+	      log &io 1 "headers incomplete, waiting for more (@(length_of(combined)) bytes so far)"
+	      -> io undefined
+	    :
+	      # Found the header: mark it done and check the status line
+	      !io.stream_states_of(fd)
+		state
+		  .header_done_of true
+	      !state stream_states_of(io)(fd) # re-read: write-back does not update the local copy
+	      split_into_lines $header_lines combined
+	      $status_line header_lines(1)
+
+	      # Extract and validate the status code
+	      search $spos $_len " " status_line
+	      if
+		spos.is_undefined
+		:
+		  !io.stream_states_of(fd)
+		    state
+		      .failed_of true
+		  !state stream_states_of(io)(fd) # re-read: write-back does not update the local copy
+		  log &io 1 "MALFORMED STATUS LINE (@(status_line))"
+		  -> io undefined
+		:
+		  $status_code (status_line .behind. " ") .before. " "
+
+		  # Check if the response was successful
+		  if
+		    status_code == "200"
+		    :
+		      # One-shot mode: start collecting the response body here;
+		      # later READs append to it, CLOSED parses it (see handler).
+		      if
+			do_one_shot_of(state)
+			:
+			  !io.stream_states_of(fd)
+			    state
+			      .one_shot_body_of range(combined pos+4 -1)
+			  -> io undefined
+			:
+			  # Save the body after the headers for streaming
+			  !io.stream_states_of(fd)
+			    state
+			      .raw_buffer_of range(combined pos+4 -1)
+			  !state stream_states_of(io)(fd) # re-read: write-back does not update the local copy
+			  -> io undefined
+		    :
+		      # Non-200 response — mark as failed and buffer the error
+		      !io.stream_states_of(fd)
+			state
+			  .failed_of true
+			  .error_body_of range(combined pos+4 -1)
+		      !state stream_states_of(io)(fd) # re-read: write-back does not update the local copy
+		      log &io 1 "SERVER ERROR: HTTP @(status_code)"
+		      -> io undefined
+
+# CLOSED handler: cleans all per-fd state and re-dispatches CLOSED under the
+# user id (with undefined data). The metadata of each step travels with its
+# READ event; the final step's metadata carries usage and finish_reason.
+
+$handle_stream_closed: (io fd _data)
+  # Get the state object for this stream
+  $state stream_states_of(io)(fd)
+  $user_id stream_user_id_of(state)
+  $events empty_list
+
+  if
+    failed_of(state)
+    :
+      # Failure path: emit READ_FAILED with raw error body, then CLOSED
+      push &events typed_tuple(std_types::event READ_FAILED user_id error_body_of(state))
+      push &events typed_tuple(std_types::event CLOSED user_id undefined)
+      log &io 1 "stream @(debug::to_string(user_id)) FAILED"
+
+      # Clean up: delete the per-fd state entry
+      !io.stream_states_of(fd) undefined
+      -> io events
+    :
+      # One-shot mode: parse the complete body with the shared parser.
+      # The response is a single JSON reply (Content-Length framed),
+      # so strip the headers and hand the payload to the same
+      # metadata_from_response + logits code path as the other variants.
+      if
+	do_one_shot_of(state)
+	:
+	  # The headers were already stripped when the body was collected,
+	  # so this buffer is the pure JSON payload.
+	  from_utf8 $body_text one_shot_body_of(state)
+	  from_json $parsed_response body_text
+	  if
+	    parsed_response.is_an_error
+	    :
+	      log &io 1 "FAILED TO PARSE ONE-SHOT RESPONSE"
+	      !io.stream_states_of(fd) undefined
+	      push &events typed_tuple(std_types::event READ_FAILED user_id body_text)
+	      push &events typed_tuple(std_types::event CLOSED user_id undefined)
+	      -> io events
+	    :
+	      metadata_from_response $meta parsed_response
+
+	      # One-shot logits: build a list of lists from logprobs.content
+	      # (one inner list per generated token), mirroring the blocking variant.
+	      update_if number_of_logits_to_return_of(state) > 0 &meta:
+		$content parsed_response("choices")(1)("logprobs")("content")
+		$token_logits list()
+		from_to !token_logits 1 length_of(content)
+		  : (i)
+		    push &token_logits llama_logits_from_candidates(content(i)("top_logprobs"))
+		    next
+		  -> token_logits
+		!meta.llama::logits_of token_logits
+		-> meta
+	      if !events
+		do_return_metadata_of(state)
+		:
+		  push events typed_tuple(std_types::event CLOSED user_id meta)
+		:
+		  push events
+		    typed_tuple
+		      std_types::event
+		      CLOSED user_id llama::text_of(meta)
+	      log &io 4 "stream @(debug::to_string(user_id)) one-shot closed"
+	      !io.stream_states_of(fd) undefined
+	      -> io events
+	:
+	  # Streaming success path: only the terminal CLOSED event is needed
+	  push &events typed_tuple(std_types::event CLOSED user_id undefined)
+
+	  log &io 4 "stream @(debug::to_string(user_id)) closed"
+
+	  # Clean up: delete the per-fd state entry
+	  !io.stream_states_of(fd) undefined
+	  -> io events
+
+# Maps the server's finish_reason string to a unique item; undefined if absent.
+# Converts a unix timestamp to a date_and_time; undefined when absent.
+
+$unix_date_of: (timestamp)
+  update_if timestamp.is_defined &timestamp
+    -> from_unix_time(timestamp)
+  -> timestamp
+
+
+$finish_reason_item: (reason)
+  case
+    reason
+    "length" -> llama::LENGTH
+    "stop" -> llama::STOP
+    "content_filter" -> llama::CONTENT_FILTER
+    -> undefined
+
+# Shared logit parsing (used by BOTH the io and the blocking variant):
+# maps a server top_logprobs candidate list into a list of
+# key_value_pairs token_text = probability, ordered as received.
+# Returns <undefined> when no candidates are present.
+
+$llama_logits_from_candidates: (candidates)
+  if
+    candidates.is_undefined || length_of(candidates) == 0
+    -> undefined
+    :
+      $pairs list()
+      from_to !pairs 1 length_of(candidates)
+	: (i)
+	  push &pairs candidates(i)("token") = candidates(i)("logprob")
+	  next
+	-> pairs
+      -> pairs
+
+# Builds a llama_metadata object from an already-parsed SSE response, filling in
+# every field the server provided in this message. Fields not present (or null)
+# stay <undefined>, so each token carries only what is known for that step.
+
+$metadata_from_response: (parsed)
+  $first_choice parsed("choices")(1)
+  $usage parsed("usage")
+
+  # Start from a fresh default (all fields <undefined>, text "") and set each
+  # field the server supplied. Reading a missing key yields <undefined>, which
+  # is exactly the value we want to store for "not reported yet".
+
+  $meta llama_metadata
+  !meta.llama::text_of first_choice("text")
+  !meta.llama::model_name_of parsed("model")
+  !meta.llama::request_id_of parsed("id")
+  !meta.llama::system_fingerprint_of parsed("system_fingerprint")
+
+  # Set the remaining fields; reading a missing (or null) key yields
+  # <undefined>, which is stored as-is. Creation time needs a conversion
+  # and finish_reason a mapping to a unique item, so those go through
+  # small helpers that return undefined for absent input.
+  # The usage counts exist only in the final message. Calling / on
+  # undefined raises an error object, so each field reads through an
+  # if with both branches: no usage -> <undefined>.
+  !meta.llama::prompt_token_count_of
+    if
+      usage.is_defined
+      -> usage("prompt_tokens")
+      -> undefined
+  !meta.llama::completion_token_count_of
+    if
+      usage.is_defined
+      -> usage("completion_tokens")
+      -> undefined
+  !meta.llama::total_token_count_of
+    if
+      usage.is_defined
+      -> usage("total_tokens")
+      -> undefined
+  !meta.llama::cached_token_count_of
+    if
+      usage.is_defined
+      -> usage("prompt_tokens_details")("cached_tokens")
+      -> undefined
+  !meta.llama::creation_date_of
+    unix_date_of(parsed("created"))
+  !meta.llama::finish_reason_of
+    finish_reason_item(first_choice("finish_reason"))
+
+  -> meta
+
+# --- Pure functions (unchanged from 5e, SSE separator fixed to LF LF) ---
+
+# Stream processing: decode chunked transfer encoding and extract SSE messages.
+
+$stream_next: (raw_buffer text)
+  chunk_decode $buffer $decoded raw_buffer
+  append &text decoded
+  sse_extract $new_text $messages text
+  -> buffer new_text messages
+
+# Chunked transfer encoding decoder: processes hex size lines and decodes the payload.
+
+$chunk_decode: (buffer)
+  $text ""
+  loop:
+    search $pos $_len "@cr;@nl;" buffer
+    if
+      pos.is_undefined
+      -> buffer text
+      :
+	$hex_part range(buffer 1 pos-1)
+	parse_hex &hex_part $size
+	if
+	  size.is_undefined || length_of(buffer) < pos+size+2
+	  -> buffer text
+	  :
+	    if
+	      size == 0
+	      -> buffer text
+	      :
+		append &text range(buffer pos+2 pos+1+size)
+		range &buffer pos+4+size -1
+		next
+
+# Split SSE messages at blank lines; keep an incomplete tail.
+
+$sse_extract: (text)
+  $messages empty_list
+  loop:
+    search $pos $_len "@nl;@nl;" text
+    if
+      pos.is_undefined
+      -> text messages
+      :
+	$msg range(text 1 pos-1)
+	range &text pos+2 -1
+	if
+	  msg .has_prefix. "data:"
+	  :
+	    $payload (msg .behind. "data:").trim_left
+	    push &messages payload
+	    next
+	  :
+	    next
