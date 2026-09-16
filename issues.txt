@@ -54,7 +54,7 @@ issues.txt — known issues not fixed immediately
       basic/loops.fky                  (from_to, repeat: basic_loops::body!, break!)
       basic/types/collections/lists/list.fky        (generic_list/for_each)
       basic/types/collections/arrays/array.fky      (generic_array/for_each,
-                                                     uncommitted change of 2026-08-22)
+						     uncommitted change of 2026-08-22)
 
   Problem:
     A `!` placed directly after a function name in argument position is
@@ -91,3 +91,32 @@ issues.txt — known issues not fixed immediately
   Deferred because:
     Current code works through the tolerance; tightening the parser could break
     many stdlib sources at once - needs the audit above before compiler work.
+
+
+[2026-09-14] (priority: medium) generic_list and generic_array derive from
+  object instead of collection
+
+  Location:
+    runtime_templates/list.template   line 24: TYPE std_types::generic_list -> std_types::object
+    runtime_templates/array.template  line 25: TYPE std_types::generic_array -> std_types::object
+
+  Problem:
+    The collection family is rooted at std_types::collection (which derives
+    from object). Lists and strings inherit generic_list, arrays inherit
+    generic_array - but both generic types derive directly from object,
+    not from collection. This is a mistake, confirmed by the language
+    designer (2026-09-14): generic_list/generic_array should derive from
+    std_types::collection like sets and tables do. Consequence today:
+    everything defined on collection (e.g. the default is_empty via
+    length_of) is not inherited by lists, strings and arrays; they must
+    re-implement shared operations.
+
+  Proposed direction:
+    Change both templates to derive from std_types::collection in a future
+    version. Check the runtime template machinery first for how -> works
+    across template files (list.template vs array.template may need the
+    collection type visible).
+
+  Deferred because:
+    Current code works; inheritance is only conceptually wrong. Scheduled
+    for a future version (user decision 2026-09-14).
