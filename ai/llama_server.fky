@@ -174,7 +174,7 @@ $std_types::string/llama::complete:
     -> true
 
   hash_table $request_body
-    "prompt" = prompt
+    "prompt" = prompt.to_utf8
 
   update_if model_name.is_defined &request_body
     -> request_body("model" model_name)
@@ -288,7 +288,7 @@ $std_types::io/llama::complete:
     llama::ONE_SHOT = false $one_shot
 
   hash_table $request_body
-    "prompt" = prompt
+    "prompt" = prompt.to_utf8
     "stream" = true
 
   # One-shot mode: a single complete response, not a token stream.
@@ -757,6 +757,37 @@ $metadata_from_response: (parsed)
     finish_reason_item(first_choice("finish_reason"))
 
   -> meta
+
+# Cancels a streaming completion that was started with the io overload of
+# llama::complete: finds the fd belonging to the user_id in stream_states_of
+# and schedules a cancellation job via run, which closes the socket and
+# removes all state associated with it (following the library's rule: who
+#ever registers something must deregister it). The server may still generate
+# for a short while; the connection cut is the only signal available on an
+# OpenAI-compatible API. No I/O-access rights are needed: run only schedules;
+# close only adds a job to the io object.
+
+$llama::cancel_completion: (io user_id)
+  for_each stream_states_of(io)
+    : (fd state)
+      if
+	stream_user_id_of(state) == user_id
+	:
+	  run io llama_cancel_completion fd
+	:
+	  next
+    -> std::error(APPLICATION_ERROR "NO SUCH COMPLETION" user_id)
+
+# Job scheduled by cancel_completion (runs inside get_events): closes the
+# stream's socket and removes all state registered for it. No CLOSED event
+# is emitted — a self-close never generates one, and the application knows
+# about the cancellation itself.
+
+$llama_cancel_completion: (io fd)
+  close &io fd
+  !io.stream_states_of(fd) undefined
+  deregister_all_handlers &io fd
+  -> io undefined
 
 # --- Pure functions (unchanged from 5e, SSE separator fixed to LF LF) ---
 
