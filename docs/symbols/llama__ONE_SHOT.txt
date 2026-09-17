@@ -1,0 +1,14 @@
+# llama::ONE_SHOT (a unique item)
+
+  the one-shot mode option for async llama-server completions
+
+  Use in the options of <llama::complete> when scheduling on an io object to
+  buffer the complete response and deliver it as a single event instead of
+  streaming one READ event per token. The result arrives in the data value of
+  the final CLOSED event: either a string with the generated text, or a
+  <llama_types::metadata> object when METADATA is also set. Without ONE_SHOT,
+  responses stream incrementally (the default behavior).
+
+  Topic: AI
+
+  See also: llama::complete, std_types::io/llama::complete

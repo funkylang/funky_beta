@@ -1,0 +1,190 @@
+# std_types::io/llama::complete (a method)
+
+  schedules an asynchronous llama-server completion on an io object
+
+  Parameters:
+      self     the io object to schedule the job on
+      user_id  an application-supplied identifier for this stream
+      prompt   the text to complete
+      options* key-value pairs for configuration
+
+  Results:
+      io       the updated io object, ready for event processing
+
+  Schedules a llama-server completion on the given io object without
+  blocking. The call merely registers the work; the socket is opened and the
+  HTTP request written later, inside get_events!. The result of the
+  completion is never returned by this method -- it travels through the
+  standard io events under the user_id you supplied, so you handle it exactly
+  like any other stream on the same io object.
+
+  Calling it with &io as the first argument rebinds your io object in place.
+  The example below shows a complete setup: scheduling the completion,
+  driving the event loop, and filtering the events by the stream identifier.
+
+  Events delivered under the user_id:
+
+  **READ** -- one per generated token in streaming mode (the default).
+  Without METADATA, each data value is a string with the token text. With
+  METADATA, each data value is a <llama_types::metadata> object; the token
+  text is then read through llama::text_of(data) and every other
+  server-reported field through its polymorphic accessor.
+
+  **CLOSED** -- always the terminal event for this stream. In streaming mode,
+  its data value is <undefined>. With ONE_SHOT, however, the complete result
+  arrives as the data of this single CLOSED event: a string with the
+  generated text, or a <llama_types::metadata> object when METADATA or LOGITS
+  is set.
+
+  **READ_FAILED** -- sent before CLOSED when the server returned a non-200
+  status or the socket read errors out; its data value is the raw error body
+  from the server.
+
+  **WRITE_FAILED** -- sent before CLOSED when the connection could not be
+  established at all (server down, wrong port, ...); no READ events will come
+  for this stream.
+
+  All other streams on the io object keep working in parallel under their own
+  identifiers.
+
+  Configure the request with key-value options:
+
+  **ADDRESS = "127.0.0.1"** -- host name or IP of the llama-server, e.g.
+  ADDRESS = "192.168.1.50" (just an example) to target a remote machine.
+  Default is localhost.
+
+  **CACHE_PROMPT = true** -- enable KV cache reuse for the prompt. When
+  present, the server reuses cached key-value states from earlier requests,
+  speeding up repeated prefixes. Since it defaults to true, specifying the
+  option alone enables caching. To disable, pass CACHE_PROMPT = false.
+  Default is <undefined> (server decides).
+
+  **LOGITS = 3** -- number of top logit candidates per generated token. The
+  value true is equivalent to LOGITS = 1. Setting LOGITS to a value greater
+  than zero implies METADATA: the results then travel as
+  <llama_types::metadata> objects whose logits_of attribute carries, for
+  streaming, one list of token alternatives per token, and for ONE_SHOT one
+  list per generated token. The two options cannot be used independently --
+  logits are always delivered inside the metadata object. Default is false
+  (no logits).
+
+  **MAX_TOKENS = 50** -- maximum number of tokens the model may generate.
+  Set to a small value like 5 for short completions, or 256 for longer
+  responses. Default is <undefined> (server decides).
+
+  **METADATA = true** -- deliver <llama_types::metadata> objects instead of
+  plain token text: one per READ event in streaming mode, and with the final
+  result in ONE_SHOT mode. The generated text is then read through
+  llama::text_of. Since it defaults to false, specifying the option alone
+  requests metadata. Default is false.
+
+  **MIN_P = 0.1** -- minimum probability ratio for sampling. The model keeps
+  only tokens that are at least min-p times as likely as the most probable
+  token. Default is <undefined> (server decides).
+
+  **MODEL_NAME = "/path/to/model.gguf"** -- path or alias of the GGUF model
+  on the server, as seen by the server process. When omitted, the server uses
+  whichever model it currently has loaded. Default is <undefined>.
+
+  **ONE_SHOT** -- buffer the complete response and deliver it in the final
+  CLOSED event instead of streaming one READ event per token. Useful when the
+  caller wants the full answer at once and does not care about incremental
+  updates.
+
+  **PORT_NO = 8080** -- port the llama-server listens on. Default is 8080.
+
+  **REPETITION_PENALTY = 1.2** -- penalty applied to recently used tokens.
+  Values above 1.0 reduce looping; try 1.1 for a gentle nudge or 1.3 for
+  strong suppression. Default is <undefined> (server uses 1.0).
+
+  **SEED = 42** -- random seed for reproducible generation. Default is
+  <undefined> (random).
+
+  **STOP = list(". " ".@nl;")** -- string or list of strings that halt
+  generation when encountered. The model stops as soon as any stop text
+  appears in its output, and the stop text itself is not returned. Default is
+  <undefined> (server decides).
+
+  **TEMPERATURE = 0** -- controls sampling randomness. At 0 the model picks
+  only the most likely token; values around 0.7 add creative variation.
+  Default is <undefined> (server decides).
+
+  **TOP_K = 40** -- limits the token pool to the K most likely candidates
+  before applying further sampling. Default is <undefined> (server decides).
+
+  **TOP_P = 0.9** -- nucleus sampling threshold. The model considers only
+  tokens whose cumulative probability exceeds this value. Default is
+  <undefined> (server decides).
+
+  Topic: AI
+
+  See also: llama_types::metadata
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/llama_server>
+
+    <using std>
+    <using llama>
+
+    $answer_stream .
+
+    do:
+      $io std_types::io
+      initialize! &io
+      llama::complete &io answer_stream "What is the result of 7 times 8?"
+        ADDRESS = "127.0.0.1"
+        PORT_NO = 8080
+        MAX_TOKENS = 5
+        TEMPERATURE = 0
+        ONE_SHOT
+        METADATA
+      loop:
+        get_events! &io $events
+        handle_events &io &events
+        handle_answer! &io events
+        if
+          io.is_empty
+          :
+	break
+          :
+	next!
+
+    $handle_answer: (io events)
+      for_each events
+        : (event)
+          event $type $id $data
+          if
+	id != answer_stream
+	next!
+	:
+	  case type
+	    CLOSED:
+	      println! "the model answered:"
+	      print! debug::to_string(data 0 3)
+	      next!
+	    :
+	      next!
+        -> io
+
+  Output:
+
+    the model answered:
+
+    llama_types::metadata
+      llama::text_of = "@0xa;@0xa;The result of "
+      llama::finish_reason_of = llama::LENGTH
+      llama::model_name_of = "/home/hermes/Downloads/Qwen3.5-2B-Q4_K_M.gguf"
+      llama::request_id_of = "chatcmpl-MEVZ1wdWbzDdGDa6XheQdlhW7sCLfCCx"
+      llama::system_fingerprint_of = "b10840-73ab7599b"
+      llama::creation_date_of = <date and time 1789594777.000000000>
+      llama::prompt_token_count_of = 11
+      llama::completion_token_count_of = 5
+      llama::total_token_count_of = 16
+      llama::cached_token_count_of = 7
+      llama::logits_of = undefined
+
+((defined in ai/llama_server.fky))
+((generated by Hermes - an AI agent))
+((2026-09-16 23:39:38))

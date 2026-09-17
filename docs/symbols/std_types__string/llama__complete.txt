@@ -1,0 +1,170 @@
+# std_types::string/llama::complete (an I/O method)
+
+  sends a prompt to a llama-server and returns the generated text
+
+  Parameters:
+      prompt    the text to complete
+      options*  key-value pairs for configuration
+
+  Results:
+      generated text (string)
+      or the llama_types::metadata object (when requested)
+
+  **This function must be called with I/O-access rights!**
+
+  Sends the prompt to a llama-server's /v1/completions endpoint and waits for
+  the complete response before returning. The call is blocking -- the program
+  is suspended until the server has finished generating, so this variant is
+  unsuitable for use inside FDE's event loop. The server handles prefix
+  caching; each call is an independent request with no model or sequence
+  lifecycle on the client side.
+
+  Calling this method returns exactly one result. Without the METADATA option,
+  the generated text is returned as a string. With the METADATA option, the
+  generated text and everything else the server reports for this completion --
+  finish reason, model name, token usage counts, and so on -- are returned
+  bundled in a <llama_types::metadata> object; the text itself is then read
+  through its text_of attribute, e.g. llama::text_of(meta).
+
+  Configure the request with key-value options. Options set to <undefined> are
+  omitted from the HTTP body, letting the server use its own defaults:
+
+  **ADDRESS = "127.0.0.1"** -- host name or IP of the llama-server, e.g.
+  ADDRESS = "192.168.1.50" (just an example) to target a remote machine.
+  Default is localhost.
+
+  **CACHE_PROMPT = true** -- enable KV cache reuse for the prompt. When
+  present, the server reuses cached key-value states from earlier requests,
+  speeding up repeated prefixes. Since it defaults to true, specifying the
+  option alone enables caching. To disable, pass CACHE_PROMPT = false. Default
+  is <undefined> (server uses its default, typically enabled).
+
+  **LOGITS = 3** -- number of top logit candidates per generated token. The
+  value true is equivalent to LOGITS = 1. Setting LOGITS to a value greater
+  than zero implies METADATA: the single result then becomes the
+  <llama_types::metadata> object (see the METADATA option), whose logits_of
+  attribute carries one entry per generated token, each a list of that token's
+  top alternative probabilities. The two options cannot be used independently --
+  logits are always delivered inside the metadata object. Default is false (no
+  logits).
+
+  **MAX_TOKENS = 50** -- maximum number of tokens the model may generate. Set
+  to a small value like 5 for short completions, or 256 for longer responses.
+  Without this limit, the server generates until it reaches an end-of-sequence
+  token. Default is <undefined> (server decides).
+
+  **METADATA = true** -- return a <llama_types::metadata> object instead of
+  the plain text. When present, the single result becomes this metadata object;
+  the generated text is then read through llama::text_of(meta), and the other
+  server-reported fields are available as attributes of the same object. Since
+  it defaults to false, specifying the option alone requests metadata. Default
+  is false.
+
+  **MIN_P = 0.1** -- minimum probability ratio for sampling. The model keeps
+  only tokens that are at least min-p times as likely as the most probable
+  token. A value of 0.1 drops every token with less than 10 percent of the best
+  token's probability. Higher values narrow the pool; lower values allow more
+  variation. Default is <undefined> (server decides).
+
+  **MODEL_NAME = "/path/to/model.gguf"** -- path or alias of the GGUF model on
+  the server, as seen by the server process. When omitted, the server uses
+  whichever model it currently has loaded. Default is <undefined> (server
+  default model).
+
+  **PORT_NO = 8080** -- port the llama-server listens on. Use PORT_NO = 4567
+  for a non-standard port. Default is 8080.
+
+  **REPETITION_PENALTY = 1.2** -- penalty applied to recently used tokens. A
+  value of 1.0 (server default) means no penalty and the model samples freely.
+  Values above 1.0 make repeated sequences less likely, reducing looping and
+  redundancy. Try 1.1 for a gentle nudge or 1.3 for strong suppression. Default
+  is <undefined> (server uses 1.0).
+
+  **SEED = 42** -- random seed for reproducible generation. Using the same seed
+  with identical prompt and parameters always produces the same output, which
+  is useful for testing, debugging, or comparing results across runs. Default is
+  <undefined> (random).
+
+  **STOP = list(". " ".@nl;")** -- string or list of strings that halt
+  generation when encountered. The model stops as soon as any stop text appears
+  in its output, and the stop text itself is not returned. Pass a single string
+  like STOP = "." to end at the first period, or a list of strings to stop at
+  multiple different markers. Default is <undefined> (server decides).
+
+  **TEMPERATURE = 0** -- controls sampling randomness. At 0 the model always
+  picks the most likely token, producing the most predictable output. Values
+  around 0.7 add creative variation; values near 1.0 make output quite
+  unpredictable. Default is <undefined> (server decides).
+
+  **TOP_K = 40** -- limits the token pool to the K most likely candidates
+  before applying further sampling. A value of 1 means greedy selection of the
+  single best token; higher values like 50 or 100 allow broader exploration.
+  Default is <undefined> (server decides).
+
+  **TOP_P = 0.9** -- nucleus sampling threshold. The model considers only
+  tokens whose cumulative probability exceeds this value, ignoring the unlikely
+  tail. A value of 1.0 allows every token; 0.5 restricts to just the top half.
+  Default is <undefined> (server decides).
+
+  Topic: AI
+
+  See also: llama_types::metadata
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/llama_server>
+
+    <using std>
+    <using llama>
+
+    complete! $answer "Once upon a time"
+      ADDRESS = "127.0.0.1"
+      PORT_NO = 8080
+      MAX_TOKENS = 5
+      TEMPERATURE = 0
+
+    println! answer
+
+  Output:
+
+    , in a magical land
+
+  Example:
+
+    <require basic/stdlib>
+    <require ai/llama_server>
+
+    <using std>
+    <using llama>
+
+    complete! $meta "The capital of France is"
+      METADATA
+      MAX_TOKENS = 10
+      TEMPERATURE = 0
+
+    println! llama::text_of(meta)
+    print! debug::to_string(meta 0 3)
+
+  Output:
+
+    Paris.
+    A. True
+    B. False
+
+    llama_types::metadata
+      llama::text_of = " Paris.@0xa;A. True@0xa;B. False"
+      llama::finish_reason_of = llama::LENGTH
+      llama::model_name_of = "/home/hermes/Downloads/Qwen3.5-2B-Q4_K_M.gguf"
+      llama::request_id_of = "chatcmpl-scPtGV1Q9IB88ok3ixKowjNXWMS970z5"
+      llama::system_fingerprint_of = "b10840-73ab7599b"
+      llama::creation_date_of = <date and time 1789590068.000000000>
+      llama::prompt_token_count_of = 5
+      llama::completion_token_count_of = 10
+      llama::total_token_count_of = 15
+      llama::cached_token_count_of = 1
+      llama::logits_of = undefined
+
+((defined in ai/llama_server.fky))
+((generated by Hermes - an AI agent))
+((2026-09-16 22:21:08))
