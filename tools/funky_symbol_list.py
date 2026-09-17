@@ -287,7 +287,11 @@ def find_io_tables(text):
     IO_TAIL_CALL instructions."""
     io_tables = set()
     for m in FUNC_TABLE.finditer(text):
-        body = text[m.end():m.end() + 2000].split('}')[0]
+        # Scan until the table's own closing brace. Do NOT cap at a fixed
+        # offset: long function bodies place their I/O calls well beyond
+        # 2000 chars, and the earlier cap silently misclassified them as
+        # non-IO methods (e.g. std_types::string/llama::complete).
+        body = text[m.end():].split('}')[0]
         if 'IO_CALL' in body or 'IO_TAIL_CALL' in body:
             io_tables.add(m.group(1))
     return io_tables
