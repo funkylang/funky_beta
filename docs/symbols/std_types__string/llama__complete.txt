@@ -3,12 +3,11 @@
   sends a prompt to a llama-server and returns the generated text
 
   Parameters:
-      prompt    the text to complete
-      options*  key-value pairs for configuration
+    prompt: the text to complete
+    options*: key-value pairs for configuration
 
-  Results:
-      generated text (string)
-      or the llama_types::metadata object (when requested)
+  Result:
+    the generated text, or the metadata object describing this completion
 
   **This function must be called with I/O-access rights!**
 

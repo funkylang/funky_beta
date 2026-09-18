@@ -3,13 +3,13 @@
   schedules an asynchronous llama-server completion on an io object
 
   Parameters:
-      self     the io object to schedule the job on
-      user_id  an application-supplied identifier for this stream
-      prompt   the text to complete
-      options* key-value pairs for configuration
+    self: the io object to schedule the job on
+    user_id: an application-supplied identifier for this stream
+    prompt: the text to complete
+    options*: key-value pairs for configuration
 
-  Results:
-      io       the updated io object, ready for event processing
+  Result:
+    the updated io object, ready for event processing
 
   Schedules a llama-server completion on the given io object without
   blocking. The call merely registers the work; the socket is opened and the
@@ -46,6 +46,12 @@
 
   All other streams on the io object keep working in parallel under their own
   identifiers.
+
+  Cancellation: calling llama::cancel_completion(io user_id) stops this
+  stream. Because it is a self-close -- you are closing the connection from
+  the client, not the server -- no further events arrive for it at all, not
+  even the terminal CLOSED. You know about the cancellation because you made
+  the call; nothing else comes back under that user_id.
 
   Configure the request with key-value options:
 

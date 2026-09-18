@@ -3,10 +3,10 @@
   completes a prompt using a llama-server
 
   Parameters:
-      see the implementations
+    see the implementations
 
-  Results:
-      see the implementations
+  Result:
+    see the implementations
 
   Completes a text prompt against a llama-server running on a host.
   Which call form you use depends on the type of the argument you pass
