@@ -517,15 +517,18 @@ $check_arguments: (arguments templates)
 		      exit! 1
 
 		$convert: (value)
-		  $conversion conversions(idx)
 		  if
-		    conversion.is_undefined
-		    -> value
-		    :
+		    value.is_defined:
+		      $conversion conversions(idx)
 		      if
-			value.is_a_string
-			-> conversion(value)
-			-> map(value conversion)
+			conversion.is_undefined
+			-> value
+			:
+			  if
+			    value.is_a_string
+			    -> conversion(value)
+			    -> map(value conversion)
+		    -> undefined
 	  :
 	    spread results
 
