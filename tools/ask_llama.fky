@@ -12,6 +12,14 @@ program_parameters!
   list
     MANDATORY_PARAMETER "question" "
       the question you want to ask
+  $address
+  list
+    VALUED_OPTION "address" "127.0.0.1" "
+      the address of the llama server
+  $port_no
+  list
+    VALUED_OPTION "port-no" 8080 to_integer "
+      the port number of the llama server
   $no_think
   list
     "no-think" "
@@ -98,6 +106,8 @@ do:
   # (not given on the command line) are treated as not supplied, so the
   # server's defaults apply for them.
   llama::complete &io COMPLETE_STREAM prompt_text
+    ADDRESS = address
+    PORT_NO = port_no
     llama::MODEL_NAME = model_name
     llama::MAX_TOKENS = max_length
     llama::TEMPERATURE = temperature
