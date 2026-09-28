@@ -1,0 +1,277 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require basic/export/json>
+<require basic/import/json>
+<require ai/llama_server>
+
+<using std>
+
+program_parameters!
+  $prompt_text
+  list
+    MANDATORY_PARAMETER "question" "
+      the question you want to ask
+  $no_think
+  list
+    "no-think" "
+      suppress the model's reasoning output (where supported)
+  $model_name
+  list
+    VALUED_OPTION "model" undefined "
+      the name of the model to use
+  $temperature
+  list
+    VALUED_OPTION "temperature" 0.0 to_number "
+      sampling temperature
+  $seed
+  list
+    VALUED_OPTION "seed" 42 to_integer "
+      seed for deterministic generation
+  $max_length
+  list
+    VALUED_OPTION "length" 150 to_integer "
+      the maximum number of tokens to generate
+  $top_k
+  list
+    VALUED_OPTION "top-k" undefined to_integer "
+      restrict sampling to the top K most likely tokens
+  $top_p
+  list
+    VALUED_OPTION "top-p" undefined to_number "
+      use top-p (nucleus) sampling instead of top-k
+  $min_p
+  list
+    VALUED_OPTION "min-p" undefined to_number "
+      ignore tokens whose probability is below this fraction of the most likely token
+  $repetition_penalty
+  list
+    VALUED_OPTION "repetition-penalty" undefined to_number "
+      penalty for repeating tokens already generated
+
+
+# The user id for this stream — a unique item, so equality checks
+# are exact and it is unique in the flat symbol space.
+$COMPLETE_STREAM .
+
+# Confidence bounds for colouring (constants; to be made configurable via CLI later)
+$minimum_confidence -2.0
+$maximum_confidence 0.0
+
+# Text of the currently open line (the line being filled at the cursor).
+$line_text_of ()
+$stream_state std_types::object
+  .line_text_of ""
+
+do:
+  $io std_types::io
+  $state stream_state
+
+  initialize! &io
+
+  # Log only when stderr is redirected to a separate device (TEDI's rule):
+  # an interactive terminal stays clean; information level for diagnostics.
+  fstat! $stdout_info STDOUT_FILENO
+  fstat! $stderr_info STDERR_FILENO
+  $do_log
+    ||
+      inode_number_of(stderr_info) != inode_number_of(stdout_info)
+      device_of(stderr_info) != device_of(stdout_info)
+  $log_level if(do_log (-> 4) (-> 0))
+
+  enable_logging &io log_level
+
+  #log &io 1 "ask_llama stream_step4: print until the line is full"
+
+  update_if no_think &prompt_text
+    -> append("/no_think " prompt_text)
+
+  # The terminal width for wrapping
+  get_terminal_size! STDIN_FILENO $width $_height
+
+  # Print the question
+  println! prompt_text
+
+  # Call the io overload — it schedules the setup job and returns the
+  # updated io object (which carries the start job), so rebind via &io.
+  # All options are passed explicitly; those with an undefined value
+  # (not given on the command line) are treated as not supplied, so the
+  # server's defaults apply for them.
+  llama::complete &io COMPLETE_STREAM prompt_text
+    llama::MODEL_NAME = model_name
+    llama::MAX_TOKENS = max_length
+    llama::TEMPERATURE = temperature
+    llama::SEED = seed
+    llama::TOP_K = top_k
+    llama::TOP_P = top_p
+    llama::MIN_P = min_p
+    llama::REPETITION_PENALTY = repetition_penalty
+    llama::LOGITS = 10
+    llama::METADATA = true
+
+  # Event loop — wait for completion
+  loop:
+    get_events! &io $events
+    # The library handlers consume their own (socket) events and leave in
+    # events the stream READ/CLOSED events they produced under our id.
+    handle_events &io &events
+
+    # Dispatch the application events to the application handlers
+    handle_application_events &io &state width events
+
+    if
+      io.is_empty
+      :
+	break
+      :
+	next!
+
+
+# Application event handler: prints each piece via the io object as long
+# as printing it would not exceed the line width; stops when full. A piece
+# containing a line feed resets the current line width to 0.
+
+$handle_application_events: (io state width events)
+  for_each events
+    : (event)
+      event $type $id $data
+      # Only handle events destined for our stream id
+      if
+	id != COMPLETE_STREAM
+	next
+	:
+	  case type
+	    READ:
+	      # Metadata requested: data is a llama_types::metadata object;
+	      # the piece text under text_of. The background colour for this
+	      # token follows from the logit of its CHOSEN candidate (the
+	      # first one) relative to the global confidence bounds; print
+	      # the sequence once — it applies to all characters of the piece.
+	      $text llama::text_of(data)
+	      if
+		text.is_empty
+		:
+		  # The final chunk carries no token, only the finishing reason —
+		  # print it on a fresh line.
+		  print_to &io STDOUT_FILENO "@nl;" finish_reason_text(data)
+		  next
+		:
+		  $colour compute_colour(llama::logits_of(data)(1))
+		  # Black text on the confidence colour background
+		  print_to &io STDOUT_FILENO ansi_text_colour(BLACK) ansi_background_colour(colour)
+		  # Scan the piece character by character, printing as we go.
+		  # The algorithm is chunk-boundary independent: state carries
+		  # the full context between calls.
+		  $line line_text_of(state)
+		  for_each text
+		    : (chr)
+		      if
+			chr == '@nl;'
+			:
+			  # Hard line break: print it and reset the current line.
+			  print_to &io STDOUT_FILENO ansi_reset_colour() "@nl;"
+			  !line ""
+			  next
+			:
+			  # Soft wrap: if the current line is full, wrap at last space.
+			  if
+			    width_of(line) >= width
+			    :
+			      if
+				chr == ' '
+				:
+				  # Space on a full line: wrap here
+				  print_to &io STDOUT_FILENO ansi_reset_colour() "@nl;"
+				  !line ""
+				  next
+				:
+				  search " " line $pos $_len -1
+				  if
+				    pos.is_defined
+				    :
+				      #
+					Found a space; re-print the tail fragment on
+					a fresh line.
+				      $delete_from 1+width_of(range(line 1 pos-1))
+				      !line push(range(line pos+1 -1) chr)
+				      print_to &io STDOUT_FILENO
+					ansi_reset_colour() csi(delete_from 'G') csi('K') "@nl;" line
+				      next
+				    :
+				      # No space; force break after current word.
+				      print_to &io STDOUT_FILENO ansi_reset_colour() "@nl;" chr
+				      !line chr.to_string
+				      next
+			    :
+			      # Add this character to the line.
+			      print_to &io STDOUT_FILENO chr
+			      push &line chr
+			      next
+		    :
+		      !state.line_text_of line
+		      -> io state
+	    CLOSED:
+	      # Terminal event — end the line, restore the terminal's default
+	      # colours and terminate the program via the io object.
+	      print_to &io STDOUT_FILENO "@nl;" ansi_reset_colour()
+	      # Queue termination — get_events! performs it after all buffered
+	      # writes have been flushed. next continues the handler loop.
+	      exit &io
+	      next
+	    READ_FAILED:
+	      # Failed stream — data is a server error body (string) or, for
+	      # connection failures, an actual error object; never print it raw.
+	      if
+		data.is_an_error:
+		  print_to &io STDOUT_FILENO "@nl;[read error: @(data.to_error_message_string)]"
+		  next
+		:
+		  print_to &io STDOUT_FILENO "@nl;[read error: @(data)]"
+		  next
+	    WRITE_FAILED:
+	      # Connection failed — data is the error message string;
+	      # same handling as READ_FAILED (identical error semantics)
+	      if
+		data.is_an_error:
+		  print_to &io STDOUT_FILENO "@nl;[write error: @(data.to_error_message_string)]"
+		  next
+		:
+		  print_to &io STDOUT_FILENO "@nl;[write error: @(data)]"
+		  next
+	    :
+	      # Infrastructure events (fd ids) — not for the application
+	      next
+    -> io state
+
+# Background colour for one token piece, from the logit of its chosen
+# candidate (key-value pair: token_text = logit) against the ill-suited
+# bound (minimum_confidence) and well-suited bound (maximum_confidence)
+# held in globals. Three regions (chat_with_vicuna's algorithm,
+# generalized): below min — grey/red mixture; between the bounds — a
+# proportional red/green mixture; at/above max — pure green.
+
+$compute_colour: (choice)
+  $confidence value_of(choice)
+  $delta_low confidence-minimum_confidence
+  $delta_high maximum_confidence-confidence
+  cond
+    -> delta_low < 0 ->
+      colour_mixture
+	GREY = -delta_low
+	VERY_LIGHT_RED = minimum_confidence+delta_low
+    -> delta_high <= 0 -> GREEN
+    -> true ->
+      colour_mixture
+	VERY_LIGHT_RED = delta_high
+	VERY_LIGHT_GREEN = delta_low
+
+# The finishing reason as plain text for display on a fresh line. The server
+# reports it once — in the final (empty-text) chunk — as one of the unique
+# items llama::LENGTH / llama::STOP / llama::CONTENT_FILTER.
+
+$finish_reason_text: (meta)
+  case llama::finish_reason_of(meta)
+    llama::LENGTH -> "[stopped: max length reached]"
+    llama::STOP -> "[stopped: stop sequence or model finished]"
+    llama::CONTENT_FILTER -> "[stopped: content filter]"
+    -> ""

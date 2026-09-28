@@ -51,3 +51,4 @@ runtime/platform.h
 
 # ─── Private/local rules ─────────────────────────────────────────────────
 .gitignore_private
+tools/ask_llama
