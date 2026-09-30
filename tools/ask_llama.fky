@@ -235,7 +235,7 @@ $handle_application_events: (io state width events)
 		    :
 		      !state.line_text_of line
 		      !state.line_colours_of line_colours
-		      -> io state
+		      next
 	    CLOSED:
 	      # Terminal event — end the line, restore the terminal's default
 	      # colours and terminate the program via the io object.
