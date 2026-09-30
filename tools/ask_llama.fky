@@ -68,8 +68,11 @@ $maximum_confidence 0.0
 
 # Text of the currently open line (the line being filled at the cursor).
 $line_text_of ()
+$line_colours_of ()
+
 $stream_state std_types::object
   .line_text_of ""
+  .line_colours_of ""
 
 do:
   $io std_types::io
@@ -173,6 +176,7 @@ $handle_application_events: (io state width events)
 		  # The algorithm is chunk-boundary independent: state carries
 		  # the full context between calls.
 		  $line line_text_of(state)
+		  $line_colours line_colours_of(state)
 		  for_each text
 		    : (chr)
 		      if
@@ -181,6 +185,7 @@ $handle_application_events: (io state width events)
 			  # Hard line break: print it and reset the current line.
 			  print_to &io STDOUT_FILENO ansi_reset_colour() "@nl;"
 			  !line ""
+			  !line_colours ""
 			  next
 			:
 			  # Soft wrap: if the current line is full, wrap at last space.
@@ -193,6 +198,7 @@ $handle_application_events: (io state width events)
 				  # Space on a full line: wrap here
 				  print_to &io STDOUT_FILENO ansi_reset_colour() "@nl;"
 				  !line ""
+				  !line_colours ""
 				  next
 				:
 				  search " " line $pos $_len -1
@@ -204,21 +210,31 @@ $handle_application_events: (io state width events)
 					a fresh line.
 				      $delete_from 1+width_of(range(line 1 pos-1))
 				      !line push(range(line pos+1 -1) chr)
+				      !line_colours push(range(line_colours pos+1 -1) colour)
 				      print_to &io STDOUT_FILENO
-					ansi_reset_colour() csi(delete_from 'G') csi('K') "@nl;" line
-				      next
+					ansi_reset_colour() ansi_text_colour(BLACK)
+					csi(delete_from 'G') csi('K') "@nl;"
+				      for_each line
+					: (i c)
+					  print_to &io STDOUT_FILENO
+					    ansi_background_colour(line_colours(i)) c
+					  next
+					next
 				    :
 				      # No space; force break after current word.
 				      print_to &io STDOUT_FILENO ansi_reset_colour() "@nl;" chr
 				      !line chr.to_string
+				      !line_colours colour.to_string
 				      next
 			    :
 			      # Add this character to the line.
 			      print_to &io STDOUT_FILENO chr
 			      push &line chr
+			      push &line_colours colour
 			      next
 		    :
 		      !state.line_text_of line
+		      !state.line_colours_of line_colours
 		      -> io state
 	    CLOSED:
 	      # Terminal event — end the line, restore the terminal's default
