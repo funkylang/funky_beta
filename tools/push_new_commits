@@ -10,7 +10,19 @@ import sys
 
 
 def main():
-    repo = "/home/hermes/funky_beta"
+    # Resolve the repo root from git instead of hardcoding it - the repo may
+    # be located anywhere (moved to ~/workspace/funky_beta on 2026-10-17).
+    try:
+        repo = subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"],
+            stderr=subprocess.DEVNULL
+        ).decode().strip()
+    except subprocess.CalledProcessError:
+        print("error: not inside a git repository")
+        return 1
+    if not repo:
+        print("error: could not determine repo root")
+        return 1
 
     local_only_subjects = subprocess.check_output(
         ["git", "log", "--format=%s", "origin/master..HEAD"],
