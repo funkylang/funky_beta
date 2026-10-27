@@ -13,7 +13,7 @@
 
 set -euo pipefail
 
-REPO="/home/hermes/funky_beta"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && git rev-parse --show-toplevel)"
 cd "$REPO"
 
 echo "=== Syncing funky_beta with origin/master ==="
