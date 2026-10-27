@@ -32,7 +32,7 @@
 #pragma warning(disable: 4244 4267) // possible loss of data
 #endif
 
-#define MODEL_PATH "/mnt/var/models/"
+#define MODEL_PATH_DEFAULT "/var/models/"
 
 #define MAXIMUM_BATCH_SIZE 512
 #define VRAM_RESERVE 4096
@@ -55,6 +55,7 @@ void initialize_llama(void) {
 static char *current_model_name;
 static struct llama_model *current_model = NULL;
 static struct llama_context *current_context = NULL;
+static char *model_path = MODEL_PATH_DEFAULT;
 static int current_context_size;
 static int maximum_sequences = 1;
 static int minimum_context_size = 8192;
@@ -88,6 +89,10 @@ static struct llama_model *load_model(const char *filename) {
 
 static struct llama_context *create_context(struct llama_model *model) {
   struct llama_context_params ctx_params = llama_context_default_params();
+  // unified KV cache: one shared pool of n_ctx cells for all sequences,
+  // dynamic allocation per sequence, shared prefixes count only once.
+  // Restores the pre-2025 flexible multi-sequence behavior.
+  ctx_params.kv_unified = true;
   fprintf(stderr, "embeddings = %d\n", ctx_params.embeddings);
   fprintf(stderr, "offload_kqv = %d\n", ctx_params.offload_kqv);
   fprintf(stderr, "no_perf = %d\n", ctx_params.no_perf);
@@ -396,7 +401,7 @@ static int compare_confidences(const void *left, const void *right) {
 }
 
 static void list_models(int client_fd) {
-  char *path = MODEL_PATH;
+  char *path = model_path;
   DIR *dir = opendir(path);
   if (dir) {
     struct dirent *entry;
@@ -668,14 +673,17 @@ static int copy_sequence(
     sequence->tokens[i] = template_sequence->tokens[i];
     sequence->positions[i] = template_sequence->positions[i];
   }
+  set_array_length(sequence->tokens, token_count);
+  set_array_length(sequence->positions, token_count);
   sequence->state = UNMODIFIED;
   sequence->tokens_added = 0;
   sequence->evaluation_position = template_sequence->evaluation_position;
   sequence->was_shifted = false;
   fprintf(stderr, "llama_memory_seq_cp(current_memory, %d, %d, 0, %d)\n",
-    template_idx, sequence_idx, token_count);
+    template_sequence->sequence_id, sequence->sequence_id, token_count);
   llama_memory_seq_cp(
-    current_memory, template_idx, sequence_idx, 0, token_count);
+    current_memory, template_sequence->sequence_id,
+    sequence->sequence_id, 0, token_count);
   return sequence_idx;
 }
 
@@ -976,7 +984,7 @@ static void handle_use_model(int fd, char *model_name) {
   fprintf(stderr, "use_model %s\n", model_name);
   current_session_per_client[fd] = current_session_id;
   if (!current_model_name) {
-    char *full_model_name = create_string(MODEL_PATH, model_name, NULL);
+    char *full_model_name = create_string(model_path, model_name, NULL);
     fprintf(stderr, "loading model %s\n", full_model_name);
     struct llama_model *model = load_model(full_model_name);
     if (model) {
@@ -1869,6 +1877,7 @@ int main(int argc, char **argv) {
   // --concurrent-sequences (default: 1)
   // --min-ctx-size (default: 8192)
   // --max-ctx-size (default: 32768)
+  // --model-path (default: /var/models/)
 
   // parse command line arguments and add a help option
 
@@ -1920,6 +1929,26 @@ int main(int argc, char **argv) {
 	fprintf(stderr, "missing argument for --max-ctx-size\n");
 	exit(EXIT_FAILURE);
       }
+    } else if (strcmp(argv[i], "--model-path") == 0) {
+      if (i+1 < argc) {
+	char *p = argv[++i];
+	if (*p != '/') {
+	  fprintf(stderr, "--model-path must be an absolute path: %s\n", p);
+	  exit(EXIT_FAILURE);
+	}
+	size_t len = strlen(p);
+	if (len > 0 && p[len-1] != '/') {
+	  char *q = realloc(p, len+2);
+	  if (!q) exit(EXIT_FAILURE);
+	  q[len] = '/';
+	  q[len+1] = 0;
+	  p = q;
+	}
+	model_path = p;
+      } else {
+	fprintf(stderr, "missing argument for --model-path\n");
+	exit(EXIT_FAILURE);
+      }
     } else if (strcmp(argv[i], "--help") == 0) {
       fprintf(stderr,
 	"Usage: %s [options]\n"
@@ -1928,6 +1957,7 @@ int main(int argc, char **argv) {
 	"  --concurrent-sequences <count>  (default: 1)\n"
 	"  --min-ctx-size <size>           (default: 8192)\n"
 	"  --max-ctx-size <size>           (default: 32768)\n"
+	"  --model-path <path>             (default: /var/models/)\n"
 	"  --help                          (shows this help)\n",
 	argv[0]);
       exit(EXIT_SUCCESS);
