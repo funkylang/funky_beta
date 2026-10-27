@@ -1931,20 +1931,19 @@ int main(int argc, char **argv) {
       }
     } else if (strcmp(argv[i], "--model-path") == 0) {
       if (i+1 < argc) {
-	char *p = argv[++i];
+	const char *p = argv[++i];
 	if (*p != '/') {
 	  fprintf(stderr, "--model-path must be an absolute path: %s\n", p);
 	  exit(EXIT_FAILURE);
 	}
 	size_t len = strlen(p);
-	if (len > 0 && p[len-1] != '/') {
-	  char *q = realloc(p, len+2);
-	  if (!q) exit(EXIT_FAILURE);
-	  q[len] = '/';
-	  q[len+1] = 0;
-	  p = q;
-	}
-	model_path = p;
+	// Copy into a fresh buffer (argv strings are not reallocatable).
+	char *q = malloc(len+2);
+	if (!q) exit(EXIT_FAILURE);
+	strcpy(q, p);
+	q[len] = '/';
+	q[len+1] = 0;
+	model_path = q;
       } else {
 	fprintf(stderr, "missing argument for --model-path\n");
 	exit(EXIT_FAILURE);
