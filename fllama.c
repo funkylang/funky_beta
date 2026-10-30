@@ -65,6 +65,9 @@ llama_memory_t current_memory;
 
 static long gpu_offload_threshold = 0;
 
+static int mtp_predict = 0; // number of tokens to predict (0 = disabled)
+static struct llama_context *mtp_context = NULL;
+
 static struct llama_model *load_model(const char *filename) {
   // compute file size
   FILE *fp = fopen(filename, "rb");
@@ -77,6 +80,8 @@ static struct llama_model *load_model(const char *filename) {
   fclose(fp);
   fprintf(stderr, "model file size: %zu bytes\n", filesize);
   struct llama_model_params model_params = llama_model_default_params();
+  model_params.load_mtp = (mtp_predict > 0);
+  fprintf(stderr, "load_mtp = %d\n", model_params.load_mtp);
   if (filesize <= gpu_offload_threshold) {
     model_params.n_gpu_layers = 99;
     fprintf(stderr, "using GPU for all layers\n");
@@ -287,8 +292,8 @@ TYPE *insert_value_into_##TYPE##_array( \
   if (count <= 0) return items; \
   ARRAY_HEADER *hdr = (ARRAY_HEADER *)items-1; \
   if (index < 0 || index > hdr->length) { \
-    fprintf(stderr,
-      "Invalid index %d for inserting into " #TYPE " array of length %d\n",
+    fprintf(stderr, \
+      "Invalid index %d for inserting into " #TYPE " array of length %d\n", \
       index, hdr->length); \
     exit(EXIT_FAILURE); \
   } \
@@ -1004,6 +1009,30 @@ static void handle_use_model(int fd, char *model_name) {
       current_context = create_context(current_model);
       if (current_context) {
 	current_memory = llama_get_memory(current_context);
+	// MTP draft context (shares target model weights)
+	int n_layer_nextn = llama_model_n_layer_nextn(current_model);
+	if (mtp_predict > 0 && n_layer_nextn > 0) {
+	  struct llama_context_params mtp_params
+	    = llama_context_default_params();
+	  mtp_params.ctx_type = LLAMA_CONTEXT_TYPE_MTP;
+	  mtp_params.n_ctx = llama_n_ctx(current_context);
+	  mtp_params.n_rs_seq = 0;
+	  mtp_params.ctx_other = current_context;
+	  mtp_params.n_seq_max = maximum_sequences;
+	  mtp_params.n_batch = MAXIMUM_BATCH_SIZE;
+	  fprintf(stderr, "creating MTP context (nextn layers = %d)\n",
+	    n_layer_nextn);
+	  fprintf(stderr, "mtp n_ctx = %u\n", llama_n_ctx(current_context));
+	  mtp_context = llama_init_from_model(current_model, mtp_params);
+	  if (mtp_context) {
+	    fprintf(stderr, "MTP context created\n");
+	  } else {
+	    fprintf(stderr, "failed to create MTP context; continuing without MTP\n");
+	  }
+	} else if (n_layer_nextn > 0) {
+	  fprintf(stderr, "model supports MTP (nextn layers = %d); use --mtp <n> to enable\n",
+	    n_layer_nextn);
+	}
       } else {
 	llama_model_free(model);
 	current_model = NULL;
@@ -1889,6 +1918,7 @@ int main(int argc, char **argv) {
   // --concurrent-sequences (default: 1)
   // --min-ctx-size (default: 8192)
   // --max-ctx-size (default: 32768)
+  // --mtp (number of tokens to predict; default: 0)
   // --model-path (default: /var/models/)
 
   // parse command line arguments and add a help option
@@ -1941,6 +1971,19 @@ int main(int argc, char **argv) {
 	fprintf(stderr, "missing argument for --max-ctx-size\n");
 	exit(EXIT_FAILURE);
       }
+    } else if (strcmp(argv[i], "--mtp") == 0) {
+      if (i+1 < argc) {
+	int n = atoi(argv[++i]);
+	if (n > 0) {
+	  mtp_predict = n;
+	} else {
+	  fprintf(stderr, "invalid argument for --mtp\n");
+	  exit(EXIT_FAILURE);
+	}
+      } else {
+	fprintf(stderr, "missing argument for --mtp\n");
+	exit(EXIT_FAILURE);
+      }
     } else if (strcmp(argv[i], "--model-path") == 0) {
       if (i+1 < argc) {
 	const char *p = argv[++i];
@@ -1968,6 +2011,7 @@ int main(int argc, char **argv) {
 	"  --concurrent-sequences <count>  (default: 1)\n"
 	"  --min-ctx-size <size>           (default: 8192)\n"
 	"  --max-ctx-size <size>           (default: 32768)\n"
+	"  --mtp <n>                       (default: 0)\n"
 	"  --model-path <path>             (default: /var/models/)\n"
 	"  --help                          (shows this help)\n",
 	argv[0]);
