@@ -261,6 +261,10 @@ TYPE *delete_from_##TYPE##_array(TYPE *items, int index, int count) { \
 TYPE *insert_into_##TYPE##_array(TYPE *items, int index, TYPE *other_items) { \
   ARRAY_HEADER *header = (ARRAY_HEADER *)items-1; \
   ARRAY_HEADER *other_header = (ARRAY_HEADER *)other_items-1; \
+  if (index < 0 || index > header->length) { \
+    fprintf(stderr, "Invalid index %d for inserting into " #TYPE " array of length %d\n", index, header->length); \
+    exit(EXIT_FAILURE); \
+  } \
   int new_length = header->length + other_header->length; \
   if (new_length > header->size) { \
     items = reallocate_##TYPE##_array(items, new_length); \
@@ -281,6 +285,13 @@ TYPE *insert_into_##TYPE##_array(TYPE *items, int index, TYPE *other_items) { \
 TYPE *insert_value_into_##TYPE##_array( \
   TYPE *items, int index, int count, TYPE value) { \
   if (count <= 0) return items; \
+  ARRAY_HEADER *hdr = (ARRAY_HEADER *)items-1; \
+  if (index < 0 || index > hdr->length) { \
+    fprintf(stderr,
+      "Invalid index %d for inserting into " #TYPE " array of length %d\n",
+      index, hdr->length); \
+    exit(EXIT_FAILURE); \
+  } \
   int new_length = array_length(items)+count; \
   items = reallocate_##TYPE##_array(items, new_length); \
   ARRAY_HEADER *header = (ARRAY_HEADER *)items-1; \
@@ -1288,6 +1299,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	    sequence_idx, fd, client_sequence_id);
 	  sequence->positions[n-1] = n-1;
 	  sequence->state = EVALUATED;
+	  sequence->evaluation_position = n;  // include lookahead token
 	  sequence->has_lookahead = false;
 	  sequence->next_token = sequence->confidences[0].token;
 	  send_confidences(sequence);
