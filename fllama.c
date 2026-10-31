@@ -35,6 +35,10 @@
 
 #define MODEL_PATH_DEFAULT "/var/models/"
 
+// build identifier; update with the ACTUAL current time on every fllama.c commit
+static const char *FLLAMA_VERSION = "2026-10-31 13:14:39";
+
+
 #define MAXIMUM_BATCH_SIZE 512
 #define VRAM_RESERVE 4096
 // measured in context units
@@ -2182,6 +2186,7 @@ static void handle_client_requests(int listen_fd) {
 }
 
 int main(int argc, char **argv) {
+  fprintf(stderr, "fllama %s\n", FLLAMA_VERSION);
   // options:
   // --gpu-offload-threshold (in GB; default: 0)
   // --concurrent-sequences (default: 1)
