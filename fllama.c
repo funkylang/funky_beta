@@ -15,6 +15,7 @@
 #endif
 
 #include <llama.h>
+#include "llama-ext.h"
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 #include <signal.h>
@@ -528,6 +529,11 @@ typedef struct {
   bool was_shifted; // parts of the sequence were shifted
   bool has_lookahead; // the best matching token was preevaluated
   int next_token; // the best guess for the next token
+  // partial (SWA) KV checkpoint taken before the lookahead decode, so the
+  // state can be rolled back when the client's token rejects the lookahead
+  uint8_t *lookahead_ckpt_data;
+  size_t lookahead_ckpt_size;
+  llama_pos lookahead_ckpt_pos_max;
   int *tokens; // the unevaluated tokens
   int *positions; // -1 for new tokens
   CONFIDENCE confidences[10]; // the top 10 confidences for the next token
@@ -594,6 +600,11 @@ static void dump_batch(struct llama_batch *batch) {
 
 static SEQUENCE *sequences = NULL;
 
+// lookahead checkpoint helpers (defined near evaluate_sequences)
+static void save_lookahead_checkpoint(SEQUENCE *sequence);
+static void free_lookahead_checkpoint(SEQUENCE *sequence);
+static void rollback_lookahead_checkpoint(SEQUENCE *sequence);
+
 static int get_sequence_idx(int client_fd, int client_sequence_id) {
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
@@ -652,6 +663,9 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   sequence->was_shifted = false;
   sequence->has_lookahead = false;
   sequence->next_token = -1;
+  sequence->lookahead_ckpt_data = NULL;
+  sequence->lookahead_ckpt_size = 0;
+  sequence->lookahead_ckpt_pos_max = -1;
   sequence->tokens = NULL;
   sequence->positions = NULL;
   fprintf(stderr, "created server sequence %d (client %d, id %d)\n",
@@ -742,6 +756,7 @@ static void free_client_sequence(int client_fd, int client_sequence_id) {
       sequence->state = INVALID;
       deallocate_array(sequence->tokens);
       deallocate_array(sequence->positions);
+      free_lookahead_checkpoint(sequence);
       change_session(client_fd, sequence->session_id);
       fprintf(
 	stderr, "llama_memory_seq_rm(current_memory, %d, 0, -1)\n",
@@ -1330,12 +1345,14 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	  sequence->state = EVALUATED;
 	  sequence->evaluation_position = n;  // include lookahead token
 	  sequence->has_lookahead = false;
+	  free_lookahead_checkpoint(sequence);
 	  sequence->next_token = sequence->confidences[0].token;
 	  send_confidences(sequence);
 	} else {
 	  fprintf(stderr,
 	    "do not use lookahead for server sequence %d (client %d, id %d)\n",
 	    sequence_idx, fd, client_sequence_id);
+	  rollback_lookahead_checkpoint(sequence);
 	  goto evaluate;
 	}
       } else {
@@ -1568,6 +1585,93 @@ static void show_time(const char *msg) {
     msg, hour, minute, second, milliseconds);
 }
 
+// Save a partial (SWA-only) checkpoint of the sequence's KV state before the
+// lookahead decode; this is what gets restored if the client rejects the token.
+static void save_lookahead_checkpoint(SEQUENCE *sequence) {
+  struct llama_context *ctx = current_context;
+  size_t size = llama_state_seq_get_size_ext(
+    ctx, sequence->sequence_id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
+  if (size == 0) {
+    fprintf(stderr,
+      "no partial state to checkpoint in server sequence %d "
+      "(client %d, id %d)\n",
+      sequence->sequence_id, sequence->client_fd,
+      sequence->client_sequence_id);
+    return;
+  }
+  uint8_t *data = malloc(size);
+  if (!data) {
+    fprintf(stderr,
+      "failed to allocate %zu bytes for the lookahead checkpoint of "
+      "server sequence %d (client %d, id %d)\n",
+      size, sequence->sequence_id, sequence->client_fd,
+      sequence->client_sequence_id);
+    return;
+  }
+  size_t n = llama_state_seq_get_data_ext(
+    ctx, data, size, sequence->sequence_id,
+    LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
+  if (n != size) {
+    fprintf(stderr,
+      "lookahead checkpoint size mismatch in server sequence %d: "
+      "expected %zu bytes, got %zu\n",
+      sequence->sequence_id, size, n);
+    free(data);
+    return;
+  }
+  sequence->lookahead_ckpt_data = data;
+  sequence->lookahead_ckpt_size = size;
+  sequence->lookahead_ckpt_pos_max =
+    llama_memory_seq_pos_max(llama_get_memory(ctx), sequence->sequence_id);
+  fprintf(stderr,
+    "saved lookahead checkpoint in server sequence %d "
+    "(client %d, id %d): %zu bytes, pos_max = %d\n",
+    sequence->sequence_id, sequence->client_fd,
+    sequence->client_sequence_id, size,
+    sequence->lookahead_ckpt_pos_max);
+}
+
+static void free_lookahead_checkpoint(SEQUENCE *sequence) {
+  if (!sequence->lookahead_ckpt_data) return;
+  fprintf(stderr,
+    "discarded lookahead checkpoint of server sequence %d "
+    "(client %d, id %d)\n",
+    sequence->sequence_id, sequence->client_fd,
+    sequence->client_sequence_id);
+  free(sequence->lookahead_ckpt_data);
+  sequence->lookahead_ckpt_data = NULL;
+  sequence->lookahead_ckpt_size = 0;
+  sequence->lookahead_ckpt_pos_max = -1;
+}
+
+// Restore the saved checkpoint and remove everything speculated beyond it.
+static void rollback_lookahead_checkpoint(SEQUENCE *sequence) {
+  if (!sequence->lookahead_ckpt_data) return;
+  struct llama_context *ctx = current_context;
+  size_t n = llama_state_seq_set_data_ext(
+    ctx, sequence->lookahead_ckpt_data, sequence->lookahead_ckpt_size,
+    sequence->sequence_id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
+  if (n != sequence->lookahead_ckpt_size) {
+    fprintf(stderr,
+      "failed to restore the lookahead checkpoint of server sequence %d: "
+      "expected %zu bytes, got %zu\n",
+      sequence->sequence_id, sequence->lookahead_ckpt_size, n);
+  } else {
+    fprintf(stderr,
+      "rolling back lookahead in server sequence %d (client %d, id %d): "
+      "removed positions >= %d\n",
+      sequence->sequence_id, sequence->client_fd,
+      sequence->client_sequence_id, sequence->lookahead_ckpt_pos_max + 1);
+    llama_memory_seq_rm(
+      llama_get_memory(ctx), sequence->sequence_id,
+      sequence->lookahead_ckpt_pos_max + 1, -1);
+  }
+  free(sequence->lookahead_ckpt_data);
+  sequence->lookahead_ckpt_data = NULL;
+  sequence->lookahead_ckpt_size = 0;
+  sequence->lookahead_ckpt_pos_max = -1;
+}
+
 static void evaluate_sequences(void) {
   // speculative evaluation only takes place if there is at least one
   // sequence with regular tokens to evaluate
@@ -1670,6 +1774,9 @@ static void evaluate_sequences(void) {
 	}
 	if (idx >= n) break;
       } else if (sequence->state == EVALUATED && !sequence->has_lookahead) {
+	// remember the KV state so it can be rolled back when this
+	// lookahead token turns out to be wrong
+	save_lookahead_checkpoint(sequence);
 	int k = array_length(sequence->tokens);
 	lbatch.token[idx] = sequence->confidences[0].token;
 	lbatch.pos[idx] = k;
