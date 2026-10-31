@@ -36,7 +36,7 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-10-31 14:00:17";
+static const char *FLLAMA_VERSION = "2026-10-31 15:43:09";
 
 
 #define MAXIMUM_BATCH_SIZE 512
@@ -609,6 +609,10 @@ typedef struct {
   // MTP catch-up: last-seen h_nextn row of the target at this sequence's last
   // decoded position (zeros until the first catch-up pass)
   float *mtp_pending_h;
+  // MTP draft tokens generated after evaluation (step 5: not yet consumed);
+  // valid for positions evaluation_position .. evaluation_position+len-1,
+  // while the client's next token(s) are still undetermined
+  int *mtp_draft_tokens;
   int *tokens; // the unevaluated tokens
   int *positions; // -1 for new tokens
   CONFIDENCE confidences[10]; // the top 10 confidences for the next token
@@ -679,6 +683,7 @@ static SEQUENCE *sequences = NULL;
 static void save_lookahead_checkpoint(SEQUENCE *sequence);
 static void free_lookahead_checkpoint(SEQUENCE *sequence);
 static void rollback_lookahead_checkpoint(SEQUENCE *sequence);
+static void mtp_draft(SEQUENCE **draft_seqs, int n_draft_seqs);
 // frees all per-sequence aux state (lookahead checkpoint + MTP buffers)
 static void free_sequence_aux(SEQUENCE *sequence);
 
@@ -748,6 +753,7 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   } else {
     sequence->mtp_pending_h = NULL;
   }
+  sequence->mtp_draft_tokens = NULL;
   sequence->tokens = NULL;
   sequence->positions = NULL;
   fprintf(stderr, "created server sequence %d (client %d, id %d)\n",
@@ -1791,6 +1797,155 @@ static void free_sequence_aux(SEQUENCE *sequence) {
     free(sequence->mtp_pending_h);
     sequence->mtp_pending_h = NULL;
   }
+  deallocate_array(sequence->mtp_draft_tokens);
+  sequence->mtp_draft_tokens = NULL;
+}
+
+// MTP draft generation (step 5): step the MTP context beyond each sequence's
+// current position to produce up to mtp_predict speculative tokens. All
+// sequences batch into a single decode per step, so dozens of concurrent
+// clients share one pass through the weights (maximum parallelism, same
+// pattern as the catch-up in evaluate_sequences).
+// Ref: common_speculative_impl_draft_mtp::draft in common/speculative.cpp.
+// The drafts are stored per sequence and ignored for now; step 6 wires them
+// into the unified accept/reject flow.
+static void mtp_draft(SEQUENCE **draft_seqs, int n_draft_seqs) {
+  if (!mtp_context || !mtp_batch || mtp_predict <= 0 || n_draft_seqs == 0) return;
+
+  const int32_t n_vocab = llama_vocab_n_tokens(
+    llama_model_get_vocab(llama_get_model(mtp_context)));
+
+  // per-sequence scratch for the draft step loop
+  bool *drafting = calloc(n_draft_seqs, sizeof(bool));
+  int *d_pos = malloc(n_draft_seqs * sizeof(int));
+  int *d_i_last = malloc(n_draft_seqs * sizeof(int));
+
+  // initial batch: one entry per sequence at its prediction position,
+  // paired with the catch-up row (target h_nextn at its last decoded pos)
+  llama_batch_ext_clear(mtp_batch);
+  int n_drafting = 0;
+  for (int s = 0; s < n_draft_seqs; ++s) {
+    SEQUENCE *sequence = draft_seqs[s];
+
+    // start each sequence's draft list from scratch: re-drafts after a
+    // lookahead rollback must not extend stale drafts
+    if (!sequence->mtp_draft_tokens || array_size(sequence->mtp_draft_tokens) < mtp_predict) {
+      free(sequence->mtp_draft_tokens);
+      sequence->mtp_draft_tokens = allocate_int_array(mtp_predict);
+    }
+    set_array_length(sequence->mtp_draft_tokens, 0);
+
+    const int pos0 = sequence->evaluation_position;
+    const int id_last = sequence->next_token;
+    int32_t idx = llama_batch_ext_add_token(
+      mtp_batch, sequence->sequence_id, id_last);
+    if (idx < 0) {
+      fprintf(stderr,
+        "MTP draft: batch full for server sequence %d (client %d, id %d)\n",
+        sequence->sequence_id, sequence->client_fd, sequence->client_sequence_id);
+      continue;
+    }
+    llama_pos pos = pos0;
+    if (!llama_batch_ext_set_pos(mtp_batch, idx, &pos)) {
+      fprintf(stderr, "MTP draft: failed to set pos for server sequence %d\n",
+        sequence->sequence_id);
+      continue;
+    }
+    struct llama_embd embd = { sequence->mtp_pending_h, 1, (size_t)mtp_n_embd };
+    if (!llama_batch_ext_set_embd_state(mtp_batch, idx, embd)) {
+      fprintf(stderr, "MTP draft: failed to set state for server sequence %d\n",
+        sequence->sequence_id);
+      continue;
+    }
+    if (!llama_batch_ext_set_output_logits(mtp_batch, idx, true)) {
+      fprintf(stderr, "MTP draft: failed to set logits for server sequence %d\n",
+        sequence->sequence_id);
+      continue;
+    }
+
+    drafting[s] = true;
+    d_pos[s] = pos0;
+    d_i_last[s] = idx;
+    ++n_drafting;
+  }
+
+  int step = 0;
+  while (n_drafting > 0 && step < mtp_predict) {
+    int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
+    if (rc != 0 && rc != 1) {
+      fprintf(stderr, "MTP draft decode failed at step %d: %d\n", step, rc);
+      break;
+    }
+
+    // rebuild the batch for the next step: only sequences that keep drafting
+    llama_batch_ext_clear(mtp_batch);
+    n_drafting = 0;
+    for (int s = 0; s < n_draft_seqs; ++s) {
+      if (!drafting[s]) continue;
+      SEQUENCE *sequence = draft_seqs[s];
+
+      // greedy draft token from this sequence's entry
+      const float *logits = llama_get_logits_ith(mtp_context, d_i_last[s]);
+      if (!logits) {
+        fprintf(stderr, "MTP draft: no logits for server sequence %d\n",
+          sequence->sequence_id);
+        continue;
+      }
+      int32_t best = 0;
+      float best_logit = logits[0];
+      for (int32_t k = 1; k < n_vocab; ++k) {
+        if (logits[k] > best_logit) {
+          best_logit = logits[k];
+          best = k;
+        }
+      }
+
+      push_to_int_array(sequence->mtp_draft_tokens, best);
+
+      // the MTP context's own hidden row at this position feeds the next step
+      const float *h_row = llama_get_embeddings_nextn_ith(mtp_context, d_i_last[s]);
+      if (!h_row) {
+        fprintf(stderr, "MTP draft: no h_nextn row for server sequence %d\n",
+          sequence->sequence_id);
+        continue;
+      }
+
+      int32_t idx = llama_batch_ext_add_token(
+        mtp_batch, sequence->sequence_id, (llama_token)best);
+      if (idx < 0) {
+        fprintf(stderr, "MTP draft: batch full at step %d for server sequence %d\n",
+          step, sequence->sequence_id);
+        continue;
+      }
+      llama_pos pos = d_pos[s] + 1;
+      if (!llama_batch_ext_set_pos(mtp_batch, idx, &pos)) continue;
+      struct llama_embd embd = { h_row, 1, (size_t)mtp_n_embd };
+      if (!llama_batch_ext_set_embd_state(mtp_batch, idx, embd)) continue;
+      if (!llama_batch_ext_set_output_logits(mtp_batch, idx, true)) continue;
+
+      d_pos[s] = pos;
+      d_i_last[s] = idx;
+      ++n_drafting;
+    }
+    ++step;
+  }
+
+  for (int s = 0; s < n_draft_seqs; ++s) {
+    SEQUENCE *sequence = draft_seqs[s];
+    int n = array_length(sequence->mtp_draft_tokens);
+    if (n == 0 || !drafting[s]) continue;
+    char buf[128];
+    int p = sprintf(buf, "generating %d draft tokens for server sequence %d (client %d, id %d):",
+      n, sequence->sequence_id, sequence->client_fd, sequence->client_sequence_id);
+    for (int k = 0; k < n; ++k) {
+      p += sprintf(buf + p, " %d", ((int*)sequence->mtp_draft_tokens)[k]);
+    }
+    fprintf(stderr, "%s\n", buf);
+  }
+
+  free(drafting);
+  free(d_pos);
+  free(d_i_last);
 }
 
 static void evaluate_sequences(void) {
@@ -1853,6 +2008,10 @@ static void evaluate_sequences(void) {
     ((int*)mtp_first_idx)[i] = -1;
     ((int*)mtp_last_idx)[i] = -1;
   }
+  // sequences freshly evaluated in this pass (candidates for MTP drafts)
+  SEQUENCE **draft_seqs = malloc(
+    array_length(sequences)*sizeof(SEQUENCE *));
+  int n_draft_seqs = 0;
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
     if (sequence->session_id == current_session_id) {
@@ -2089,6 +2248,9 @@ static void evaluate_sequences(void) {
 	    sequence->has_lookahead = false;
 	    sequence->next_token = sequence->confidences[0].token;
 	    send_confidences(sequence);
+	    if (mtp_predict > 0 && sequence->mtp_pending_h) {
+	      draft_seqs[n_draft_seqs++] = sequence;
+	    }
 	  }
 	} else {
 	  if (sequence->state == IN_EVALUATION) {
@@ -2114,6 +2276,12 @@ static void evaluate_sequences(void) {
       }
     }
   }
+  // MTP draft generation for the sequences this pass just evaluated;
+  // runs as one batched pass over all of them (see mtp_draft)
+  if (ret == 0) {
+    mtp_draft(draft_seqs, n_draft_seqs);
+  }
+  free(draft_seqs);
   deallocate_array(server_seq_ids);
   deallocate_array(logits_indices);
   deallocate_array(mtp_first_idx);
