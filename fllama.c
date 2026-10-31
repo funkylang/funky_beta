@@ -68,6 +68,10 @@ static long gpu_offload_threshold = 0;
 
 static int mtp_predict = 0; // number of tokens to predict (0 = disabled)
 static struct llama_context *mtp_context = NULL;
+// MTP catch-up state: mirrors target decodes into the MTP context so it can
+// generate drafts. See common/speculative.cpp (draft-mtp) in the fork.
+static int mtp_n_embd = 0;
+static struct llama_batch_ext *mtp_batch = NULL;
 
 static struct llama_model *load_model(const char *filename) {
   // compute file size
@@ -455,6 +459,10 @@ typedef struct {
     // 0: shared session
   size_t session_size; // size of the session data in bytes;
   uint8_t *session_data; // session data;
+  // MTP catch-up must stay in sync with the target context, so each session
+  // also snapshots the MTP context state (empty when MTP is disabled).
+  size_t mtp_session_size;
+  uint8_t *mtp_session_data;
 } SESSION;
 
 static int current_session_id = 0;
@@ -483,6 +491,21 @@ static void change_session(int client_fd, int new_session_id) {
       fprintf(
 	stderr, "saved session %d, size = %zu\n",
 	current_session_id, current_session_size);
+      // snapshot the MTP context state in sync (if active)
+      free(current_session->mtp_session_data);
+      current_session->mtp_session_data = NULL;
+      current_session->mtp_session_size = 0;
+      if (mtp_context) {
+	size_t mtp_size = llama_state_get_size(mtp_context);
+	if (mtp_size > 0) {
+	  current_session->mtp_session_data = malloc(mtp_size);
+	  if (current_session->mtp_session_data) {
+	    llama_state_get_data(
+	      mtp_context, current_session->mtp_session_data, mtp_size);
+	    current_session->mtp_session_size = mtp_size;
+	  }
+	}
+      }
     } else {
       fprintf(stderr, "failed to allocate memory for session data\n");
       send_message(
@@ -502,6 +525,15 @@ static void change_session(int client_fd, int new_session_id) {
 	new_session_id, new_session->session_size);
   } else {
     llama_memory_clear(current_memory, true);
+  }
+  // restore the MTP context state in sync (if active and snapshot present)
+  if (mtp_context) {
+    if (new_session->mtp_session_data && new_session->mtp_session_size > 0) {
+      llama_state_set_data(
+	mtp_context, new_session->mtp_session_data, new_session->mtp_session_size);
+    } else {
+      llama_memory_clear(llama_get_memory(mtp_context), true);
+    }
   }
   current_session_id = new_session_id;
 }
@@ -534,6 +566,9 @@ typedef struct {
   uint8_t *lookahead_ckpt_data;
   size_t lookahead_ckpt_size;
   llama_pos lookahead_ckpt_pos_max;
+  // MTP catch-up: last-seen h_nextn row of the target at this sequence's last
+  // decoded position (zeros until the first catch-up pass)
+  float *mtp_pending_h;
   int *tokens; // the unevaluated tokens
   int *positions; // -1 for new tokens
   CONFIDENCE confidences[10]; // the top 10 confidences for the next token
@@ -604,6 +639,8 @@ static SEQUENCE *sequences = NULL;
 static void save_lookahead_checkpoint(SEQUENCE *sequence);
 static void free_lookahead_checkpoint(SEQUENCE *sequence);
 static void rollback_lookahead_checkpoint(SEQUENCE *sequence);
+// frees all per-sequence aux state (lookahead checkpoint + MTP buffers)
+static void free_sequence_aux(SEQUENCE *sequence);
 
 static int get_sequence_idx(int client_fd, int client_sequence_id) {
   for (int i = 0; i < array_length(sequences); ++i) {
@@ -666,6 +703,11 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   sequence->lookahead_ckpt_data = NULL;
   sequence->lookahead_ckpt_size = 0;
   sequence->lookahead_ckpt_pos_max = -1;
+  if (mtp_n_embd > 0) {
+    sequence->mtp_pending_h = calloc(mtp_n_embd, sizeof(float));
+  } else {
+    sequence->mtp_pending_h = NULL;
+  }
   sequence->tokens = NULL;
   sequence->positions = NULL;
   fprintf(stderr, "created server sequence %d (client %d, id %d)\n",
@@ -730,13 +772,19 @@ static void free_maybe_empty_session(int client_fd, int session_id) {
     SESSION *session = &sessions[session_id];
     if (session_id == current_session_id) {
       llama_memory_clear(current_memory, true);
+      if (mtp_context) {
+	llama_memory_clear(llama_get_memory(mtp_context), true);
+      }
       current_session_id = INVALID;
     } else {
       free(session->session_data);
+      free(session->mtp_session_data);
     }
     session->client_fd = INVALID;
     session->session_data = NULL;
     session->session_size = 0;
+    session->mtp_session_data = NULL;
+    session->mtp_session_size = 0;
     if (current_session_per_client[client_fd] == session_id) {
       current_session_per_client[client_fd] = 0; // shared session
     }
@@ -756,12 +804,17 @@ static void free_client_sequence(int client_fd, int client_sequence_id) {
       sequence->state = INVALID;
       deallocate_array(sequence->tokens);
       deallocate_array(sequence->positions);
-      free_lookahead_checkpoint(sequence);
+      free_sequence_aux(sequence);
       change_session(client_fd, sequence->session_id);
       fprintf(
 	stderr, "llama_memory_seq_rm(current_memory, %d, 0, -1)\n",
 	sequence->sequence_id);
       llama_memory_seq_rm(current_memory, sequence->sequence_id, 0, -1);
+      // keep the MTP context's sequence table in sync
+      if (mtp_context) {
+	llama_memory_seq_rm(
+	  llama_get_memory(mtp_context), sequence->sequence_id, 0, -1);
+      }
       free_maybe_empty_session(client_fd, sequence->session_id);
       break;
     }
@@ -777,11 +830,17 @@ static void free_all_client_sequences(int client_fd) {
       sequence->state = INVALID;
       deallocate_array(sequence->tokens);
       deallocate_array(sequence->positions);
+      free_sequence_aux(sequence);
       change_session(client_fd, sequence->session_id);
       fprintf(
 	stderr, "llama_memory_seq_rm(current_memory, %d, 0, -1)\n",
 	sequence->sequence_id);
       llama_memory_seq_rm(current_memory, sequence->sequence_id, 0, -1);
+      // keep the MTP context's sequence table in sync
+      if (mtp_context) {
+	llama_memory_seq_rm(
+	  llama_get_memory(mtp_context), sequence->sequence_id, 0, -1);
+      }
       free_maybe_empty_session(client_fd, sequence->session_id);
     }
   }
@@ -1041,6 +1100,19 @@ static void handle_use_model(int fd, char *model_name) {
 	  mtp_context = llama_init_from_model(current_model, mtp_params);
 	  if (mtp_context) {
 	    fprintf(stderr, "MTP context created\n");
+	    // enable nextn hidden-state extraction: the target's rows feed the
+	    // MTP catch-up decode; the MTP context outputs its own rows for
+	    // draft generation (step 5)
+	    mtp_n_embd = llama_model_n_embd(current_model);
+	    mtp_batch = llama_batch_ext_init(mtp_context);
+	    if (!mtp_batch) {
+	      fprintf(stderr, "failed to init MTP batch; continuing without catch-up\n");
+	      mtp_n_embd = 0;
+	    } else {
+	      llama_set_embeddings_nextn(current_context, true, /*masked*/ false);
+	      llama_set_embeddings_nextn(mtp_context, true, /*masked*/ true);
+	      fprintf(stderr, "MTP catch-up enabled (n_embd = %d)\n", mtp_n_embd);
+	    }
 	  } else {
 	    fprintf(stderr, "failed to create MTP context; continuing without MTP\n");
 	  }
@@ -1672,6 +1744,15 @@ static void rollback_lookahead_checkpoint(SEQUENCE *sequence) {
   sequence->lookahead_ckpt_pos_max = -1;
 }
 
+// Free all per-sequence aux state: lookahead checkpoint + MTP catch-up buffer.
+static void free_sequence_aux(SEQUENCE *sequence) {
+  free_lookahead_checkpoint(sequence);
+  if (sequence->mtp_pending_h) {
+    free(sequence->mtp_pending_h);
+    sequence->mtp_pending_h = NULL;
+  }
+}
+
 static void evaluate_sequences(void) {
   // speculative evaluation only takes place if there is at least one
   // sequence with regular tokens to evaluate
@@ -1725,6 +1806,13 @@ static void evaluate_sequences(void) {
   int idx = 0;
   int *server_seq_ids = allocate_int_array(array_length(sequences));
   int *logits_indices = allocate_int_array(array_length(sequences));
+  // per-sequence lbatch ranges actually filled in this pass (for MTP catch-up)
+  int *mtp_first_idx = allocate_int_array(array_length(sequences));
+  int *mtp_last_idx = allocate_int_array(array_length(sequences));
+  for (int i = 0; i < array_length(sequences); ++i) {
+    ((int*)mtp_first_idx)[i] = -1;
+    ((int*)mtp_last_idx)[i] = -1;
+  }
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
     if (sequence->session_id == current_session_id) {
@@ -1740,6 +1828,7 @@ static void evaluate_sequences(void) {
     if (sequence->session_id == current_session_id) {
       int token_count = 0;
       if (sequence->state == IN_EVALUATION) {
+	int saved_idx = idx;
 	for (int k = 0; k < array_length(sequence->tokens); ++k) {
 	  if (sequence->positions[k] < 0) {
 	    sequence->positions[k] = k;
@@ -1758,6 +1847,10 @@ static void evaluate_sequences(void) {
 	    }
 	    if (++idx >= n) break;
 	  }
+	}
+	if (idx > saved_idx) {
+	  mtp_first_idx[i] = saved_idx;
+	  mtp_last_idx[i] = idx - 1;
 	}
 	if (token_count == 1) {
 	  fprintf(stderr,
@@ -1784,6 +1877,8 @@ static void evaluate_sequences(void) {
 	lbatch.seq_id[idx] = &server_seq_ids[bi];
 	lbatch.logits[idx] = true;
 	logits_indices[bi] = idx;
+	mtp_first_idx[i] = idx;
+	mtp_last_idx[i] = idx;
 	++sequence_count;
 	prev_seq_i = i;
 	fprintf(stderr,
@@ -1808,6 +1903,71 @@ static void evaluate_sequences(void) {
   //show_time("<<< llama_decode");
   int ret = llama_decode(current_context, lbatch);
   //show_time(">>>");
+  // MTP catch-up: mirror the target's decoded positions into the MTP context so
+  // it can generate draft tokens. Each entry is paired with the h_nextn row of
+  // the position before it (shifted right); a sequence's first entry uses its
+  // pending row from the previous run. Ref: common/speculative.cpp (draft-mtp).
+  if (ret == 0 && mtp_batch) {
+    const float *h_tgt = llama_get_embeddings_nextn(current_context);
+    if (!h_tgt) {
+      fprintf(stderr, "no h_nextn rows from target; skipping MTP catch-up\n");
+    } else {
+      int32_t m_n = 0;
+      llama_batch_ext_clear(mtp_batch);
+      for (int i = 0; i < array_length(sequences); ++i) {
+        if (mtp_first_idx[i] < 0) continue;
+        SEQUENCE *sequence = &sequences[i];
+        int n_entries = mtp_last_idx[i] - mtp_first_idx[i] + 1;
+        for (int e = 0; e < n_entries; ++e) {
+          int lbi = mtp_first_idx[i] + e;
+          llama_token id   = lbatch.token[lbi];
+          llama_pos pos    = lbatch.pos[lbi];
+          const float *h_row = (e == 0)
+            ? sequence->mtp_pending_h
+            : h_tgt + (size_t)(lbi - 1) * mtp_n_embd;
+          struct llama_embd embd = { h_row, 1, (size_t)mtp_n_embd };
+          int32_t m_idx = llama_batch_ext_add_token(mtp_batch, lbatch.seq_id[lbi][0], id);
+          if (m_idx < 0) {
+            fprintf(stderr, "MTP catch-up: failed to add token at lbatch idx %d\n", lbi);
+            break;
+          }
+          if (!llama_batch_ext_set_pos(mtp_batch, m_idx, &pos)) {
+            fprintf(stderr, "MTP catch-up: failed to set pos at idx %d\n", m_idx);
+            break;
+          }
+          if (!llama_batch_ext_set_embd_state(mtp_batch, m_idx, embd)) {
+            fprintf(stderr, "MTP catch-up: failed to set state at idx %d\n", m_idx);
+            break;
+          }
+          ++m_n;
+        }
+      }
+      if (m_n > 0) {
+        // idempotent catch-up: wipe each sequence's cached tail from its first
+        // re-decoded position, so stale rows (e.g. after a lookahead rollback)
+        // are replaced instead of colliding (ref: common/speculative.cpp)
+        for (int i = 0; i < array_length(sequences); ++i) {
+          if (mtp_first_idx[i] < 0) continue;
+          llama_memory_seq_rm(llama_get_memory(mtp_context),
+            lbatch.seq_id[mtp_first_idx[i]][0], lbatch.pos[mtp_first_idx[i]], -1);
+        }
+        int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
+        if (rc != 0 && rc != 1) {
+          fprintf(stderr, "MTP catch-up decode failed: %d\n", rc);
+        } else {
+          // refresh each sequence's pending_h to the target row at its last decoded position
+          for (int i = 0; i < array_length(sequences); ++i) {
+            if (mtp_first_idx[i] < 0) continue;
+            SEQUENCE *sequence = &sequences[i];
+            const float *h = llama_get_embeddings_nextn_ith(current_context, mtp_last_idx[i]);
+            if (h && sequence->mtp_pending_h) {
+              memcpy(sequence->mtp_pending_h, h, (size_t)mtp_n_embd * sizeof(float));
+            }
+          }
+        }
+      }
+    }
+  }
   free(lbatch.token);
   free(lbatch.pos);
   free(lbatch.n_seq_id);
@@ -1916,6 +2076,8 @@ static void evaluate_sequences(void) {
   }
   deallocate_array(server_seq_ids);
   deallocate_array(logits_indices);
+  deallocate_array(mtp_first_idx);
+  deallocate_array(mtp_last_idx);
 }
 
 static void dump_set(fd_set *set, int fd_count) {
