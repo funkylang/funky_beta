@@ -148,7 +148,7 @@ $open_ai_model: (io state)
   show_status_message &state OPEN_MODEL message
   log &io 2 message
   !state.initializing_ai_of true
-  open_model &io OPEN_MODEL ai_model_name_of(configuration)
+  open_model &io OPEN_MODEL ai_model_name_of(configuration) address port_no
   -> io state
 
 $tedi::close_sequence: (io state) # this should be an optional callback

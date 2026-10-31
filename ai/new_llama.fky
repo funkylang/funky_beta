@@ -218,8 +218,13 @@ $llama::list_models:
 
 $llama::open_model ()
 
-$std_types::string/open_model: (model_name)
-  open_tcp_client_socket! $fd "127.0.0.1" 7683 true
+$std_types::string/open_model:
+  (
+    model_name
+    server_address = "127.0.0.1"
+    port_no = 7683
+  )
+  open_tcp_client_socket! $fd server_address port_no true
   write_to! fd "
     use_model @(model_name)@0;@
     get_pieces@0;@
@@ -231,11 +236,25 @@ $std_types::string/open_model: (model_name)
     -> model
     -> model(.fd_of fd)
 
-$std_types::io/open_model: (io id model_name)
-  run io open_model_request id model_name
+$std_types::io/open_model:
+  (
+    io
+    id
+    model_name
+    server_address = "127.0.0.1"
+    port_no = 7683
+  )
+  run io open_model_request id model_name server_address port_no
 
-$open_model_request: (io id model_name)
-  open_tcp_client_socket! $fd "127.0.0.1" 7683 true
+$open_model_request:
+  (
+    io
+    id
+    model_name
+    server_address
+    port_no
+  )
+  open_tcp_client_socket! $fd server_address port_no true
   write &io fd "
     use_model @(model_name)@0;@
     get_pieces@0;@
