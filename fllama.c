@@ -36,7 +36,7 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-10-31 13:14:39";
+static const char *FLLAMA_VERSION = "2026-10-31 14:00:17";
 
 
 #define MAXIMUM_BATCH_SIZE 512
@@ -328,6 +328,30 @@ TYPE *push_to_##TYPE##_array(TYPE *items, TYPE value) { \
   return items; \
 }
 
+// the array can be a NULL pointer
+// set items[index] = value; grows as needed and extends the logical length,
+// filling [old_length..index) with default values, so every index below the
+// new length is valid — keeps dense-index use (e.g. index = fd) safe
+#define DEFINE_SET_ITEM_AT_ARRAY(TYPE) \
+TYPE *set_item_at_##TYPE##_array(TYPE *items, int index, TYPE value) { \
+  if (index < 0) { \
+    fprintf(stderr, \
+      "Invalid index %d for setting into " #TYPE " array\n", index); \
+    exit(EXIT_FAILURE); \
+  } \
+  items = reallocate_##TYPE##_array(items, index+1); \
+  ARRAY_HEADER *header = (ARRAY_HEADER *)items-1; \
+  if (index >= header->length) { \
+    for (int i = header->length; i < index; ++i) { \
+      TYPE zero_value = {0}; \
+      items[i] = zero_value; \
+    } \
+    header->length = index+1; \
+  } \
+  items[index] = value; \
+  return items; \
+}
+
 DEFINE_ALLOCATE_ARRAY(int)
 DEFINE_REALLOCATE_ARRAY(int)
 DEFINE_APPEND_TO_ARRAY(int)
@@ -337,6 +361,18 @@ DEFINE_DELETE_FROM_ARRAY(int)
 DEFINE_PUSH_TO_ARRAY(int)
 
 DEFINE_ALLOCATE_ARRAY(bool)
+
+// per-client receive-buffer state, indexed by file-descriptor number;
+// dense like the other arrays: index = fd, grown via reallocate_*_array
+typedef struct {
+  char *buf;   // NULL = no data received from this client yet
+  long size;
+  long length;
+} RCV_SLOT;
+
+DEFINE_ALLOCATE_ARRAY(RCV_SLOT)
+DEFINE_REALLOCATE_ARRAY(RCV_SLOT)
+DEFINE_SET_ITEM_AT_ARRAY(RCV_SLOT)
 
 void dump_int_array(int *items) {
   if (items) {
@@ -2094,9 +2130,34 @@ static void dump_set(fd_set *set, int fd_count) {
   fprintf(stderr, "\n");
 }
 
-static char *rcv_buf = NULL;
-static long rcv_size = 0;
-static long rcv_length = 0;
+// Per-client receive buffers: a single shared buffer let leftover bytes of
+// one client (e.g. a partial command from a dead connection) corrupt the
+// next client's first command. Each client's partial input stays with it.
+// Dense fd-indexed array, grown on demand via reallocate_*_array as file
+// descriptors can be arbitrarily large. Leak discipline: each client's data
+// buffer is allocated lazily on first data and freed on EVERY close path; the
+// slot resets to empty so a reused fd number starts clean. (The index array
+// itself is process-lifetime, like the original shared buffer was.)
+#define RCV_BUF_INITIAL 0x40000
+static RCV_SLOT *rcv_slots = NULL;   // indexed by fd
+
+// create/reset this fd's slot when a client connects; set_item_at grows the
+// array and zero-fills any gap up to index fd, keeping the table dense
+static void ensure_rcv_slot(int fd) {
+  RCV_SLOT empty = {NULL, 0, 0};
+  rcv_slots = set_item_at_RCV_SLOT_array(rcv_slots, fd, empty);
+}
+
+// free this client's receive buffer (safe to call when unallocated)
+static void free_client_rcv(int fd) {
+  if (!rcv_slots || array_size(rcv_slots) <= fd) return;
+  if (rcv_slots[fd].buf) {
+    free(rcv_slots[fd].buf);
+    rcv_slots[fd].buf = NULL;
+    rcv_slots[fd].size = 0;
+    rcv_slots[fd].length = 0;
+  }
+}
 
 static struct timespec NO_TIMEOUT = {0, 0};
 
@@ -2134,18 +2195,21 @@ static void handle_client_requests(int listen_fd) {
 	  setsockopt(
 	    client_fd, IPPROTO_TCP, TCP_NODELAY, (char *)&flag, sizeof(int));
 	  fprintf(stderr, "accepted connection %d\n", client_fd);
+	  ensure_rcv_slot(client_fd);
 	  if (client_fd >= fd_count) {
 	    fd_count = client_fd+1;
 	  }
 	  FD_SET(client_fd, &read_set);
 	} else {
-	  if (!rcv_buf) {
-	    rcv_buf = malloc(0x40000);
-	    rcv_size = 0x40000;
+	  RCV_SLOT *slot = &rcv_slots[fd];   // guaranteed by ensure_rcv_slot on accept
+	  if (!slot->buf) {
+	    slot->buf = malloc(RCV_BUF_INITIAL);
+	    slot->size = RCV_BUF_INITIAL;
+	    slot->length = 0;
 	  }
 	  int n;
 	  do {
-	    n = recv(fd, rcv_buf+rcv_length, rcv_size-rcv_length, 0);
+	    n = recv(fd, slot->buf+slot->length, slot->size-slot->length, 0);
 	  } while (n == -1 && errno == EINTR);
 	  fprintf(stderr, "received %d bytes from %d\n", n, fd);
 	  if (n == -1) {
@@ -2155,27 +2219,29 @@ static void handle_client_requests(int listen_fd) {
 	    FD_CLR(fd, &read_set);
 	    close(fd);
 	    free_all_client_sequences(fd);
+	    free_client_rcv(fd);
 	  } else if (n == 0) {
 	    fprintf(stderr, "connection %d closed\n", fd);
 	    FD_CLR(fd, &read_set);
 	    close(fd);
 	    free_all_client_sequences(fd);
+	    free_client_rcv(fd);
 	  } else {
-	    char *request = rcv_buf;
-	    char *next_request = memchr(rcv_buf+rcv_length, 0, n);
+	    char *request = slot->buf;
+	    char *next_request = memchr(slot->buf+slot->length, 0, n);
 	    while (next_request) {
 	      handle_request(fd, request);
 	      request = next_request+1;
-	      next_request = memchr(request, 0, rcv_buf+rcv_length+n-request);
+	      next_request = memchr(request, 0, slot->buf+slot->length+n-request);
 	    }
 	    flush();
-	    rcv_length += n;
-	    if (request > rcv_buf) {
-	      rcv_length -= request-rcv_buf;
-	      memmove(rcv_buf, request, rcv_length);
-	    } else if (rcv_length == rcv_size) {
-	      rcv_size *= 2;
-	      rcv_buf = realloc(rcv_buf, rcv_size);
+	    slot->length += n;
+	    if (request > slot->buf) {
+	      slot->length -= request-slot->buf;
+	      memmove(slot->buf, request, slot->length);
+	    } else if (slot->length == slot->size) {
+	      slot->size *= 2;
+	      slot->buf = realloc(slot->buf, slot->size);
 	    }
 	  }
 	}
