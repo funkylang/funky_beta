@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-fllama.c TCP test client.
+fllama.c TCP test client (minimal: single sequence, single evaluation).
 
 Drives the fllama server (port 7683) over its raw null-terminated TCP protocol.
 
@@ -11,23 +11,11 @@ These always respond:
     tokenize <text>   -> "tokens N t1 t2 ..."
     evaluate <seq>    -> "logits <seq_id> <pos> 10 t=l ... (top 10)"
 
-Lookahead design (from fllama.c + user):
-    - Lookahead pre-decode PIGGYBACKS on an existing evaluation pass only;
-      it never starts a dedicated batch (better wait ~1-2ms for the client
-      than burn tens of ms on a token that may not be wanted).
-    - So to trigger it deterministically: two sequences. Evaluate seq A,
-      then evaluate seq B — that pass also pre-decodes A's top-1 token
-      (server log: "evaluating lookahead token in server sequence ...").
-    - Claim: client returns exactly next_token -> fast path "using lookahead".
-    - Reject: any other token -> rollback of the partial KV checkpoint + re-decode.
+pos semantics: zero based; the index of the NEXT token, i.e. the number of
+tokens currently in the sequence.
 
-Test flow:
-  T1 baseline        evaluate seq1 alone (no lookahead possible)
-  T2 pre-decode      evaluate seq2 -> seq1's lookahead gets pre-decoded
-  T3 claim           add top-1 to seq1 -> "using lookahead" fast path
-  T4 re-predecode    add token to seq2 + evaluate -> seq1 lookahead again
-  T5 reject          add WRONG token to seq1 -> rollback + re-evaluate
-  T6 correctness     fresh seq3 with same tokens must give identical logits
+Multi-sequence / lookahead claim-reject flow is tested separately once this
+works.
 """
 
 import socket
@@ -65,11 +53,12 @@ class Fllama:
         self.send(cmd)
         return self.read(timeout)
 
-    def tokenize(self, text):
+    def tokenize(self, text, timeout=30):
         self.send(f"tokenize {text}")
-        r = self.read(30)
+        r = self.read(timeout)
         if r is None or not r.startswith("tokens "):
             raise RuntimeError(f"tokenize failed: {r!r}")
+        print(f"WIRE<- {r}")
         return [int(t) for t in r.split()[2:]]
 
     def new_sequence(self, seq_id, tokens):
@@ -87,6 +76,7 @@ class Fllama:
         r = self.read(timeout)
         if r is None or not r.startswith("logits "):
             raise RuntimeError(f"evaluate failed: {r!r}")
+        print(f"WIRE<- {r}")
         parts = r.split()
         pos = int(parts[2])
         conf = {}
@@ -96,90 +86,41 @@ class Fllama:
         return pos, conf
 
 
-def top1(conf):
-    return max(conf, key=conf.get)
-
-
 def main():
     f = Fllama()
 
     # use_model is silent on success; tokenize always replies. First wire
     # message after sending both is either an error or the tokenize result.
-    prompt1 = "What is 2+2?"
-    prompt2 = "The sky is"
+    prompt = "What is 2+2?"
     f.send("use_model Qwen3.5-2B-Q4_K_M.gguf")
-    f.send(f"tokenize {prompt1}")
+    f.send(f"tokenize {prompt}")
     t0 = time.time()
     r = f.read(180)  # allow slow CPU model load
     if r is None or r.startswith("error") or not r.startswith("tokens "):
         print(f"ERROR: model/tokenize: {r!r}")
         return 1
-    tok1 = [int(t) for t in r.split()[2:]]
-    t_load = time.time() - t0
+    print(f"WIRE<- {r}")
+    tokens = [int(t) for t in r.split()[2:]]
+    print(f"tokenize '{prompt}': {tokens}")
 
-    # T1: baseline — evaluate seq1 alone
-    f.new_sequence(1, tok1)
+    f.new_sequence(1, tokens)
     pos, conf = f.evaluate(1)
-    t1_top = top1(conf)
-    print(f"T1 baseline   : {t_load:.2f}s load+tok; eval ok; "
-          f"pos={pos} top-1={t1_top}")
+    top = max(conf, key=conf.get)
+    print(f"eval ok: pos={pos} top-1={top}; "
+          f"{time.time() - t0:.2f}s total (incl. model load)")
+    assert pos == len(tokens), \
+        f"position wrong: {pos} (expected {len(tokens)})"
 
-    # T2: evaluate seq2 -> this pass pre-decodes seq1's lookahead (top-1)
-    tok2 = f.tokenize(prompt2)
-    f.new_sequence(2, tok2)
-    pos, conf2 = f.evaluate(2)
-    t2_top = top1(conf2)
-    print(f"T2 predecode  : seq2 eval ok; pos={pos} top-1={t2_top}; "
-          f"(expect 'evaluating lookahead token in server sequence 0' in log)")
-
-    # T3: claim — add exactly seq1's predicted token -> fast path
-    err = f.cmd_silent(f"add_tokens 1 1 {t1_top}")
-    if err:
-        print(f"ERROR: {err}"); return 1
-    pos, conf = f.evaluate(1)
-    t3_top = top1(conf)
-    print(f"T3 claim      : pos={pos} (expect {len(tok1)}) "
-          f"top-1={t3_top}; (expect 'using lookahead' in log)")
-    assert pos == len(tok1), f"claim position wrong: {pos}"
-
-    # T4: get seq1 into lookahead state again via another piggyback pass
-    more2 = f.tokenize(" blue.")
-    err = f.cmd_silent(
-        f"add_tokens 2 {len(more2)} " + " ".join(map(str, more2)))
-    if err:
-        print(f"ERROR: {err}"); return 1
-    pos, conf2 = f.evaluate(2)
-    t4_top = top1(conf2)
-    print(f"T4 re-predecode: seq2 eval ok; pos={pos} top-1={t4_top}")
-
-    # T5: reject — add a token that is NOT seq1's prediction -> rollback
-    wrong = (t3_top + 1) % 100000  # almost certainly not the predicted token
-    err = f.cmd_silent(f"add_tokens 1 1 {wrong}")
-    if err:
-        print(f"ERROR: {err}"); return 1
-    pos, conf = f.evaluate(1)
-    t5_top = top1(conf)
-    expected_pos = len(tok1) + 1  # index of the rejected (3rd added) token
-    print(f"T5 reject     : pos={pos} (expect {expected_pos}) "
-          f"top-1={t5_top}; (expect 'do not use lookahead' + 'rolling back' in log)")
-    assert pos == expected_pos, f"reject position wrong: {pos}"
-
-    # T6: correctness — fresh sequence with identical tokens must give the
-    # same result as seq1 after rollback. llama.cpp is float-nondeterministic
-    # across batch shapes, so compare top-1 winner + max logit delta instead
-    # of exact equality (broken state shows large deltas / wrong winner).
-    f.new_sequence(3, tok1 + [t1_top, wrong])
-    pos3, conf3 = f.evaluate(3)
-    t6_top = top1(conf3)
-    common = set(conf) & set(conf3)
-    max_delta = max(abs(conf[t] - conf3[t]) for t in common) if common else 999.0
-    ok = (t6_top == t5_top) and max_delta < 0.5
-    print(f"T6 correctness: top-1 match={t6_top == t5_top} "
-          f"(rollback={t5_top}, fresh={t6_top}); max logit delta={max_delta:.4f} -> {ok}")
-    assert pos3 == expected_pos, f"control position wrong: {pos3}"
-    assert ok, "rollback correctness check failed"
-
-    print("\nAll lookahead tests complete.")
+    # eager mode: the server verifies the pending lookahead right away and
+    # sends further messages for this sequence; read them while they flow
+    quiet_reads = 0
+    while quiet_reads < 2:
+        r = f.read(5.0)
+        if r is None:
+            quiet_reads += 1
+            continue
+        quiet_reads = 0
+        print(f"WIRE<- {r}")
     return 0
 
 

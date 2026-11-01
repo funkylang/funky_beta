@@ -36,7 +36,7 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-11-01 01:42:18";
+static const char *FLLAMA_VERSION = "2026-11-01 15:59:20";
 
 
 #define MAXIMUM_BATCH_SIZE 512
@@ -71,6 +71,10 @@ llama_memory_t current_memory;
 static long gpu_offload_threshold = 0;
 
 static int mtp_predict = 0; // number of tokens to predict (0 = disabled)
+// --eager: run speculative work (lookahead, MTP draft verification) in
+// dedicated batches even when nothing else is pending evaluation; without it,
+// speculation only piggybacks on existing evaluation passes.
+static bool eager_speculation = false;
 static struct llama_context *mtp_context = NULL;
 // MTP catch-up state: mirrors target decodes into the MTP context so it can
 // generate drafts. See common/speculative.cpp (draft-mtp) in the fork.
@@ -475,7 +479,7 @@ static void fill_top_confidences(CONFIDENCE *c, const float *logits, int n_vocab
       // find insertion position
       int j;
       for (j = 8; j >= 0; --j) {
-        if (logit <= c[j].logit) break;
+	if (logit <= c[j].logit) break;
       }
       // move entries
       memmove(&c[j+2], &c[j+1], (8-j)*sizeof(CONFIDENCE));
@@ -1941,7 +1945,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
 	continue;
       }
       CONFIDENCE *la = &la_conf[
-        (size_t)s * mtp_predict * 10 + (size_t)step * 10];
+	(size_t)s * mtp_predict * 10 + (size_t)step * 10];
       fill_top_confidences(la, logits, n_vocab);
       int32_t best = la[0].token;
 
@@ -1972,13 +1976,14 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
       p += sprintf(buf + p, " %d", ((int*)sequence->mtp_draft_tokens)[k]);
     }
     fprintf(stderr, "%s\n", buf);
-    // each draft token's own top-10 travels as a lookahead message
-    for (int k = 0; k < n; ++k) {
-      CONFIDENCE *la = &la_conf[
-        (size_t)s * mtp_predict * 10 + (size_t)k * 10];
-      send_confidence_message(
-        sequence, la, sequence->evaluation_position + 1 + k, "lookahead");
-    }
+    // LOOKAHEAD messages travel only once the main head has confirmed
+    // these drafts' correctness (step 6)
+    //for (int k = 0; k < n; ++k) {
+    //  CONFIDENCE *la = &la_conf[
+    //    (size_t)s * mtp_predict * 10 + (size_t)k * 10];
+    //  send_confidence_message(
+    //    sequence, la, sequence->evaluation_position + 1 + k, "lookahead");
+    //}
   }
 
   free(drafting);
@@ -1995,42 +2000,38 @@ static void evaluate_sequences(void) {
 
   struct llama_batch lbatch;
   int n = 0;
+  bool has_regular_evaluations = false;
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
-    if (
-      sequence->session_id == current_session_id &&
-      sequence->state == IN_EVALUATION
-    ) {
-      for (int k = 0; k < array_length(sequence->tokens); ++k) {
-	if (sequence->positions[k] < 0) {
-	  if (k < sequence->evaluation_position) {
-	    sequence->evaluation_position = k;
-	    change_session(sequence->client_fd, sequence->session_id);
-	    fprintf(stderr,
-	      "llama_memory_seq_rm(current_memory, %d, %d, -1)\n",
-	      sequence->sequence_id, k);
-	    llama_memory_seq_rm(current_memory, sequence->sequence_id, k, -1);
+    if (sequence->session_id == current_session_id) {
+      if (sequence->state == IN_EVALUATION) {
+	for (int k = 0; k < array_length(sequence->tokens); ++k) {
+	  if (sequence->positions[k] < 0) {
+	    if (k < sequence->evaluation_position) {
+	      sequence->evaluation_position = k;
+	      change_session(sequence->client_fd, sequence->session_id);
+	      fprintf(stderr,
+		"llama_memory_seq_rm(current_memory, %d, %d, -1)\n",
+		sequence->sequence_id, k);
+	      llama_memory_seq_rm(current_memory, sequence->sequence_id, k, -1);
+	    }
+	    ++n;
+	    has_regular_evaluations = true;
 	  }
-	  ++n;
+	}
+      } else if (sequence->state == EVALUATED && !sequence->has_lookahead) {
+	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
+	if (n+lookahead_size > MAXIMUM_BATCH_SIZE) break;
+	n += lookahead_size;
 	}
       }
     }
-  }
-  if (n == 0) return;
+  if (!has_regular_evaluations && !eager_speculation) return;
   if (n > MAXIMUM_BATCH_SIZE) {
     n = MAXIMUM_BATCH_SIZE;
     has_pending_evaluations = true;
   }
-  // look for possible lookahead computations
-  for (int i = 0; i < array_length(sequences); ++i) {
-    if (n >= MAXIMUM_BATCH_SIZE) break;
-    SEQUENCE *sequence = &sequences[i];
-    if (
-      sequence->session_id == current_session_id &&
-      sequence->state == EVALUATED &&
-      !sequence->has_lookahead
-    ) ++n;
-  }
+  if (n == 0) return; // nothing to do at all, even in eager mode
   lbatch.n_tokens = n;
   lbatch.token = malloc(n*sizeof(llama_token));
   lbatch.embd = NULL;
@@ -2084,6 +2085,7 @@ static void evaluate_sequences(void) {
 	      ++sequence_count;
 	      prev_seq_i = i;
 	    }
+	    // stop before eating the lookahead slots reserved after these tokens
 	    if (++idx >= n) break;
 	  }
 	}
@@ -2106,26 +2108,36 @@ static void evaluate_sequences(void) {
 	}
 	if (idx >= n) break;
       } else if (sequence->state == EVALUATED && !sequence->has_lookahead) {
+	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
+	if (idx+lookahead_size > MAXIMUM_BATCH_SIZE) break;
 	// remember the KV state so it can be rolled back when this
-	// lookahead token turns out to be wrong
+	// lookahead computation turns out to be wrong
 	save_lookahead_checkpoint(sequence);
-	int k = array_length(sequence->tokens);
-	lbatch.token[idx] = sequence->confidences[0].token;
-	lbatch.pos[idx] = k;
-	lbatch.n_seq_id[idx] = 1;
-	lbatch.seq_id[idx] = &server_seq_ids[bi];
-	lbatch.logits[idx] = true;
-	logits_indices[bi] = idx;
-	mtp_first_idx[i] = idx;
-	mtp_last_idx[i] = idx;
+	int saved_index = idx;
+	int k = array_length(sequence->tokens); // lookahead token position
+	for (int a = 0; a < lookahead_size; ++a) {
+	  lbatch.token[idx] = (a == 0)
+	    ? sequence->confidences[0].token
+	    : ((int*)sequence->mtp_draft_tokens)[a-1];
+	  lbatch.pos[idx] = k+a;
+	  lbatch.n_seq_id[idx] = 1;
+	  lbatch.seq_id[idx] = &server_seq_ids[bi];
+	  lbatch.logits[idx] = true;
+	  logits_indices[bi] = idx; // last entry: its confidences lead the turn
+	  ++idx;
+	}
+	if (idx > saved_index) {
+	  mtp_first_idx[i] = saved_index;
+	  mtp_last_idx[i] = idx-1;
+	}
 	++sequence_count;
 	prev_seq_i = i;
 	fprintf(stderr,
-	  "evaluating lookahead token in server sequence %d (session %d, "
+	  "evaluating %d lookahead token(s) in server sequence %d (session %d, "
 	  "client %d, id %d)\n",
-	  i, sequence->session_id, sequence->client_fd,
+	  lookahead_size, i, sequence->session_id, sequence->client_fd,
 	  sequence->client_sequence_id);
-	if (++idx >= n) break;
+	if (idx >= n) break;
       }
       ++bi;
     }
@@ -2207,11 +2219,6 @@ static void evaluate_sequences(void) {
       }
     }
   }
-  free(lbatch.token);
-  free(lbatch.pos);
-  free(lbatch.n_seq_id);
-  free(lbatch.seq_id);
-  free(lbatch.logits);
   if (ret != 0) {
     fprintf(stderr, "llama_decode failed: %d\n", ret);
     char *msg;
@@ -2259,6 +2266,19 @@ static void evaluate_sequences(void) {
 	 fill_top_confidences(sequence->confidences, logits, n_vocab);
 	  if (sequence->state == EVALUATED) {
 	    sequence->has_lookahead = true;
+	    // turn protocol: the first lookahead entry's confidences travel as a
+	    // "logits" message; each remaining entry as its own "lookahead"
+	    // message (same format, different title). pos is where the token
+	    // predicted by that entry will land.
+	    CONFIDENCE entry_confidences[10];
+	    for (int a = mtp_first_idx[i]; a <= mtp_last_idx[i]; ++a) {
+	      fill_top_confidences(
+		entry_confidences,
+		llama_get_logits_ith(current_context, a), n_vocab);
+	      send_confidence_message(
+		sequence, entry_confidences, lbatch.pos[a]+1,
+		a == mtp_first_idx[i] ? "logits" : "lookahead");
+	    }
 	  } else {
 	    sequence->state = EVALUATED;
 	    sequence->evaluation_position = array_length(sequence->tokens);
@@ -2293,6 +2313,11 @@ static void evaluate_sequences(void) {
       }
     }
   }
+  free(lbatch.token);
+  free(lbatch.pos);
+  free(lbatch.n_seq_id);
+  free(lbatch.seq_id);
+  free(lbatch.logits);
   // MTP draft generation for the sequences this pass just evaluated;
   // runs as one batched pass over all of them (see draft_mtp_logits)
   if (ret == 0) {
@@ -2348,6 +2373,20 @@ static void free_client_rcv(int fd) {
 
 static struct timespec NO_TIMEOUT = {0, 0};
 
+// sequences with pending lookahead work use the same eligibility as in
+// evaluate_sequences: evaluated and no lookahead computed yet for them
+static bool has_speculative_evaluations(void) {
+  for (int i = 0; i < array_length(sequences); ++i) {
+    SEQUENCE *sequence = &sequences[i];
+    if (
+      sequence->session_id == current_session_id &&
+      sequence->state == EVALUATED &&
+      !sequence->has_lookahead
+    ) return true;
+  }
+  return false;
+}
+
 static void handle_client_requests(int listen_fd) {
   fd_set read_set, write_set, except_set;
   FD_ZERO(&read_set);
@@ -2361,9 +2400,11 @@ static void handle_client_requests(int listen_fd) {
     fd_set current_except_set = except_set;
     //show_time("<<< pselect");
     //fprintf(stderr, "has_pending_evaluations: %d\n", has_pending_evaluations);
+    bool should_poll = has_pending_evaluations ||
+      (eager_speculation && has_speculative_evaluations());
     int ret = pselect(fd_count,
       &current_read_set, &current_write_set, &current_except_set,
-      has_pending_evaluations ? &NO_TIMEOUT : NULL,
+      should_poll ? &NO_TIMEOUT : NULL,
       NULL);
     //show_time(">>>");
     for (int fd = 0; fd < fd_count; ++fd) {
@@ -2446,6 +2487,7 @@ int main(int argc, char **argv) {
   // --min-ctx-size (default: 8192)
   // --max-ctx-size (default: 32768)
   // --mtp (number of tokens to predict; default: 0)
+  // --eager (run speculation in dedicated batches even when idle)
   // --model-path (default: /var/models/)
 
   // parse command line arguments and add a help option
@@ -2511,6 +2553,10 @@ int main(int argc, char **argv) {
 	fprintf(stderr, "missing argument for --mtp\n");
 	exit(EXIT_FAILURE);
       }
+    } else if (strcmp(argv[i], "--eager") == 0) {
+      // eager speculation: lookahead + MTP draft verification run in dedicated
+      // batches even when nothing else is pending evaluation
+      eager_speculation = true;
     } else if (strcmp(argv[i], "--model-path") == 0) {
       if (i+1 < argc) {
 	const char *p = argv[++i];
@@ -2539,6 +2585,7 @@ int main(int argc, char **argv) {
 	"  --min-ctx-size <size>           (default: 8192)\n"
 	"  --max-ctx-size <size>           (default: 32768)\n"
 	"  --mtp <n>                       (default: 0)\n"
+	"  --eager                         (run speculation in dedicated batches)\n"
 	"  --model-path <path>             (default: /var/models/)\n"
 	"  --help                          (shows this help)\n",
 	argv[0]);
@@ -2547,6 +2594,9 @@ int main(int argc, char **argv) {
       fprintf(stderr, "unknown option: %s\n", argv[i]);
       exit(EXIT_FAILURE);
     }
+  }
+  if (eager_speculation) {
+    fprintf(stderr, "eager speculation enabled\n");
   }
   signal(SIGPIPE, SIG_IGN);
   initialize_llama();
