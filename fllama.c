@@ -36,7 +36,26 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-11-01 22:57:28";
+static const char *FLLAMA_VERSION = "2026-11-02 00:23:12";
+
+// log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
+// same format as the test clients' wire timestamps
+
+static void log_msg(const char *fmt, ...) {
+  struct timespec now;
+  struct tm tm_buf;
+  char ts[16];
+  va_list ap;
+
+  clock_gettime(CLOCK_REALTIME, &now);
+  localtime_r(&now.tv_sec, &tm_buf);
+  strftime(ts, sizeof ts, "%H:%M:%S", &tm_buf);
+
+  fprintf(stderr, "%s.%03ld ", ts, now.tv_nsec / 1000000L);
+  va_start(ap, fmt);
+  vfprintf(stderr, fmt, ap);
+  va_end(ap);
+}
 
 
 #define MAXIMUM_BATCH_SIZE 512
@@ -47,7 +66,7 @@ static void log_callback(
   const enum ggml_log_level level, const char *text, void *
 ) {
   if (level == GGML_LOG_LEVEL_ERROR) {
-    fprintf(stderr, "%s", text);
+    log_msg("%s", text);
   }
 }
 
@@ -85,22 +104,22 @@ static struct llama_model *load_model(const char *filename) {
   // compute file size
   FILE *fp = fopen(filename, "rb");
   if (!fp) {
-    fprintf(stderr, "Failed to open model file: %s\n", filename);
+    log_msg("Failed to open model file: %s\n", filename);
     return NULL;
   }
   fseek(fp, 0, SEEK_END);
   size_t filesize = ftell(fp);
   fclose(fp);
-  fprintf(stderr, "model file size: %zu bytes\n", filesize);
+  log_msg("model file size: %zu bytes\n", filesize);
   struct llama_model_params model_params = llama_model_default_params();
   model_params.load_mtp = (mtp_predict > 0);
-  fprintf(stderr, "load_mtp = %d\n", model_params.load_mtp);
+  log_msg("load_mtp = %d\n", model_params.load_mtp);
   if (filesize <= gpu_offload_threshold) {
     model_params.n_gpu_layers = 99;
-    fprintf(stderr, "using GPU for all layers\n");
+    log_msg("using GPU for all layers\n");
   } else {
     model_params.n_gpu_layers = 0;
-    fprintf(stderr, "not using GPU for any layers\n");
+    log_msg("not using GPU for any layers\n");
   }
   return llama_model_load_from_file(filename, model_params);
 }
@@ -111,12 +130,12 @@ static struct llama_context *create_context(struct llama_model *model) {
   // dynamic allocation per sequence, shared prefixes count only once.
   // Restores the pre-2025 flexible multi-sequence behavior.
   ctx_params.kv_unified = true;
-  fprintf(stderr, "embeddings = %d\n", ctx_params.embeddings);
-  fprintf(stderr, "offload_kqv = %d\n", ctx_params.offload_kqv);
-  fprintf(stderr, "no_perf = %d\n", ctx_params.no_perf);
-  fprintf(stderr, "op_offload = %d\n", ctx_params.op_offload);
-  fprintf(stderr, "swa_full = %d\n", ctx_params.swa_full);
-  fprintf(stderr, "kv_unified = %d\n", ctx_params.kv_unified);
+  log_msg("embeddings = %d\n", ctx_params.embeddings);
+  log_msg("offload_kqv = %d\n", ctx_params.offload_kqv);
+  log_msg("no_perf = %d\n", ctx_params.no_perf);
+  log_msg("op_offload = %d\n", ctx_params.op_offload);
+  log_msg("swa_full = %d\n", ctx_params.swa_full);
+  log_msg("kv_unified = %d\n", ctx_params.kv_unified);
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = MAXIMUM_BATCH_SIZE;
   int n_ctx_train = llama_model_n_ctx_train(model);
@@ -135,7 +154,7 @@ static struct llama_context *create_context(struct llama_model *model) {
   // attempt to determine an "optimal" context size
   // do *not* use VRAM_RESERVE context units
   while (true) {
-    fprintf(stderr, "%d <%d..%d>\n", ctx_size, ctx_size_low, ctx_size_high);
+    log_msg("%d <%d..%d>\n", ctx_size, ctx_size_low, ctx_size_high);
     ctx_params.n_ctx = maximum_sequences*ctx_size+VRAM_RESERVE;
     ctx = llama_init_from_model(model, ctx_params);
     if (ctx) {
@@ -158,7 +177,7 @@ static struct llama_context *create_context(struct llama_model *model) {
     ctx = llama_init_from_model(model, ctx_params);
     current_context_size = ctx_size;
   }
-  fprintf(stderr, "ctx_size = %d\n", ctx_size);
+  log_msg("ctx_size = %d\n", ctx_size);
   return ctx;
 }
 
@@ -201,7 +220,7 @@ extern inline void set_array_length(void *items, int length) {
 TYPE *allocate_##TYPE##_array(int size) { \
   ARRAY_HEADER *header = malloc(sizeof(ARRAY_HEADER)+size*sizeof(TYPE)); \
   if (!header) { \
-    fprintf(stderr, "Failed to allocate memory for " #TYPE "array\n"); \
+    log_msg("Failed to allocate memory for " #TYPE "array\n"); \
     exit(EXIT_FAILURE); \
   } \
   header->size = size; \
@@ -218,7 +237,7 @@ TYPE *reallocate_##TYPE##_array(TYPE *array, int size) { \
     if (size < 2*header->size) size = 2*header->size; \
     header = realloc(header, sizeof(ARRAY_HEADER)+size*sizeof(TYPE)); \
     if (!header) { \
-      fprintf(stderr, "Failed to allocate memory for " #TYPE "array\n"); \
+      log_msg("Failed to allocate memory for " #TYPE "array\n"); \
       exit(EXIT_FAILURE); \
     } \
     header->size = size; \
@@ -280,7 +299,7 @@ TYPE *insert_into_##TYPE##_array(TYPE *items, int index, TYPE *other_items) { \
   ARRAY_HEADER *header = (ARRAY_HEADER *)items-1; \
   ARRAY_HEADER *other_header = (ARRAY_HEADER *)other_items-1; \
   if (index < 0 || index > header->length) { \
-    fprintf(stderr, "Invalid index %d for inserting into " #TYPE " array of length %d\n", index, header->length); \
+    log_msg("Invalid index %d for inserting into " #TYPE " array of length %d\n", index, header->length); \
     exit(EXIT_FAILURE); \
   } \
   int new_length = header->length + other_header->length; \
@@ -305,7 +324,7 @@ TYPE *insert_value_into_##TYPE##_array( \
   if (count <= 0) return items; \
   ARRAY_HEADER *hdr = (ARRAY_HEADER *)items-1; \
   if (index < 0 || index > hdr->length) { \
-    fprintf(stderr, \
+    log_msg(\
       "Invalid index %d for inserting into " #TYPE " array of length %d\n", \
       index, hdr->length); \
     exit(EXIT_FAILURE); \
@@ -339,7 +358,7 @@ TYPE *push_to_##TYPE##_array(TYPE *items, TYPE value) { \
 #define DEFINE_SET_ITEM_AT_ARRAY(TYPE) \
 TYPE *set_item_at_##TYPE##_array(TYPE *items, int index, TYPE value) { \
   if (index < 0) { \
-    fprintf(stderr, \
+    log_msg(\
       "Invalid index %d for setting into " #TYPE " array\n", index); \
     exit(EXIT_FAILURE); \
   } \
@@ -381,26 +400,26 @@ DEFINE_SET_ITEM_AT_ARRAY(RCV_SLOT)
 void dump_int_array(int *items) {
   if (items) {
     ARRAY_HEADER *header = (ARRAY_HEADER *)items-1;
-    fprintf(stderr,
+    log_msg(
       "INT_ARRAY: size=%d, length=%d\n", header->size, header->length);
     for (int i = 0; i < header->length; i++) {
-      fprintf(stderr, "  [%d] = %d\n", i, items[i]);
+      log_msg("  [%d] = %d\n", i, items[i]);
     }
   } else {
-    fprintf(stderr, "INT_ARRAY: NULL\n");
+    log_msg("INT_ARRAY: NULL\n");
   }
 }
 
 void dump_bool_array(bool *items) {
   if (items) {
     ARRAY_HEADER *header = (ARRAY_HEADER *)items-1;
-    fprintf(stderr,
+    log_msg(
       "BOOL_ARRAY: size=%d, length=%d\n", header->size, header->length);
     for (int i = 0; i < header->length; i++) {
-      fprintf(stderr, "  [%d] = %d\n", i, items[i]);
+      log_msg("  [%d] = %d\n", i, items[i]);
     }
   } else {
-    fprintf(stderr, "BOOL_ARRAY: NULL\n");
+    log_msg("BOOL_ARRAY: NULL\n");
   }
 }
 
@@ -412,7 +431,7 @@ static int send_fd = -1;
 
 static void flush(void) {
   if (send_buf_len > 0 && send_fd >= 0) {
-    fprintf(stderr, "sending %zu bytes to %d\n", send_buf_len, send_fd);
+    log_msg("sending %zu bytes to %d\n", send_buf_len, send_fd);
     (void)write(send_fd, send_buf, send_buf_len);
     send_buf_len = 0;
     send_fd = -1;
@@ -426,7 +445,7 @@ static void send_message(int fd, const char *msg, size_t len) {
   }
   if (len > SEND_BUF_SIZE) {
     flush();
-    fprintf(stderr, "sending %zu bytes to %d\n", len, fd);
+    log_msg("sending %zu bytes to %d\n", len, fd);
     (void)write(fd, msg, len);
   } else {
     if (send_buf_len+len > SEND_BUF_SIZE) flush();
@@ -549,7 +568,7 @@ static void change_session(int client_fd, int new_session_id) {
   // save current session
 
   if (current_session_id != INVALID) {
-    fprintf(stderr, "save session %d\n", current_session_id);
+    log_msg("save session %d\n", current_session_id);
     SESSION *current_session = &sessions[current_session_id];
     size_t current_session_size = llama_state_get_size(current_context);
     current_session->session_size = current_session_size;
@@ -576,7 +595,7 @@ static void change_session(int client_fd, int new_session_id) {
 	}
       }
     } else {
-      fprintf(stderr, "failed to allocate memory for session data\n");
+      log_msg("failed to allocate memory for session data\n");
       send_message(
 	client_fd, "error failed to allocate memory for session data", 58);
     }
@@ -584,7 +603,7 @@ static void change_session(int client_fd, int new_session_id) {
 
   // load new session
 
-  fprintf(stderr, "load session %d\n", new_session_id);
+  log_msg("load session %d\n", new_session_id);
   SESSION *new_session = &sessions[new_session_id];
   if (new_session->session_data) {
     llama_state_set_data(
@@ -659,9 +678,9 @@ DEFINE_REALLOCATE_ARRAY(SEQUENCE)
 
 static void dump_sequence(SEQUENCE *sequence) {
   if (sequence->state == INVALID) {
-    fprintf(stderr, "SEQUENCE: invalid\n");
+    log_msg("SEQUENCE: invalid\n");
   } else {
-    fprintf(stderr,
+    log_msg(
       "SEQUENCE: %p\n"
       "  client_fd: %d\n"
       "  client_sequence_id: %d\n"
@@ -677,13 +696,13 @@ static void dump_sequence(SEQUENCE *sequence) {
       sequence->tokens_added, sequence->evaluation_position,
       sequence->was_shifted, sequence->has_lookahead,
       sequence->next_token);
-    fprintf(stderr, "TOKENS: ");
+    log_msg("TOKENS: ");
     dump_int_array(sequence->tokens);
-    fprintf(stderr, "POSITIONS: ");
+    log_msg("POSITIONS: ");
     dump_int_array(sequence->positions);
-    fprintf(stderr, "CONFIDENCES:\n");
+    log_msg("CONFIDENCES:\n");
     for (int i = 0; i < 10; ++i) {
-      fprintf(stderr, "  %d:%f\n",
+      log_msg("  %d:%f\n",
 	sequence->confidences[i].token, sequence->confidences[i].logit);
     }
   }
@@ -691,25 +710,25 @@ static void dump_sequence(SEQUENCE *sequence) {
 
 static void dump_sequence_array(SEQUENCE *sequences) {
   for (int i = 0; i < array_length(sequences); ++i) {
-    fprintf(stderr, "[%d]:\n", i);
+    log_msg("[%d]:\n", i);
     dump_sequence(&sequences[i]);
   }
 }
 
 static void dump_batch(struct llama_batch *batch) {
-  fprintf(stderr,
+  log_msg(
     "BATCH:\n"
     "total tokens: %d\n",
     batch->n_tokens);
   for (int i = 0; i < batch->n_tokens; ++i) {
-    fprintf(stderr,
+    log_msg(
       "  [%4d] token = %6d, pos = %5d, sequences = %d (",
       i, batch->token[i], batch->pos[i], batch->n_seq_id[i]);
     for (int j = 0; j < batch->n_seq_id[i]; ++j) {
-      if (j > 0) fprintf(stderr, ", ");
-      fprintf(stderr, "%d", batch->seq_id[i][j]);
+      if (j > 0) log_msg(", ");
+      log_msg("%d", batch->seq_id[i][j]);
     }
-    fprintf(stderr, ")\n");
+    log_msg(")\n");
   }
 }
 
@@ -738,7 +757,7 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   bool used_sequence_ids[32]; // max. 32 sequences per session
   memset(used_sequence_ids, false, sizeof(used_sequence_ids));
   int session_id = current_session_per_client[client_fd];
-  fprintf(stderr, "session_id = %d\n", session_id);
+  log_msg("session_id = %d\n", session_id);
   int i, idx;
   idx = -1;
   for (i = 0; i < array_length(sequences); ++i) {
@@ -757,7 +776,7 @@ static int create_sequence(int client_fd, int client_sequence_id) {
     }
   }
   if (i >= maximum_sequences) {
-    fprintf(stderr, "Maximum number of sequences reached (limit = %d)\n",
+    log_msg("Maximum number of sequences reached (limit = %d)\n",
       maximum_sequences);
     return -1;
   }
@@ -790,7 +809,7 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   sequence->mtp_draft_tokens = NULL;
   sequence->tokens = NULL;
   sequence->positions = NULL;
-  fprintf(stderr, "created server sequence %d (client %d, id %d)\n",
+  log_msg("created server sequence %d (client %d, id %d)\n",
     idx, client_fd, client_sequence_id);
   return idx;
 }
@@ -803,14 +822,14 @@ static int copy_sequence(
 ) {
   int template_idx = get_sequence_idx(client_fd, template_sequence_id);
   if (template_idx < 0) {
-    fprintf(stderr, "copy_sequence: sequence for client %d, id %d not found\n",
+    log_msg("copy_sequence: sequence for client %d, id %d not found\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence not found", 25);
     return -1;
   }
   SEQUENCE *template_sequence = &sequences[template_idx];
   if (template_sequence->state != EVALUATED) {
-    fprintf(stderr,
+    log_msg(
       "copy_sequence: sequence for client %d, id %d is not evaluated\n",
       client_fd, template_sequence_id);
     send_message(client_fd, "error sequence is not evaluated", 32);
@@ -831,7 +850,7 @@ static int copy_sequence(
   sequence->tokens_added = 0;
   sequence->evaluation_position = template_sequence->evaluation_position;
   sequence->was_shifted = false;
-  fprintf(stderr, "llama_memory_seq_cp(current_memory, %d, %d, 0, %d)\n",
+  log_msg("llama_memory_seq_cp(current_memory, %d, %d, 0, %d)\n",
     template_sequence->sequence_id, sequence->sequence_id, token_count);
   llama_memory_seq_cp(
     current_memory, template_sequence->sequence_id,
@@ -848,7 +867,7 @@ static void free_maybe_empty_session(int client_fd, int session_id) {
     ) ++n;
   }
   if (n == 0) { // session is empty
-    fprintf(stderr, "freeing session %d\n", session_id);
+    log_msg("freeing session %d\n", session_id);
     SESSION *session = &sessions[session_id];
     if (session_id == current_session_id) {
       llama_memory_clear(current_memory, true);
@@ -879,7 +898,7 @@ static void free_client_sequence(int client_fd, int client_sequence_id) {
       sequence->client_fd == client_fd &&
       sequence->client_sequence_id == client_sequence_id
     ) {
-      fprintf(stderr, "freeing server sequence %d (client %d, id %d)\n",
+      log_msg("freeing server sequence %d (client %d, id %d)\n",
 	i, client_fd, client_sequence_id);
       sequence->state = INVALID;
       deallocate_array(sequence->tokens);
@@ -905,7 +924,7 @@ static void free_all_client_sequences(int client_fd) {
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
     if (sequence->state != INVALID && sequence->client_fd == client_fd) {
-      fprintf(stderr, "freeing server sequence %d (client %d, id %d)\n",
+      log_msg("freeing server sequence %d (client %d, id %d)\n",
 	i, client_fd, sequence->client_sequence_id);
       sequence->state = INVALID;
       deallocate_array(sequence->tokens);
@@ -933,7 +952,7 @@ static void truncate_sequence(
 ) {
   int sequence_idx = get_sequence_idx(client_fd, client_sequence_id);
   if (sequence_idx < 0) {
-    fprintf(stderr,
+    log_msg(
       "truncate_sequence: sequence for client %d, id %d not found\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence not found", 25);
@@ -941,7 +960,7 @@ static void truncate_sequence(
   }
   SEQUENCE *sequence = &sequences[sequence_idx];
   if (sequence->state == IN_EVALUATION) {
-    fprintf(stderr,
+    log_msg(
       "truncate_sequence: sequence for client %d, id %d "
       "is currently evaluated\n",
       client_fd, client_sequence_id);
@@ -949,14 +968,14 @@ static void truncate_sequence(
     return;
   }
   if (sequence->state == MODIFIED) {
-    fprintf(stderr,
+    log_msg(
       "truncate_sequence: sequence for client %d, id %d was modified\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence was modified", 28);
     return;
   }
   if (token_count < 0) {
-    fprintf(stderr,
+    log_msg(
       "truncate_sequence: sequence for client %d, id %d "
       "token_count is negative\n",
       client_fd, client_sequence_id);
@@ -977,14 +996,14 @@ static void add_tokens(
 ) {
   int sequence_idx = get_sequence_idx(client_fd, client_sequence_id);
   if (sequence_idx < 0) {
-    fprintf(stderr, "add_tokens: sequence for client %d, id %d not found\n",
+    log_msg("add_tokens: sequence for client %d, id %d not found\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence not found", 25);
     return;
   }
   SEQUENCE *sequence = &sequences[sequence_idx];
   if (sequence->state == IN_EVALUATION) {
-    fprintf(stderr,
+    log_msg(
       "add_tokens: sequence for client %d, id %d is currently evaluated\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence is currently evaluated", 38);
@@ -1015,21 +1034,21 @@ static void delete_tokens(
 ) {
   int sequence_idx = get_sequence_idx(client_fd, client_sequence_id);
   if (sequence_idx < 0) {
-    fprintf(stderr, "delete_tokens: sequence for client %d, id %d not found\n",
+    log_msg("delete_tokens: sequence for client %d, id %d not found\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence not found", 25);
     return;
   }
   SEQUENCE *sequence = &sequences[sequence_idx];
   if (sequence->state == IN_EVALUATION) {
-    fprintf(stderr,
+    log_msg(
       "delete_tokens: sequence for client %d, id %d is currently evaluated\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence is currently evaluated", 38);
     return;
   }
   if (position < 0 || position > array_length(sequence->tokens)) {
-    fprintf(stderr,
+    log_msg(
       "delete_tokens: position %d out of range for client %d, id %d\n",
       position, client_fd, client_sequence_id);
     send_message(client_fd, "error position out of range", 28);
@@ -1038,7 +1057,7 @@ static void delete_tokens(
   if (
     token_count < 0 || position+token_count > array_length(sequence->tokens)
   ) {
-    fprintf(stderr,
+    log_msg(
       "delete_tokens: token_count %d out of range for client %d, id %d\n",
       token_count, client_fd, client_sequence_id);
     send_message(client_fd, "error token_count out of range", 31);
@@ -1068,21 +1087,21 @@ static void insert_tokens(
 ) {
   int sequence_idx = get_sequence_idx(client_fd, client_sequence_id);
   if (sequence_idx < 0) {
-    fprintf(stderr, "insert_tokens: sequence for client %d, id %d not found\n",
+    log_msg("insert_tokens: sequence for client %d, id %d not found\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence not found", 25);
     return;
   }
   SEQUENCE *sequence = &sequences[sequence_idx];
   if (sequence->state == IN_EVALUATION) {
-    fprintf(stderr,
+    log_msg(
       "insert_tokens: sequence for client %d, id %d is currently evaluated\n",
       client_fd, client_sequence_id);
     send_message(client_fd, "error sequence is currently evaluated", 38);
     return;
   }
   if (position < 0 || position > array_length(sequence->tokens)) {
-    fprintf(stderr,
+    log_msg(
       "insert_tokens: position %d out of range for client %d, id %d\n",
       position, client_fd, client_sequence_id);
     send_message(client_fd, "error position out of range", 28);
@@ -1117,7 +1136,7 @@ static char *create_string(char *first, ...) {
   va_end(args);
   char *result = malloc(length+1);
   if (!result) {
-    fprintf(stderr, "Out of memory\n");
+    log_msg("Out of memory\n");
     exit(EXIT_FAILURE);
   }
   char *p = stpcpy(result, first);
@@ -1146,16 +1165,16 @@ static int start_tcp_server(int port_no) {
   addr.sin_port = htons(port_no);
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) return -1;
   if (listen(sock, backlog_count) == -1) return -1;
-  fprintf(stderr, "listening on port %d\n", port_no);
+  log_msg("listening on port %d\n", port_no);
   return sock;
 }
 
 static void handle_use_model(int fd, char *model_name) {
-  fprintf(stderr, "use_model %s\n", model_name);
+  log_msg("use_model %s\n", model_name);
   current_session_per_client[fd] = current_session_id;
   if (!current_model_name) {
     char *full_model_name = create_string(model_path, model_name, NULL);
-    fprintf(stderr, "loading model %s\n", full_model_name);
+    log_msg("loading model %s\n", full_model_name);
     struct llama_model *model = load_model(full_model_name);
     if (model) {
       current_model = model;
@@ -1174,51 +1193,51 @@ static void handle_use_model(int fd, char *model_name) {
 	  mtp_params.ctx_other = current_context;
 	  mtp_params.n_seq_max = maximum_sequences;
 	  mtp_params.n_batch = MAXIMUM_BATCH_SIZE;
-	  fprintf(stderr, "creating MTP context (nextn layers = %d)\n",
+	  log_msg("creating MTP context (nextn layers = %d)\n",
 	    n_layer_nextn);
-	  fprintf(stderr, "mtp n_ctx = %u\n", llama_n_ctx(current_context));
+	  log_msg("mtp n_ctx = %u\n", llama_n_ctx(current_context));
 	  mtp_context = llama_init_from_model(current_model, mtp_params);
 	  if (mtp_context) {
-	    fprintf(stderr, "MTP context created\n");
+	    log_msg("MTP context created\n");
 	    // enable nextn hidden-state extraction: the target's rows feed the
 	    // MTP catch-up decode; the MTP context outputs its own rows for
 	    // draft generation (step 5)
 	    mtp_n_embd = llama_model_n_embd(current_model);
 	    mtp_batch = llama_batch_ext_init(mtp_context);
 	    if (!mtp_batch) {
-	      fprintf(stderr, "failed to init MTP batch; continuing without catch-up\n");
+	      log_msg("failed to init MTP batch; continuing without catch-up\n");
 	      mtp_n_embd = 0;
 	    } else {
 	      llama_set_embeddings_nextn(current_context, true, /*masked*/ false);
 	      llama_set_embeddings_nextn(mtp_context, true, /*masked*/ true);
-	      fprintf(stderr, "MTP catch-up enabled (n_embd = %d)\n", mtp_n_embd);
+	      log_msg("MTP catch-up enabled (n_embd = %d)\n", mtp_n_embd);
 	    }
 	  } else {
-	    fprintf(stderr, "failed to create MTP context; continuing without MTP\n");
+	    log_msg("failed to create MTP context; continuing without MTP\n");
 	  }
 	} else if (n_layer_nextn > 0) {
-	  fprintf(stderr, "model supports MTP (nextn layers = %d); use --mtp <n> to enable\n",
+	  log_msg("model supports MTP (nextn layers = %d); use --mtp <n> to enable\n",
 	    n_layer_nextn);
 	}
       } else {
 	llama_model_free(model);
 	current_model = NULL;
-	fprintf(stderr, "failed to create context\n");
+	log_msg("failed to create context\n");
 	send_message(fd, "error failed to create context", 31);
       }
     } else {
-      fprintf(stderr, "failed to load model %s\n", full_model_name);
+      log_msg("failed to load model %s\n", full_model_name);
       send_message(fd, "error failed to load model", 27);
     }
   } else if (strcmp(model_name, strrchr(current_model_name, '/')+1) != 0) {
-    fprintf(stderr, "already using model %s\n", current_model_name);
+    log_msg("already using model %s\n", current_model_name);
     send_message(fd, "error already using another model", 34);
   }
 }
 
 static void handle_tokenize(int fd, char *text) {
   if (text) {
-    fprintf(stderr, "tokenize text of %zu bytes\n", strlen(text));
+    log_msg("tokenize text of %zu bytes\n", strlen(text));
     int *tokens = tokenize(current_model, text);
     char *buf = malloc(256+7*array_length(tokens));
     char *p = buf+sprintf(buf, "tokens %d", array_length(tokens));
@@ -1229,20 +1248,20 @@ static void handle_tokenize(int fd, char *text) {
     free(buf);
     deallocate_array(tokens);
   } else {
-    fprintf(stderr, "tokenize: missing text\n");
+    log_msg("tokenize: missing text\n");
     send_message(fd, "error missing text", 19);
   }
 }
 
 static void handle_create_sequence(int fd, char *sequence_id) {
   if (sequence_id) {
-    fprintf(stderr, "create_sequence %s\n", sequence_id);
+    log_msg("create_sequence %s\n", sequence_id);
     int client_sequence_id = atoi(sequence_id);
     if (create_sequence(fd, client_sequence_id) < 0) {
       send_message(fd, "error sequence limit reached", 29);
     }
   } else {
-    fprintf(stderr, "create_sequence: missing sequence id\n");
+    log_msg("create_sequence: missing sequence id\n");
     send_message(fd, "error missing sequence id", 26);
   }
 }
@@ -1260,44 +1279,44 @@ static void handle_copy_sequence(int fd, char *arguments) {
 	int template_sequence_id = atoi(template_id);
 	int n = atoi(token_count);
 	if (n == 1) {
-	  fprintf(stderr,
+	  log_msg(
 	    "copy first token from sequence %d to sequence %d\n",
 	    template_sequence_id, sequence_id);
 	} else {
-	  fprintf(stderr,
+	  log_msg(
 	    "copy first %d tokens from sequence %d to sequence %d\n",
 	    n, template_sequence_id, sequence_id);
 	}
 	copy_sequence(fd, sequence_id, template_sequence_id, n);
       } else {
-	fprintf(stderr, "copy_sequence: missing token count\n");
+	log_msg("copy_sequence: missing token count\n");
 	send_message(fd, "error missing token count", 26);
       }
     } else {
-      fprintf(stderr, "copy_sequence: missing template sequence id\n");
+      log_msg("copy_sequence: missing template sequence id\n");
       send_message(fd, "error missing template sequence id", 35);
     }
   } else {
-    fprintf(stderr, "copy_sequence: missing arguments\n");
+    log_msg("copy_sequence: missing arguments\n");
     send_message(fd, "error missing arguments", 24);
   }
 }
 
 static void handle_delete_sequence(int fd, char *sequence_id) {
   if (sequence_id) {
-    fprintf(stderr, "delete sequence %s\n", sequence_id);
+    log_msg("delete sequence %s\n", sequence_id);
     int client_sequence_id = atoi(sequence_id);
     free_client_sequence(fd, client_sequence_id);
   } else {
-    fprintf(stderr, "delete_sequence: missing sequence id\n");
+    log_msg("delete_sequence: missing sequence id\n");
     send_message(fd, "error missing sequence id", 26);
   }
 }
 
 static void send_confidence_message(
   SEQUENCE *sequence, const CONFIDENCE *c, int pos, const char *title) {
-  fprintf(stderr,
-    "sending %s confidences for position %d to client %d, id %d\n",
+  log_msg(
+    "sending %s for position %d to client %d, id %d\n",
     title, pos, sequence->client_fd, sequence->client_sequence_id);
   char buf[512];
   char *p = stpcpy(buf, title);
@@ -1329,14 +1348,14 @@ static void handle_add_tokens(int fd, char *arguments) {
 	int client_sequence_id = atoi(sequence_id);
 	int n = atoi(token_count);
 	if (n == 1) {
-	  fprintf(stderr, "add one token to sequence %d\n", client_sequence_id);
+	  log_msg("add one token to sequence %d\n", client_sequence_id);
 	} else {
-	  fprintf(stderr, "add %d tokens to sequence %d\n",
+	  log_msg("add %d tokens to sequence %d\n",
 	    n, client_sequence_id);
 	}
 	int sequence_idx = get_sequence_idx(fd, client_sequence_id);
 	if (sequence_idx < 0) {
-	  fprintf(stderr,
+	  log_msg(
 	    "add_tokens: sequence for client %d, id %d not found\n",
 	    fd, client_sequence_id);
 	  send_message(fd, "error sequence not found", 25);
@@ -1355,15 +1374,15 @@ static void handle_add_tokens(int fd, char *arguments) {
 	set_array_length(tokens, n);
 	add_tokens(fd, client_sequence_id, tokens);
       } else {
-	fprintf(stderr, "add_tokens: missing token values\n");
+	log_msg("add_tokens: missing token values\n");
 	send_message(fd, "error missing token values", 27);
       }
     } else {
-      fprintf(stderr, "add_tokens: missing token count\n");
+      log_msg("add_tokens: missing token count\n");
       send_message(fd, "error missing token count", 26);
     }
   } else {
-    fprintf(stderr, "add_tokens: missing arguments\n");
+    log_msg("add_tokens: missing arguments\n");
     send_message(fd, "error missing arguments", 24);
   }
 }
@@ -1380,20 +1399,20 @@ static void handle_delete_tokens(int fd, char *arguments) {
 	int sequence_id = atoi(arguments);
 	int pos = atoi(position);
 	int n = atoi(token_count);
-	fprintf(stderr,
+	log_msg(
 	  "delete %d tokens from sequence %d at position %d\n",
 	  n, sequence_id, pos);
 	delete_tokens(fd, sequence_id, pos, n);
       } else {
-	fprintf(stderr, "delete_tokens: missing token count\n");
+	log_msg("delete_tokens: missing token count\n");
 	send_message(fd, "error missing token count", 26);
       }
     } else {
-      fprintf(stderr, "delete_tokens: missing position\n");
+      log_msg("delete_tokens: missing position\n");
       send_message(fd, "error missing position", 23);
     }
   } else {
-    fprintf(stderr, "delete_tokens: missing arguments\n");
+    log_msg("delete_tokens: missing arguments\n");
     send_message(fd, "error missing arguments", 24);
   }
 }
@@ -1414,7 +1433,7 @@ static void handle_insert_tokens(int fd, char *arguments) {
 	  int client_sequence_id = atoi(sequence_id);
 	  int pos = atoi(position);
 	  int n = atoi(token_count);
-	  fprintf(stderr,
+	  log_msg(
 	    "insert %d tokens into sequence %d at position %d\n",
 	    n, client_sequence_id, pos);
 	  int *tokens = allocate_int_array(n);
@@ -1429,19 +1448,19 @@ static void handle_insert_tokens(int fd, char *arguments) {
 	  set_array_length(tokens, n);
 	  insert_tokens(fd, client_sequence_id, pos, tokens);
 	} else {
-	  fprintf(stderr, "insert_tokens: missing token values\n");
+	  log_msg("insert_tokens: missing token values\n");
 	  send_message(fd, "error missing token values", 27);
 	}
       } else {
-	fprintf(stderr, "insert_tokens: missing token count\n");
+	log_msg("insert_tokens: missing token count\n");
 	send_message(fd, "error missing token count", 26);
       }
     } else {
-      fprintf(stderr, "insert_tokens: missing position\n");
+      log_msg("insert_tokens: missing position\n");
       send_message(fd, "error missing position", 23);
     }
   } else {
-    fprintf(stderr, "insert_tokens: missing arguments\n");
+    log_msg("insert_tokens: missing arguments\n");
     send_message(fd, "error missing arguments", 24);
   }
 }
@@ -1455,28 +1474,28 @@ static void handle_truncate_sequence(int fd, char *arguments) {
       int sequence_id = atoi(arguments);
       int n = atoi(token_count);
       if (n == 1) {
-	fprintf(stderr, "truncate sequence %d to one token\n", sequence_id);
+	log_msg("truncate sequence %d to one token\n", sequence_id);
       } else {
-	fprintf(stderr, "truncate sequence %d to %d tokens\n", sequence_id, n);
+	log_msg("truncate sequence %d to %d tokens\n", sequence_id, n);
       }
       truncate_sequence(fd, sequence_id, n);
     } else {
-      fprintf(stderr, "truncate_sequence: missing token count\n");
+      log_msg("truncate_sequence: missing token count\n");
       send_message(fd, "error missing token count", 26);
     }
   } else {
-    fprintf(stderr, "truncate_sequence: missing arguments\n");
+    log_msg("truncate_sequence: missing arguments\n");
     send_message(fd, "error missing arguments", 24);
   }
 }
 
 static void handle_evaluate(int fd, char *sequence_id) {
   if (sequence_id) {
-    fprintf(stderr, "evaluate sequence %s\n", sequence_id);
+    log_msg("evaluate sequence %s\n", sequence_id);
     int client_sequence_id = atoi(sequence_id);
     int sequence_idx = get_sequence_idx(fd, client_sequence_id);
     if (sequence_idx < 0) {
-      fprintf(stderr,
+      log_msg(
 	"evaluate: sequence for client %d, id %d not found\n",
 	fd, client_sequence_id);
       send_message(fd, "error sequence not found", 25);
@@ -1508,7 +1527,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	  }
 	}
 	if (use_lookahead) {
-	  fprintf(stderr,
+	  log_msg(
 	    "using lookahead for server sequence %d (client %d, id %d): "
 	    "%d token(s)\n",
 	    sequence_idx, fd, client_sequence_id, n_added);
@@ -1534,7 +1553,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	    sequence->next_token = ((int*)sequence->mtp_draft_tokens)[0];
 	  }
 	} else {
-	  fprintf(stderr,
+	  log_msg(
 	    "do not use lookahead for server sequence %d (client %d, id %d)\n",
 	    sequence_idx, fd, client_sequence_id);
 	  rollback_lookahead_checkpoint(sequence);
@@ -1564,7 +1583,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	    if (was_deleted[i]) {
 	      int s = i;
 	      while (++i < array_length(was_deleted) && was_deleted[i]);
-	      fprintf(stderr,
+	      log_msg(
 		"llama_memory_seq_rm(current_memory, %d, %d, %d)\n",
 		sequence_id, s, i);
 	      llama_memory_seq_rm(current_memory, sequence_id, s, i);
@@ -1584,7 +1603,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
 		sequence->positions[i] >= 0 &&
 		sequence->positions[i]-i == delta
 	      );
-	      fprintf(stderr,
+	      log_msg(
 		"llama_memory_seq_add(current_memory, %d, %d, %d, %d)\n",
 		sequence_id, s+delta, i+delta, -delta);
 	      llama_memory_seq_add(
@@ -1599,20 +1618,20 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	sequence->positions[array_length(sequence->tokens)-1] = -1;
       }
     } else {
-      fprintf(stderr,
+      log_msg(
 	"evaluate: sequence for client %d, id %d was not modified\n",
 	fd, client_sequence_id);
       send_message(fd, "error sequence was not modified", 32);
     }
   } else {
-    fprintf(stderr, "evaluate: missing sequence id\n");
+    log_msg("evaluate: missing sequence id\n");
     send_message(fd, "error missing sequence id", 26);
   }
 }
 
 static void handle_get_pieces(int fd, char *arguments) {
   // return all pieces in the vocabulary
-  fprintf(stderr, "get_pieces\n");
+  log_msg("get_pieces\n");
   const struct llama_vocab *vocab = llama_model_get_vocab(current_model);
   const int n_vocab = llama_vocab_n_tokens(vocab);
   char *buf = malloc(128+32*n_vocab);
@@ -1634,7 +1653,7 @@ static void handle_get_pieces(int fd, char *arguments) {
 
 static void handle_get_end_tokens(int fd, char *arguments) {
   // return all end tokens in the vocabulary
-  fprintf(stderr, "get_end_tokens\n");
+  log_msg("get_end_tokens\n");
   const struct llama_vocab *vocab = llama_model_get_vocab(current_model);
   const int n_vocab = llama_vocab_n_tokens(vocab);
   int *end_tokens = malloc(n_vocab*sizeof(int));
@@ -1657,7 +1676,7 @@ static void handle_get_end_tokens(int fd, char *arguments) {
 
 static void handle_get_special_tokens(int fd, char *arguments) {
   // return all special tokens in the vocabulary
-  fprintf(stderr, "get_special_tokens\n");
+  log_msg("get_special_tokens\n");
   const struct llama_vocab *vocab = llama_model_get_vocab(current_model);
   llama_token bos = llama_vocab_bos(vocab);
   llama_token eos = llama_vocab_eos(vocab);
@@ -1673,7 +1692,7 @@ static void handle_get_special_tokens(int fd, char *arguments) {
 }
 
 static void handle_get_model_metadata(int fd, char *arguments) {
-  fprintf(stderr, "get_model_metadata\n");
+  log_msg("get_model_metadata\n");
   char buf[128];
   int n_ctx_train = llama_model_n_ctx_train(current_model);
   int len = sprintf(buf,
@@ -1703,11 +1722,11 @@ static void handle_create_session(int fd, char *arguments) {
   found_session->session_size = 0;
   found_session->session_data = NULL;
   current_session_per_client[fd] = i;
-  fprintf(stderr, "created session %d\n", i);
+  log_msg("created session %d\n", i);
 }
 
 static void handle_request(int fd, char *request) {
-  fprintf(stderr, "from %d: ", fd);
+  log_msg("from %d: ", fd);
   char *arguments = strchr(request, ' ');
   if (arguments) {
     *arguments++ = 0;
@@ -1718,7 +1737,7 @@ static void handle_request(int fd, char *request) {
     list_models(fd);
   } else {
     if (!current_model) {
-      fprintf(stderr, "no model loaded\n");
+      log_msg("no model loaded\n");
       send_message(fd, "error no model loaded", 22);
     } else if (strcmp(request, "tokenize") == 0) {
       handle_tokenize(fd, arguments);
@@ -1749,7 +1768,7 @@ static void handle_request(int fd, char *request) {
     } else if (strcmp(request, "create_session") == 0) {
       handle_create_session(fd, arguments);
     } else {
-      fprintf(stderr, "%s - unknown request\n", request);
+      log_msg("%s - unknown request\n", request);
       char *buf = malloc(128+strlen(request));
       sprintf(buf, "error %s - unknown request", request);
       send_message(fd, buf, strlen(buf)+1);
@@ -1766,7 +1785,7 @@ static void show_time(const char *msg) {
   long minute = (ts.tv_sec%3600)/60;
   long second = ts.tv_sec%60;
   long milliseconds = (ts.tv_nsec / 1000000L) % 1000L;
-  fprintf(stderr, "%s %02ld:%02ld:%02ld.%03ld\n",
+  log_msg("%s %02ld:%02ld:%02ld.%03ld\n",
     msg, hour, minute, second, milliseconds);
 }
 
@@ -1778,7 +1797,7 @@ static void save_lookahead_checkpoint(SEQUENCE *sequence) {
   size_t size = llama_state_seq_get_size_ext(
     ctx, sequence->sequence_id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
   if (size == 0) {
-    fprintf(stderr,
+    log_msg(
       "no partial state to checkpoint in server sequence %d "
       "(client %d, id %d)\n",
       sequence->sequence_id, sequence->client_fd,
@@ -1787,7 +1806,7 @@ static void save_lookahead_checkpoint(SEQUENCE *sequence) {
   }
   uint8_t *data = malloc(size);
   if (!data) {
-    fprintf(stderr,
+    log_msg(
       "failed to allocate %zu bytes for the lookahead checkpoint of "
       "server sequence %d (client %d, id %d)\n",
       size, sequence->sequence_id, sequence->client_fd,
@@ -1798,7 +1817,7 @@ static void save_lookahead_checkpoint(SEQUENCE *sequence) {
     ctx, data, size, sequence->sequence_id,
     LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
   if (n != size) {
-    fprintf(stderr,
+    log_msg(
       "lookahead checkpoint size mismatch in server sequence %d: "
       "expected %zu bytes, got %zu\n",
       sequence->sequence_id, size, n);
@@ -1809,7 +1828,7 @@ static void save_lookahead_checkpoint(SEQUENCE *sequence) {
   sequence->lookahead_ckpt_size = size;
   sequence->lookahead_ckpt_pos_max =
     llama_memory_seq_pos_max(llama_get_memory(ctx), sequence->sequence_id);
-  fprintf(stderr,
+  log_msg(
     "saved lookahead checkpoint in server sequence %d "
     "(client %d, id %d): %zu bytes, pos_max = %d\n",
     sequence->sequence_id, sequence->client_fd,
@@ -1819,7 +1838,7 @@ static void save_lookahead_checkpoint(SEQUENCE *sequence) {
 
 static void free_lookahead_checkpoint(SEQUENCE *sequence) {
   if (!sequence->lookahead_ckpt_data) return;
-  fprintf(stderr,
+  log_msg(
     "discarded lookahead checkpoint of server sequence %d "
     "(client %d, id %d)\n",
     sequence->sequence_id, sequence->client_fd,
@@ -1839,12 +1858,12 @@ static void rollback_lookahead_checkpoint(SEQUENCE *sequence) {
     ctx, sequence->lookahead_ckpt_data, sequence->lookahead_ckpt_size,
     sequence->sequence_id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
   if (n != sequence->lookahead_ckpt_size) {
-    fprintf(stderr,
+    log_msg(
       "failed to restore the lookahead checkpoint of server sequence %d: "
       "expected %zu bytes, got %zu\n",
       sequence->sequence_id, sequence->lookahead_ckpt_size, n);
   } else {
-    fprintf(stderr,
+    log_msg(
       "rolling back lookahead in server sequence %d (client %d, id %d): "
       "removed positions >= %d\n",
       sequence->sequence_id, sequence->client_fd,
@@ -1928,7 +1947,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
       int32_t idx = llama_batch_ext_add_token(
 	mtp_batch, sequence->sequence_id, d_tok[s]);
       if (idx < 0) {
-	fprintf(stderr,
+	log_msg(
 	  "MTP draft: batch full at step %d for server sequence %d\n",
 	  step, sequence->sequence_id);
 	drafting[s] = false;
@@ -1936,20 +1955,20 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
       }
       llama_pos pos = d_pos[s];
       if (!llama_batch_ext_set_pos(mtp_batch, idx, &pos)) {
-	fprintf(stderr, "MTP draft: failed to set pos for server sequence %d\n",
+	log_msg("MTP draft: failed to set pos for server sequence %d\n",
 	  sequence->sequence_id);
 	drafting[s] = false;
 	continue;
       }
       struct llama_embd embd = { d_h[s], 1, (size_t)mtp_n_embd };
       if (!llama_batch_ext_set_embd_state(mtp_batch, idx, embd)) {
-	fprintf(stderr, "MTP draft: failed to set state for server sequence %d\n",
+	log_msg("MTP draft: failed to set state for server sequence %d\n",
 	  sequence->sequence_id);
 	drafting[s] = false;
 	continue;
       }
       if (!llama_batch_ext_set_output_logits(mtp_batch, idx, true)) {
-	fprintf(stderr, "MTP draft: failed to set logits for server sequence %d\n",
+	log_msg("MTP draft: failed to set logits for server sequence %d\n",
 	  sequence->sequence_id);
 	drafting[s] = false;
 	continue;
@@ -1962,7 +1981,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
 
     int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
     if (rc != 0 && rc != 1) {
-      fprintf(stderr, "MTP draft decode failed at step %d: %d\n", step, rc);
+      log_msg("MTP draft decode failed at step %d: %d\n", step, rc);
       break;
     }
 
@@ -1975,7 +1994,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
 
       const float *logits = llama_get_logits_ith(mtp_context, d_idx[s]);
       if (!logits) {
-	fprintf(stderr, "MTP draft: no logits for server sequence %d\n",
+	log_msg("MTP draft: no logits for server sequence %d\n",
 	  sequence->sequence_id);
 	drafting[s] = false;
 	continue;
@@ -1987,7 +2006,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
 
       const float *h_row = llama_get_embeddings_nextn_ith(mtp_context, d_idx[s]);
       if (!h_row) {
-	fprintf(stderr, "MTP draft: no h_nextn row for server sequence %d\n",
+	log_msg("MTP draft: no h_nextn row for server sequence %d\n",
 	  sequence->sequence_id);
 	drafting[s] = false;
 	continue;
@@ -2011,7 +2030,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
     for (int k = 0; k < n; ++k) {
       p += sprintf(buf + p, " %d", ((int*)sequence->mtp_draft_tokens)[k]);
     }
-    fprintf(stderr, "%s\n", buf);
+    log_msg("%s\n", buf);
     // LOOKAHEAD messages travel only once the main head has confirmed
     // these drafts' correctness (step 6)
     //for (int k = 0; k < n; ++k) {
@@ -2046,7 +2065,7 @@ static void evaluate_sequences(void) {
 	    if (k < sequence->evaluation_position) {
 	      sequence->evaluation_position = k;
 	      change_session(sequence->client_fd, sequence->session_id);
-	      fprintf(stderr,
+	      log_msg(
 		"llama_memory_seq_rm(current_memory, %d, %d, -1)\n",
 		sequence->sequence_id, k);
 	      llama_memory_seq_rm(current_memory, sequence->sequence_id, k, -1);
@@ -2134,13 +2153,13 @@ static void evaluate_sequences(void) {
 	  mtp_last_idx[i] = idx - 1;
 	}
 	if (token_count == 1) {
-	  fprintf(stderr,
+	  log_msg(
 	    "evaluating one token in server sequence %d (session %d, "
 	    "client %d, id %d)\n",
 	    i, sequence->session_id, sequence->client_fd,
 	    sequence->client_sequence_id);
 	} else {
-	  fprintf(stderr,
+	  log_msg(
 	    "evaluating %d tokens in server sequence %d (session %d, "
 	    "client %d, id %d)\n",
 	    token_count, i, sequence->session_id, sequence->client_fd,
@@ -2172,7 +2191,7 @@ static void evaluate_sequences(void) {
 	}
 	++sequence_count;
 	prev_seq_i = i;
-	fprintf(stderr,
+	log_msg(
 	  "evaluating %d lookahead token(s) in server sequence %d (session %d, "
 	  "client %d, id %d)\n",
 	  lookahead_size, i, sequence->session_id, sequence->client_fd,
@@ -2202,7 +2221,7 @@ static void evaluate_sequences(void) {
 	}
 	++sequence_count;
 	prev_seq_i = i;
-	fprintf(stderr,
+	log_msg(
 	  "decoding 1 pending replacement token in server sequence %d "
 	  "(session %d, client %d, id %d)\n",
 	  i, sequence->session_id, sequence->client_fd,
@@ -2213,11 +2232,11 @@ static void evaluate_sequences(void) {
     }
   }
   if (n == 1) {
-    fprintf(stderr, "evaluating one token in one sequence\n");
+    log_msg("evaluating one token in one sequence\n");
   } else if (sequence_count == 1) {
-    fprintf(stderr, "evaluating %d tokens in one sequence\n", n);
+    log_msg("evaluating %d tokens in one sequence\n", n);
   } else {
-    fprintf(stderr,
+    log_msg(
       "evaluating %d tokens in %d sequences\n", n, sequence_count);
   }
   //dump_batch(&lbatch);
@@ -2231,7 +2250,7 @@ static void evaluate_sequences(void) {
   if (ret == 0 && mtp_batch) {
     const float *h_tgt = llama_get_embeddings_nextn(current_context);
     if (!h_tgt) {
-      fprintf(stderr, "no h_nextn rows from target; skipping MTP catch-up\n");
+      log_msg("no h_nextn rows from target; skipping MTP catch-up\n");
     } else {
       int32_t m_n = 0;
       llama_batch_ext_clear(mtp_batch);
@@ -2249,15 +2268,15 @@ static void evaluate_sequences(void) {
 	  struct llama_embd embd = { h_row, 1, (size_t)mtp_n_embd };
 	  int32_t m_idx = llama_batch_ext_add_token(mtp_batch, lbatch.seq_id[lbi][0], id);
 	  if (m_idx < 0) {
-	    fprintf(stderr, "MTP catch-up: failed to add token at lbatch idx %d\n", lbi);
+	    log_msg("MTP catch-up: failed to add token at lbatch idx %d\n", lbi);
 	    break;
 	  }
 	  if (!llama_batch_ext_set_pos(mtp_batch, m_idx, &pos)) {
-	    fprintf(stderr, "MTP catch-up: failed to set pos at idx %d\n", m_idx);
+	    log_msg("MTP catch-up: failed to set pos at idx %d\n", m_idx);
 	    break;
 	  }
 	  if (!llama_batch_ext_set_embd_state(mtp_batch, m_idx, embd)) {
-	    fprintf(stderr, "MTP catch-up: failed to set state at idx %d\n", m_idx);
+	    log_msg("MTP catch-up: failed to set state at idx %d\n", m_idx);
 	    break;
 	  }
 	  ++m_n;
@@ -2274,7 +2293,7 @@ static void evaluate_sequences(void) {
 	}
 	int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
 	if (rc != 0 && rc != 1) {
-	  fprintf(stderr, "MTP catch-up decode failed: %d\n", rc);
+	  log_msg("MTP catch-up decode failed: %d\n", rc);
 	} else {
 	  // refresh each sequence's pending_h to the target row at its last decoded position
 	  for (int i = 0; i < array_length(sequences); ++i) {
@@ -2290,7 +2309,7 @@ static void evaluate_sequences(void) {
     }
   }
   if (ret != 0) {
-    fprintf(stderr, "llama_decode failed: %d\n", ret);
+    log_msg("llama_decode failed: %d\n", ret);
     char *msg;
     switch (ret) {
       case -1:
@@ -2305,7 +2324,7 @@ static void evaluate_sequences(void) {
       default:
 	msg = "fatal error";
     }
-    fprintf(stderr, "llama_decode failed: %s\n", msg);
+    log_msg("llama_decode failed: %s\n", msg);
 
     for(int i = 0; i < array_length(sequences); ++i) {
       SEQUENCE *sequence = &sequences[i];
@@ -2369,7 +2388,7 @@ static void evaluate_sequences(void) {
 	      // the rest (§14 advancement rule). The replacement token waits in
 	      // the pending state until the next run decodes it into the KV.
 	      int trunc_pos = lbatch.pos[mtp_first_idx[i]+n_confirmed+1];
-	      fprintf(stderr,
+	      log_msg(
 		"partial lookahead confirmation in server sequence %d: %d of "
 		"%d drafts confirmed; rolling back positions >= %d\n",
 		i, n_confirmed, n_chain-1, trunc_pos);
@@ -2427,7 +2446,7 @@ static void evaluate_sequences(void) {
 		++remaining_tokens;
 	      }
 	    }
-	    fprintf(stderr,
+	    log_msg(
 	      "sending progress information to client %d, id %d: "
 	      "%d tokens remaining\n",
 	      sequence->client_fd, sequence->client_sequence_id,
@@ -2461,13 +2480,13 @@ static void evaluate_sequences(void) {
 }
 
 static void dump_set(fd_set *set, int fd_count) {
-  fprintf(stderr, "set:");
+  log_msg("set:");
   for (int i = 0; i < fd_count; ++i) {
     if (FD_ISSET(i, set)) {
-      fprintf(stderr, " %d", i);
+      log_msg(" %d", i);
     }
   }
-  fprintf(stderr, "\n");
+  log_msg("\n");
 }
 
 // Per-client receive buffers: a single shared buffer let leftover bytes of
@@ -2529,7 +2548,7 @@ static void handle_client_requests(int listen_fd) {
     fd_set current_write_set = write_set;
     fd_set current_except_set = except_set;
     //show_time("<<< pselect");
-    //fprintf(stderr, "has_pending_evaluations: %d\n", has_pending_evaluations);
+    //log_msg("has_pending_evaluations: %d\n", has_pending_evaluations);
     bool should_poll = has_pending_evaluations ||
       (eager_speculation && has_speculative_evaluations());
     int ret = pselect(fd_count,
@@ -2552,7 +2571,7 @@ static void handle_client_requests(int listen_fd) {
 	  int flag = 1;
 	  setsockopt(
 	    client_fd, IPPROTO_TCP, TCP_NODELAY, (char *)&flag, sizeof(int));
-	  fprintf(stderr, "accepted connection %d\n", client_fd);
+	  log_msg("accepted connection %d\n", client_fd);
 	  ensure_rcv_slot(client_fd);
 	  if (client_fd >= fd_count) {
 	    fd_count = client_fd+1;
@@ -2569,7 +2588,7 @@ static void handle_client_requests(int listen_fd) {
 	  do {
 	    n = recv(fd, slot->buf+slot->length, slot->size-slot->length, 0);
 	  } while (n == -1 && errno == EINTR);
-	  fprintf(stderr, "received %d bytes from %d\n", n, fd);
+	  log_msg("received %d bytes from %d\n", n, fd);
 	  if (n == -1) {
 	    char msg[128];
 	    sprintf(msg, "failed to receive data from %d", fd);
@@ -2579,7 +2598,7 @@ static void handle_client_requests(int listen_fd) {
 	    free_all_client_sequences(fd);
 	    free_client_rcv(fd);
 	  } else if (n == 0) {
-	    fprintf(stderr, "connection %d closed\n", fd);
+	    log_msg("connection %d closed\n", fd);
 	    FD_CLR(fd, &read_set);
 	    close(fd);
 	    free_all_client_sequences(fd);
@@ -2610,7 +2629,7 @@ static void handle_client_requests(int listen_fd) {
 }
 
 int main(int argc, char **argv) {
-  fprintf(stderr, "fllama %s\n", FLLAMA_VERSION);
+  log_msg("fllama %s\n", FLLAMA_VERSION);
   // options:
   // --gpu-offload-threshold (in GB; default: 0)
   // --concurrent-sequences (default: 1)
@@ -2628,7 +2647,7 @@ int main(int argc, char **argv) {
 	gpu_offload_threshold = atol(argv[++i]);
 	gpu_offload_threshold *= 1024*1024*1024;
       } else {
-	fprintf(stderr, "missing argument for --gpu-offload-threshold\n");
+	log_msg("missing argument for --gpu-offload-threshold\n");
 	exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--concurrent-sequences") == 0) {
@@ -2637,11 +2656,11 @@ int main(int argc, char **argv) {
 	if (n > 0) {
 	  maximum_sequences = n;
 	} else {
-	  fprintf(stderr, "invalid argument for --concurrent-sequences\n");
+	  log_msg("invalid argument for --concurrent-sequences\n");
 	  exit(EXIT_FAILURE);
 	}
       } else {
-	fprintf(stderr, "missing argument for --concurrent-sequences\n");
+	log_msg("missing argument for --concurrent-sequences\n");
 	exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--min-ctx-size") == 0) {
@@ -2650,11 +2669,11 @@ int main(int argc, char **argv) {
 	if (n > 0) {
 	  minimum_context_size = n;
 	} else {
-	  fprintf(stderr, "invalid argument for --min-ctx-size\n");
+	  log_msg("invalid argument for --min-ctx-size\n");
 	  exit(EXIT_FAILURE);
 	}
       } else {
-	fprintf(stderr, "missing argument for --min-ctx-size\n");
+	log_msg("missing argument for --min-ctx-size\n");
 	exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--max-ctx-size") == 0) {
@@ -2663,11 +2682,11 @@ int main(int argc, char **argv) {
 	if (n > 0) {
 	  maximum_context_size = n;
 	} else {
-	  fprintf(stderr, "invalid argument for --max-ctx-size\n");
+	  log_msg("invalid argument for --max-ctx-size\n");
 	  exit(EXIT_FAILURE);
 	}
       } else {
-	fprintf(stderr, "missing argument for --max-ctx-size\n");
+	log_msg("missing argument for --max-ctx-size\n");
 	exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--mtp") == 0) {
@@ -2676,11 +2695,11 @@ int main(int argc, char **argv) {
 	if (n > 0) {
 	  mtp_predict = n;
 	} else {
-	  fprintf(stderr, "invalid argument for --mtp\n");
+	  log_msg("invalid argument for --mtp\n");
 	  exit(EXIT_FAILURE);
 	}
       } else {
-	fprintf(stderr, "missing argument for --mtp\n");
+	log_msg("missing argument for --mtp\n");
 	exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--eager") == 0) {
@@ -2691,7 +2710,7 @@ int main(int argc, char **argv) {
       if (i+1 < argc) {
 	const char *p = argv[++i];
 	if (*p != '/') {
-	  fprintf(stderr, "--model-path must be an absolute path: %s\n", p);
+	  log_msg("--model-path must be an absolute path: %s\n", p);
 	  exit(EXIT_FAILURE);
 	}
 	size_t len = strlen(p);
@@ -2703,11 +2722,11 @@ int main(int argc, char **argv) {
 	q[len+1] = 0;
 	model_path = q;
       } else {
-	fprintf(stderr, "missing argument for --model-path\n");
+	log_msg("missing argument for --model-path\n");
 	exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--help") == 0) {
-      fprintf(stderr,
+      log_msg(
 	"Usage: %s [options]\n"
 	"Options:\n"
 	"  --gpu-offload-threshold <size>  (in GB; default: 0)\n"
@@ -2721,18 +2740,18 @@ int main(int argc, char **argv) {
 	argv[0]);
       exit(EXIT_SUCCESS);
     } else {
-      fprintf(stderr, "unknown option: %s\n", argv[i]);
+      log_msg("unknown option: %s\n", argv[i]);
       exit(EXIT_FAILURE);
     }
   }
   if (eager_speculation) {
-    fprintf(stderr, "eager speculation enabled\n");
+    log_msg("eager speculation enabled\n");
   }
   signal(SIGPIPE, SIG_IGN);
   initialize_llama();
   int listen_fd = start_tcp_server(7683); // LS = Llama Server
   if (listen_fd == -1) {
-    fprintf(stderr, "Failed to start TCP server on port 7683\n");
+    log_msg("Failed to start TCP server on port 7683\n");
     exit(EXIT_FAILURE);
   };
   sessions = allocate_SESSION_array(1);
