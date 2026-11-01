@@ -36,7 +36,7 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-11-01 15:59:20";
+static const char *FLLAMA_VERSION = "2026-11-01 22:57:28";
 
 
 #define MAXIMUM_BATCH_SIZE 512
@@ -613,9 +613,13 @@ static void change_session(int client_fd, int new_session_id) {
 #define MODIFIED 1
 #define IN_EVALUATION 2
 #define EVALUATED 3
+// a partial lookahead confirmation left a replacement token (next_token) that
+// must be decoded into the KV on the next run before the chain is complete
+#define PENDING_LOOKAHEAD 4
 
 char *sequence_state_names[] =
-  {"unmodified", "modified", "in_evaluation", "evaluated"};
+  {"unmodified", "modified", "in_evaluation", "evaluated",
+   "pending_lookahead"};
 
 // Token State
 
@@ -638,10 +642,13 @@ typedef struct {
   // MTP catch-up: last-seen h_nextn row of the target at this sequence's last
   // decoded position (zeros until the first catch-up pass)
   float *mtp_pending_h;
-  // MTP draft tokens generated after evaluation (step 5: not yet consumed);
-  // valid for positions evaluation_position .. evaluation_position+len-1,
-  // while the client's next token(s) are still undetermined
+  // MTP draft tokens; after an eager turn they hold the confirmed
+  // lookahead chain (fast-path match target: [next_token, ...this]);
+  // between turns they may hold raw MTP drafts awaiting confirmation
   int *mtp_draft_tokens;
+  // replacement token from a partial lookahead confirmation; decoded
+  // into the KV in state PENDING_LOOKAHEAD before rejoining the chain
+  int pending_token;
   int *tokens; // the unevaluated tokens
   int *positions; // -1 for new tokens
   CONFIDENCE confidences[10]; // the top 10 confidences for the next token
@@ -1480,23 +1487,52 @@ static void handle_evaluate(int fd, char *sequence_id) {
     if (sequence->state == MODIFIED) {
       int n = array_length(sequence->tokens);
       if (sequence->has_lookahead) {
-	if (
-	  sequence->has_lookahead &&
+	int n_draft = array_length(sequence->mtp_draft_tokens);
+	// the tokens just added may match a prefix of the lookahead chain
+	// already in the KV (next_token followed by the MTP drafts): if so
+	// they are consumed without any decoding
+	int n_added = sequence->tokens_added;
+	bool use_lookahead =
 	  !sequence->was_shifted &&
-	  sequence->tokens_added == 1 &&
-	  sequence->positions[n-1] == -1 &&
-	  sequence->tokens[n-1] == sequence->next_token
-	) {
+	  n_added > 0 &&
+	  n_added <= 1+n_draft;
+	for (int a = 0; use_lookahead && a < n_added; ++a) {
+	  int pos = n-n_added+a;
+	  if (
+	    sequence->positions[pos] != -1 ||
+	    sequence->tokens[pos] != ((a == 0)
+	      ? sequence->next_token
+	      : ((int*)sequence->mtp_draft_tokens)[a-1])
+	  ) {
+	    use_lookahead = false;
+	  }
+	}
+	if (use_lookahead) {
 	  fprintf(stderr,
-	    "using lookahead for server sequence %d (client %d, id %d)\n",
-	    sequence_idx, fd, client_sequence_id);
-	  sequence->positions[n-1] = n-1;
+	    "using lookahead for server sequence %d (client %d, id %d): "
+	    "%d token(s)\n",
+	    sequence_idx, fd, client_sequence_id, n_added);
+	  for (int a = 0; a < n_added; ++a) {
+	    int pos = n-n_added+a;
+	    sequence->positions[pos] = pos;
+	  }
 	  sequence->state = EVALUATED;
-	  sequence->evaluation_position = n;  // include lookahead token
-	  sequence->has_lookahead = false;
-	  free_lookahead_checkpoint(sequence);
-	  sequence->next_token = sequence->confidences[0].token;
-	  send_logits(sequence);
+	  sequence->evaluation_position = n;  // include lookahead tokens
+	  // shift the lookahead chain left by the consumed tokens
+	  if (n_added == 1+n_draft) {
+	    // nothing left: drop the checkpoint
+	    sequence->has_lookahead = false;
+	    set_array_length(sequence->mtp_draft_tokens, 0);
+	    free_lookahead_checkpoint(sequence);
+	  } else {
+	    for (int a = n_added-1; a < n_draft; ++a) {
+	      ((int*)sequence->mtp_draft_tokens)[a-n_added+1] =
+		((int*)sequence->mtp_draft_tokens)[a];
+	    }
+	    set_array_length(
+	      sequence->mtp_draft_tokens, n_draft-n_added+1);
+	    sequence->next_token = ((int*)sequence->mtp_draft_tokens)[0];
+	  }
 	} else {
 	  fprintf(stderr,
 	    "do not use lookahead for server sequence %d (client %d, id %d)\n",
@@ -2023,9 +2059,13 @@ static void evaluate_sequences(void) {
 	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
 	if (n+lookahead_size > MAXIMUM_BATCH_SIZE) break;
 	n += lookahead_size;
-	}
+      } else if (sequence->state == PENDING_LOOKAHEAD) {
+	int pending_size = 1; // the replacement token awaiting decode
+	if (n+pending_size > MAXIMUM_BATCH_SIZE) break;
+	n += pending_size;
       }
     }
+  }
   if (!has_regular_evaluations && !eager_speculation) return;
   if (n > MAXIMUM_BATCH_SIZE) {
     n = MAXIMUM_BATCH_SIZE;
@@ -2136,6 +2176,36 @@ static void evaluate_sequences(void) {
 	  "evaluating %d lookahead token(s) in server sequence %d (session %d, "
 	  "client %d, id %d)\n",
 	  lookahead_size, i, sequence->session_id, sequence->client_fd,
+	  sequence->client_sequence_id);
+	if (idx >= n) break;
+      } else if (sequence->state == PENDING_LOOKAHEAD) {
+	// a partial confirmation left the replacement token to decode into
+	// the first lookahead position; no checkpoint needed — it is the
+	// main head's own best-1 for that position
+	if (idx+1 > MAXIMUM_BATCH_SIZE) break;
+	save_lookahead_checkpoint(sequence);
+	int saved_index = idx;
+	int k = array_length(
+	  sequence->tokens)
+	  + 1
+	  + array_length(sequence->mtp_draft_tokens);
+	lbatch.token[idx] = sequence->pending_token;
+	lbatch.pos[idx] = k;
+	lbatch.n_seq_id[idx] = 1;
+	lbatch.seq_id[idx] = &server_seq_ids[bi];
+	lbatch.logits[idx] = true;
+	logits_indices[bi] = idx;
+	++idx;
+	if (idx > saved_index) {
+	  mtp_first_idx[i] = saved_index;
+	  mtp_last_idx[i] = idx-1;
+	}
+	++sequence_count;
+	prev_seq_i = i;
+	fprintf(stderr,
+	  "decoding 1 pending replacement token in server sequence %d "
+	  "(session %d, client %d, id %d)\n",
+	  i, sequence->session_id, sequence->client_fd,
 	  sequence->client_sequence_id);
 	if (idx >= n) break;
       }
@@ -2264,20 +2334,80 @@ static void evaluate_sequences(void) {
 	 float *logits = llama_get_logits_ith(current_context, idx);
 	 //show_time(">>>");
 	 fill_top_confidences(sequence->confidences, logits, n_vocab);
-	  if (sequence->state == EVALUATED) {
+	  if (sequence->state == PENDING_LOOKAHEAD) {
+	    // the replacement token is in the KV now: the lookahead
+	    // chain [next_token, ...mtp_draft_tokens, replacement] is
+	    // complete and claimable via the fast path again. No
+	    // messages travel — every position is covered by an already
+	    // sent message; next_token waits for client action.
+	    push_to_int_array(
+	      sequence->mtp_draft_tokens,
+	      sequence->pending_token);
+	    sequence->state = EVALUATED;
+	  } else if (sequence->state == EVALUATED) {
+	    // the chain [p, d1..dk] was just decoded into the KV at positions
+	    // N+1..N+k+1. Check each draft against the main head (§11 prefix
+	    // semantics): a draft is confirmed only when every earlier draft is
+	    // too and the main head's argmax at that position equals the draft
+	    // token (p is settled already: it is the turn-1 logits message).
+	    int n_chain = mtp_last_idx[i]-mtp_first_idx[i]+1;
+	    int n_confirmed = 0;
+	    CONFIDENCE best1[10];
+	    for (int a = 1; a < n_chain; ++a) {
+	      fill_top_confidences(
+		best1,
+		llama_get_logits_ith(current_context, mtp_first_idx[i]+a-1),
+		n_vocab);
+	      if (best1[0].token != lbatch.token[mtp_first_idx[i]+a]) break;
+	      ++n_confirmed;
+	    }
 	    sequence->has_lookahead = true;
-	    // turn protocol: the first lookahead entry's confidences travel as a
-	    // "logits" message; each remaining entry as its own "lookahead"
-	    // message (same format, different title). pos is where the token
-	    // predicted by that entry will land.
+	    if (n_confirmed < n_chain-1) {
+	      // partial confirmation: truncate the KV at the first unconfirmed
+	      // position (the stale draft states beyond it must not survive),
+	      // replace that draft with the main head's best-1 there and drop
+	      // the rest (§14 advancement rule). The replacement token waits in
+	      // the pending state until the next run decodes it into the KV.
+	      int trunc_pos = lbatch.pos[mtp_first_idx[i]+n_confirmed+1];
+	      fprintf(stderr,
+		"partial lookahead confirmation in server sequence %d: %d of "
+		"%d drafts confirmed; rolling back positions >= %d\n",
+		i, n_confirmed, n_chain-1, trunc_pos);
+	      llama_memory_seq_rm(
+		llama_get_memory(current_context),
+		sequence->sequence_id, trunc_pos, -1);
+	      free_lookahead_checkpoint(sequence);
+	      // keep the confirmed drafts: with next_token they form the
+	      // fast-path chain; drop only the unconfirmed tail
+	      set_array_length(
+		sequence->mtp_draft_tokens, n_confirmed);
+	      // the replacement token (main head's best-1 for that
+	      // position) waits until the fill loop decodes it
+	      sequence->state = PENDING_LOOKAHEAD;
+	      fill_top_confidences(
+		best1,
+		llama_get_logits_ith(
+		  current_context, mtp_first_idx[i]+n_confirmed), n_vocab);
+	      sequence->pending_token = (int)best1[0].token;
+	    } else {
+	      // full confirmation: [p, d1..dk] stay as the lookahead chain; the
+	      // rolling fill below (draft_mtp_logits) generates the next turn's
+	      // drafts at this position
+	      sequence->evaluation_position = lbatch.pos[mtp_last_idx[i]];
+	    }
+	    // MESSAGE RULE (§15): lookahead messages cover consecutive
+	    // positions from N+2; the message at position P always uses the
+	    // entry BEFORE it — so for j confirmed drafts we read entries
+	    // [p, d1..d(j-1)], NOT [d1..dj]. The turn-1 logits message
+	    // already covered position N+1 itself.
 	    CONFIDENCE entry_confidences[10];
-	    for (int a = mtp_first_idx[i]; a <= mtp_last_idx[i]; ++a) {
+	    for (int a = 0; a < n_confirmed; ++a) {
+	      int entry = mtp_first_idx[i]+a;
 	      fill_top_confidences(
 		entry_confidences,
-		llama_get_logits_ith(current_context, a), n_vocab);
+		llama_get_logits_ith(current_context, entry), n_vocab);
 	      send_confidence_message(
-		sequence, entry_confidences, lbatch.pos[a]+1,
-		a == mtp_first_idx[i] ? "logits" : "lookahead");
+		sequence, entry_confidences, lbatch.pos[entry]+1, "lookahead");
 	    }
 	  } else {
 	    sequence->state = EVALUATED;
