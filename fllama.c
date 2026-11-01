@@ -36,7 +36,7 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-10-31 15:43:09";
+static const char *FLLAMA_VERSION = "2026-11-01 01:42:18";
 
 
 #define MAXIMUM_BATCH_SIZE 512
@@ -461,6 +461,31 @@ static int compare_confidences(const void *left, const void *right) {
     return 0;
 }
 
+// fill the top-10 (token, logit) pairs from a full logits row, sorted descending
+static void fill_top_confidences(CONFIDENCE *c, const float *logits, int n_vocab) {
+  int k;
+  for (k = 0; k < 10; ++k) {
+    c[k].token = k;
+    c[k].logit = logits[k];
+  }
+  qsort(c, 10, sizeof(CONFIDENCE), compare_confidences);
+  while (k < n_vocab) {
+    float logit = logits[k];
+    if (logit > c[9].logit) {
+      // find insertion position
+      int j;
+      for (j = 8; j >= 0; --j) {
+        if (logit <= c[j].logit) break;
+      }
+      // move entries
+      memmove(&c[j+2], &c[j+1], (8-j)*sizeof(CONFIDENCE));
+      c[j+1].token = k;
+      c[j+1].logit = logit;
+    }
+    ++k;
+  }
+}
+
 static void list_models(int client_fd) {
   char *path = model_path;
   DIR *dir = opendir(path);
@@ -680,10 +705,8 @@ static void dump_batch(struct llama_batch *batch) {
 static SEQUENCE *sequences = NULL;
 
 // lookahead checkpoint helpers (defined near evaluate_sequences)
-static void save_lookahead_checkpoint(SEQUENCE *sequence);
 static void free_lookahead_checkpoint(SEQUENCE *sequence);
 static void rollback_lookahead_checkpoint(SEQUENCE *sequence);
-static void mtp_draft(SEQUENCE **draft_seqs, int n_draft_seqs);
 // frees all per-sequence aux state (lookahead checkpoint + MTP buffers)
 static void free_sequence_aux(SEQUENCE *sequence);
 
@@ -1260,22 +1283,26 @@ static void handle_delete_sequence(int fd, char *sequence_id) {
   }
 }
 
-static void send_confidences(SEQUENCE *sequence) {
+static void send_confidence_message(
+  SEQUENCE *sequence, const CONFIDENCE *c, int pos, const char *title) {
   fprintf(stderr,
-    "sending confidences for position %d to client %d, id %d\n",
-    array_length(sequence->tokens)-1,
-    sequence->client_fd, sequence->client_sequence_id);
+    "sending %s confidences for position %d to client %d, id %d\n",
+    title, pos, sequence->client_fd, sequence->client_sequence_id);
   char buf[512];
-  char *p = stpcpy(buf, "logits");
-  p += sprintf(p, " %d %d 10",
-    sequence->client_sequence_id, array_length(sequence->tokens)-1);
+  char *p = stpcpy(buf, title);
+  p += sprintf(p, " %d %d 10", sequence->client_sequence_id, pos);
   for (int k = 0; k < 10; ++k) {
-    p += sprintf(p, " %d=%f",
-      sequence->confidences[k].token,
-      sequence->confidences[k].logit);
+    p += sprintf(p, " %d=%f", c[k].token, c[k].logit);
   }
   send_message(sequence->client_fd, buf, p+1-buf);
   flush();
+}
+
+static void send_logits(SEQUENCE *sequence) {
+  // position = where the predicted token lands in the sequence (first free index)
+  send_confidence_message(
+    sequence, sequence->confidences,
+    array_length(sequence->tokens), "logits");
 }
 
 static void handle_add_tokens(int fd, char *arguments) {
@@ -1465,7 +1492,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	  sequence->has_lookahead = false;
 	  free_lookahead_checkpoint(sequence);
 	  sequence->next_token = sequence->confidences[0].token;
-	  send_confidences(sequence);
+	  send_logits(sequence);
 	} else {
 	  fprintf(stderr,
 	    "do not use lookahead for server sequence %d (client %d, id %d)\n",
@@ -1705,6 +1732,7 @@ static void show_time(const char *msg) {
 
 // Save a partial (SWA-only) checkpoint of the sequence's KV state before the
 // lookahead decode; this is what gets restored if the client rejects the token.
+
 static void save_lookahead_checkpoint(SEQUENCE *sequence) {
   struct llama_context *ctx = current_context;
   size_t size = llama_state_seq_get_size_ext(
@@ -1763,6 +1791,7 @@ static void free_lookahead_checkpoint(SEQUENCE *sequence) {
 }
 
 // Restore the saved checkpoint and remove everything speculated beyond it.
+
 static void rollback_lookahead_checkpoint(SEQUENCE *sequence) {
   if (!sequence->lookahead_ckpt_data) return;
   struct llama_context *ctx = current_context;
@@ -1791,6 +1820,7 @@ static void rollback_lookahead_checkpoint(SEQUENCE *sequence) {
 }
 
 // Free all per-sequence aux state: lookahead checkpoint + MTP catch-up buffer.
+
 static void free_sequence_aux(SEQUENCE *sequence) {
   free_lookahead_checkpoint(sequence);
   if (sequence->mtp_pending_h) {
@@ -1809,21 +1839,26 @@ static void free_sequence_aux(SEQUENCE *sequence) {
 // Ref: common_speculative_impl_draft_mtp::draft in common/speculative.cpp.
 // The drafts are stored per sequence and ignored for now; step 6 wires them
 // into the unified accept/reject flow.
-static void mtp_draft(SEQUENCE **draft_seqs, int n_draft_seqs) {
+
+static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
   if (!mtp_context || !mtp_batch || mtp_predict <= 0 || n_draft_seqs == 0) return;
 
   const int32_t n_vocab = llama_vocab_n_tokens(
     llama_model_get_vocab(llama_get_model(mtp_context)));
 
-  // per-sequence scratch for the draft step loop
+  // per-sequence scratch for the draft step loop: tok/pos/h are this round's
+  // batch inputs (h = the state row), d_idx tracks each entry within the batch
   bool *drafting = calloc(n_draft_seqs, sizeof(bool));
   int *d_pos = malloc(n_draft_seqs * sizeof(int));
-  int *d_i_last = malloc(n_draft_seqs * sizeof(int));
+  int *d_idx = malloc(n_draft_seqs * sizeof(int));
+  llama_token *d_tok = malloc(n_draft_seqs * sizeof(llama_token));
+  const float **d_h = malloc(n_draft_seqs * sizeof(const float *));
+  // per-step top-10 confidences of each draft token (for the lookahead messages)
+  CONFIDENCE *la_conf = malloc(
+    (size_t)n_draft_seqs * mtp_predict * 10 * sizeof(CONFIDENCE));
 
-  // initial batch: one entry per sequence at its prediction position,
-  // paired with the catch-up row (target h_nextn at its last decoded pos)
-  llama_batch_ext_clear(mtp_batch);
-  int n_drafting = 0;
+  // each sequence starts at its prediction position, paired with the catch-up
+  // row (target h_nextn at its last decoded position)
   for (int s = 0; s < n_draft_seqs; ++s) {
     SEQUENCE *sequence = draft_seqs[s];
 
@@ -1835,97 +1870,93 @@ static void mtp_draft(SEQUENCE **draft_seqs, int n_draft_seqs) {
     }
     set_array_length(sequence->mtp_draft_tokens, 0);
 
-    const int pos0 = sequence->evaluation_position;
-    const int id_last = sequence->next_token;
-    int32_t idx = llama_batch_ext_add_token(
-      mtp_batch, sequence->sequence_id, id_last);
-    if (idx < 0) {
-      fprintf(stderr,
-        "MTP draft: batch full for server sequence %d (client %d, id %d)\n",
-        sequence->sequence_id, sequence->client_fd, sequence->client_sequence_id);
-      continue;
-    }
-    llama_pos pos = pos0;
-    if (!llama_batch_ext_set_pos(mtp_batch, idx, &pos)) {
-      fprintf(stderr, "MTP draft: failed to set pos for server sequence %d\n",
-        sequence->sequence_id);
-      continue;
-    }
-    struct llama_embd embd = { sequence->mtp_pending_h, 1, (size_t)mtp_n_embd };
-    if (!llama_batch_ext_set_embd_state(mtp_batch, idx, embd)) {
-      fprintf(stderr, "MTP draft: failed to set state for server sequence %d\n",
-        sequence->sequence_id);
-      continue;
-    }
-    if (!llama_batch_ext_set_output_logits(mtp_batch, idx, true)) {
-      fprintf(stderr, "MTP draft: failed to set logits for server sequence %d\n",
-        sequence->sequence_id);
-      continue;
-    }
-
     drafting[s] = true;
-    d_pos[s] = pos0;
-    d_i_last[s] = idx;
-    ++n_drafting;
+    d_tok[s] = (llama_token)sequence->next_token;
+    d_pos[s] = sequence->evaluation_position;
+    d_h[s] = sequence->mtp_pending_h;
   }
 
   int step = 0;
-  while (n_drafting > 0 && step < mtp_predict) {
+  while (step < mtp_predict) {
+    // build this round's batch from the scratch state
+    llama_batch_ext_clear(mtp_batch);
+    int n_drafting = 0;
+    for (int s = 0; s < n_draft_seqs; ++s) {
+      if (!drafting[s]) continue;
+      SEQUENCE *sequence = draft_seqs[s];
+
+      int32_t idx = llama_batch_ext_add_token(
+	mtp_batch, sequence->sequence_id, d_tok[s]);
+      if (idx < 0) {
+	fprintf(stderr,
+	  "MTP draft: batch full at step %d for server sequence %d\n",
+	  step, sequence->sequence_id);
+	drafting[s] = false;
+	continue;
+      }
+      llama_pos pos = d_pos[s];
+      if (!llama_batch_ext_set_pos(mtp_batch, idx, &pos)) {
+	fprintf(stderr, "MTP draft: failed to set pos for server sequence %d\n",
+	  sequence->sequence_id);
+	drafting[s] = false;
+	continue;
+      }
+      struct llama_embd embd = { d_h[s], 1, (size_t)mtp_n_embd };
+      if (!llama_batch_ext_set_embd_state(mtp_batch, idx, embd)) {
+	fprintf(stderr, "MTP draft: failed to set state for server sequence %d\n",
+	  sequence->sequence_id);
+	drafting[s] = false;
+	continue;
+      }
+      if (!llama_batch_ext_set_output_logits(mtp_batch, idx, true)) {
+	fprintf(stderr, "MTP draft: failed to set logits for server sequence %d\n",
+	  sequence->sequence_id);
+	drafting[s] = false;
+	continue;
+      }
+
+      d_idx[s] = idx;
+      ++n_drafting;
+    }
+    if (n_drafting == 0) break;
+
     int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
     if (rc != 0 && rc != 1) {
       fprintf(stderr, "MTP draft decode failed at step %d: %d\n", step, rc);
       break;
     }
 
-    // rebuild the batch for the next step: only sequences that keep drafting
-    llama_batch_ext_clear(mtp_batch);
-    n_drafting = 0;
+    // read back this round's results and advance the scratch state: the
+    // head's own hidden row feeds the next step (read before the following
+    // llama_process overwrites it)
     for (int s = 0; s < n_draft_seqs; ++s) {
       if (!drafting[s]) continue;
       SEQUENCE *sequence = draft_seqs[s];
 
-      // greedy draft token from this sequence's entry
-      const float *logits = llama_get_logits_ith(mtp_context, d_i_last[s]);
+      const float *logits = llama_get_logits_ith(mtp_context, d_idx[s]);
       if (!logits) {
-        fprintf(stderr, "MTP draft: no logits for server sequence %d\n",
-          sequence->sequence_id);
-        continue;
+	fprintf(stderr, "MTP draft: no logits for server sequence %d\n",
+	  sequence->sequence_id);
+	drafting[s] = false;
+	continue;
       }
-      int32_t best = 0;
-      float best_logit = logits[0];
-      for (int32_t k = 1; k < n_vocab; ++k) {
-        if (logits[k] > best_logit) {
-          best_logit = logits[k];
-          best = k;
-        }
+      CONFIDENCE *la = &la_conf[
+        (size_t)s * mtp_predict * 10 + (size_t)step * 10];
+      fill_top_confidences(la, logits, n_vocab);
+      int32_t best = la[0].token;
+
+      const float *h_row = llama_get_embeddings_nextn_ith(mtp_context, d_idx[s]);
+      if (!h_row) {
+	fprintf(stderr, "MTP draft: no h_nextn row for server sequence %d\n",
+	  sequence->sequence_id);
+	drafting[s] = false;
+	continue;
       }
 
       push_to_int_array(sequence->mtp_draft_tokens, best);
-
-      // the MTP context's own hidden row at this position feeds the next step
-      const float *h_row = llama_get_embeddings_nextn_ith(mtp_context, d_i_last[s]);
-      if (!h_row) {
-        fprintf(stderr, "MTP draft: no h_nextn row for server sequence %d\n",
-          sequence->sequence_id);
-        continue;
-      }
-
-      int32_t idx = llama_batch_ext_add_token(
-        mtp_batch, sequence->sequence_id, (llama_token)best);
-      if (idx < 0) {
-        fprintf(stderr, "MTP draft: batch full at step %d for server sequence %d\n",
-          step, sequence->sequence_id);
-        continue;
-      }
-      llama_pos pos = d_pos[s] + 1;
-      if (!llama_batch_ext_set_pos(mtp_batch, idx, &pos)) continue;
-      struct llama_embd embd = { h_row, 1, (size_t)mtp_n_embd };
-      if (!llama_batch_ext_set_embd_state(mtp_batch, idx, embd)) continue;
-      if (!llama_batch_ext_set_output_logits(mtp_batch, idx, true)) continue;
-
-      d_pos[s] = pos;
-      d_i_last[s] = idx;
-      ++n_drafting;
+      d_tok[s] = (llama_token)best;
+      d_pos[s]++;
+      d_h[s] = h_row;
     }
     ++step;
   }
@@ -1941,11 +1972,20 @@ static void mtp_draft(SEQUENCE **draft_seqs, int n_draft_seqs) {
       p += sprintf(buf + p, " %d", ((int*)sequence->mtp_draft_tokens)[k]);
     }
     fprintf(stderr, "%s\n", buf);
+    // each draft token's own top-10 travels as a lookahead message
+    for (int k = 0; k < n; ++k) {
+      CONFIDENCE *la = &la_conf[
+        (size_t)s * mtp_predict * 10 + (size_t)k * 10];
+      send_confidence_message(
+        sequence, la, sequence->evaluation_position + 1 + k, "lookahead");
+    }
   }
 
   free(drafting);
   free(d_pos);
-  free(d_i_last);
+  free(d_idx);
+  free(d_tok);
+  free(d_h);
 }
 
 static void evaluate_sequences(void) {
@@ -2114,56 +2154,56 @@ static void evaluate_sequences(void) {
       int32_t m_n = 0;
       llama_batch_ext_clear(mtp_batch);
       for (int i = 0; i < array_length(sequences); ++i) {
-        if (mtp_first_idx[i] < 0) continue;
-        SEQUENCE *sequence = &sequences[i];
-        int n_entries = mtp_last_idx[i] - mtp_first_idx[i] + 1;
-        for (int e = 0; e < n_entries; ++e) {
-          int lbi = mtp_first_idx[i] + e;
-          llama_token id   = lbatch.token[lbi];
-          llama_pos pos    = lbatch.pos[lbi];
-          const float *h_row = (e == 0)
-            ? sequence->mtp_pending_h
-            : h_tgt + (size_t)(lbi - 1) * mtp_n_embd;
-          struct llama_embd embd = { h_row, 1, (size_t)mtp_n_embd };
-          int32_t m_idx = llama_batch_ext_add_token(mtp_batch, lbatch.seq_id[lbi][0], id);
-          if (m_idx < 0) {
-            fprintf(stderr, "MTP catch-up: failed to add token at lbatch idx %d\n", lbi);
-            break;
-          }
-          if (!llama_batch_ext_set_pos(mtp_batch, m_idx, &pos)) {
-            fprintf(stderr, "MTP catch-up: failed to set pos at idx %d\n", m_idx);
-            break;
-          }
-          if (!llama_batch_ext_set_embd_state(mtp_batch, m_idx, embd)) {
-            fprintf(stderr, "MTP catch-up: failed to set state at idx %d\n", m_idx);
-            break;
-          }
-          ++m_n;
-        }
+	if (mtp_first_idx[i] < 0) continue;
+	SEQUENCE *sequence = &sequences[i];
+	int n_entries = mtp_last_idx[i] - mtp_first_idx[i] + 1;
+	for (int e = 0; e < n_entries; ++e) {
+	  int lbi = mtp_first_idx[i] + e;
+	  llama_token id   = lbatch.token[lbi];
+	  llama_pos pos    = lbatch.pos[lbi];
+	  const float *h_row = (e == 0)
+	    ? sequence->mtp_pending_h
+	    : h_tgt + (size_t)(lbi - 1) * mtp_n_embd;
+	  struct llama_embd embd = { h_row, 1, (size_t)mtp_n_embd };
+	  int32_t m_idx = llama_batch_ext_add_token(mtp_batch, lbatch.seq_id[lbi][0], id);
+	  if (m_idx < 0) {
+	    fprintf(stderr, "MTP catch-up: failed to add token at lbatch idx %d\n", lbi);
+	    break;
+	  }
+	  if (!llama_batch_ext_set_pos(mtp_batch, m_idx, &pos)) {
+	    fprintf(stderr, "MTP catch-up: failed to set pos at idx %d\n", m_idx);
+	    break;
+	  }
+	  if (!llama_batch_ext_set_embd_state(mtp_batch, m_idx, embd)) {
+	    fprintf(stderr, "MTP catch-up: failed to set state at idx %d\n", m_idx);
+	    break;
+	  }
+	  ++m_n;
+	}
       }
       if (m_n > 0) {
-        // idempotent catch-up: wipe each sequence's cached tail from its first
-        // re-decoded position, so stale rows (e.g. after a lookahead rollback)
-        // are replaced instead of colliding (ref: common/speculative.cpp)
-        for (int i = 0; i < array_length(sequences); ++i) {
-          if (mtp_first_idx[i] < 0) continue;
-          llama_memory_seq_rm(llama_get_memory(mtp_context),
-            lbatch.seq_id[mtp_first_idx[i]][0], lbatch.pos[mtp_first_idx[i]], -1);
-        }
-        int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
-        if (rc != 0 && rc != 1) {
-          fprintf(stderr, "MTP catch-up decode failed: %d\n", rc);
-        } else {
-          // refresh each sequence's pending_h to the target row at its last decoded position
-          for (int i = 0; i < array_length(sequences); ++i) {
-            if (mtp_first_idx[i] < 0) continue;
-            SEQUENCE *sequence = &sequences[i];
-            const float *h = llama_get_embeddings_nextn_ith(current_context, mtp_last_idx[i]);
-            if (h && sequence->mtp_pending_h) {
-              memcpy(sequence->mtp_pending_h, h, (size_t)mtp_n_embd * sizeof(float));
-            }
-          }
-        }
+	// idempotent catch-up: wipe each sequence's cached tail from its first
+	// re-decoded position, so stale rows (e.g. after a lookahead rollback)
+	// are replaced instead of colliding (ref: common/speculative.cpp)
+	for (int i = 0; i < array_length(sequences); ++i) {
+	  if (mtp_first_idx[i] < 0) continue;
+	  llama_memory_seq_rm(llama_get_memory(mtp_context),
+	    lbatch.seq_id[mtp_first_idx[i]][0], lbatch.pos[mtp_first_idx[i]], -1);
+	}
+	int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
+	if (rc != 0 && rc != 1) {
+	  fprintf(stderr, "MTP catch-up decode failed: %d\n", rc);
+	} else {
+	  // refresh each sequence's pending_h to the target row at its last decoded position
+	  for (int i = 0; i < array_length(sequences); ++i) {
+	    if (mtp_first_idx[i] < 0) continue;
+	    SEQUENCE *sequence = &sequences[i];
+	    const float *h = llama_get_embeddings_nextn_ith(current_context, mtp_last_idx[i]);
+	    if (h && sequence->mtp_pending_h) {
+	      memcpy(sequence->mtp_pending_h, h, (size_t)mtp_n_embd * sizeof(float));
+	    }
+	  }
+	}
       }
     }
   }
@@ -2214,32 +2254,9 @@ static void evaluate_sequences(void) {
 	int idx = logits_indices[bi];
 	if (idx >= 0) {
 	  //show_time("<<< llama_get_logits");
-	  float *logits = llama_get_logits_ith(current_context, idx);
-	  //show_time(">>>");
-	  int k;
-	  for (k = 0; k < 10; ++k) {
-	    sequence->confidences[k].token = k;
-	    sequence->confidences[k].logit = logits[k];
-	  }
-	  qsort(
-	    sequence->confidences, 10, sizeof(CONFIDENCE), compare_confidences);
-	  while (k < n_vocab) {
-	    float logit = logits[k];
-	    if (logit > sequence->confidences[9].logit) {
-	      // find insertion position
-	      int j;
-	      for (j = 8; j >= 0; --j) {
-		if (logit <= sequence->confidences[j].logit) break;
-	      }
-	      // move entries
-	      memmove(
-		&sequence->confidences[j+2], &sequence->confidences[j+1],
-		(8-j)*sizeof(CONFIDENCE));
-	      sequence->confidences[j+1].token = k;
-	      sequence->confidences[j+1].logit = logit;
-	    }
-	    ++k;
-	  }
+	 float *logits = llama_get_logits_ith(current_context, idx);
+	 //show_time(">>>");
+	 fill_top_confidences(sequence->confidences, logits, n_vocab);
 	  if (sequence->state == EVALUATED) {
 	    sequence->has_lookahead = true;
 	  } else {
@@ -2247,7 +2264,7 @@ static void evaluate_sequences(void) {
 	    sequence->evaluation_position = array_length(sequence->tokens);
 	    sequence->has_lookahead = false;
 	    sequence->next_token = sequence->confidences[0].token;
-	    send_confidences(sequence);
+	    send_logits(sequence);
 	    if (mtp_predict > 0 && sequence->mtp_pending_h) {
 	      draft_seqs[n_draft_seqs++] = sequence;
 	    }
@@ -2277,9 +2294,9 @@ static void evaluate_sequences(void) {
     }
   }
   // MTP draft generation for the sequences this pass just evaluated;
-  // runs as one batched pass over all of them (see mtp_draft)
+  // runs as one batched pass over all of them (see draft_mtp_logits)
   if (ret == 0) {
-    mtp_draft(draft_seqs, n_draft_seqs);
+    draft_mtp_logits(draft_seqs, n_draft_seqs);
   }
   free(draft_seqs);
   deallocate_array(server_seq_ids);
@@ -2311,12 +2328,14 @@ static RCV_SLOT *rcv_slots = NULL;   // indexed by fd
 
 // create/reset this fd's slot when a client connects; set_item_at grows the
 // array and zero-fills any gap up to index fd, keeping the table dense
+
 static void ensure_rcv_slot(int fd) {
   RCV_SLOT empty = {NULL, 0, 0};
   rcv_slots = set_item_at_RCV_SLOT_array(rcv_slots, fd, empty);
 }
 
 // free this client's receive buffer (safe to call when unallocated)
+
 static void free_client_rcv(int fd) {
   if (!rcv_slots || array_size(rcv_slots) <= fd) return;
   if (rcv_slots[fd].buf) {
