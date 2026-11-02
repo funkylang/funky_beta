@@ -432,7 +432,8 @@ static int send_fd = -1;
 static void flush(void) {
   if (send_buf_len > 0 && send_fd >= 0) {
     log_msg("sending %zu bytes to %d\n", send_buf_len, send_fd);
-    (void)write(send_fd, send_buf, send_buf_len);
+    ssize_t n = write(send_fd, send_buf, send_buf_len);
+    (void)n; // ignore errors: single-client test server
     send_buf_len = 0;
     send_fd = -1;
   }
@@ -446,7 +447,8 @@ static void send_message(int fd, const char *msg, size_t len) {
   if (len > SEND_BUF_SIZE) {
     flush();
     log_msg("sending %zu bytes to %d\n", len, fd);
-    (void)write(fd, msg, len);
+    ssize_t n = write(fd, msg, len);
+    (void)n; // ignore errors: single-client test server
   } else {
     if (send_buf_len+len > SEND_BUF_SIZE) flush();
     memcpy(send_buf+send_buf_len, msg, len);
@@ -532,7 +534,8 @@ static void list_models(int client_fd) {
       }
     }
     closedir(dir);
-    write(client_fd, buf, p+1-buf);
+    ssize_t n = write(client_fd, buf, p+1-buf);
+    (void)n; // ignore errors: single-client test server
     free(buf);
   } else {
     send_message(client_fd, "error opening model directory", 30);
@@ -1634,16 +1637,37 @@ static void handle_get_pieces(int fd, char *arguments) {
   log_msg("get_pieces\n");
   const struct llama_vocab *vocab = llama_model_get_vocab(current_model);
   const int n_vocab = llama_vocab_n_tokens(vocab);
-  char *buf = malloc(128+32*n_vocab);
+  // hex is 2 chars per piece byte + 1 space separator; start from an
+  // average piece length of 8 bytes and double as needed
+  size_t cap = 128+17*n_vocab;
+  char *buf = malloc(cap);
   char *p = buf+sprintf(buf, "pieces %d", n_vocab);
+  unsigned char piece[512];
   for (int i = 0; i < n_vocab; ++i) {
-    // each piece is represented as hex values (without separating spaces)
-    // the pieces are separated by spaces
+    int len = llama_token_to_piece(vocab, i, piece, 512, 0, true);
+    size_t need = 1+(len > 0 ? 2*(size_t)len : 2);
+    if ((size_t)(p-buf)+need >= cap) {
+      size_t used = (size_t)(p-buf);
+      char *grown = realloc(buf, cap*2);
+      if (!grown) {
+        log_msg("get_pieces: out of memory\n");
+        free(buf);
+        return;
+      }
+      buf = grown;
+      p = buf+used; // p was invalidated by the move
+      cap *= 2;
+    }
     *p++ = ' ';
-    unsigned char piece[32];
-    int len = llama_token_to_piece(vocab, i, piece, 32, 0, true);
-    for (int k = 0; k < len; ++k) {
-      p += sprintf(p, "%02x", piece[k]);
+    if (len <= 0) {
+      // zero-length pieces show as "--", errors as "??" — a bare space
+      // is invisible on the wire and breaks client field counting;
+      // negative also covers pieces over the 512-byte read buffer
+      p += sprintf(p, "%s", len < 0 ? "??" : "--");
+    } else {
+      for (int k = 0; k < len; ++k) {
+        p += sprintf(p, "%02x", piece[k]);
+      }
     }
   }
   *p++ = 0;

@@ -68,15 +68,19 @@ def read_drafts(server_seq_idx, n=3):
 
 
 def setup(f, model=MODEL):
-    """Load the model and tokenize the standard test prompt.
+    """Load model + its pieces, then tokenize the standard test prompt.
 
-    use_model is SILENT on success: batch it with tokenize and treat the
-    first reply as error-or-tokenize-result.
+    use_model is SILENT on success; get_pieces follows immediately (no
+    sequences/evaluations exist yet, so no async messages can obscure the
+    reply) and carries the long model-load timeout. First reply after
+    use_model is pieces-or-error. The server has one model per session,
+    so pieces stay valid for this connection.
     """
     f.send(f"use_model {model}")
+    f.pieces(180)
     f.send("tokenize What is 2+2?")
     r = f.read(180)
-    assert r and r.startswith("tokens "), f"model/tokenize: {r!r}"
+    assert r and r.startswith("tokens "), f"tokenize: {r!r}"
     return [int(t) for t in r.split()[2:]]
 
 
@@ -95,6 +99,54 @@ class Fllama:
     def __init__(self, host="127.0.0.1", port=7683):
         self.sock = socket.create_connection((host, port), timeout=5)
         self.rbuf = b""
+        self._pieces = None
+
+    def pieces(self, timeout: float = 30):
+        """Vocabulary pieces {token_id: text}; fetched once per connection.
+
+        Called right after use_model (setup): one model per server session,
+        and with no sequences/evaluations in flight the reply cannot be
+        obscured by async messages — same guarantee covers the lazy path.
+        timeout must cover the model load when called right after use_model
+        (setup passes 180).
+
+        get_pieces format: 'pieces N <h0> <h1> ...' where <hi> is the
+        hex byte string for token i (empty for special tokens).
+        split(' ') is used so empty fields keep their position,
+        preserving alignment with token ids.
+        """
+        if self._pieces is None:
+            self.send("get_pieces")
+            r = self.read(timeout)
+            if not (r and r.startswith("pieces ")):
+                raise RuntimeError(f"get_pieces failed: {r!r}")
+            parts = r.split(" ")
+            toks = parts[2:]
+            declared = int(parts[1])
+            if len(toks) != declared:
+                raise RuntimeError(
+                    f"pieces count mismatch: declared {declared}, "
+                    f"got {len(toks)}")
+            self._pieces = {}
+            for i, h in enumerate(toks):
+                # server markers: "--" = zero-length piece (control token),
+                # "??" = server-side error (e.g. piece over the buffer limit)
+                if h == "--":
+                    text = ""
+                elif h == "??":
+                    text = "<error>"
+                else:
+                    text = bytes.fromhex(h).decode("utf-8", errors="replace")
+                self._pieces[i] = text
+        return self._pieces
+
+    def top1_text(self, msg):
+        """Decoded text of the top token in a logits/lookahead message."""
+        _, conf = Fllama.top10(msg)
+        tok = max(conf, key=conf.get)
+        text = self.pieces().get(tok, "?")
+        # double quotes; only newlines escaped (they would break the line)
+        return '"' + text.replace("\n", "\\n") + '"'
 
     def send(self, cmd):
         show_wire(cmd, incoming=False)
@@ -115,6 +167,12 @@ class Fllama:
                 msg, self.rbuf = \
                     self.rbuf[:idx].decode(), self.rbuf[idx+1:]
                 show_wire(msg, incoming=True)
+                # pretty-print logits/lookahead alongside the raw line:
+                # top token as text (our interpretation — no timestamp)
+                c = Fllama.classify(msg)
+                if c:
+                    say(f"      [{c[0]} seq {c[1]} pos {c[2]}] "
+                        f"top: {self.top1_text(msg)}")
                 return msg
             left = deadline - time.time()
             if left <= 0:

@@ -30,9 +30,10 @@ def probe(prompt, model=MODEL):
     say(f"[probe] {prompt!r}")
     truncate_log()
     f = Fllama()
-    # use_model is SILENT on success: batch it with tokenize and treat the
-    # first reply as error-or-tokenize-result (SETUP_TIMEOUT covers cold load)
+    # use_model is SILENT on success: pieces reply follows immediately (it
+    # covers the model-load wait); tokenize reply comes last
     f.send(f"use_model {model}")
+    f.pieces(SETUP_TIMEOUT)
     f.send(f"tokenize {prompt}")
     r = f.read(SETUP_TIMEOUT)
     if not (r and r.startswith("tokens ")):
