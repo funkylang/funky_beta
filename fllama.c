@@ -36,7 +36,7 @@
 #define MODEL_PATH_DEFAULT "/var/models/"
 
 // build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-11-02 00:23:12";
+static const char *FLLAMA_VERSION = "2026-11-02 12:32:05";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -2396,12 +2396,22 @@ static void evaluate_sequences(void) {
 	    int n_chain = mtp_last_idx[i]-mtp_first_idx[i]+1;
 	    int n_confirmed = 0;
 	    CONFIDENCE best1[10];
+	    // main head's computed best-1 per draft position, printed BEFORE the
+	    // comparison starts (analysis: are the drafts really wrong?)
+	    int main_head_tokens[8];
+	    char line[128];
+	    int lp = sprintf(line, "main head best-1 in server sequence %d:", i);
 	    for (int a = 1; a < n_chain; ++a) {
 	      fill_top_confidences(
-		best1,
-		llama_get_logits_ith(current_context, mtp_first_idx[i]+a-1),
-		n_vocab);
-	      if (best1[0].token != lbatch.token[mtp_first_idx[i]+a]) break;
+	        best1,
+	        llama_get_logits_ith(current_context, mtp_first_idx[i]+a-1),
+	        n_vocab);
+	      main_head_tokens[a-1] = best1[0].token;
+	      lp += sprintf(line + lp, " %d", main_head_tokens[a-1]);
+	    }
+	    log_msg("%s\n", line);
+	    for (int a = 1; a < n_chain; ++a) {
+	      if (main_head_tokens[a-1] != lbatch.token[mtp_first_idx[i]+a]) break;
 	      ++n_confirmed;
 	    }
 	    sequence->has_lookahead = true;

@@ -5,14 +5,13 @@ Shared fllama TCP test client library.
 Prints all wire traffic live (flushed): "-> cmd" for sends, "<- msg"
 for responses; messages past 83 chars truncate to first 60 + "..." + last 20.
 
-Server log: /tmp/fllama_test_server.log (start the server with
-tools/run_fllama_test.sh first).
+Server log: /tmp/fllama.log (read-only for tests — never truncated).
 """
 
 import socket
 import time
 
-LOG = "/tmp/fllama_test_server.log"
+LOG = "/tmp/fllama.log"
 MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
 
 
@@ -72,14 +71,14 @@ def setup(f, model=MODEL):
 
     use_model is SILENT on success; get_pieces follows immediately (no
     sequences/evaluations exist yet, so no async messages can obscure the
-    reply) and carries the long model-load timeout. First reply after
+    reply) and carries the model-load timeout. First reply after
     use_model is pieces-or-error. The server has one model per session,
     so pieces stay valid for this connection.
     """
     f.send(f"use_model {model}")
-    f.pieces(180)
+    f.pieces(30)
     f.send("tokenize What is 2+2?")
-    r = f.read(180)
+    r = f.read(30)
     assert r and r.startswith("tokens "), f"tokenize: {r!r}"
     return [int(t) for t in r.split()[2:]]
 
@@ -108,7 +107,7 @@ class Fllama:
         and with no sequences/evaluations in flight the reply cannot be
         obscured by async messages — same guarantee covers the lazy path.
         timeout must cover the model load when called right after use_model
-        (setup passes 180).
+        (setup passes 30).
 
         get_pieces format: 'pieces N <h0> <h1> ...' where <hi> is the
         hex byte string for token i (empty for special tokens).
