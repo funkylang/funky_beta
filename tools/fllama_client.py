@@ -9,14 +9,19 @@ Server log: /tmp/fllama.log (read-only for tests — never truncated).
 """
 
 import socket
+import sys
 import time
 
 LOG = "/tmp/fllama.log"
 MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
 
+# info stream for say()/show_wire(): default stdout; scripts that must keep
+# stdout clean (e.g. test_generate.py) set this to sys.stderr on import.
+INFO_STREAM = sys.stdout
+
 
 def say(msg):
-    print(msg, flush=True)
+    print(msg, flush=True, file=INFO_STREAM)
 
 
 def show_wire(msg, incoming=False):
