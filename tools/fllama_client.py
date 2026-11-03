@@ -104,6 +104,27 @@ class Fllama:
         self.sock = socket.create_connection((host, port), timeout=5)
         self.rbuf = b""
         self._pieces = None
+        # per-sequence protocol error detection: track the latest pos sent
+        # by the server in its messages, and the total tokens the client has
+        # sent (its implicit position). A message at pos > last + 1 where
+        # last = max of both = a skipped position.
+        self._server_pos_by_seq = {}
+        self._client_tokens_by_seq = {}
+
+    def _note_server_message(self, seq_id, pos):
+        # Store after validation (callers do this) so the tracker
+        # reflects only validly-received positions
+        if pos > self._server_pos_by_seq.get(seq_id, -1):
+            self._server_pos_by_seq[seq_id] = pos
+
+    def _check_pos_skip(self, kind, seq_id, pos):
+        server_last = self._server_pos_by_seq.get(seq_id, -1)
+        client_last = self._client_tokens_by_seq.get(seq_id, 0) - 1
+        last = max(server_last, client_last)
+        if pos > last + 1:
+            print(f"ERROR: skipped position in {kind} message "
+                  f"for seq {seq_id}: got pos {pos}, expected <= "
+                  f"{last + 1}", flush=True, file=sys.stderr)
 
     def pieces(self, timeout: float = 30):
         """Vocabulary pieces {token_id: text}; fetched once per connection.
@@ -175,7 +196,10 @@ class Fllama:
                 # top token as text (our interpretation — no timestamp)
                 c = Fllama.classify(msg)
                 if c:
-                    say(f"      [{c[0]} seq {c[1]} pos {c[2]}] "
+                    kind, sid, pos = c
+                    self._check_pos_skip(kind, sid, pos)
+                    self._note_server_message(sid, pos)
+                    say(f"      [{kind} seq {sid} pos {pos}] "
                         f"top: {self.top1_text(msg)}")
                 return msg
             left = deadline - time.time()
@@ -214,6 +238,10 @@ class Fllama:
 
     def add(self, seq_id, tokens):
         # silent on success; errors surface in read_next
+        # count before sending: replies to this very add_tokens are then
+        # checked against the updated client view
+        self._client_tokens_by_seq[seq_id] = \
+            self._client_tokens_by_seq.get(seq_id, 0) + len(tokens)
         self.send("add_tokens %d %d %s" % (
             seq_id, len(tokens), " ".join(map(str, tokens))))
 

@@ -29,14 +29,20 @@ def main():
                     help="number of tokens to produce (default 20)")
     args = ap.parse_args()
 
-    f = Fllama()
-    f.send(f"use_model {MODEL}")
-    p = f.pieces(30)
+    try:
+        f = Fllama()
+        f.send(f"use_model {MODEL}")
+        p = f.pieces(30)
 
-    f.send(f"tokenize {args.prompt}")
-    r = f.read(5)
-    if not (r and r.startswith("tokens ")):
-        print(f"error: tokenize failed: {r!r}", file=sys.stderr)
+        f.send(f"tokenize {args.prompt}")
+        r = f.read(5)
+        if not (r and r.startswith("tokens ")):
+            print(f"error: tokenize failed: {r!r}", file=sys.stderr)
+            return 1
+    except (OSError, ConnectionError, RuntimeError) as e:
+        # setup failure (no server, model load problem, bad pieces reply) —
+        # one line on stderr instead of a traceback
+        print(f"error: {e}", file=sys.stderr)
         return 1
     tokens = [int(t) for t in r.split()[2:]]
 
@@ -75,17 +81,28 @@ def main():
     f.send("create_sequence 1")
     f.add(1, tokens)
     f.send("evaluate 1")
-    while len(produced) < args.n:
-        watch()
-        if not round_tok:
-            # server went silent before we had enough tokens: the final read
-            # window timed out — flag it on a fresh line in the text stream
-            print("\nTIMEOUT EXPIRED", flush=True)
-            break
-        feed = round_tok[:args.n - len(produced)]
-        f.add(1, feed)
-        f.send("evaluate 1")
-        produced.extend(feed)
+    try:
+        while len(produced) < args.n:
+            watch()
+            if not round_tok:
+                # server went silent before we had enough tokens: the final read
+                # window timed out — flag it on a fresh line in the text stream
+                print("\nTIMEOUT EXPIRED", flush=True)
+                break
+            feed = round_tok[:args.n - len(produced)]
+            f.add(1, feed)
+            f.send("evaluate 1")
+            produced.extend(feed)
+    except KeyboardInterrupt:
+        # Ctrl-C — flag it on a fresh line in the text stream, exit code 130
+        print("\nINTERRUPTED", flush=True)
+        f.close()
+        return 130
+
+    if len(produced) == args.n:
+        # reached the requested token count — flag it on a fresh line in
+        # the text stream
+        print("\nTOKEN LIMIT REACHED", flush=True)
 
     text = "".join(p.get(t, "") for t in produced)
     say(f"produced {len(produced)} token(s), {len(text)} char(s)")
