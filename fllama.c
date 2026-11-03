@@ -2457,13 +2457,13 @@ static void evaluate_sequences(void) {
 	      // drafts at this position
 	      sequence->evaluation_position = lbatch.pos[mtp_last_idx[i]];
 	    }
-	    // MESSAGE RULE (§15): lookahead messages cover consecutive
-	    // positions from N+2; the message at position P always uses the
-	    // entry BEFORE it — so for j confirmed drafts we read entries
-	    // [p, d1..d(j-1)], NOT [d1..dj]. The turn-1 logits message
-	    // already covered position N+1 itself.
+	    // MESSAGE RULE (§15): the main head produced one logit set per batch
+	    // entry; send n_confirmed+1 of them: lookahead@(N+2+j) uses the entry
+	    // before it, so the last one (from the entry after the confirmed
+	    // prefix) carries L_n, the replacement token at N+n+2. The turn-1
+	    // logits message already covered position N+1 itself.
 	    CONFIDENCE entry_confidences[10];
-	    for (int a = 0; a < n_confirmed; ++a) {
+	    for (int a = 0; a <= n_confirmed; ++a) {
 	      int entry = mtp_first_idx[i]+a;
 	      fill_top_confidences(
 		entry_confidences,
@@ -2566,14 +2566,17 @@ static void free_client_rcv(int fd) {
 static struct timespec NO_TIMEOUT = {0, 0};
 
 // sequences with pending lookahead work use the same eligibility as in
-// evaluate_sequences: evaluated and no lookahead computed yet for them
+// evaluate_sequences: evaluated and no lookahead computed yet for them,
+// or a replacement token still waiting to be decoded into the KV
 static bool has_speculative_evaluations(void) {
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
     if (
       sequence->session_id == current_session_id &&
-      sequence->state == EVALUATED &&
-      !sequence->has_lookahead
+      (
+        (sequence->state == EVALUATED && !sequence->has_lookahead) ||
+        sequence->state == PENDING_LOOKAHEAD
+      )
     ) return true;
   }
   return false;
