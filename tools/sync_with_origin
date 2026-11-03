@@ -1,75 +1,60 @@
-#!/usr/bin/env bash
-# Sync local repo with upstream origin/master.
+#!/bin/bash
+# sync_with_origin - safe origin sync via fast-forward only.
 #
-# Workflow:
-#   1. Fetch origin
-#   2. Stash local uncommitted changes (NEVER discard them)
-#   3. Patch unpushed commits (so they aren't lost after reset)
-#   4. Reset --hard to origin/master (linear history, single pusher)
-#   5. Pop stashed changes back
-#
-# Safety: refuses to run if git is not clean enough to stash,
-# and prints every step so the user can abort with Ctrl+C.
+# No stashes (nothing to resurrect), no reset --hard, no clean -fd:
+# if incoming changes would touch your local work, the script stops and tells you why.
 
-set -euo pipefail
+set -u
 
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && git rev-parse --show-toplevel)"
-cd "$REPO"
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO_ROOT" || exit 1
 
-echo "=== Syncing funky_beta with origin/master ==="
-echo
+REMOTE="origin"
 
-# --- Step 1: Fetch ---
-echo "-- Fetching origin --"
-git fetch origin
-echo
+echo "=== Sync with origin ==="
+echo "Repository: $REPO_ROOT"
+echo ""
 
-# --- Step 2: Check where we stand ---
-LOCAL_AHEAD=$(git rev-list --count origin/master..HEAD 2>/dev/null || echo 0)
-ORIGIN_AHEAD=$(git rev-list --count HEAD..origin/master 2>/dev/null || echo 0)
-HAS_STAGED=$(git diff --cached --quiet 2>/dev/null && echo 0 || echo 1)
-HAS_UNTRACKED=$(git ls-files --others --exclude-standard | head -1)
-HAS_MODIFIED=$(git diff --quiet 2>/dev/null && echo 0 || echo 1)
+# --- Step 1: current branch + its upstream ---
+BRANCH=$(git branch --show-current)
+if [ -z "$BRANCH" ]; then
+    echo "Error: Not on a branch (detached HEAD)."
+    exit 1
+fi
+UPSTREAM="${REMOTE}/${BRANCH}"
+if ! git rev-parse --verify "${UPSTREAM}" >/dev/null 2>&1; then
+    UPSTREAM="${REMOTE}/main"
+fi
+echo "[1/4] Branch: $BRANCH  (upstream: $UPSTREAM)"
 
-if [ "$LOCAL_AHEAD" -eq 0 ] && [ "$ORIGIN_AHEAD" -eq 0 ] && [ "$HAS_STAGED" -eq 0 ] && [ -z "$HAS_UNTRACKED" ] && [ "$HAS_MODIFIED" -eq 0 ]; then
-    echo "Repo is clean and in sync with origin/master. Nothing to do."
+# --- Step 2: fetch ---
+echo "[2/4] Fetching..."
+git fetch "$REMOTE" || { echo "Error: Fetch failed."; exit 1; }
+
+LOCAL_HEAD=$(git rev-parse HEAD)
+REMOTE_HEAD=$(git rev-parse "$UPSTREAM")
+if [ "$LOCAL_HEAD" = "$REMOTE_HEAD" ]; then
+    echo "Already up to date."
     exit 0
 fi
 
-# --- Step 3: Stash local changes ---
-if [ "$HAS_STAGED" -eq 1 ] || [ -n "$HAS_UNTRACKED" ] || [ "$HAS_MODIFIED" -eq 1 ]; then
-    echo "-- Stashing local changes --"
-    git stash push --include-untracked -m "sync_with_origin auto-stash"
-    echo
+# --- Step 3: refuse if local work would collide with incoming changes ---
+CHANGED_LOCAL=$(git status --porcelain | awk '{print $2}' | sort -u)
+CHANGED_INCOMING=$(git diff --name-only "$LOCAL_HEAD" "$REMOTE_HEAD" | sort -u)
+CONFLICTS=$(comm -12 <(echo "$CHANGED_LOCAL") <(echo "$CHANGED_INCOMING"))
+
+if [ -n "$CONFLICTS" ]; then
+    echo "ABORT: Incoming changes touch files you have locally modified or untracked:"
+    echo "$CONFLICTS" | sed 's/^/  /'
+    echo ""
+    echo "Handle them manually (commit, save elsewhere, or discard your copy), then re-run."
+    exit 1
 fi
 
-# --- Step 4: Patch unpushed commits ---
-if [ "$LOCAL_AHEAD" -gt 0 ]; then
-    echo "-- Creating patches for $LOCAL_AHEAD unpushed commit(s) --"
-    if [ -x "$REPO/tools/push_new_commits" ]; then
-        "$REPO/tools/push_new_commits"
-        echo "Patches created and copied to clipboard."
-    else
-        echo "WARNING: tools/push_new_commits not found. Creating patches manually."
-        mkdir -p "$REPO/.patches"
-        git format-patch origin/master --output-directory="$REPO/.patches"
-        echo "Patches saved to $REPO/.patches/"
-    fi
-    echo
-fi
+# --- Step 4: fast-forward only ---
+echo "[3/4] Fast-forwarding..."
+git merge --ff-only "$UPSTREAM" || { echo "Error: Fast-forward failed (local commits not on remote?). Check git log."; exit 1; }
 
-# --- Step 5: Reset to origin ---
-echo "-- Resetting to origin/master --"
-git reset --hard origin/master
-echo "HEAD is now at: $(git log -1 --format='%h %s')"
-echo
-
-# --- Step 6: Restore stashed changes ---
-if git stash list | grep -q "sync_with_origin auto-stash"; then
-    echo "-- Restoring stashed changes --"
-    git stash pop
-    echo
-fi
-
-echo "=== Sync complete ==="
-git status --short
+echo ""
+echo "[4/4] Done. Latest commits:"
+git log --oneline -3
