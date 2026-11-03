@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-03 01:42:21";
+static const char *FLLAMA_VERSION = "2026-11-03 12:02:49";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -680,6 +680,11 @@ typedef struct {
   // replacement token from a partial lookahead confirmation; decoded
   // into the KV in state PENDING_LOOKAHEAD before rejoining the chain
   int pending_token;
+  // set by the replacement-token decode (PENDING_LOOKAHEAD): its logits
+  // predict the first position beyond the settled content; sent as the
+  // next logits sync point when the client claims the whole chain
+  bool frontier_confidence;
+  CONFIDENCE frontier_confidences[10];
   int *tokens; // the unevaluated tokens
   int *positions; // -1 for new tokens
   CONFIDENCE confidences[10]; // the top 10 confidences for the next token
@@ -810,6 +815,7 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   sequence->was_shifted = false;
   sequence->has_lookahead = false;
   sequence->next_token = -1;
+  sequence->frontier_confidence = false;
   sequence->lookahead_ckpt_data = NULL;
   sequence->lookahead_ckpt_size = 0;
   sequence->lookahead_ckpt_pos_max = -1;
@@ -1328,8 +1334,8 @@ static void handle_delete_sequence(int fd, char *sequence_id) {
 static void send_confidence_message(
   SEQUENCE *sequence, const CONFIDENCE *c, int pos, const char *title) {
   log_msg(
-    "sending %s for position %d to client %d, id %d\n",
-    title, pos, sequence->client_fd, sequence->client_sequence_id);
+    "sending %s for position %d best-1 %d to client %d, id %d\n",
+    title, pos, c[0].token, sequence->client_fd, sequence->client_sequence_id);
   char buf[512];
   char *p = stpcpy(buf, title);
   p += sprintf(p, " %d %d 10", sequence->client_sequence_id, pos);
@@ -1356,35 +1362,49 @@ static void handle_add_tokens(int fd, char *arguments) {
       *token_count++ = 0;
       char *token_values = strchr(token_count, ' ');
       if (token_values) {
-	*token_values++ = 0;
-	int client_sequence_id = atoi(sequence_id);
-	int n = atoi(token_count);
-	if (n == 1) {
-	  log_msg("add one token to sequence %d\n", client_sequence_id);
-	} else {
-	  log_msg("add %d tokens to sequence %d\n",
-	    n, client_sequence_id);
-	}
-	int sequence_idx = get_sequence_idx(fd, client_sequence_id);
-	if (sequence_idx < 0) {
-	  log_msg(
-	    "add_tokens: sequence for client %d, id %d not found\n",
-	    fd, client_sequence_id);
-	  send_message(fd, "error sequence not found", 25);
-	  return;
-	}
-	SEQUENCE *sequence = &sequences[sequence_idx];
-	int *tokens = allocate_int_array(n);
-	for (int i = 0; i < n; ++i) {
-	  char *next_token_value = strchr(token_values, ' ');
-	  if (next_token_value) {
-	    *next_token_value++ = 0;
-	  }
-	  tokens[i] = atoi(token_values);
-	  token_values = next_token_value;
-	}
-	set_array_length(tokens, n);
-	add_tokens(fd, client_sequence_id, tokens);
+        *token_values++ = 0;
+        int client_sequence_id = atoi(sequence_id);
+        int n = atoi(token_count);
+        int sequence_idx = get_sequence_idx(fd, client_sequence_id);
+        if (sequence_idx < 0) {
+          log_msg(
+            "add_tokens: sequence for client %d, id %d not found\n",
+            fd, client_sequence_id);
+          send_message(fd, "error sequence not found", 25);
+          return;
+        }
+        SEQUENCE *sequence = &sequences[sequence_idx];
+        int *tokens = allocate_int_array(n);
+        for (int i = 0; i < n; ++i) {
+          char *next_token_value = strchr(token_values, ' ');
+          if (next_token_value) {
+            *next_token_value++ = 0;
+          }
+          tokens[i] = atoi(token_values);
+          token_values = next_token_value;
+        }
+        set_array_length(tokens, n);
+        // echo the actual tokens: all of them when few; when many, only the
+        // first three and the last three, with an ellipsis between
+        char tokbuf[256];
+        int tp = 0;
+        for (int i = 0; i < n; ++i) {
+          if (n > 7 && i == 3) {
+            tp += sprintf(tokbuf+tp, "%s...", tp ? " " : "");
+            i = n-4; // loop ++i -> continue with the last three tokens
+            continue;
+          }
+          tp += sprintf(tokbuf+tp, "%s%d", tp ? " " : "", tokens[i]);
+        }
+        (void)tp;
+        if (n == 1) {
+          log_msg("add one token (%s) to sequence %d\n",
+            tokbuf, client_sequence_id);
+        } else {
+          log_msg("add %d tokens (%s) to sequence %d\n",
+            n, tokbuf, client_sequence_id);
+        }
+        add_tokens(fd, client_sequence_id, tokens);
       } else {
 	log_msg("add_tokens: missing token values\n");
 	send_message(fd, "error missing token values", 27);
@@ -1551,10 +1571,19 @@ static void handle_evaluate(int fd, char *sequence_id) {
 	  sequence->evaluation_position = n;  // include lookahead tokens
 	  // shift the lookahead chain left by the consumed tokens
 	  if (n_added == 1+n_draft) {
-	    // nothing left: drop the checkpoint
+	    // nothing left: the chain is fully settled; send the pending
+	    // frontier prediction (stored by the replacement-token decode)
+	    // as the new logits sync point right away
 	    sequence->has_lookahead = false;
 	    set_array_length(sequence->mtp_draft_tokens, 0);
 	    free_lookahead_checkpoint(sequence);
+	    if (sequence->frontier_confidence) {
+	      sequence->next_token =
+		sequence->frontier_confidences[0].token;
+	      send_confidence_message(
+		sequence, sequence->frontier_confidences, n, "logits");
+	      sequence->frontier_confidence = false;
+	    }
 	  } else {
 	    for (int a = n_added-1; a < n_draft; ++a) {
 	      ((int*)sequence->mtp_draft_tokens)[a-n_added+1] =
@@ -2107,7 +2136,11 @@ static void evaluate_sequences(void) {
 	    has_regular_evaluations = true;
 	  }
 	}
-      } else if (sequence->state == EVALUATED && !sequence->has_lookahead) {
+      } else if (
+        sequence->state == EVALUATED &&
+        !sequence->has_lookahead &&
+        array_length(sequence->mtp_draft_tokens) > 0
+      ) {
 	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
 	if (n+lookahead_size > MAXIMUM_BATCH_SIZE) break;
 	n += lookahead_size;
@@ -2199,7 +2232,11 @@ static void evaluate_sequences(void) {
 	    sequence->client_sequence_id);
 	}
 	if (idx >= n) break;
-      } else if (sequence->state == EVALUATED && !sequence->has_lookahead) {
+      } else if (
+        sequence->state == EVALUATED &&
+        !sequence->has_lookahead &&
+        array_length(sequence->mtp_draft_tokens) > 0
+      ) {
 	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
 	if (idx+lookahead_size > MAXIMUM_BATCH_SIZE) break;
 	// remember the KV state so it can be rolled back when this
@@ -2386,17 +2423,23 @@ static void evaluate_sequences(void) {
 	 float *logits = llama_get_logits_ith(current_context, idx);
 	 //show_time(">>>");
 	 fill_top_confidences(sequence->confidences, logits, n_vocab);
-	  if (sequence->state == PENDING_LOOKAHEAD) {
-	    // the replacement token is in the KV now: the lookahead
-	    // chain [next_token, ...mtp_draft_tokens, replacement] is
-	    // complete and claimable via the fast path again. No
-	    // messages travel — every position is covered by an already
-	    // sent message; next_token waits for client action.
-	    push_to_int_array(
-	      sequence->mtp_draft_tokens,
-	      sequence->pending_token);
-	    sequence->state = EVALUATED;
-	  } else if (sequence->state == EVALUATED) {
+	 if (sequence->state == PENDING_LOOKAHEAD) {
+	   // the replacement token is in the KV now: the lookahead
+	   // chain [next_token, ...mtp_draft_tokens, replacement] is
+	   // complete and claimable via the fast path again. No
+	   // messages travel — every position is covered by an already
+	   // sent message; next_token waits for client action.
+	   push_to_int_array(
+	     sequence->mtp_draft_tokens,
+	     sequence->pending_token);
+	   sequence->state = EVALUATED;
+	   // this decode's logits are the prediction for the first position
+	   // beyond the settled content — hold them as the next sync point,
+	   // to be sent as soon as the client has claimed the whole chain
+	   fill_top_confidences(
+	     sequence->frontier_confidences, logits, n_vocab);
+	   sequence->frontier_confidence = true;
+	 } else if (sequence->state == EVALUATED) {
 	    // the chain [p, d1..dk] was just decoded into the KV at positions
 	    // N+1..N+k+1. Check each draft against the main head (§11 prefix
 	    // semantics): a draft is confirmed only when every earlier draft is
@@ -2461,15 +2504,19 @@ static void evaluate_sequences(void) {
 	    // entry; send n_confirmed+1 of them: lookahead@(N+2+j) uses the entry
 	    // before it, so the last one (from the entry after the confirmed
 	    // prefix) carries L_n, the replacement token at N+n+2. The turn-1
-	    // logits message already covered position N+1 itself.
+	    // logits message already covered position N+1 itself. A batch without
+	    // drafts is a plain sync point: logits, not lookahead (§15 client
+	    // contract — messages are logits until the client acts on them).
 	    CONFIDENCE entry_confidences[10];
+	    const char *msg_title = (mtp_last_idx[i] > mtp_first_idx[i]) ?
+	      "lookahead" : "logits";
 	    for (int a = 0; a <= n_confirmed; ++a) {
 	      int entry = mtp_first_idx[i]+a;
 	      fill_top_confidences(
-		entry_confidences,
-		llama_get_logits_ith(current_context, entry), n_vocab);
+	        entry_confidences,
+	        llama_get_logits_ith(current_context, entry), n_vocab);
 	      send_confidence_message(
-		sequence, entry_confidences, lbatch.pos[entry]+1, "lookahead");
+	        sequence, entry_confidences, lbatch.pos[entry]+1, msg_title);
 	    }
 	  } else {
 	    sequence->state = EVALUATED;
@@ -2574,7 +2621,11 @@ static bool has_speculative_evaluations(void) {
     if (
       sequence->session_id == current_session_id &&
       (
-        (sequence->state == EVALUATED && !sequence->has_lookahead) ||
+        (
+          sequence->state == EVALUATED &&
+          !sequence->has_lookahead &&
+          array_length(sequence->mtp_draft_tokens) > 0
+        ) ||
         sequence->state == PENDING_LOOKAHEAD
       )
     ) return true;
