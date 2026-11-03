@@ -3,6 +3,10 @@
 #
 # No stashes (nothing to resurrect), no reset --hard, no clean -fd:
 # if incoming changes would touch your local work, the script stops and tells you why.
+#
+# Round-trip support: after re-committed patches arrive from rocky2, local and
+# remote have different hashes but identical content — detected via full content
+# comparison and resolved by quietly aligning to origin (nothing changes on disk).
 
 set -u
 
@@ -38,22 +42,43 @@ if [ "$LOCAL_HEAD" = "$REMOTE_HEAD" ]; then
     exit 0
 fi
 
-# --- Step 3: refuse if local work would collide with incoming changes ---
-CHANGED_LOCAL=$(git status --porcelain | awk '{print $2}' | sort -u)
-CHANGED_INCOMING=$(git diff --name-only "$LOCAL_HEAD" "$REMOTE_HEAD" | sort -u)
-CONFLICTS=$(comm -12 <(echo "$CHANGED_LOCAL") <(echo "$CHANGED_INCOMING"))
+# --- Step 3a: simple fast-forward (origin ahead, local has nothing unique) ---
+if git merge-base --is-ancestor "$LOCAL_HEAD" "$REMOTE_HEAD"; then
+    CHANGED_LOCAL=$(git status --porcelain | awk '{print $2}' | sort -u)
+    CHANGED_INCOMING=$(git diff --name-only "$LOCAL_HEAD" "$REMOTE_HEAD" | sort -u)
+    CONFLICTS=$(comm -12 <(echo "$CHANGED_LOCAL") <(echo "$CHANGED_INCOMING"))
 
-if [ -n "$CONFLICTS" ]; then
-    echo "ABORT: Incoming changes touch files you have locally modified or untracked:"
-    echo "$CONFLICTS" | sed 's/^/  /'
-    echo ""
-    echo "Handle them manually (commit, save elsewhere, or discard your copy), then re-run."
-    exit 1
+    if [ -n "$CONFLICTS" ]; then
+        echo "ABORT: Incoming changes touch files you have locally modified or untracked:"
+        echo "$CONFLICTS" | sed 's/^/  /'
+        echo ""
+        echo "Handle them manually (commit, save elsewhere, or discard your copy), then re-run."
+        exit 1
+    fi
+
+    echo "[3/4] Fast-forwarding..."
+    git merge --ff-only "$UPSTREAM" || { echo "Error: Fast-forward failed."; exit 1; }
+else
+    # --- Step 3b: round-trip duplicates (different hashes, identical content) ---
+    if git diff --quiet HEAD "$REMOTE_HEAD"; then
+        N=$(git rev-list "$REMOTE_HEAD..HEAD" | wc -l)
+        echo "[3/4] Round-trip detected: $N local commit(s) already on $UPSTREAM with identical content."
+        echo "      Aligning local ref to $UPSTREAM (nothing changes on disk)."
+        git reset --soft "$REMOTE_HEAD" || { echo "Error: Could not align to $UPSTREAM."; exit 1; }
+    else
+        # --- Step 3c: true divergence with different content ---
+        echo "ABORT: Branches have diverged with DIFFERENT content."
+        echo ""
+        echo "  Local-only commits:"
+        git log --oneline "$REMOTE_HEAD..HEAD" | sed 's/^/    /'
+        echo ""
+        echo "  Remote-only commits:"
+        git log --oneline "HEAD..$REMOTE_HEAD" | sed 's/^/    /'
+        echo ""
+        echo "Resolve manually (commit your work, or pull the remote line in), then re-run."
+        exit 1
+    fi
 fi
-
-# --- Step 4: fast-forward only ---
-echo "[3/4] Fast-forwarding..."
-git merge --ff-only "$UPSTREAM" || { echo "Error: Fast-forward failed (local commits not on remote?). Check git log."; exit 1; }
 
 echo ""
 echo "[4/4] Done. Latest commits:"
