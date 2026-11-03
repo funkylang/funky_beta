@@ -78,7 +78,10 @@ def main():
     while len(produced) < args.n:
         watch()
         if not round_tok:
-            break  # no more server response: done
+            # server went silent before we had enough tokens: the final read
+            # window timed out — flag it on a fresh line in the text stream
+            print("\nTIMEOUT EXPIRED", flush=True)
+            break
         feed = round_tok[:args.n - len(produced)]
         f.add(1, feed)
         f.send("evaluate 1")

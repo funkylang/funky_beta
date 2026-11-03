@@ -35,8 +35,9 @@
 
 #define MODEL_PATH_DEFAULT "/var/models/"
 
-// build identifier; update with the ACTUAL current time on every fllama.c commit
-static const char *FLLAMA_VERSION = "2026-11-02 12:32:05";
+// build identifier; update with the ACTUAL current time on every fllama.c
+// change that gets built, not only when committing
+static const char *FLLAMA_VERSION = "2026-11-03 01:42:21";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -130,6 +131,14 @@ static struct llama_context *create_context(struct llama_model *model) {
   // dynamic allocation per sequence, shared prefixes count only once.
   // Restores the pre-2025 flexible multi-sequence behavior.
   ctx_params.kv_unified = true;
+  // Recurrent-state rollback snapshots: hybrid/SSM models (Qwen3.5 etc.)
+  // store a compressed recurrent state per sequence, and seq_rm can only
+  // roll that state back when snapshots exist (n_rs_seq). Lookahead + the
+  // partial-confirmation / reject paths call seq_rm to rewind up to
+  // (1 + mtp_predict) positions in one step; give margin so a speculative
+  // turn never strands an unresolved rollback. Models without recurrent
+  // layers ignore this, so it is safe to set unconditionally.
+  ctx_params.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict;
   log_msg("embeddings = %d\n", ctx_params.embeddings);
   log_msg("offload_kqv = %d\n", ctx_params.offload_kqv);
   log_msg("no_perf = %d\n", ctx_params.no_perf);
