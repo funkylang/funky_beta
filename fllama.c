@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-03 18:38:48";
+static const char *FLLAMA_VERSION = "2026-11-03 19:14:19";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -1984,10 +1984,12 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
     SEQUENCE *sequence = draft_seqs[s];
 
     // start each sequence's draft list from scratch: re-drafts after a
-    // lookahead rollback must not extend stale drafts
-    if (!sequence->mtp_draft_tokens || array_size(sequence->mtp_draft_tokens) < mtp_predict) {
+    // lookahead rollback must not extend stale drafts. Capacity is
+    // mtp_predict+1: a fully confirmed chain holds all k drafts plus the
+    // trailing replacement token pushed by the PENDING_LOOKAHEAD handler
+    if (!sequence->mtp_draft_tokens || array_size(sequence->mtp_draft_tokens) < mtp_predict+1) {
       free(sequence->mtp_draft_tokens);
-      sequence->mtp_draft_tokens = allocate_int_array(mtp_predict);
+      sequence->mtp_draft_tokens = allocate_int_array(mtp_predict+1);
     }
     set_array_length(sequence->mtp_draft_tokens, 0);
 
@@ -2491,10 +2493,18 @@ static void evaluate_sequences(void) {
 		  current_context, mtp_first_idx[i]+n_confirmed), n_vocab);
 	      sequence->pending_token = (int)best1[0].token;
 	    } else {
-	      // full confirmation: [p, d1..dk] stay as the lookahead chain; the
-	      // rolling fill below (draft_mtp_logits) generates the next turn's
-	      // drafts at this position
+	      // full confirmation: [p, d1..dk] stay as the lookahead chain.
+	      // The trailing L_n is advertised in the last lookahead message
+	      // but not yet evaluated - schedule its replacement decode (same
+	      // mechanism as the partial case) so every advertised token
+	      // passes through the main head and the next sync point exists
 	      sequence->evaluation_position = lbatch.pos[mtp_last_idx[i]];
+	      sequence->state = PENDING_LOOKAHEAD;
+	      fill_top_confidences(
+		best1,
+		llama_get_logits_ith(
+		  current_context, mtp_first_idx[i]+n_confirmed), n_vocab);
+	      sequence->pending_token = (int)best1[0].token;
 	    }
 	    // MESSAGE RULE (§15): the main head produced one logit set per batch
 	    // entry; send n_confirmed+1 of them: lookahead@(N+2+j) uses the entry
