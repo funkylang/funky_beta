@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-03 19:14:19";
+static const char *FLLAMA_VERSION = "2026-11-03 21:25 rename-draft-tokens";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -91,6 +91,14 @@ llama_memory_t current_memory;
 static long gpu_offload_threshold = 0;
 
 static int mtp_predict = 0; // number of tokens to predict (0 = disabled)
+// hard limit for --mtp: one draft generation is one MTP-head prediction per
+// step, so no point going beyond this many heads
+#define MAX_MTP_HEADS 8
+// fixed lookahead buffer per sequence: main-head confirmed tokens awaiting
+// the client. Bounded by the i-2 rule: at most 2 generations of
+// (mtp_predict+1) tokens pending; a normal decode only runs when lookahead
+// is empty, so it never adds to the bound
+#define MAX_LOOKAHEAD_TOKENS (2*(MAX_MTP_HEADS+1))
 // --eager: run speculative work (lookahead, MTP draft verification) in
 // dedicated batches even when nothing else is pending evaluation; without it,
 // speculation only piggybacks on existing evaluation passes.
@@ -664,8 +672,6 @@ typedef struct {
   int tokens_added; // total number of tokens added to the sequence
   int evaluation_position; // last evaluated position
   bool was_shifted; // parts of the sequence were shifted
-  bool has_lookahead; // the best matching token was preevaluated
-  int next_token; // the best guess for the next token
   // partial (SWA) KV checkpoint taken before the lookahead decode, so the
   // state can be rolled back when the client's token rejects the lookahead
   uint8_t *lookahead_ckpt_data;
@@ -674,10 +680,20 @@ typedef struct {
   // MTP catch-up: last-seen h_nextn row of the target at this sequence's last
   // decoded position (zeros until the first catch-up pass)
   float *mtp_pending_h;
-  // MTP draft tokens; after an eager turn they hold the confirmed
-  // lookahead chain (fast-path match target: [next_token, ...this]);
-  // between turns they may hold raw MTP drafts awaiting confirmation
-  int *mtp_draft_tokens;
+  // three-layer sequence model (§22): tokens + lookahead_tokens +
+  // draft_tokens = whole sequence
+  //   tokens:           confirmed by the client (add_tokens)
+  //   lookahead_tokens: confirmed by the main head, in the KV; wait for the
+  //                     client's confirmation (fast-path match target)
+  //   draft_tokens:     raw MTP predictions; the main head decodes and
+  //                     confirms them on the next speculative turn
+  // tokens shift from one array to the other on confirmation:
+  //   draft -> lookahead (main head confirms, speculative turn)
+  //   lookahead -> tokens (client claims, fast path)
+  int lookahead_tokens[MAX_LOOKAHEAD_TOKENS];
+  int n_lookahead_tokens;
+  int draft_tokens[MAX_MTP_HEADS];
+  int n_draft_tokens;
   // replacement token from a partial lookahead confirmation; decoded
   // into the KV in state PENDING_LOOKAHEAD before rejoining the chain
   int pending_token;
@@ -686,6 +702,13 @@ typedef struct {
   // next logits sync point when the client claims the whole chain
   bool frontier_confidence;
   CONFIDENCE frontier_confidences[10];
+  // i-2 gate (§22): reached-length history for speculative scheduling.
+  // prev_length      = length reached at end of turn n-1
+  // prev_prev_length = length reached at end of turn n-2
+  // speculation is allowed at turn n only when the client's confirmed
+  // length has caught up to prev_prev_length (it fully confirmed n-2)
+  int prev_length;
+  int prev_prev_length;
   int *tokens; // the unevaluated tokens
   int *positions; // -1 for new tokens
   CONFIDENCE confidences[10]; // the top 10 confidences for the next token
@@ -693,6 +716,26 @@ typedef struct {
 
 DEFINE_ALLOCATE_ARRAY(SEQUENCE)
 DEFINE_REALLOCATE_ARRAY(SEQUENCE)
+
+// format one of the fixed token arrays as a space-separated string for dumps
+static void fill_tokens_array_str(char *buf, int bufsize, const int *tokens, int n) {
+  int p = 0;
+  for (int i = 0; i < n && p + 12 < bufsize; ++i) {
+    p += sprintf(buf + p, "%s%d", i ? " " : "", tokens[i]);
+  }
+}
+
+static const char *lookahead_tokens_str(SEQUENCE *sequence) {
+  static char buf[256];
+  fill_tokens_array_str(buf, sizeof(buf), sequence->lookahead_tokens, sequence->n_lookahead_tokens);
+  return buf;
+}
+
+static const char *draft_tokens_str(SEQUENCE *sequence) {
+  static char buf[256];
+  fill_tokens_array_str(buf, sizeof(buf), sequence->draft_tokens, sequence->n_draft_tokens);
+  return buf;
+}
 
 static void dump_sequence(SEQUENCE *sequence) {
   if (sequence->state == INVALID) {
@@ -706,14 +749,15 @@ static void dump_sequence(SEQUENCE *sequence) {
       "  tokens_added: %d\n"
       "  evaluation_position: %d\n"
       "  was_shifted: %d\n"
-      "  has_lookahead: %d\n"
-      "  next_token: %d\n",
+      "  lookahead_tokens(%d): %s\n"
+      "  draft_tokens(%d): %s\n",
       sequence,
       sequence->client_fd, sequence->client_sequence_id,
       sequence_state_names[sequence->state],
       sequence->tokens_added, sequence->evaluation_position,
-      sequence->was_shifted, sequence->has_lookahead,
-      sequence->next_token);
+      sequence->was_shifted,
+      sequence->n_lookahead_tokens, lookahead_tokens_str(sequence),
+      sequence->n_draft_tokens, draft_tokens_str(sequence));
     log_msg("TOKENS: ");
     dump_int_array(sequence->tokens);
     log_msg("POSITIONS: ");
@@ -816,9 +860,13 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   sequence->tokens_added = 0;
   sequence->evaluation_position = -1;
   sequence->was_shifted = false;
-  sequence->has_lookahead = false;
-  sequence->next_token = -1;
+  sequence->n_lookahead_tokens = 0;
+  sequence->n_draft_tokens = 0;
   sequence->frontier_confidence = false;
+  // i-2 gate history starts at -1: no speculation has been reached yet,
+  // so the very first turns always pass (prev_prev_length = -1)
+  sequence->prev_length = -1;
+  sequence->prev_prev_length = -1;
   sequence->lookahead_ckpt_data = NULL;
   sequence->lookahead_ckpt_size = 0;
   sequence->lookahead_ckpt_pos_max = -1;
@@ -827,7 +875,6 @@ static int create_sequence(int client_fd, int client_sequence_id) {
   } else {
     sequence->mtp_pending_h = NULL;
   }
-  sequence->mtp_draft_tokens = NULL;
   sequence->tokens = NULL;
   sequence->positions = NULL;
   log_msg("created server sequence %d (client %d, id %d)\n",
@@ -1033,6 +1080,41 @@ static void add_tokens(
   int pos = array_length(sequence->tokens);
   sequence->tokens = append_to_int_array(sequence->tokens, tokens);
   int n = array_length(sequence->tokens);
+  int n_added = n - pos;
+  // rejection search: the added tokens align with lookahead_tokens[0] at KV
+  // position `pos`; the matched prefix is consumed from the chain, the first
+  // non-matching token is the rejection point and invalidates the tail
+  if (sequence->n_lookahead_tokens > 0) {
+    int n_match = 0;
+    while (
+      n_match < n_added &&
+      n_match < sequence->n_lookahead_tokens &&
+      sequence->tokens[pos + n_match] ==
+	sequence->lookahead_tokens[n_match]
+    ) {
+      ++n_match;
+    }
+    if (n_match < n_added && n_match < sequence->n_lookahead_tokens) {
+      // true rejection: tokens[pos+n_match] differs from the chain; the tail
+      // beyond it is dead, as are the drafts built on top of it
+      sequence->n_lookahead_tokens = 0;
+      sequence->n_draft_tokens = 0;
+    } else {
+      int remaining = sequence->n_lookahead_tokens - n_match;
+      for (int i = 0; i < remaining; ++i) {
+	sequence->lookahead_tokens[i] = sequence->lookahead_tokens[n_match + i];
+      }
+      sequence->n_lookahead_tokens = remaining;
+      if (remaining == 0) {
+	// fully claimed: the checkpoint protected exactly these tokens,
+	// nothing can reject against them any more
+	free_lookahead_checkpoint(sequence);
+      }
+    }
+  } else {
+    // no lookahead to match against: a pending draft cannot land
+    sequence->n_draft_tokens = 0;
+  }
   sequence->positions = reallocate_int_array(sequence->positions, n);
   for (int i = pos; i < n; ++i) {
     sequence->positions[i] = -1;
@@ -1040,10 +1122,10 @@ static void add_tokens(
   set_array_length(sequence->positions, n);
   if (sequence->state != MODIFIED) {
     sequence->state = MODIFIED;
-    sequence->tokens_added = n-pos;
+    sequence->tokens_added = n_added;
     sequence->was_shifted = false;
   } else {
-    sequence->tokens_added += n-pos;
+    sequence->tokens_added += n_added;
   }
 }
 
@@ -1339,6 +1421,9 @@ static void send_confidence_message(
   log_msg(
     "sending %s for position %d best-1 %d to client %d, id %d\n",
     title, pos, c[0].token, sequence->client_fd, sequence->client_sequence_id);
+  // i-2 gate (§22): remember the last message position of this turn; the
+  // per-turn shift into prev_prev_length happens at evaluate_sequences start
+  sequence->prev_length = pos;
   char buf[512];
   char *p = stpcpy(buf, title);
   p += sprintf(p, " %d %d 10", sequence->client_sequence_id, pos);
@@ -1540,135 +1625,61 @@ static void handle_evaluate(int fd, char *sequence_id) {
     int sequence_id = sequence->sequence_id;
     if (sequence->state == MODIFIED) {
       int n = array_length(sequence->tokens);
-      if (sequence->has_lookahead) {
-	int n_draft = array_length(sequence->mtp_draft_tokens);
-	// the tokens just added may match a prefix of the lookahead chain
-	// already in the KV (next_token followed by the MTP drafts): if so
-	// they are consumed without any decoding
-	int n_added = sequence->tokens_added;
-	bool use_lookahead =
-	  !sequence->was_shifted &&
-	  n_added > 0 &&
-	  n_added <= 1+n_draft;
-	for (int a = 0; use_lookahead && a < n_added; ++a) {
-	  int pos = n-n_added+a;
-	  if (
-	    sequence->positions[pos] != -1 ||
-	    sequence->tokens[pos] != ((a == 0)
-	      ? sequence->next_token
-	      : ((int*)sequence->mtp_draft_tokens)[a-1])
-	  ) {
-	    use_lookahead = false;
+      change_session(fd, sequence->session_id);
+      if (sequence->was_shifted) {
+	bool *was_deleted =
+	  allocate_bool_array(sequence->evaluation_position);
+	// initially mark all tokens as deleted
+	for (int i = 0; i < sequence->evaluation_position; ++i) {
+	  was_deleted[i] = true;
+	}
+	set_array_length(was_deleted, sequence->evaluation_position);
+	// mark remaining tokens as not deleted
+	for (int i = 0; i < array_length(sequence->positions); ++i) {
+	  int position = sequence->positions[i];
+	  if (position >= 0) {
+	    was_deleted[position] = false;
 	  }
 	}
-	if (use_lookahead) {
-	  log_msg(
-	    "using lookahead for server sequence %d (client %d, id %d): "
-	    "%d token(s)\n",
-	    sequence_idx, fd, client_sequence_id, n_added);
-	  for (int a = 0; a < n_added; ++a) {
-	    int pos = n-n_added+a;
-	    sequence->positions[pos] = pos;
-	  }
-	  sequence->state = EVALUATED;
-	  sequence->evaluation_position = n;  // include lookahead tokens
-	  // shift the lookahead chain left by the consumed tokens
-	  if (n_added == 1+n_draft) {
-	    // nothing left: the chain is fully settled; send the pending
-	    // frontier prediction (stored by the replacement-token decode)
-	    // as the new logits sync point right away
-	    sequence->has_lookahead = false;
-	    set_array_length(sequence->mtp_draft_tokens, 0);
-	    free_lookahead_checkpoint(sequence);
-	    if (sequence->frontier_confidence) {
-	      sequence->next_token =
-		sequence->frontier_confidences[0].token;
-	      send_confidence_message(
-		sequence, sequence->frontier_confidences, n, "logits");
-	      sequence->frontier_confidence = false;
-	      // the client has confirmed everything we sent (i-2 rule):
-	      // roll out fresh drafts from the new frontier so the next
-	      // evaluate_sequences run can verify them while the client
-	      // computes its reply - the speculation schedule continues
-	      if (mtp_predict > 0 && sequence->mtp_pending_h) {
-		SEQUENCE *draft_one = sequence;
-		draft_mtp_logits(&draft_one, 1);
-	      }
-	    }
+	// remove from cache
+	int i = 0;
+	while (i < array_length(was_deleted)) {
+	  if (was_deleted[i]) {
+	    int s = i;
+	    while (++i < array_length(was_deleted) && was_deleted[i]);
+	    log_msg(
+	      "llama_memory_seq_rm(current_memory, %d, %d, %d)\n",
+	      sequence_id, s, i);
+	    llama_memory_seq_rm(current_memory, sequence_id, s, i);
 	  } else {
-	    for (int a = n_added-1; a < n_draft; ++a) {
-	      ((int*)sequence->mtp_draft_tokens)[a-n_added+1] =
-		((int*)sequence->mtp_draft_tokens)[a];
-	    }
-	    set_array_length(
-	      sequence->mtp_draft_tokens, n_draft-n_added+1);
-	    sequence->next_token = ((int*)sequence->mtp_draft_tokens)[0];
-	  }
-	} else {
-	  log_msg(
-	    "do not use lookahead for server sequence %d (client %d, id %d)\n",
-	    sequence_idx, fd, client_sequence_id);
-	  rollback_lookahead_checkpoint(sequence);
-	  goto evaluate;
-	}
-      } else {
-	evaluate:
-	change_session(fd, sequence->session_id);
-	if (sequence->was_shifted) {
-	  bool *was_deleted =
-	    allocate_bool_array(sequence->evaluation_position);
-	  // initially mark all tokens as deleted
-	  for (int i = 0; i < sequence->evaluation_position; ++i) {
-	    was_deleted[i] = true;
-	  }
-	  set_array_length(was_deleted, sequence->evaluation_position);
-	  // mark remaining tokens as not deleted
-	  for (int i = 0; i < array_length(sequence->positions); ++i) {
-	    int position = sequence->positions[i];
-	    if (position >= 0) {
-	      was_deleted[position] = false;
-	    }
-	  }
-	  // remove from cache
-	  int i = 0;
-	  while (i < array_length(was_deleted)) {
-	    if (was_deleted[i]) {
-	      int s = i;
-	      while (++i < array_length(was_deleted) && was_deleted[i]);
-	      log_msg(
-		"llama_memory_seq_rm(current_memory, %d, %d, %d)\n",
-		sequence_id, s, i);
-	      llama_memory_seq_rm(current_memory, sequence_id, s, i);
-	    } else {
-	      ++i;
-	    }
-	  }
-	  deallocate_array(was_deleted);
-	  // shift tokens
-	  i = 0;
-	  while (i < array_length(sequence->positions)) {
-	    int delta = sequence->positions[i]-i;
-	    if (sequence->positions[i] >= 0 && delta != 0) {
-	      int s = i;
-	      while (
-		++i < array_length(sequence->positions) &&
-		sequence->positions[i] >= 0 &&
-		sequence->positions[i]-i == delta
-	      );
-	      log_msg(
-		"llama_memory_seq_add(current_memory, %d, %d, %d, %d)\n",
-		sequence_id, s+delta, i+delta, -delta);
-	      llama_memory_seq_add(
-		current_memory, sequence_id, s+delta, i+delta, -delta);
-	    } else {
-	      ++i;
-	    }
+	    ++i;
 	  }
 	}
-	sequence->state = IN_EVALUATION;
-	// force evaluation of the last token
-	sequence->positions[array_length(sequence->tokens)-1] = -1;
+	deallocate_array(was_deleted);
+	// shift tokens
+	i = 0;
+	while (i < array_length(sequence->positions)) {
+	  int delta = sequence->positions[i]-i;
+	  if (sequence->positions[i] >= 0 && delta != 0) {
+	    int s = i;
+	    while (
+	      ++i < array_length(sequence->positions) &&
+	      sequence->positions[i] >= 0 &&
+	      sequence->positions[i]-i == delta
+	    );
+	    log_msg(
+	      "llama_memory_seq_add(current_memory, %d, %d, %d, %d)\n",
+	      sequence_id, s+delta, i+delta, -delta);
+	    llama_memory_seq_add(
+	      current_memory, sequence_id, s+delta, i+delta, -delta);
+	  } else {
+	    ++i;
+	  }
+	}
       }
+      sequence->state = IN_EVALUATION;
+      // force evaluation of the last token
+      sequence->positions[array_length(sequence->tokens)-1] = -1;
     } else {
       log_msg(
 	"evaluate: sequence for client %d, id %d was not modified\n",
@@ -1948,8 +1959,6 @@ static void free_sequence_aux(SEQUENCE *sequence) {
     free(sequence->mtp_pending_h);
     sequence->mtp_pending_h = NULL;
   }
-  deallocate_array(sequence->mtp_draft_tokens);
-  sequence->mtp_draft_tokens = NULL;
 }
 
 // MTP draft generation (step 5): step the MTP context beyond each sequence's
@@ -1984,17 +1993,13 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
     SEQUENCE *sequence = draft_seqs[s];
 
     // start each sequence's draft list from scratch: re-drafts after a
-    // lookahead rollback must not extend stale drafts. Capacity is
-    // mtp_predict+1: a fully confirmed chain holds all k drafts plus the
-    // trailing replacement token pushed by the PENDING_LOOKAHEAD handler
-    if (!sequence->mtp_draft_tokens || array_size(sequence->mtp_draft_tokens) < mtp_predict+1) {
-      free(sequence->mtp_draft_tokens);
-      sequence->mtp_draft_tokens = allocate_int_array(mtp_predict+1);
-    }
-    set_array_length(sequence->mtp_draft_tokens, 0);
+    // lookahead rollback must not extend stale drafts
+    sequence->n_draft_tokens = 0;
 
     drafting[s] = true;
-    d_tok[s] = (llama_token)sequence->next_token;
+    // the MTP context continues from the anchor token: what the main head
+    // predicted at the last evaluated position (stored as lookahead_tokens[0])
+    d_tok[s] = (llama_token)sequence->lookahead_tokens[0];
     d_pos[s] = sequence->evaluation_position;
     d_h[s] = sequence->mtp_pending_h;
   }
@@ -2076,7 +2081,7 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
 	continue;
       }
 
-      push_to_int_array(sequence->mtp_draft_tokens, best);
+      sequence->draft_tokens[sequence->n_draft_tokens++] = best;
       d_tok[s] = (llama_token)best;
       d_pos[s]++;
       d_h[s] = h_row;
@@ -2086,13 +2091,13 @@ static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs) {
 
   for (int s = 0; s < n_draft_seqs; ++s) {
     SEQUENCE *sequence = draft_seqs[s];
-    int n = array_length(sequence->mtp_draft_tokens);
+    int n = sequence->n_draft_tokens;
     if (n == 0 || !drafting[s]) continue;
     char buf[128];
     int p = sprintf(buf, "generating %d draft tokens for server sequence %d (client %d, id %d):",
       n, sequence->sequence_id, sequence->client_fd, sequence->client_sequence_id);
     for (int k = 0; k < n; ++k) {
-      p += sprintf(buf + p, " %d", ((int*)sequence->mtp_draft_tokens)[k]);
+      p += sprintf(buf + p, " %d", sequence->draft_tokens[k]);
     }
     log_msg("%s\n", buf);
     // LOOKAHEAD messages travel only once the main head has confirmed
@@ -2123,6 +2128,11 @@ static void evaluate_sequences(void) {
   for (int i = 0; i < array_length(sequences); ++i) {
     SEQUENCE *sequence = &sequences[i];
     if (sequence->session_id == current_session_id) {
+      // i-2 gate (§22): roll this sequence's message history one turn back —
+      // prev_prev_length now holds the last message position of turn n-2,
+      // prev_length resets and this turn's sends will fill it again
+      sequence->prev_prev_length = sequence->prev_length;
+      sequence->prev_length = -1;
       if (sequence->state == IN_EVALUATION) {
 	for (int k = 0; k < array_length(sequence->tokens); ++k) {
 	  if (sequence->positions[k] < 0) {
@@ -2140,10 +2150,14 @@ static void evaluate_sequences(void) {
 	}
       } else if (
 	sequence->state == EVALUATED &&
-	!sequence->has_lookahead &&
-	array_length(sequence->mtp_draft_tokens) > 0
+	sequence->n_lookahead_tokens == 0 &&
+	sequence->n_draft_tokens > 0 &&
+	// i-2 gate (§22): only speculate when the client fully confirmed
+	// everything advertised two turns ago (its add_tokens reached at
+	// least that position); otherwise stop producing lookahead
+	array_length(sequence->tokens) >= sequence->prev_prev_length
       ) {
-	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
+	int lookahead_size = 1+sequence->n_draft_tokens;
 	if (n+lookahead_size > MAXIMUM_BATCH_SIZE) break;
 	n += lookahead_size;
       } else if (sequence->state == PENDING_LOOKAHEAD) {
@@ -2236,10 +2250,13 @@ static void evaluate_sequences(void) {
 	if (idx >= n) break;
       } else if (
 	sequence->state == EVALUATED &&
-	!sequence->has_lookahead &&
-	array_length(sequence->mtp_draft_tokens) > 0
+	sequence->n_lookahead_tokens == 0 &&
+	// i-2 gate (§22): must mirror the counting loop's condition exactly —
+	// speculation only when the client fully confirmed turn n-2
+	array_length(sequence->draft_tokens) > 0 &&
+	array_length(sequence->tokens) >= sequence->prev_prev_length
       ) {
-	int lookahead_size = 1+array_length(sequence->mtp_draft_tokens);
+	int lookahead_size = 1+sequence->n_draft_tokens;
 	if (idx+lookahead_size > MAXIMUM_BATCH_SIZE) break;
 	// remember the KV state so it can be rolled back when this
 	// lookahead computation turns out to be wrong
@@ -2249,7 +2266,7 @@ static void evaluate_sequences(void) {
 	for (int a = 0; a < lookahead_size; ++a) {
 	  lbatch.token[idx] = (a == 0)
 	    ? sequence->confidences[0].token
-	    : ((int*)sequence->mtp_draft_tokens)[a-1];
+	    : sequence->draft_tokens[a-1];
 	  lbatch.pos[idx] = k+a;
 	  lbatch.n_seq_id[idx] = 1;
 	  lbatch.seq_id[idx] = &server_seq_ids[bi];
@@ -2276,10 +2293,7 @@ static void evaluate_sequences(void) {
 	if (idx+1 > MAXIMUM_BATCH_SIZE) break;
 	save_lookahead_checkpoint(sequence);
 	int saved_index = idx;
-	int k = array_length(
-	  sequence->tokens)
-	  + 1
-	  + array_length(sequence->mtp_draft_tokens);
+	int k = array_length(sequence->tokens) + 1 + sequence->n_draft_tokens;
 	lbatch.token[idx] = sequence->pending_token;
 	lbatch.pos[idx] = k;
 	lbatch.n_seq_id[idx] = 1;
@@ -2419,25 +2433,25 @@ static void evaluate_sequences(void) {
       if (sequence->session_id == current_session_id) {
 	int idx = logits_indices[bi];
 	if (idx >= 0) {
-	 float *logits = llama_get_logits_ith(current_context, idx);
-	 fill_top_confidences(sequence->confidences, logits, n_vocab);
-	 if (sequence->state == PENDING_LOOKAHEAD) {
-	   // the replacement token is in the KV now: the lookahead
-	   // chain [next_token, ...mtp_draft_tokens, replacement] is
-	   // complete and claimable via the fast path again. No
-	   // messages travel — every position is covered by an already
-	   // sent message; next_token waits for client action.
-	   push_to_int_array(
-	     sequence->mtp_draft_tokens,
+	  float *logits = llama_get_logits_ith(current_context, idx);
+	  fill_top_confidences(sequence->confidences, logits, n_vocab);
+	  if (sequence->state == PENDING_LOOKAHEAD) {
+	    // the replacement token is in the KV now: the lookahead
+	    // chain [next_token, ...draft_tokens, replacement] is
+	    // complete and claimable via the fast path again. No
+	    // messages travel — every position is covered by an already
+	    // sent message; next_token waits for client action.
+	    push_to_int_array(
+	     sequence->draft_tokens,
 	     sequence->pending_token);
-	   sequence->state = EVALUATED;
-	   // this decode's logits are the prediction for the first position
-	   // beyond the settled content — hold them as the next sync point,
-	   // to be sent as soon as the client has claimed the whole chain
-	   fill_top_confidences(
-	     sequence->frontier_confidences, logits, n_vocab);
-	   sequence->frontier_confidence = true;
-	 } else if (sequence->state == EVALUATED) {
+	    sequence->state = EVALUATED;
+	    // this decode's logits are the prediction for the first position
+	    // beyond the settled content — hold them as the next sync point,
+	    // to be sent as soon as the client has claimed the whole chain
+	    fill_top_confidences(
+	      sequence->frontier_confidences, logits, n_vocab);
+	    sequence->frontier_confidence = true;
+	  } else if (sequence->state == EVALUATED) {
 	    // the chain [p, d1..dk] was just decoded into the KV at positions
 	    // N+1..N+k+1. Check each draft against the main head (§11 prefix
 	    // semantics): a draft is confirmed only when every earlier draft is
@@ -2464,7 +2478,6 @@ static void evaluate_sequences(void) {
 	      if (main_head_tokens[a-1] != lbatch.token[mtp_first_idx[i]+a]) break;
 	      ++n_confirmed;
 	    }
-	    sequence->has_lookahead = true;
 	    if (n_confirmed < n_chain-1) {
 	      // partial confirmation: truncate the KV at the first unconfirmed
 	      // position (the stale draft states beyond it must not survive),
@@ -2483,7 +2496,7 @@ static void evaluate_sequences(void) {
 	      // keep the confirmed drafts: with next_token they form the
 	      // fast-path chain; drop only the unconfirmed tail
 	      set_array_length(
-		sequence->mtp_draft_tokens, n_confirmed);
+		sequence->draft_tokens, n_confirmed);
 	      // the replacement token (main head's best-1 for that
 	      // position) waits until the fill loop decodes it
 	      sequence->state = PENDING_LOOKAHEAD;
@@ -2527,8 +2540,10 @@ static void evaluate_sequences(void) {
 	  } else {
 	    sequence->state = EVALUATED;
 	    sequence->evaluation_position = array_length(sequence->tokens);
-	    sequence->has_lookahead = false;
-	    sequence->next_token = sequence->confidences[0].token;
+	    // the plain decode's prediction becomes the single lookahead
+	    // (anchor) token awaiting client confirmation
+	    sequence->lookahead_tokens[0] = sequence->confidences[0].token;
+	    sequence->n_lookahead_tokens = 1;
 	    send_logits(sequence);
 	    if (mtp_predict > 0 && sequence->mtp_pending_h) {
 	      draft_seqs[n_draft_seqs++] = sequence;
@@ -2629,8 +2644,10 @@ static bool has_speculative_evaluations(void) {
       (
 	(
 	  sequence->state == EVALUATED &&
-	  !sequence->has_lookahead &&
-	  array_length(sequence->mtp_draft_tokens) > 0
+	  sequence->n_lookahead_tokens == 0 &&
+	  sequence->n_draft_tokens > 0 &&
+	  // i-2 gate (§22): mirrors the eligibility in evaluate_sequences
+	  array_length(sequence->tokens) >= sequence->prev_prev_length
 	) ||
 	sequence->state == PENDING_LOOKAHEAD
       )
@@ -2795,10 +2812,14 @@ int main(int argc, char **argv) {
     } else if (strcmp(argv[i], "--mtp") == 0) {
       if (i+1 < argc) {
 	int n = atoi(argv[++i]);
-	if (n > 0) {
+	// at most one draft token per MTP head, and the draft buffer holds
+	// MAX_MTP_HEADS: --mtp must stay within that bound
+	if (n > 0 && n <= MAX_MTP_HEADS) {
 	  mtp_predict = n;
 	} else {
-	  log_msg("invalid argument for --mtp\n");
+	  log_msg(
+	    "invalid argument for --mtp (allowed: 1..%d)\n",
+	    MAX_MTP_HEADS);
 	  exit(EXIT_FAILURE);
 	}
       } else {
