@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-05 17:28 cp2-on-full-match-only";
+static const char *FLLAMA_VERSION = "2026-11-06 00:28 draft-regen-after-mismatch";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -595,8 +595,12 @@ static void change_session(int client_fd, int new_session_id) {
     current_session->session_size = current_session_size;
     current_session->session_data = malloc(current_session_size);
     if (current_session->session_data) {
-      llama_state_get_data(
+      size_t saved = llama_state_get_data(
         current_context, current_session->session_data, current_session_size);
+      if (saved != current_session_size) {
+        log_msg("llama_state_get_data failed: saved %zu of %zu bytes\n", saved, current_session_size);
+        exit(EXIT_FAILURE);
+      }
       fprintf(
         stderr, "saved session %d, size = %zu\n",
         current_session_id, current_session_size);
@@ -609,8 +613,12 @@ static void change_session(int client_fd, int new_session_id) {
         if (mtp_size > 0) {
           current_session->mtp_session_data = malloc(mtp_size);
           if (current_session->mtp_session_data) {
-            llama_state_get_data(
+            size_t saved_mtp = llama_state_get_data(
               mtp_context, current_session->mtp_session_data, mtp_size);
+            if (saved_mtp != mtp_size) {
+              log_msg("llama_state_get_data failed for MTP: saved %zu of %zu bytes\n", saved_mtp, mtp_size);
+              exit(EXIT_FAILURE);
+            }
             current_session->mtp_session_size = mtp_size;
           }
         }
@@ -627,8 +635,12 @@ static void change_session(int client_fd, int new_session_id) {
   log_msg("load session %d\n", new_session_id);
   SESSION *new_session = &sessions[new_session_id];
   if (new_session->session_data) {
-    llama_state_set_data(
+    size_t loaded = llama_state_set_data(
       current_context, new_session->session_data, new_session->session_size);
+    if (loaded != new_session->session_size) {
+      log_msg("llama_state_set_data failed: loaded %zu of %zu bytes\n", loaded, new_session->session_size);
+      exit(EXIT_FAILURE);
+    }
       fprintf(
         stderr, "loaded session %d, size = %zu\n",
         new_session_id, new_session->session_size);
@@ -638,8 +650,12 @@ static void change_session(int client_fd, int new_session_id) {
   // restore the MTP context state in sync (if active and snapshot present)
   if (mtp_context) {
     if (new_session->mtp_session_data && new_session->mtp_session_size > 0) {
-      llama_state_set_data(
+      size_t loaded_mtp = llama_state_set_data(
         mtp_context, new_session->mtp_session_data, new_session->mtp_session_size);
+      if (loaded_mtp != new_session->mtp_session_size) {
+        log_msg("llama_state_set_data failed for MTP: loaded %zu of %zu bytes\n", loaded_mtp, new_session->mtp_session_size);
+        exit(EXIT_FAILURE);
+      }
     } else {
       llama_memory_clear(llama_get_memory(mtp_context), true);
     }
@@ -682,12 +698,6 @@ typedef struct {
   int tokens_added; // total number of tokens added to the sequence
   int evaluation_position; // last evaluated position
   bool was_shifted; // parts of the sequence were shifted
-  // two SWA checkpoints (cp1/cp2 algorithm):
-  //   cp1: created after each prefill; rollback target on client rejection
-  //   cp2: created while generating (lookahead non-empty); shifted to cp1
-  //        once the client confirms up to it
-  CHECKPOINT cp1;
-  CHECKPOINT cp2;
   // MTP catch-up: last-seen h_nextn row of the target at this sequence's last
   // decoded position (zeros until the first catch-up pass)
   float *mtp_pending_h;
@@ -811,23 +821,12 @@ static void dump_batch(struct llama_batch *batch) {
 
 static SEQUENCE *sequences = NULL;
 
-// cp1/cp2 checkpoint helpers (see CHECKPOINT).
-// Save a partial (SWA-only) checkpoint of the sequence's KV state.
-// cp1: after each prefill — rollback target when the client rejects tokens.
-// cp2: before the speculative batch — covers the confirmed lookahead region.
-
-static void delete_checkpoint(SEQUENCE *sequence, CHECKPOINT *cp) {
-  if (!cp->data) return;
-  log_msg(
-    "deleting checkpoint %s of sequence %d at position %d\n",
-    cp->tag, sequence->sequence_id, cp->pos);
-  free(cp->data);
-  cp->data = NULL;
-}
+// checkpoint helpers (see CHECKPOINT).
+// Save/restore a partial checkpoint of the sequence's KV state;
+// needed for rollbacks deeper than n_rs_seq allows.
 
 static void create_checkpoint(SEQUENCE *sequence, CHECKPOINT *cp) {
-  // creating a checkpoint drops any existing one at this slot first
-  delete_checkpoint(sequence, cp);
+  // the caller is responsible for deleting an existing checkpoint first
   struct llama_context *ctx = current_context;
   size_t s = llama_state_seq_get_size_ext(
     ctx, sequence->sequence_id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
@@ -863,30 +862,15 @@ static void create_checkpoint(SEQUENCE *sequence, CHECKPOINT *cp) {
     cp->tag, sequence->sequence_id, cp->pos);
 }
 
-// Restore the saved cp2 checkpoint and remove everything speculated beyond it.
-
-static void rollback_lookahead_checkpoint(SEQUENCE *sequence) {
-  if (!sequence->cp2.data) return;
-  struct llama_context *ctx = current_context;
-  size_t n = llama_state_seq_set_data_ext(
-    ctx, sequence->cp2.data, sequence->cp2.size,
-    sequence->sequence_id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
-  if (n != sequence->cp2.size) {
-    log_msg(
-      "failed to restore the lookahead checkpoint of sequence %d: "
-      "expected %zu bytes, got %zu\n",
-      sequence->sequence_id, sequence->cp2.size, n);
-  } else {
-    log_msg(
-      "rolling back lookahead in sequence %d: removed positions >= %d\n",
-      sequence->sequence_id, sequence->cp2.pos);
-    llama_memory_seq_rm(
-      llama_get_memory(ctx), sequence->sequence_id,
-      sequence->cp2.pos, -1);
-  }
-  free(sequence->cp2.data);
-  sequence->cp2.data = NULL;
+static void delete_checkpoint(SEQUENCE *sequence, CHECKPOINT *cp) {
+  if (!cp->data) return;
+  log_msg(
+    "deleting checkpoint %s of sequence %d at position %d\n",
+    cp->tag, sequence->sequence_id, cp->pos);
+  free(cp->data);
+  cp->data = NULL;
 }
+
 // MTP draft generation (defined after handle_evaluate)
 static void draft_mtp_logits(SEQUENCE **draft_seqs, int n_draft_seqs);
 // frees all per-sequence aux state (lookahead checkpoint + MTP buffers)
@@ -955,10 +939,6 @@ static int create_sequence(int client_fd, int client_id) {
   // so the very first turns always pass (prev_prev_length = -1)
   sequence->prev_length = -1;
   sequence->prev_prev_length = -1;
-  sequence->cp1.data = NULL;
-  sequence->cp1.tag = "1";
-  sequence->cp2.data = NULL;
-  sequence->cp2.tag = "2";
   if (mtp_n_embd > 0) {
     sequence->mtp_pending_h = calloc(mtp_n_embd, sizeof(float));
   } else {
@@ -1063,11 +1043,19 @@ static void free_client_sequence(int client_fd, int client_id) {
       deallocate_array(sequence->positions);
       free_sequence_aux(sequence);
       change_session(client_fd, sequence->session_id);
-      llama_memory_seq_rm(current_memory, sequence->sequence_id, 0, -1);
+      bool ok = llama_memory_seq_rm(current_memory, sequence->sequence_id, 0, -1);
+      if (!ok) {
+        log_msg("llama_memory_seq_rm failed: freeing sequence %d\n", sequence->sequence_id);
+        exit(EXIT_FAILURE);
+      }
       // keep the MTP context's sequence table in sync
       if (mtp_context) {
-        llama_memory_seq_rm(
+        ok = llama_memory_seq_rm(
           llama_get_memory(mtp_context), sequence->sequence_id, 0, -1);
+        if (!ok) {
+          log_msg("llama_memory_seq_rm failed: MTP context, freeing sequence %d\n", sequence->sequence_id);
+          exit(EXIT_FAILURE);
+        }
       }
       free_maybe_empty_session(client_fd, sequence->session_id);
       break;
@@ -1087,11 +1075,19 @@ static void free_all_client_sequences(int client_fd) {
       deallocate_array(sequence->positions);
       free_sequence_aux(sequence);
       change_session(client_fd, sequence->session_id);
-      llama_memory_seq_rm(current_memory, sequence->sequence_id, 0, -1);
+      bool ok = llama_memory_seq_rm(current_memory, sequence->sequence_id, 0, -1);
+      if (!ok) {
+        log_msg("llama_memory_seq_rm failed: freeing sequence %d\n", sequence->sequence_id);
+        exit(EXIT_FAILURE);
+      }
       // keep the MTP context's sequence table in sync
       if (mtp_context) {
-        llama_memory_seq_rm(
+        ok = llama_memory_seq_rm(
           llama_get_memory(mtp_context), sequence->sequence_id, 0, -1);
+        if (!ok) {
+          log_msg("llama_memory_seq_rm failed: MTP context, freeing sequence %d\n", sequence->sequence_id);
+          exit(EXIT_FAILURE);
+        }
       }
       free_maybe_empty_session(client_fd, sequence->session_id);
     }
@@ -1103,8 +1099,7 @@ static void free_all_client_sequences(int client_fd) {
 // and the drafts built on it; only pure appending preserves them
 static void invalidate_lookahead(SEQUENCE *sequence) {
   if (
-    sequence->n_lookahead_tokens + sequence->n_draft_tokens == 0 &&
-    !sequence->cp2.data
+    sequence->n_lookahead_tokens + sequence->n_draft_tokens == 0
   ) return;
   log_msg(
     "invalidating lookahead of sequence %d: %d chain, %d draft token(s)\n",
@@ -1112,7 +1107,6 @@ static void invalidate_lookahead(SEQUENCE *sequence) {
     sequence->n_draft_tokens);
   sequence->n_lookahead_tokens = 0;
   sequence->n_draft_tokens = 0;
-  delete_checkpoint(sequence, &sequence->cp2);
 }
 
 static void truncate_sequence(
@@ -1208,11 +1202,6 @@ static void add_tokens(
         sequence->lookahead_tokens[i] = sequence->lookahead_tokens[n_match + i];
       }
       sequence->n_lookahead_tokens = remaining;
-      if (remaining == 0) {
-        // fully claimed: the checkpoint protected exactly these tokens,
-        // nothing can reject against them any more
-        delete_checkpoint(sequence, &sequence->cp2);
-      }
     }
   } else {
     // no lookahead to match against: a pending draft cannot land
@@ -1425,7 +1414,7 @@ static void handle_use_model(int fd, char *model_name) {
               llama_set_embeddings_nextn(current_context, true, /*masked*/ false);
               llama_set_embeddings_nextn(mtp_context, true, /*masked*/ true);
               log_msg("MTP catch-up enabled (n_embd = %d)\n", mtp_n_embd);
-              log_msg("========== %s ==========\n", model_name);
+              log_msg("********** %s **********\n", model_name);
             }
           } else {
             log_msg("failed to create MTP context; continuing without MTP\n");
@@ -1758,7 +1747,11 @@ static void handle_evaluate(int fd, char *sequence_id) {
             log_msg(
               "llama_memory_seq_rm(current_memory, %d, %d, %d)\n",
               sequence_id, s, i);
-            llama_memory_seq_rm(current_memory, sequence_id, s, i);
+            bool ok = llama_memory_seq_rm(current_memory, sequence_id, s, i);
+            if (!ok) {
+              log_msg("llama_memory_seq_rm failed: sequence %d [%d..%d]\n", sequence_id, s, i);
+              exit(EXIT_FAILURE);
+            }
           } else {
             ++i;
           }
@@ -2003,11 +1996,9 @@ static void handle_request(int fd, char *request) {
 bool has_pending_evaluations = false;
 int turn_count = 0; // running round counter for the ==== separator
 
-// Free all per-sequence aux state: lookahead checkpoint + MTP catch-up buffer.
+// Free all per-sequence aux state: MTP catch-up buffer.
 
 static void free_sequence_aux(SEQUENCE *sequence) {
-  delete_checkpoint(sequence, &sequence->cp1);
-  delete_checkpoint(sequence, &sequence->cp2);
   if (sequence->mtp_pending_h) {
     free(sequence->mtp_pending_h);
     sequence->mtp_pending_h = NULL;
@@ -2209,7 +2200,11 @@ static void evaluate_sequences(void) {
               log_msg(
                 "llama_memory_seq_rm(current_memory, %d, %d, -1)\n",
                 sequence->sequence_id, k);
-              llama_memory_seq_rm(current_memory, sequence->sequence_id, k, -1);
+              bool ok = llama_memory_seq_rm(current_memory, sequence->sequence_id, k, -1);
+              if (!ok) {
+                log_msg("llama_memory_seq_rm failed: sequence %d at position %d\n", sequence->sequence_id, k);
+                exit(EXIT_FAILURE);
+              }
             }
             ++n;
             has_regular_evaluations = true;
@@ -2407,8 +2402,12 @@ static void evaluate_sequences(void) {
         // are replaced instead of colliding (ref: common/speculative.cpp)
         for (int i = 0; i < array_length(sequences); ++i) {
           if (mtp_first_idx[i] < 0) continue;
-          llama_memory_seq_rm(llama_get_memory(mtp_context),
+          bool ok = llama_memory_seq_rm(llama_get_memory(mtp_context),
             lbatch.seq_id[mtp_first_idx[i]][0], lbatch.pos[mtp_first_idx[i]], -1);
+          if (!ok) {
+            log_msg("llama_memory_seq_rm failed: MTP context, sequence %d at pos %d\n", lbatch.seq_id[mtp_first_idx[i]][0], lbatch.pos[mtp_first_idx[i]]);
+            exit(EXIT_FAILURE);
+          }
         }
         int32_t rc = llama_process(mtp_context, LLAMA_PROCESS_TYPE_DECODE, mtp_batch);
         if (rc != 0 && rc != 1) {
@@ -2531,9 +2530,25 @@ static void evaluate_sequences(void) {
               log_msg(
                 "rolling back sequence %d to position %d\n",
                 i, trunc_pos);
-              llama_memory_seq_rm(
+              bool ok = llama_memory_seq_rm(
               llama_get_memory(current_context),
               sequence->sequence_id, trunc_pos, -1);
+              if (!ok) {
+                log_msg("llama_memory_seq_rm FAILED: sequence %d to position %d\n", sequence->sequence_id, trunc_pos);
+                exit(EXIT_FAILURE);
+              }
+              // keep the MTP mirror consistent with the rollback: its stale draft
+              // rows beyond this point are dead — re-seeding drafts from them
+              // collides (M-RoPE X<Y)
+              if (mtp_context) {
+                ok = llama_memory_seq_rm(
+                  llama_get_memory(mtp_context),
+                  sequence->sequence_id, trunc_pos, -1);
+                if (!ok) {
+                  log_msg("llama_memory_seq_rm FAILED: MTP context, sequence %d to position %d\n", sequence->sequence_id, trunc_pos);
+                  exit(EXIT_FAILURE);
+                }
+              }
                 // append the verified prefix to the claimable chain: the
                 // settled lookahead token plus the confirmed drafts
               if (
@@ -2552,7 +2567,6 @@ static void evaluate_sequences(void) {
               }
               // settled — claims on it must not re-decode anything
               sequence->chain_decoded = true;
-              delete_checkpoint(sequence, &sequence->cp2);
               // get main head's best-1 at the frontier and add directly to lookahead
               fill_top_confidences(
               best1,
@@ -2560,6 +2574,16 @@ static void evaluate_sequences(void) {
               current_context, mtp_first_idx[i]+n_confirmed), n_vocab);
               sequence->lookahead_tokens[
               sequence->n_lookahead_tokens++] = (int)best1[0].token;
+              // re-point the draft seed row: catch-up left it at the rolled-back
+              // tail, but new drafts seed from the last confirmed entry
+              if (sequence->mtp_pending_h) {
+                const float *h = llama_get_embeddings_nextn_ith(
+                  current_context, mtp_first_idx[i]+n_confirmed);
+                if (h) {
+                  memcpy(sequence->mtp_pending_h, h,
+                    (size_t)mtp_n_embd * sizeof(float));
+                }
+              }
             } else {
               // full confirmation: [last_la, d1..dk] are all verified and in
               // the KV. Append them to the claimable chain (the settled
@@ -2590,16 +2614,12 @@ static void evaluate_sequences(void) {
                 n_vocab);
               sequence->lookahead_tokens[sequence->n_lookahead_tokens++] =
                 (int)best1[0].token;
-              // cp1/cp2 algorithm: the lookahead is now confirmed by the main
-              // head — set cp2 once (its conditions keep it strictly ahead of
-              // the prefill position)
-              if (!sequence->cp2.data && sequence->n_lookahead_tokens > 0) {
-                create_checkpoint(sequence, &sequence->cp2);
-              }
-              // generate new drafts in this same round
-              if (mtp_predict > 0 && sequence->mtp_pending_h) {
-                draft_seqs[n_draft_seqs++] = sequence;
-              }
+            }
+            // both outcomes now agree: the frontier best-1 is in lookahead, the
+            // drafts are consumed, and the MTP mirror matches the target KV —
+            // so new drafts can be seeded this same round in either case
+            if (mtp_predict > 0 && sequence->mtp_pending_h) {
+              draft_seqs[n_draft_seqs++] = sequence;
             }
             // MESSAGE RULE (§15): the main head produced one logit set per batch
             // entry; send n_confirmed+1 of them: lookahead@(N+2+j) uses the entry
@@ -2627,13 +2647,7 @@ static void evaluate_sequences(void) {
             // from the plain decode's else branch.
             sequence->n_draft_tokens = 0;
           } else {
-            // capture the incoming state before overwriting it: cp1 is the
-            // rollback target on client rejection, created after each prefill
-            bool was_prefill = (sequence->state == PREFILL);
             sequence->state = GENERATING;
-            if (was_prefill) {
-              create_checkpoint(sequence, &sequence->cp1);
-            }
             sequence->evaluation_position = array_length(sequence->tokens);
             // the plain decode's prediction becomes the single lookahead
             // (anchor) token awaiting client confirmation; it is not in the
