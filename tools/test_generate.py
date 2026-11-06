@@ -28,18 +28,25 @@ def main():
     ap.add_argument("prompt", help="prompt string")
     ap.add_argument("-n", type=int, default=20,
                     help="number of tokens to produce (default 20)")
+    ap.add_argument("--host", default="127.0.0.1",
+                    help="server address (default 127.0.0.1)")
+    ap.add_argument("--model", default=None,
+                    help=f"model name (default {MODEL})")
     args = ap.parse_args()
 
     try:
-        f = Fllama()
-        f.send(f"use_model {MODEL}")
-        p = f.pieces(30)
+        f = Fllama(host=args.host)
+        f.send(f"use_model {args.model or MODEL}")
+        p = f.pieces(60)  # extended timeout for model loading
 
         f.send(f"tokenize {args.prompt}")
         r = f.read(5)
         if not (r and r.startswith("tokens ")):
             print(f"error: tokenize failed: {r!r}", file=sys.stderr)
             return 1
+    except ConnectionRefusedError:
+        print(f"\nERROR: no server at {args.host}", flush=True)
+        return 1
     except (OSError, ConnectionError, RuntimeError) as e:
         # setup failure (no server, model load problem, bad pieces reply) —
         # one line on stderr instead of a traceback
@@ -57,11 +64,11 @@ def main():
         while len(produced) < args.n:
             m = f.read(0.5)
             if m is None:
-                # silence on the wire: count it toward a 2s timeout so a dead
+                # silence on the wire: count it toward a 5s timeout so a dead
                 # server still gets flagged instead of hanging forever
                 if silent_since is None:
                     silent_since = time.time()
-                elif time.time() - silent_since >= 2.0:
+                elif time.time() - silent_since >= 5.0:
                     print("\nTIMEOUT EXPIRED", flush=True)
                     break
                 continue
