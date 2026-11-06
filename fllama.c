@@ -2355,8 +2355,13 @@ static void evaluate_sequences(void) {
     log_msg(
       "evaluating %d tokens in %d sequences\n", n, sequence_count);
   }
+  struct timespec t0, t1;
+  clock_gettime(CLOCK_MONOTONIC, &t0);
   int ret = llama_decode(current_context, lbatch);
-  log_msg("===== %d =====\n", ++turn_count);
+  clock_gettime(CLOCK_MONOTONIC, &t1);
+  double decode_sec = (t1.tv_sec - t0.tv_sec) + (double)(t1.tv_nsec - t0.tv_nsec) / 1e9;
+  log_msg("===== %d ===== (%.1f tokens/s)\n", ++turn_count,
+    decode_sec > 0 ? n / decode_sec : 0.0);
   // MTP catch-up: mirror the target's decoded positions into the MTP context so
   // it can generate draft tokens. Each entry is paired with the h_nextn row of
   // the position before it (shifted right); a sequence's first entry uses its
