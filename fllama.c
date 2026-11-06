@@ -83,6 +83,7 @@ static struct llama_context *current_context = NULL;
 static char *model_path = MODEL_PATH_DEFAULT;
 static int current_context_size;
 static int maximum_sequences = 1;
+static int maximum_batch_size = MAXIMUM_BATCH_SIZE;
 static int minimum_context_size = 8192;
 static int maximum_context_size = 32768;
 
@@ -154,7 +155,8 @@ static struct llama_context *create_context(struct llama_model *model) {
   log_msg("swa_full = %d\n", ctx_params.swa_full);
   log_msg("kv_unified = %d\n", ctx_params.kv_unified);
   ctx_params.n_seq_max = maximum_sequences;
-  ctx_params.n_batch = MAXIMUM_BATCH_SIZE;
+  ctx_params.n_batch = maximum_batch_size;
+  log_msg("batch size = %d\n", maximum_batch_size);
   int n_ctx_train = llama_model_n_ctx_train(model);
   int min_ctx_size = minimum_context_size;
   if (min_ctx_size > n_ctx_train) {
@@ -1395,7 +1397,7 @@ static void handle_use_model(int fd, char *model_name) {
           mtp_params.n_rs_seq = 0;
           mtp_params.ctx_other = current_context;
           mtp_params.n_seq_max = maximum_sequences;
-          mtp_params.n_batch = MAXIMUM_BATCH_SIZE;
+          mtp_params.n_batch = maximum_batch_size;
           log_msg("creating MTP context (nextn layers = %d)\n",
             n_layer_nextn);
           log_msg("mtp n_ctx = %u\n", llama_n_ctx(current_context));
@@ -2219,15 +2221,15 @@ static void evaluate_sequences(void) {
         array_length(sequence->tokens) >= sequence->prev_prev_length
       ) {
         int lookahead_size = 1+sequence->n_draft_tokens;
-        if (n+lookahead_size > MAXIMUM_BATCH_SIZE) break;
+        if (n+lookahead_size > maximum_batch_size) break;
         n += lookahead_size;
         }
     }
   }
   if (n == 0) return; // nothing to do at all, even in eager mode
   if (!has_regular_evaluations && !eager_speculation) return;
-  if (n > MAXIMUM_BATCH_SIZE) {
-    n = MAXIMUM_BATCH_SIZE;
+  if (n > maximum_batch_size) {
+    n = maximum_batch_size;
     has_pending_evaluations = true;
   }
   lbatch.n_tokens = n;
@@ -2309,7 +2311,7 @@ static void evaluate_sequences(void) {
         array_length(sequence->tokens) >= sequence->prev_prev_length
       ) {
         int lookahead_size = 1+sequence->n_draft_tokens;
-        if (idx+lookahead_size > MAXIMUM_BATCH_SIZE) break;
+        if (idx+lookahead_size > maximum_batch_size) break;
         int saved_index = idx;
         // The anchor is either from lookahead_tokens (if available) or the last confirmed token
         // Position depends on whether we have lookahead tokens in KV; with an empty chain
@@ -2870,6 +2872,7 @@ int main(int argc, char **argv) {
   // --concurrent-sequences (default: 1)
   // --min-ctx-size (default: 8192)
   // --max-ctx-size (default: 32768)
+  // --batch-size (default: 512)
   // --mtp (number of tokens to predict; default: 0)
   // --eager (run speculation in dedicated batches even when idle)
   // --model-path (default: /var/models/)
@@ -2924,6 +2927,19 @@ int main(int argc, char **argv) {
         log_msg("missing argument for --max-ctx-size\n");
         exit(EXIT_FAILURE);
       }
+    } else if (strcmp(argv[i], "--batch-size") == 0) {
+      if (i+1 < argc) {
+        int n = atoi(argv[++i]);
+        if (n > 0) {
+          maximum_batch_size = n;
+        } else {
+          log_msg("invalid argument for --batch-size\n");
+          exit(EXIT_FAILURE);
+        }
+      } else {
+        log_msg("missing argument for --batch-size\n");
+        exit(EXIT_FAILURE);
+      }
     } else if (strcmp(argv[i], "--mtp") == 0) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
@@ -2972,6 +2988,7 @@ int main(int argc, char **argv) {
         "  --concurrent-sequences <count>  (default: 1)\n"
         "  --min-ctx-size <size>           (default: 8192)\n"
         "  --max-ctx-size <size>           (default: 32768)\n"
+        "  --batch-size <size>             (default: 512)\n"
         "  --mtp <n>                       (default: 0)\n"
         "  --eager                         (run speculation in dedicated batches)\n"
         "  --model-path <path>             (default: /var/models/)\n"
