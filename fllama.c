@@ -2357,13 +2357,16 @@ static void evaluate_sequences(void) {
     log_msg(
       "evaluating %d tokens in %d sequences\n", n, sequence_count);
   }
-  struct timespec t0, t1;
+  struct timespec t0, t1, t2;
   clock_gettime(CLOCK_MONOTONIC, &t0);
   int ret = llama_decode(current_context, lbatch);
-  clock_gettime(CLOCK_MONOTONIC, &t1);
-  double decode_sec = (t1.tv_sec - t0.tv_sec) + (double)(t1.tv_nsec - t0.tv_nsec) / 1e9;
-  log_msg("===== %d ===== (%.1f tokens/s)\n", ++turn_count,
-    decode_sec > 0 ? n / decode_sec : 0.0);
+  clock_gettime(CLOCK_MONOTONIC, &t1); // submit time (Vulkan returns after submit)
+  llama_synchronize(current_context);  // wait for actual GPU completion
+  clock_gettime(CLOCK_MONOTONIC, &t2);
+  double submit_ms = ((t1.tv_sec - t0.tv_sec) * 1000.0) + ((double)(t1.tv_nsec - t0.tv_nsec) / 1e6);
+  double decode_ms = ((t2.tv_sec - t0.tv_sec) * 1000.0) + ((double)(t2.tv_nsec - t0.tv_nsec) / 1e6);
+  log_msg("===== %d ===== (%.1f tokens/s, gpu %.0f ms, submit %.0f ms)\n", ++turn_count,
+    decode_ms > 0 ? n * 1000.0 / decode_ms : 0.0, decode_ms, submit_ms);
   // MTP catch-up: mirror the target's decoded positions into the MTP context so
   // it can generate draft tokens. Each entry is paired with the h_nextn row of
   // the position before it (shifted right); a sequence's first entry uses its
