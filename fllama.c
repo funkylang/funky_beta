@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-07 12:34 local-message-title-rule";
+static const char *FLLAMA_VERSION = "2026-11-07 14:54 carry prev_length in i-2 gate";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -2188,10 +2188,12 @@ static void evaluate_sequences(void) {
     SEQUENCE *sequence = &sequences[i];
     if (sequence->session_id == current_session_id) {
       // i-2 gate (§22): roll this sequence's message history one turn back —
-      // prev_prev_length now holds the last message position of turn n-2,
-      // prev_length resets and this turn's sends will fill it again
+      // prev_prev_length now holds the last position sent in the previous
+      // pass. prev_length is CARRIED, not reset: it always holds the last
+      // actually-sent position (a send overwrites it), so a stalled client
+      // never gets a stale -1 that re-opens the gate after one idle pass —
+      // speculation pauses until the client confirms up to it
       sequence->prev_prev_length = sequence->prev_length;
-      sequence->prev_length = -1;
       if (sequence->state == PREFILL) {
         for (int k = 0; k < array_length(sequence->tokens); ++k) {
           if (sequence->positions[k] < 0) {
