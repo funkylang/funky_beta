@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-06 00:28 draft-regen-after-mismatch";
+static const char *FLLAMA_VERSION = "2026-11-07 12:34 local-message-title-rule";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -1520,7 +1520,13 @@ static void handle_delete_sequence(int fd, char *sequence_id) {
 }
 
 static void send_confidence_message(
-  SEQUENCE *sequence, const CONFIDENCE *c, int pos, const char *title) {
+  SEQUENCE *sequence, const CONFIDENCE *c, int pos) {
+  // MESSAGE RULE (2026-11-07): the message one position past the client's
+  // confirmed prefix (len(tokens)) is the sync point -> "logits"; everything
+  // beyond it is speculative -> "lookahead". Clients discard in-transit
+  // lookahead when they reject; only a logits message resumes consumption.
+  const char *title =
+    (pos == array_length(sequence->tokens)) ? "logits" : "lookahead";
   log_msg(
     "sending %s for sequence %d at position %d (best: %d) to client %d, id %d\n",
     title, sequence->sequence_id, pos, c[0].token,
@@ -1536,13 +1542,6 @@ static void send_confidence_message(
   }
   send_message(sequence->client_fd, buf, p+1-buf);
   flush();
-}
-
-static void send_logits(SEQUENCE *sequence) {
-  // position = where the predicted token lands in the sequence (first free index)
-  send_confidence_message(
-    sequence, sequence->confidences,
-    array_length(sequence->tokens), "logits");
 }
 
 static void handle_add_tokens(int fd, char *arguments) {
@@ -1797,7 +1796,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
           sequence->evaluation_position = array_length(sequence->tokens);
           send_confidence_message(
             sequence, sequence->frontier_confidences,
-            array_length(sequence->tokens), "logits");
+            array_length(sequence->tokens));
           sequence->frontier_confidence = false;
           return;
         }
@@ -2632,22 +2631,19 @@ static void evaluate_sequences(void) {
               draft_seqs[n_draft_seqs++] = sequence;
             }
             // MESSAGE RULE (§15): the main head produced one logit set per batch
-            // entry; send n_confirmed+1 of them: lookahead@(N+2+j) uses the entry
-            // before it, so the last one (from the entry after the confirmed
-            // prefix) carries L_n, the replacement token at N+n+2. The turn-1
-            // logits message already covered position N+1 itself. A batch without
-            // drafts is a plain sync point: logits, not lookahead (§15 client
-            // contract — messages are logits until the client acts on them).
+            // entry; send n_confirmed+1 of them. The first uses the entry before
+            // it, so the last (from the entry after the confirmed prefix) carries
+            // L_n, the replacement token at N+n+2. The turn-1 logits message
+            // already covered position N+1 itself. Titles are decided locally
+            // in send_confidence_message from pos vs len(tokens).
             CONFIDENCE entry_confidences[10];
-            const char *msg_title =
-              (mtp_last_idx[i] > mtp_first_idx[i]) ? "lookahead" : "logits";
             for (int a = 0; a <= n_confirmed; ++a) {
               int entry = mtp_first_idx[i]+a;
               fill_top_confidences(
                 entry_confidences,
                 llama_get_logits_ith(current_context, entry), n_vocab);
               send_confidence_message(
-                sequence, entry_confidences, lbatch.pos[entry]+1, msg_title);
+                sequence, entry_confidences, lbatch.pos[entry]+1);
             }
             // this batch CONSUMED the drafts: confirmed ones joined the
             // chain (a copy), rejected ones were rolled back from the KV.
@@ -2665,7 +2661,10 @@ static void evaluate_sequences(void) {
             sequence->lookahead_tokens[0] = sequence->confidences[0].token;
             sequence->n_lookahead_tokens = 1;
             sequence->chain_decoded = false;
-            send_logits(sequence);
+            // the prediction for len(tokens) is the sync point -> "logits"
+            send_confidence_message(
+              sequence, sequence->confidences,
+              array_length(sequence->tokens));
             if (mtp_predict > 0 && sequence->mtp_pending_h) {
               draft_seqs[n_draft_seqs++] = sequence;
             }
