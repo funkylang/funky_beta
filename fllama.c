@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-07 14:54 carry prev_length in i-2 gate";
+static const char *FLLAMA_VERSION = "2026-11-07 18:22 ubatch trace + n_ubatch print";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -157,6 +157,7 @@ static struct llama_context *create_context(struct llama_model *model) {
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = maximum_batch_size;
   log_msg("batch size = %d\n", maximum_batch_size);
+  log_msg("ubatch_size = %u\n", ctx_params.n_ubatch);
   int n_ctx_train = llama_model_n_ctx_train(model);
   int min_ctx_size = minimum_context_size;
   if (min_ctx_size > n_ctx_train) {
