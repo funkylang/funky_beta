@@ -25,9 +25,18 @@ def say(msg):
 
 
 def show_wire(msg, incoming=False):
-    """Print one wire message with clock timestamp (ms resolution)."""
+    """Print one wire message with clock timestamp (ms resolution).
+
+    Control sequences are escaped so a multi-line command never splits
+    its log entry across physical lines.
+    """
     arrow = "<-" if incoming else "->"
     ts = time.strftime("%H:%M:%S") + f".{int(time.time()*1000)%1000:03d}"
+    msg = "".join(
+        ch if ch.isprintable() else {
+            "\n": "\\n", "\r": "\\r", "\t": "\\t",
+        }.get(ch, f"\\x{ord(ch):02x}")
+        for ch in msg)
     if len(msg) > 83:
         display = msg[:60] + "..." + msg[-20:]
     else:
@@ -192,15 +201,26 @@ class Fllama:
                 msg, self.rbuf = \
                     self.rbuf[:idx].decode(), self.rbuf[idx+1:]
                 show_wire(msg, incoming=True)
-                # pretty-print logits/lookahead alongside the raw line:
-                # top token as text (our interpretation — no timestamp)
+                # every received logits/lookahead gets its top-token text on
+                # the line below: double quotes, 16-space indent (aligned
+                # with wire content), control sequences escaped. A rendering
+                # of incoming traffic only - no interpretation of what we do
+                # with it. Requires pieces() loaded (tests set that up);
+                # without it we skip rather than recurse into read().
                 c = Fllama.classify(msg)
                 if c:
                     kind, sid, pos = c
                     self._check_pos_skip(kind, sid, pos)
                     self._note_server_message(sid, pos)
-                    say(f"      [{kind} seq {sid} pos {pos}] "
-                        f"top: {self.top1_text(msg)}")
+                    if self._pieces is not None:
+                        _, conf = Fllama.top10(msg)
+                        text = self.pieces().get(
+                            max(conf, key=conf.get), "")
+                        say(" " * 16 + '"' + "".join(
+                            ch if ch.isprintable() else {
+                                "\n": "\\n", "\r": "\\r", "\t": "\\t",
+                            }.get(ch, f"\\x{ord(ch):02x}")
+                            for ch in text) + '"')
                 return msg
             left = deadline - time.time()
             if left <= 0:
