@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-08 11:25 ubatch-size + TOTAL/buildreuse stages";
+static const char *FLLAMA_VERSION = "2026-11-08 11:48 UNMEASURED+FPRINTF gap detection";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps

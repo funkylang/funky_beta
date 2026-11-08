@@ -20,7 +20,7 @@ import sys
 RE_TRACE = re.compile(r'^(\d+:\d+:\d+\.\d+) \[UBATCH-TRACE\] (\w+) seq=(\d+) tokens=(\d+)')
 RE_STAGE = re.compile(
     r'^(\d+:\d+:\d+\.\d+) \[UBATCH-STAGE\] (\w+) seq=(\d+) tokens=(\d+)'
-    r' apply=([\d.]+)ms buildreuse=([\d.]+)ms build=([\d.]+)ms alloc=([\d.]+)ms inputs=([\d.]+)ms launch=([\d.]+)ms TOTAL=([\d.]+)ms')
+    r' apply=([\d.]+)ms buildreuse=([\d.]+)ms inputs=([\d.]+)ms launch=([\d.]+)ms TOTAL=([\d.]+)ms UNMEASURED=([\d.]+)ms FPRINTF=([\d.]+)ms')
 RE_ROUND = re.compile(r'^(\d+:\d+:\d+\.\d+) ===== (\d+) =====(.*)$')
 
 SEP = '─' * 40  # thin horizontal separator (box-drawing character)
