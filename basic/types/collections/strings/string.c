@@ -4020,7 +4020,7 @@ static TAB_NUM t_func_encode[] = {
   var_to_integer, 1, LOCAL(4), 1, LOCAL(5),
   // to_integer << 8
   var_std__shift_left, 2, LOCAL(5), num_8, 1, LOCAL(6),
-  // 
+  //
   var_std__bit_or, 2, LOCAL(3), LOCAL(6), 1, LOCAL(7),
   // three_octets(3).to_integer
   LOCAL(10), 1, num_3, 1, LOCAL(8),
@@ -4741,7 +4741,7 @@ static TAB_NUM t_lambda_134[] = {
   var_to_integer, 1, LOCAL(8), 1, LOCAL(9),
   // to_integer << 16
   var_std__shift_left, 2, LOCAL(9), num_16, 1, LOCAL(10),
-  // 
+  //
   var_std__bit_or, 2, LOCAL(5), LOCAL(10), 1, LOCAL(11),
   // 4*i-1).to_integer << 8
   var_std__times, 2, num_4, LOCAL(23), 1, LOCAL(12),
@@ -4753,7 +4753,7 @@ static TAB_NUM t_lambda_134[] = {
   var_to_integer, 1, LOCAL(14), 1, LOCAL(15),
   // to_integer << 8
   var_std__shift_left, 2, LOCAL(15), num_8, 1, LOCAL(16),
-  // 
+  //
   var_std__bit_or, 2, LOCAL(11), LOCAL(16), 1, LOCAL(17),
   // 4*i).to_integer
   var_std__times, 2, num_4, LOCAL(23), 1, LOCAL(18),
@@ -7612,7 +7612,7 @@ static FUNCTION_INFO i_func_std__map_characters = {
 static TAB_NUM t_lambda_247[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_248, TAIL_CALL,
   POS(2067, 9)
 };
@@ -7723,7 +7723,7 @@ static FUNCTION_INFO i_lambda_252 = {
 static TAB_NUM t_lambda_253[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_254, TAIL_CALL,
   POS(2080, 9)
 };
@@ -8661,7 +8661,7 @@ static TAB_NUM t_lambda_287[] = {
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_288, lambda_289, 1, LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(2419, 16),
   POS(2419, 16),

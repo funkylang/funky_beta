@@ -598,7 +598,7 @@ static TAB_NUM t_lambda_14[] = {
   var_91_16_args, 1, minus_num_1, 1, LOCAL(1),
   // is_undefined
   var_is_undefined, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_15, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_16, lambda_19, TAIL_CALL,
@@ -756,7 +756,7 @@ static TAB_NUM t_lambda_21[] = {
   var_width_of, 1, var_115_24_start_args, 1, LOCAL(4),
   // indent+width_of(head)+1+width_of(start_args)
   var_std__plus, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
-  // 
+  //
   var_std__less, 2, num_80, LOCAL(5), 1, LOCAL(6),
   // LINE_WIDTH
   var_std__not, 1, LOCAL(6), 1, LOCAL(7),

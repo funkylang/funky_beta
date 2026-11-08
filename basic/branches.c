@@ -422,7 +422,7 @@ static TAB_NUM t_lambda_14[] = {
   var_is_defined, 1, var_186_18_value, 1, LOCAL(1),
   // is_defined && does_match(value expr)
   var_std__and, 2, LOCAL(1), lambda_15, 1, LOCAL(2),
-  // 
+  //
   var_std__or, 2, LOCAL(2), lambda_16, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_18, lambda_19, IO_TAIL_CALL,

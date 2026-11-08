@@ -836,7 +836,7 @@ static TAB_NUM t_lambda_1[] = {
   var_node_type_of, 1, var_32_22_literal, 1, LOCAL(1),
   // node_type_of(literal) == TYPE_FUNCTION
   var_std__equal, 2, LOCAL(1), var_TYPE_FUNCTION, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_2, 1, LOCAL(3),
   // not
   var_not, 1, LOCAL(3), TAIL_CALL,
@@ -858,7 +858,7 @@ static TAB_NUM t_lambda_2[] = {
   var_parameters_of, 1, var_32_22_literal, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_3, 1, LOCAL(3),
   // parameters_of(literal).is_empty
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -882,7 +882,7 @@ static TAB_NUM t_lambda_3[] = {
   var_length_of, 1, LOCAL(1), 1, LOCAL(2),
   // length_of(statements_of(literal)) == 1
   var_std__equal, 2, LOCAL(2), num_1, 1, LOCAL(3),
-  // 
+  //
   var_std__and, 2, LOCAL(3), lambda_4, 1, LOCAL(4),
   // length_of(statements_of(literal)) == 1
   LET, 1, LOCAL(4), TAIL_CALL,
@@ -2643,7 +2643,7 @@ static TAB_NUM t_lambda_68[] = {
   var_node_type_of, 1, var_398_14_body, 1, LOCAL(1),
   // node_type_of(body) == TYPE_FUNCTION
   var_std__equal, 2, LOCAL(1), var_TYPE_FUNCTION, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_69, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_72, lambda_73, TAIL_CALL,
@@ -2665,7 +2665,7 @@ static TAB_NUM t_lambda_69[] = {
   var_parameters_of, 1, var_398_14_body, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_70, 1, LOCAL(3),
   // parameters_of(body).is_empty
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -2689,7 +2689,7 @@ static TAB_NUM t_lambda_70[] = {
   var_length_of, 1, LOCAL(1), 1, LOCAL(2),
   // length_of(statements_of(body)) == 1
   var_std__equal, 2, LOCAL(2), num_1, 1, LOCAL(3),
-  // 
+  //
   var_std__and, 2, LOCAL(3), lambda_71, 1, LOCAL(4),
   // length_of(statements_of(body)) == 1
   LET, 1, LOCAL(4), TAIL_CALL,
@@ -3072,9 +3072,9 @@ static TAB_NUM t_lambda_86[] = {
   var_node_type_of, 1, var_454_37_node, 1, LOCAL(1),
   // node_type_of(node) == REDEFINITION
   var_std__equal, 2, LOCAL(1), var_REDEFINITION, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_87, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_88, TAIL_CALL,
   POS(458, 25),
   POS(458, 25),
@@ -3538,7 +3538,7 @@ static TAB_NUM t_func_compile[] = {
   var_filter, 2, LOCAL(6), var_is_an_output, 1, var_544_8_output_arguments,
   // $invalid_last_statement
   var_std__and, 2, var_540_26_is_last, lambda_104, 1, var_545_8_invalid_last_statement,
-  // 
+  //
   var_std__and, 2, var_545_8_invalid_last_statement, lambda_105, 1, LOCAL(1),
   // on
   var_on, 2, LOCAL(1), lambda_107, 0,
@@ -5453,9 +5453,9 @@ static TAB_NUM t_lambda_161[] = {
   var_head_of, 1, var_855_25_statement, 1, LOCAL(1),
   // is_a_valid_argument
   func_is_a_valid_argument, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_162, 1, LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(860, 9),
   POS(860, 28),
@@ -5872,7 +5872,7 @@ static TAB_NUM t_lambda_174[] = {
   var_mangle_identifier, 1, var_924_8_identifier, 1, LOCAL(1),
   // append("var_" mangle_identifier(identifier))
   var_append, 2, str_var, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(937, 25),
   POS(937, 11),
@@ -6470,7 +6470,7 @@ static TAB_NUM t_func_check_types[] = {
   var_identifier_of, 1, LOCAL(1), 1, var_1025_10_functor_name,
   // is_not_empty
   var_is_not_empty, 1, var_1024_10_arguments, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_200, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_202, var_next, TAIL_CALL,
@@ -6496,7 +6496,7 @@ static TAB_NUM t_lambda_200[] = {
   var_node_type_of, 1, LOCAL(1), 1, LOCAL(2),
   // node_type_of(arguments(-1)) == DEFINITION
   var_std__equal, 2, LOCAL(2), var_DEFINITION, 1, LOCAL(3),
-  // 
+  //
   var_std__and, 2, LOCAL(3), lambda_201, 1, LOCAL(4),
   // node_type_of(arguments(-1)) == DEFINITION
   LET, 1, LOCAL(4), TAIL_CALL,
@@ -6568,7 +6568,7 @@ static TAB_NUM t_lambda_TYPE_FUNCTION[] = {
   var_parameters_of, 1, var_1033_18_argument, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_204, 1, LOCAL(3),
   // $value_idx
   var_if, 3, LOCAL(3), lambda_206, lambda_209, 1, LOCAL(4),
@@ -6596,7 +6596,7 @@ static TAB_NUM t_lambda_204[] = {
   var_length_of, 1, LOCAL(1), 1, LOCAL(2),
   // length_of(statements_of(argument)) == 1
   var_std__equal, 2, LOCAL(2), num_1, 1, LOCAL(3),
-  // 
+  //
   var_std__and, 2, LOCAL(3), lambda_205, 1, LOCAL(4),
   // length_of(statements_of(argument)) == 1
   LET, 1, LOCAL(4), TAIL_CALL,

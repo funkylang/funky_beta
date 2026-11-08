@@ -388,7 +388,7 @@ static TAB_NUM t_lambda_3[] = {
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_54_5_myself, var_contents_of, var_58_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(71, 28),
   POS(71, 28),
@@ -446,7 +446,7 @@ static TAB_NUM t_lambda_6[] = {
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_54_5_myself, var_contents_of, var_58_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(80, 28),
   POS(80, 28),
@@ -1529,7 +1529,7 @@ static TAB_NUM t_lambda_54[] = {
   var_typed_tuple, 6, var_avl_node, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
   var_std__minus, 2, var_306_40_my_height, num_1, 1, LOCAL(3),
-  // 
+  //
   LET, 4, LOCAL(2), var_311_26_key, var_311_31_value, LOCAL(3), TAIL_CALL,
   POS(321, 63),
   POS(321, 15),
@@ -1563,7 +1563,7 @@ static TAB_NUM t_lambda_56[] = {
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
   var_typed_tuple, 6, var_avl_node, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, var_306_40_my_height, 1, LOCAL(1),
-  // 
+  //
   LET, 4, LOCAL(1), var_311_26_key, var_311_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(327, 19),
   POS(326, 19)
@@ -1727,7 +1727,7 @@ static TAB_NUM t_lambda_64[] = {
   var_typed_tuple, 6, var_avl_node, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
   var_std__minus, 2, var_343_40_my_height, num_1, 1, LOCAL(3),
-  // 
+  //
   LET, 4, LOCAL(2), var_348_26_key, var_348_31_value, LOCAL(3), TAIL_CALL,
   POS(358, 63),
   POS(358, 15),
@@ -1761,7 +1761,7 @@ static TAB_NUM t_lambda_66[] = {
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
   var_typed_tuple, 6, var_avl_node, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, var_343_40_my_height, 1, LOCAL(1),
-  // 
+  //
   LET, 4, LOCAL(1), var_348_26_key, var_348_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(364, 19),
   POS(363, 19)
@@ -1982,7 +1982,7 @@ static TAB_NUM t_lambda_77[] = {
   0, // parameters
   // typed_tuple(avl_node left right last_key last_value my_height)
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_399_37_last_key, var_399_47_last_value, var_383_40_my_height, 1, LOCAL(1),
-  // 
+  //
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(403, 23),
   POS(402, 23)
@@ -2002,7 +2002,7 @@ static TAB_NUM t_lambda_78[] = {
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_399_37_last_key, var_399_47_last_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
   var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(406, 75),
   POS(406, 23),
@@ -2056,7 +2056,7 @@ static TAB_NUM t_lambda_81[] = {
   0, // parameters
   // typed_tuple(avl_node left right first_key first_value my_height)
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_409_39_first_key, var_409_50_first_value, var_383_40_my_height, 1, LOCAL(1),
-  // 
+  //
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(413, 23),
   POS(412, 23)
@@ -2076,7 +2076,7 @@ static TAB_NUM t_lambda_82[] = {
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_409_39_first_key, var_409_50_first_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
   var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(416, 77),
   POS(416, 23),
@@ -2269,7 +2269,7 @@ static TAB_NUM t_lambda_93[] = {
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, LOCAL(1), 1, LOCAL(2),
   // left_height+1
   var_std__plus, 2, var_427_25_left_height, num_1, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(447, 75),
   POS(447, 27),
@@ -2287,7 +2287,7 @@ static TAB_NUM t_lambda_94[] = {
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height, 1, LOCAL(1),
-  // 
+  //
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(450, 27),
   POS(449, 27)
@@ -2427,7 +2427,7 @@ static TAB_NUM t_lambda_102[] = {
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, LOCAL(1), 1, LOCAL(2),
   // left_height+1
   var_std__plus, 2, var_469_26_left_height, num_1, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(473, 75),
   POS(473, 27),
@@ -2445,7 +2445,7 @@ static TAB_NUM t_lambda_103[] = {
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
   var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height, 1, LOCAL(1),
-  // 
+  //
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(476, 27),
   POS(475, 27)
@@ -2468,7 +2468,7 @@ static TAB_NUM t_func_avl_node___validate[] = {
   var_is_defined, 1, var_498_27_low, 1, LOCAL(1),
   // is_defined && key < low
   var_std__and, 2, LOCAL(1), lambda_104, 1, LOCAL(2),
-  // 
+  //
   var_std__or, 2, LOCAL(2), lambda_105, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_107, var_pass, 0,

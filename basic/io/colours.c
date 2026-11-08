@@ -493,7 +493,7 @@ static TAB_NUM t_lambda_3[] = {
   var_to_integer, 1, LOCAL(8), 1, LOCAL(9),
   // rgb_character
   var_rgb_character, 3, LOCAL(3), LOCAL(6), LOCAL(9), 1, LOCAL(10),
-  // 
+  //
   LET, 1, LOCAL(10), TAIL_CALL,
   POS(143, 15),
   POS(143, 9),

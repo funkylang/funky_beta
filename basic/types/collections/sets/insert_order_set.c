@@ -234,7 +234,7 @@ static TAB_NUM t_lambda_5[] = {
   0, // parameters
   // myself
   LET, -3, var_50_5_myself, var_items_of, var_54_4_items, var_first_item_of, var_51_5_key, var_last_item_of, var_51_5_key, LOCAL(1),
-  // 
+  //
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(76, 19),
   POS(75, 19)
@@ -405,7 +405,7 @@ static TAB_NUM t_lambda_11[] = {
   0, // parameters
   // myself
   LET, -3, var_50_5_myself, var_items_of, var_54_4_items, var_first_item_of, var_86_16_first_key, var_last_item_of, var_87_16_last_key, LOCAL(1),
-  // 
+  //
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(110, 19),
   POS(109, 19)

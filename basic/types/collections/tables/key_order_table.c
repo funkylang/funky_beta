@@ -327,7 +327,7 @@ static TAB_NUM t_lambda_3[] = {
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_80_5_myself, var_contents_of, var_84_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(97, 28),
   POS(97, 28),
@@ -382,7 +382,7 @@ static TAB_NUM t_lambda_6[] = {
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_80_5_myself, var_contents_of, var_84_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(106, 28),
   POS(106, 28),
@@ -2017,7 +2017,7 @@ static TAB_NUM t_lambda_57[] = {
   0, // parameters
   // typed_tuple(binary_node left_key left_value left_left left_right)
   var_typed_tuple, 5, var_binary_node, var_514_13_left_key, var_514_23_left_value, var_514_35_left_left, var_514_46_left_right, 1, LOCAL(1),
-  // 
+  //
   LET, 2, LOCAL(1), var_516_8_total_removed, TAIL_CALL,
   POS(553, 11),
   POS(552, 11)

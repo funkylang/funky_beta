@@ -274,7 +274,7 @@ static TAB_NUM t_lambda_4[] = {
   var_47_8_new_state, 1, LOCAL(2), 1, LOCAL(3),
   // x >> 1
   var_std__shift_right, 2, LOCAL(11), num_1, 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // x & 1)+1)
   var_std__bit_and, 2, LOCAL(11), num_1, 1, LOCAL(6),
@@ -282,7 +282,7 @@ static TAB_NUM t_lambda_4[] = {
   var_std__plus, 2, LOCAL(6), num_1, 1, LOCAL(7),
   // mag((x & 1)+1)
   list_44_3, 1, LOCAL(7), 1, LOCAL(8),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(5), LOCAL(8), 1, LOCAL(9),
   // push
   var_push, 2, var_47_8_new_state, LOCAL(9), 1, var_47_8_new_state,

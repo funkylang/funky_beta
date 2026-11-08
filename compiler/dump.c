@@ -304,7 +304,7 @@ static TAB_NUM t_lambda_10[] = {
   0, // parameters
   // map_reduce
   var_map_reduce, 4, var_60_37_node_list, lambda_node_list, var_append, string_1, 1, LOCAL(1),
-  // 
+  //
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(69, 9),
   POS(68, 9)

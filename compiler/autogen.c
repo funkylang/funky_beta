@@ -446,7 +446,7 @@ static TAB_NUM tfunc__check_head__2[] = {
   // 93:       :
   // 94:         push &arguments make_absolute(argument)
   // 95:         next
-  // 96:     
+  // 96:
   // ...
   var_no__for_each, 3, var_no__check_head__2__raw_arguments, -func__check_head__2__1, -func__check_head__2__2, -1
 };

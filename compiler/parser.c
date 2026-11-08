@@ -3638,7 +3638,7 @@ static TAB_NUM t_lambda_35[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_36, TAIL_CALL,
   POS(178, 7),
   POS(178, 7),
@@ -3673,7 +3673,7 @@ static TAB_NUM t_lambda_37[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '#'
   var_std__equal, 2, LOCAL(1), chr_35, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_38, TAIL_CALL,
   POS(183, 7),
   POS(183, 7),
@@ -3704,7 +3704,7 @@ static FUNCTION_INFO i_lambda_38 = {
 static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_40, TAIL_CALL,
   POS(187, 7)
 };
@@ -3759,7 +3759,7 @@ static TAB_NUM t_lambda_41[] = {
   var_std__and, 2, LOCAL(3), lambda_42, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_43, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_45, TAIL_CALL,
   POS(197, 8),
   POS(197, 8),
@@ -3911,7 +3911,7 @@ static TAB_NUM t_lambda_48[] = {
   var_std__and, 2, LOCAL(3), lambda_49, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_50, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_54, TAIL_CALL,
   POS(207, 8),
   POS(207, 8),
@@ -4068,7 +4068,7 @@ static TAB_NUM t_lambda_55[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '_'
   var_std__equal, 2, LOCAL(1), chr_95, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_56, TAIL_CALL,
   POS(212, 7),
   POS(212, 7),
@@ -4099,7 +4099,7 @@ static FUNCTION_INFO i_lambda_56 = {
 static TAB_NUM t_lambda_57[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_58, TAIL_CALL,
   POS(216, 7)
 };
@@ -4160,7 +4160,7 @@ static TAB_NUM t_lambda_59[] = {
   var_std__and, 2, LOCAL(3), lambda_60, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_61, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_65, TAIL_CALL,
   POS(223, 8),
   POS(223, 8),
@@ -4362,7 +4362,7 @@ static TAB_NUM t_lambda_68[] = {
   var_std__and, 2, LOCAL(3), lambda_69, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_70, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_72, TAIL_CALL,
   POS(233, 8),
   POS(233, 8),
@@ -4514,7 +4514,7 @@ static TAB_NUM t_lambda_75[] = {
   var_std__and, 2, LOCAL(3), lambda_76, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_77, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_81, TAIL_CALL,
   POS(243, 8),
   POS(243, 8),
@@ -4671,7 +4671,7 @@ static TAB_NUM t_lambda_82[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '_'
   var_std__equal, 2, LOCAL(1), chr_95, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_83, TAIL_CALL,
   POS(248, 7),
   POS(248, 7),
@@ -4706,9 +4706,9 @@ static TAB_NUM t_lambda_84[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_85, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_86, TAIL_CALL,
   POS(254, 9),
   POS(254, 9),
@@ -4759,7 +4759,7 @@ static FUNCTION_INFO i_lambda_86 = {
 static TAB_NUM t_lambda_87[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_88, TAIL_CALL,
   POS(259, 7)
 };
@@ -4820,7 +4820,7 @@ static TAB_NUM t_lambda_89[] = {
   var_std__and, 2, LOCAL(3), lambda_90, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_91, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_95, TAIL_CALL,
   POS(266, 8),
   POS(266, 8),
@@ -5022,7 +5022,7 @@ static TAB_NUM t_lambda_98[] = {
   var_std__and, 2, LOCAL(3), lambda_99, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_100, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_102, TAIL_CALL,
   POS(276, 8),
   POS(276, 8),
@@ -5174,7 +5174,7 @@ static TAB_NUM t_lambda_105[] = {
   var_std__and, 2, LOCAL(3), lambda_106, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_107, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_111, TAIL_CALL,
   POS(286, 8),
   POS(286, 8),
@@ -5331,7 +5331,7 @@ static TAB_NUM t_lambda_112[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '_'
   var_std__equal, 2, LOCAL(1), chr_95, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_113, TAIL_CALL,
   POS(291, 7),
   POS(291, 7),
@@ -5366,9 +5366,9 @@ static TAB_NUM t_lambda_114[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_115, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_116, TAIL_CALL,
   POS(297, 9),
   POS(297, 9),
@@ -5423,7 +5423,7 @@ static TAB_NUM t_lambda_117[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_118, TAIL_CALL,
   POS(303, 7),
   POS(303, 7),
@@ -5454,7 +5454,7 @@ static FUNCTION_INFO i_lambda_118 = {
 static TAB_NUM t_lambda_119[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_120, TAIL_CALL,
   POS(307, 7)
 };
@@ -5515,7 +5515,7 @@ static TAB_NUM t_lambda_121[] = {
   var_std__and, 2, LOCAL(3), lambda_122, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_123, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_127, TAIL_CALL,
   POS(314, 8),
   POS(314, 8),
@@ -5715,7 +5715,7 @@ static TAB_NUM t_lambda_130[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '1' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_131, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_132, TAIL_CALL,
   POS(324, 8),
   POS(324, 8),
@@ -5774,9 +5774,9 @@ static TAB_NUM t_lambda_133[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'u'
   var_std__equal, 2, LOCAL(1), chr_117, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_134, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_143, TAIL_CALL,
   POS(330, 9),
   POS(330, 9),
@@ -5796,7 +5796,7 @@ static TAB_NUM t_lambda_134[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 'n'
   var_std__equal, 2, LOCAL(1), chr_110, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_135, 1, LOCAL(3),
   // text(2) == 'n'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5818,7 +5818,7 @@ static TAB_NUM t_lambda_135[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 's'
   var_std__equal, 2, LOCAL(1), chr_115, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_136, 1, LOCAL(3),
   // text(3) == 's'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5840,7 +5840,7 @@ static TAB_NUM t_lambda_136[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 't'
   var_std__equal, 2, LOCAL(1), chr_116, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_137, 1, LOCAL(3),
   // text(4) == 't'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5862,7 +5862,7 @@ static TAB_NUM t_lambda_137[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 'a'
   var_std__equal, 2, LOCAL(1), chr_97, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_138, 1, LOCAL(3),
   // text(5) == 'a'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5884,7 +5884,7 @@ static TAB_NUM t_lambda_138[] = {
   var_text, 1, num_6, 1, LOCAL(1),
   // text(6) == 'b'
   var_std__equal, 2, LOCAL(1), chr_98, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_139, 1, LOCAL(3),
   // text(6) == 'b'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5906,7 +5906,7 @@ static TAB_NUM t_lambda_139[] = {
   var_text, 1, num_7, 1, LOCAL(1),
   // text(7) == 'l'
   var_std__equal, 2, LOCAL(1), chr_108, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_140, 1, LOCAL(3),
   // text(7) == 'l'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5928,7 +5928,7 @@ static TAB_NUM t_lambda_140[] = {
   var_text, 1, num_8, 1, LOCAL(1),
   // text(8) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_141, 1, LOCAL(3),
   // text(8) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -5950,7 +5950,7 @@ static TAB_NUM t_lambda_141[] = {
   var_text, 1, num_9, 1, LOCAL(1),
   // text(9) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_142, 1, LOCAL(3),
   // text(9) == ':'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -6050,7 +6050,7 @@ static TAB_NUM t_lambda_146[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_147, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_148, TAIL_CALL,
   POS(349, 8),
   POS(349, 8),
@@ -6109,9 +6109,9 @@ static TAB_NUM t_lambda_149[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_150, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_152, TAIL_CALL,
   POS(355, 9),
   POS(355, 9),
@@ -6237,7 +6237,7 @@ static TAB_NUM t_lambda_155[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_156, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_157, TAIL_CALL,
   POS(366, 8),
   POS(366, 8),
@@ -6296,9 +6296,9 @@ static TAB_NUM t_lambda_158[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_159, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_160, TAIL_CALL,
   POS(372, 9),
   POS(372, 9),
@@ -6392,7 +6392,7 @@ static TAB_NUM t_lambda_163[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_164, TAIL_CALL,
   POS(383, 7),
   POS(383, 7),
@@ -6423,7 +6423,7 @@ static FUNCTION_INFO i_lambda_164 = {
 static TAB_NUM t_lambda_165[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_166, TAIL_CALL,
   POS(387, 7)
 };
@@ -6466,7 +6466,7 @@ static TAB_NUM t_lambda_167[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_168, TAIL_CALL,
   POS(394, 7),
   POS(394, 7),
@@ -6501,7 +6501,7 @@ static TAB_NUM t_lambda_169[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ')'
   var_std__equal, 2, LOCAL(1), chr_41, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_170, TAIL_CALL,
   POS(399, 7),
   POS(399, 7),
@@ -6536,7 +6536,7 @@ static TAB_NUM t_lambda_171[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '#'
   var_std__equal, 2, LOCAL(1), chr_35, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_172, TAIL_CALL,
   POS(404, 7),
   POS(404, 7),
@@ -6567,7 +6567,7 @@ static FUNCTION_INFO i_lambda_172 = {
 static TAB_NUM t_lambda_173[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_174, TAIL_CALL,
   POS(408, 7)
 };
@@ -6658,7 +6658,7 @@ static TAB_NUM t_lambda_176[] = {
   0, // parameters
   // funky_types::statement
   LET, -4, var_funky_types__statement, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_416_4_position, var_funky__head_of, var_417_21_head, var_funky__arguments_of, var_420_40_statement_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(428, 15),
   POS(426, 15)
@@ -6728,9 +6728,9 @@ static TAB_NUM t_lambda_180[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '$'
   var_std__equal, 2, LOCAL(1), chr_36, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_181, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_182, TAIL_CALL,
   POS(441, 9),
   POS(441, 9),
@@ -6785,7 +6785,7 @@ static TAB_NUM t_lambda_183[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '$'
   var_std__equal, 2, LOCAL(1), chr_36, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_184, TAIL_CALL,
   POS(447, 7),
   POS(447, 7),
@@ -6820,7 +6820,7 @@ static TAB_NUM t_lambda_185[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_186, TAIL_CALL,
   POS(452, 7),
   POS(452, 7),
@@ -6855,9 +6855,9 @@ static TAB_NUM t_lambda_187[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_188, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_189, TAIL_CALL,
   POS(458, 9),
   POS(458, 9),
@@ -6908,7 +6908,7 @@ static FUNCTION_INFO i_lambda_189 = {
 static TAB_NUM t_lambda_190[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_191, TAIL_CALL,
   POS(463, 7)
 };
@@ -6964,9 +6964,9 @@ static TAB_NUM t_lambda_192[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_193, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_194, TAIL_CALL,
   POS(474, 9),
   POS(474, 9),
@@ -7021,9 +7021,9 @@ static TAB_NUM t_lambda_195[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_196, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_198, TAIL_CALL,
   POS(481, 9),
   POS(481, 9),
@@ -7043,7 +7043,7 @@ static TAB_NUM t_lambda_196[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_197, 1, LOCAL(3),
   // text(2) == '('
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -7100,9 +7100,9 @@ static TAB_NUM t_lambda_199[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_200, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_203, TAIL_CALL,
   POS(489, 9),
   POS(489, 9),
@@ -7122,7 +7122,7 @@ static TAB_NUM t_lambda_200[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_201, 1, LOCAL(3),
   // text(2) == '('
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -7144,7 +7144,7 @@ static TAB_NUM t_lambda_201[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_202, 1, LOCAL(3),
   // text(3) == '!'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -7201,9 +7201,9 @@ static TAB_NUM t_lambda_204[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_205, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_206, TAIL_CALL,
   POS(498, 9),
   POS(498, 9),
@@ -7258,7 +7258,7 @@ static TAB_NUM t_lambda_207[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_208, TAIL_CALL,
   POS(504, 7),
   POS(504, 7),
@@ -7293,7 +7293,7 @@ static TAB_NUM t_lambda_209[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_210, TAIL_CALL,
   POS(509, 7),
   POS(509, 7),
@@ -7324,7 +7324,7 @@ static FUNCTION_INFO i_lambda_210 = {
 static TAB_NUM t_lambda_211[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_212, TAIL_CALL,
   POS(513, 7)
 };
@@ -7502,7 +7502,7 @@ static TAB_NUM t_lambda_220[] = {
   0, // parameters
   // funky_types::inline_statement
   LET, -4, var_funky_types__inline_statement, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_527_4_position, var_funky__head_of, var_528_28_inline_head, var_funky__arguments_of, var_531_42_some_inline_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(539, 15),
   POS(537, 15)
@@ -7572,9 +7572,9 @@ static TAB_NUM t_lambda_224[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_225, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_226, TAIL_CALL,
   POS(552, 9),
   POS(552, 9),
@@ -7625,7 +7625,7 @@ static FUNCTION_INFO i_lambda_226 = {
 static TAB_NUM t_lambda_227[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_228, TAIL_CALL,
   POS(557, 7)
 };
@@ -7674,7 +7674,7 @@ static TAB_NUM t_lambda_229[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_230, TAIL_CALL,
   POS(567, 7),
   POS(567, 7),
@@ -7709,7 +7709,7 @@ static TAB_NUM t_lambda_231[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_232, TAIL_CALL,
   POS(572, 7),
   POS(572, 7),
@@ -7740,7 +7740,7 @@ static FUNCTION_INFO i_lambda_232 = {
 static TAB_NUM t_lambda_233[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_234, TAIL_CALL,
   POS(576, 7)
 };
@@ -7854,7 +7854,7 @@ static TAB_NUM t_lambda_235[] = {
   var_default_value, 2, var_591_5_derived_node, var_funky_types__pair, 1, LOCAL(1),
   // default_value(derived_node funky_types::pair)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_593_4_position, var_funky__identifier_of, var_595_27_identifier, var_funky__argument_of, var_598_34_some_argument, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(603, 11),
   POS(603, 11),
@@ -7912,9 +7912,9 @@ static TAB_NUM t_lambda_238[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'n'
   var_std__equal, 2, LOCAL(1), chr_110, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_239, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_248, TAIL_CALL,
   POS(615, 9),
   POS(615, 9),
@@ -7934,7 +7934,7 @@ static TAB_NUM t_lambda_239[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 'a'
   var_std__equal, 2, LOCAL(1), chr_97, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_240, 1, LOCAL(3),
   // text(2) == 'a'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -7956,7 +7956,7 @@ static TAB_NUM t_lambda_240[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 'm'
   var_std__equal, 2, LOCAL(1), chr_109, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_241, 1, LOCAL(3),
   // text(3) == 'm'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -7978,7 +7978,7 @@ static TAB_NUM t_lambda_241[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_242, 1, LOCAL(3),
   // text(4) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8000,7 +8000,7 @@ static TAB_NUM t_lambda_242[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 's'
   var_std__equal, 2, LOCAL(1), chr_115, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_243, 1, LOCAL(3),
   // text(5) == 's'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8022,7 +8022,7 @@ static TAB_NUM t_lambda_243[] = {
   var_text, 1, num_6, 1, LOCAL(1),
   // text(6) == 'p'
   var_std__equal, 2, LOCAL(1), chr_112, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_244, 1, LOCAL(3),
   // text(6) == 'p'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8044,7 +8044,7 @@ static TAB_NUM t_lambda_244[] = {
   var_text, 1, num_7, 1, LOCAL(1),
   // text(7) == 'a'
   var_std__equal, 2, LOCAL(1), chr_97, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_245, 1, LOCAL(3),
   // text(7) == 'a'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8066,7 +8066,7 @@ static TAB_NUM t_lambda_245[] = {
   var_text, 1, num_8, 1, LOCAL(1),
   // text(8) == 'c'
   var_std__equal, 2, LOCAL(1), chr_99, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_246, 1, LOCAL(3),
   // text(8) == 'c'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8088,7 +8088,7 @@ static TAB_NUM t_lambda_246[] = {
   var_text, 1, num_9, 1, LOCAL(1),
   // text(9) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_247, 1, LOCAL(3),
   // text(9) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8145,9 +8145,9 @@ static TAB_NUM t_lambda_249[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'r'
   var_std__equal, 2, LOCAL(1), chr_114, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_250, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_257, TAIL_CALL,
   POS(630, 9),
   POS(630, 9),
@@ -8167,7 +8167,7 @@ static TAB_NUM t_lambda_250[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_251, 1, LOCAL(3),
   // text(2) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8189,7 +8189,7 @@ static TAB_NUM t_lambda_251[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 'q'
   var_std__equal, 2, LOCAL(1), chr_113, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_252, 1, LOCAL(3),
   // text(3) == 'q'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8211,7 +8211,7 @@ static TAB_NUM t_lambda_252[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 'u'
   var_std__equal, 2, LOCAL(1), chr_117, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_253, 1, LOCAL(3),
   // text(4) == 'u'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8233,7 +8233,7 @@ static TAB_NUM t_lambda_253[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 'i'
   var_std__equal, 2, LOCAL(1), chr_105, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_254, 1, LOCAL(3),
   // text(5) == 'i'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8255,7 +8255,7 @@ static TAB_NUM t_lambda_254[] = {
   var_text, 1, num_6, 1, LOCAL(1),
   // text(6) == 'r'
   var_std__equal, 2, LOCAL(1), chr_114, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_255, 1, LOCAL(3),
   // text(6) == 'r'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8277,7 +8277,7 @@ static TAB_NUM t_lambda_255[] = {
   var_text, 1, num_7, 1, LOCAL(1),
   // text(7) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_256, 1, LOCAL(3),
   // text(7) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8334,9 +8334,9 @@ static TAB_NUM t_lambda_258[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'u'
   var_std__equal, 2, LOCAL(1), chr_117, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_259, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_264, TAIL_CALL,
   POS(643, 9),
   POS(643, 9),
@@ -8356,7 +8356,7 @@ static TAB_NUM t_lambda_259[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 's'
   var_std__equal, 2, LOCAL(1), chr_115, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_260, 1, LOCAL(3),
   // text(2) == 's'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8378,7 +8378,7 @@ static TAB_NUM t_lambda_260[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 'i'
   var_std__equal, 2, LOCAL(1), chr_105, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_261, 1, LOCAL(3),
   // text(3) == 'i'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8400,7 +8400,7 @@ static TAB_NUM t_lambda_261[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 'n'
   var_std__equal, 2, LOCAL(1), chr_110, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_262, 1, LOCAL(3),
   // text(4) == 'n'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8422,7 +8422,7 @@ static TAB_NUM t_lambda_262[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 'g'
   var_std__equal, 2, LOCAL(1), chr_103, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_263, 1, LOCAL(3),
   // text(5) == 'g'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8479,9 +8479,9 @@ static TAB_NUM t_lambda_265[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'a'
   var_std__equal, 2, LOCAL(1), chr_97, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_266, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_271, TAIL_CALL,
   POS(654, 9),
   POS(654, 9),
@@ -8501,7 +8501,7 @@ static TAB_NUM t_lambda_266[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 'l'
   var_std__equal, 2, LOCAL(1), chr_108, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_267, 1, LOCAL(3),
   // text(2) == 'l'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8523,7 +8523,7 @@ static TAB_NUM t_lambda_267[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 'i'
   var_std__equal, 2, LOCAL(1), chr_105, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_268, 1, LOCAL(3),
   // text(3) == 'i'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8545,7 +8545,7 @@ static TAB_NUM t_lambda_268[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 'a'
   var_std__equal, 2, LOCAL(1), chr_97, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_269, 1, LOCAL(3),
   // text(4) == 'a'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8567,7 +8567,7 @@ static TAB_NUM t_lambda_269[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 's'
   var_std__equal, 2, LOCAL(1), chr_115, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_270, 1, LOCAL(3),
   // text(5) == 's'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8624,9 +8624,9 @@ static TAB_NUM t_lambda_272[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'r'
   var_std__equal, 2, LOCAL(1), chr_114, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_273, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_280, TAIL_CALL,
   POS(665, 9),
   POS(665, 9),
@@ -8646,7 +8646,7 @@ static TAB_NUM t_lambda_273[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_274, 1, LOCAL(3),
   // text(2) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8668,7 +8668,7 @@ static TAB_NUM t_lambda_274[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 's'
   var_std__equal, 2, LOCAL(1), chr_115, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_275, 1, LOCAL(3),
   // text(3) == 's'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8690,7 +8690,7 @@ static TAB_NUM t_lambda_275[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 'o'
   var_std__equal, 2, LOCAL(1), chr_111, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_276, 1, LOCAL(3),
   // text(4) == 'o'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8712,7 +8712,7 @@ static TAB_NUM t_lambda_276[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 'l'
   var_std__equal, 2, LOCAL(1), chr_108, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_277, 1, LOCAL(3),
   // text(5) == 'l'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8734,7 +8734,7 @@ static TAB_NUM t_lambda_277[] = {
   var_text, 1, num_6, 1, LOCAL(1),
   // text(6) == 'v'
   var_std__equal, 2, LOCAL(1), chr_118, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_278, 1, LOCAL(3),
   // text(6) == 'v'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8756,7 +8756,7 @@ static TAB_NUM t_lambda_278[] = {
   var_text, 1, num_7, 1, LOCAL(1),
   // text(7) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_279, 1, LOCAL(3),
   // text(7) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -8809,7 +8809,7 @@ static FUNCTION_INFO i_lambda_280 = {
 static TAB_NUM t_lambda_281[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_282, TAIL_CALL,
   POS(676, 7)
 };
@@ -8928,7 +8928,7 @@ static TAB_NUM t_lambda_284[] = {
   0, // parameters
   // funky_types::namespace_instruction
   LET, -5, var_funky_types__namespace_instruction, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_684_4_position, var_funky__name_of, var_686_21_name, var_funky__version_of, var_689_37_optional_version, var_funky__remarks_of, var_695_45_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(700, 19),
   POS(698, 19)
@@ -9062,7 +9062,7 @@ static TAB_NUM t_lambda_290[] = {
   0, // parameters
   // funky_types::require_instruction
   LET, -4, var_funky_types__require_instruction, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_713_4_position, var_funky__filename_of, var_715_25_filename, var_funky__remarks_of, var_721_41_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(726, 15),
   POS(724, 15)
@@ -9202,7 +9202,7 @@ static TAB_NUM t_lambda_295[] = {
   0, // parameters
   // funky_types::using_instruction
   LET, -5, var_funky_types__using_instruction, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_737_4_position, var_funky__name_of, var_739_21_name, var_funky__version_of, var_742_37_optional_version, var_funky__remarks_of, var_748_45_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(753, 19),
   POS(751, 19)
@@ -9374,7 +9374,7 @@ static TAB_NUM t_lambda_301[] = {
   0, // parameters
   // funky_types::alias_instruction
   LET, -6, var_funky_types__alias_instruction, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_766_4_position, var_funky__alias_of, var_767_22_alias, var_funky__sign_of, var_770_31_equal_sign, var_funky__name_of, var_774_29_name, var_funky__remarks_of, var_780_49_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(785, 23),
   POS(783, 23)
@@ -9562,7 +9562,7 @@ static TAB_NUM t_lambda_309[] = {
   0, // parameters
   // funky_types::resolve_instruction
   LET, -5, var_funky_types__resolve_instruction, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_800_4_position, var_funky__name_of, var_802_21_name, var_funky__version_of, var_808_32_version, var_funky__remarks_of, var_814_49_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(819, 23),
   POS(817, 23)
@@ -9823,7 +9823,7 @@ static TAB_NUM t_lambda_322[] = {
   0, // parameters
   // funky_types::allow_instruction
   LET, -4, var_funky_types__allow_instruction, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_834_4_position, var_funky__pragma_of, var_848_47_pragma, var_funky__remarks_of, var_854_65_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(859, 39),
   POS(857, 39)
@@ -9977,7 +9977,7 @@ static TAB_NUM t_lambda_332[] = {
   var_std__and, 2, LOCAL(3), lambda_333, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_334, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_336, TAIL_CALL,
   POS(884, 8),
   POS(884, 8),
@@ -10084,9 +10084,9 @@ static TAB_NUM t_lambda_337[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_338, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_340, TAIL_CALL,
   POS(890, 9),
   POS(890, 9),
@@ -10106,7 +10106,7 @@ static TAB_NUM t_lambda_338[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_339, 1, LOCAL(3),
   // text(2) == '.'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -10163,9 +10163,9 @@ static TAB_NUM t_lambda_341[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_342, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_343, TAIL_CALL,
   POS(898, 9),
   POS(898, 9),
@@ -10265,7 +10265,7 @@ static TAB_NUM t_lambda_346[] = {
   var_std__and, 2, LOCAL(3), lambda_347, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_348, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_350, TAIL_CALL,
   POS(909, 8),
   POS(909, 8),
@@ -10417,7 +10417,7 @@ static TAB_NUM t_lambda_353[] = {
   var_std__and, 2, LOCAL(3), lambda_354, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_355, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_359, TAIL_CALL,
   POS(919, 8),
   POS(919, 8),
@@ -10574,7 +10574,7 @@ static TAB_NUM t_lambda_360[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '_'
   var_std__equal, 2, LOCAL(1), chr_95, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_361, TAIL_CALL,
   POS(924, 7),
   POS(924, 7),
@@ -10609,7 +10609,7 @@ static TAB_NUM t_lambda_362[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_363, TAIL_CALL,
   POS(929, 7),
   POS(929, 7),
@@ -10640,7 +10640,7 @@ static FUNCTION_INFO i_lambda_363 = {
 static TAB_NUM t_lambda_364[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_365, TAIL_CALL,
   POS(933, 7)
 };
@@ -10701,7 +10701,7 @@ static TAB_NUM t_lambda_366[] = {
   var_std__and, 2, LOCAL(3), lambda_367, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_368, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_372, TAIL_CALL,
   POS(940, 8),
   POS(940, 8),
@@ -10902,7 +10902,7 @@ static FUNCTION_INFO i_func_parse_alias = {
 static TAB_NUM t_lambda_375[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_text, var_949_21_name, TAIL_CALL,
   POS(952, 7)
 };
@@ -10945,9 +10945,9 @@ static TAB_NUM t_lambda_377[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_378, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_380, TAIL_CALL,
   POS(961, 9),
   POS(961, 9),
@@ -10967,7 +10967,7 @@ static TAB_NUM t_lambda_378[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_379, 1, LOCAL(3),
   // text(2) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -11024,7 +11024,7 @@ static TAB_NUM t_lambda_381[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_382, TAIL_CALL,
   POS(966, 7),
   POS(966, 7),
@@ -11055,7 +11055,7 @@ static FUNCTION_INFO i_lambda_382 = {
 static TAB_NUM t_lambda_383[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_384, TAIL_CALL,
   POS(968, 7)
 };
@@ -11102,7 +11102,7 @@ static TAB_NUM t_lambda_385[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '1' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_386, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_387, TAIL_CALL,
   POS(976, 8),
   POS(976, 8),
@@ -11160,7 +11160,7 @@ static FUNCTION_INFO i_lambda_387 = {
 static TAB_NUM t_lambda_388[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_389, TAIL_CALL,
   POS(981, 7)
 };
@@ -11260,7 +11260,7 @@ static TAB_NUM t_lambda_391[] = {
   0, // parameters
   // funky_types::version_no
   LET, -4, var_funky_types__version_no, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_989_4_position, var_funky__major_of, var_990_36_major, var_funky__minor_of, var_997_30_minor, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1002, 15),
   POS(1000, 15)
@@ -11334,7 +11334,7 @@ static TAB_NUM t_lambda_395[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_396, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_397, TAIL_CALL,
   POS(1015, 8),
   POS(1015, 8),
@@ -11436,7 +11436,7 @@ static TAB_NUM t_lambda_400[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_401, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_402, TAIL_CALL,
   POS(1025, 8),
   POS(1025, 8),
@@ -11491,7 +11491,7 @@ static FUNCTION_INFO i_lambda_402 = {
 static TAB_NUM t_lambda_403[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_404, TAIL_CALL,
   POS(1029, 7)
 };
@@ -11688,7 +11688,7 @@ static TAB_NUM t_lambda_412[] = {
   var_range, 3, var_text, num_9, minus_num_1, 1, LOCAL(1),
   // funky_types::unstable
   LET, -2, var_funky_types__unstable, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1034_4_position, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(1052, 35),
   POS(1053, 35),
@@ -11824,9 +11824,9 @@ static TAB_NUM t_lambda_421[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'h'
   var_std__equal, 2, LOCAL(1), chr_104, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_422, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_427, TAIL_CALL,
   POS(1077, 9),
   POS(1077, 9),
@@ -11846,7 +11846,7 @@ static TAB_NUM t_lambda_422[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == 'i'
   var_std__equal, 2, LOCAL(1), chr_105, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_423, 1, LOCAL(3),
   // text(2) == 'i'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -11868,7 +11868,7 @@ static TAB_NUM t_lambda_423[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == 'd'
   var_std__equal, 2, LOCAL(1), chr_100, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_424, 1, LOCAL(3),
   // text(3) == 'd'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -11890,7 +11890,7 @@ static TAB_NUM t_lambda_424[] = {
   var_text, 1, num_4, 1, LOCAL(1),
   // text(4) == 'd'
   var_std__equal, 2, LOCAL(1), chr_100, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_425, 1, LOCAL(3),
   // text(4) == 'd'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -11912,7 +11912,7 @@ static TAB_NUM t_lambda_425[] = {
   var_text, 1, num_5, 1, LOCAL(1),
   // text(5) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_426, 1, LOCAL(3),
   // text(5) == 'e'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -11965,7 +11965,7 @@ static FUNCTION_INFO i_lambda_427 = {
 static TAB_NUM t_lambda_428[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_429, TAIL_CALL,
   POS(1086, 7)
 };
@@ -12138,7 +12138,7 @@ static TAB_NUM t_lambda_435[] = {
   var_range, 3, var_text, num_7, minus_num_1, 1, LOCAL(1),
   // funky_types::allow_unused
   LET, -2, var_funky_types__allow_unused, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1102_4_position, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(1116, 27),
   POS(1117, 27),
@@ -12316,7 +12316,7 @@ static TAB_NUM t_lambda_444[] = {
   0, // parameters
   // funky_types::functor
   LET, -4, var_funky_types__functor, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1134_4_position, var_funky__identifier_of, var_1135_43_identifier, var_funky__extensions_of, var_1143_20_extensions, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1148, 11),
   POS(1146, 11)
@@ -12380,7 +12380,7 @@ static TAB_NUM t_lambda_447[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_448, TAIL_CALL,
   POS(1159, 7),
   POS(1159, 7),
@@ -12415,7 +12415,7 @@ static TAB_NUM t_lambda_449[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_450, TAIL_CALL,
   POS(1164, 7),
   POS(1164, 7),
@@ -12450,7 +12450,7 @@ static TAB_NUM t_lambda_451[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_452, TAIL_CALL,
   POS(1169, 7),
   POS(1169, 7),
@@ -12485,7 +12485,7 @@ static TAB_NUM t_lambda_453[] = {
   var_std__equal, 2, var_text, string_2, 1, LOCAL(1),
   // text == "@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_454, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_455, TAIL_CALL,
   POS(1174, 7),
   POS(1174, 7),
@@ -12533,9 +12533,9 @@ static TAB_NUM t_lambda_456[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_457, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_458, TAIL_CALL,
   POS(1179, 9),
   POS(1179, 9),
@@ -12586,7 +12586,7 @@ static FUNCTION_INFO i_lambda_458 = {
 static TAB_NUM t_lambda_459[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_460, TAIL_CALL,
   POS(1184, 7)
 };
@@ -12759,7 +12759,7 @@ static TAB_NUM t_lambda_468[] = {
   func_to_list, 1, var_1198_31_extensions, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(1207, 31),
   POS(1208, 28),
@@ -12877,7 +12877,7 @@ static TAB_NUM t_lambda_473[] = {
   func_to_list, 1, var_1217_31_extensions, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(1226, 34),
   POS(1227, 28),
@@ -12981,7 +12981,7 @@ static TAB_NUM t_lambda_477[] = {
   0, // parameters
   // funky_types::functor
   LET, -4, var_funky_types__functor, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1233_4_position, var_funky__identifier_of, var_1235_27_identifier, var_funky__extensions_of, var_1238_38_inline_extensions, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1243, 11),
   POS(1241, 11)
@@ -13045,7 +13045,7 @@ static TAB_NUM t_lambda_480[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_481, TAIL_CALL,
   POS(1254, 7),
   POS(1254, 7),
@@ -13080,7 +13080,7 @@ static TAB_NUM t_lambda_482[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_483, TAIL_CALL,
   POS(1259, 7),
   POS(1259, 7),
@@ -13115,7 +13115,7 @@ static TAB_NUM t_lambda_484[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_485, TAIL_CALL,
   POS(1264, 7),
   POS(1264, 7),
@@ -13146,7 +13146,7 @@ static FUNCTION_INFO i_lambda_485 = {
 static TAB_NUM t_lambda_486[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_487, TAIL_CALL,
   POS(1268, 7)
 };
@@ -13283,7 +13283,7 @@ static TAB_NUM t_lambda_494[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_495, TAIL_CALL,
   POS(1281, 7),
   POS(1281, 7),
@@ -13318,7 +13318,7 @@ static TAB_NUM t_lambda_496[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_497, TAIL_CALL,
   POS(1286, 7),
   POS(1286, 7),
@@ -13349,7 +13349,7 @@ static FUNCTION_INFO i_lambda_497 = {
 static TAB_NUM t_lambda_498[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_499, TAIL_CALL,
   POS(1290, 7)
 };
@@ -13522,7 +13522,7 @@ static TAB_NUM t_lambda_507[] = {
   func_to_list, 1, var_1304_38_inline_extensions, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(1313, 31),
   POS(1314, 35),
@@ -13640,7 +13640,7 @@ static TAB_NUM t_lambda_512[] = {
   func_to_list, 1, var_1323_38_inline_extensions, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(1332, 34),
   POS(1333, 35),
@@ -13742,7 +13742,7 @@ static TAB_NUM t_lambda_516[] = {
   0, // parameters
   // funky_types::function_call
   LET, -3, var_funky_types__function_call, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1347_4_position, var_funky__arguments_of, var_1348_42_optional_inline_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1353, 7),
   POS(1351, 7)
@@ -13793,7 +13793,7 @@ static TAB_NUM t_lambda_518[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ')'
   var_std__equal, 2, LOCAL(1), chr_41, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_519, TAIL_CALL,
   POS(1362, 7),
   POS(1362, 7),
@@ -13824,7 +13824,7 @@ static FUNCTION_INFO i_lambda_519 = {
 static TAB_NUM t_lambda_520[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_521, TAIL_CALL,
   POS(1364, 7)
 };
@@ -13983,7 +13983,7 @@ static TAB_NUM t_lambda_528[] = {
   0, // parameters
   // range(text 2 -1)
   var_range, 3, var_text, num_2, minus_num_1, 1, LOCAL(1),
-  // 
+  //
   LET, 2, LOCAL(1), var_1378_33_inline_arguments, TAIL_CALL,
   POS(1384, 11),
   POS(1383, 11)
@@ -14047,7 +14047,7 @@ static TAB_NUM t_lambda_531[] = {
   0, // parameters
   // funky_types::inline_return
   LET, -3, var_funky_types__inline_return, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1391_4_position, var_funky__arguments_of, var_1392_40_spaced_inline_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1397, 7),
   POS(1395, 7)
@@ -14101,7 +14101,7 @@ static TAB_NUM t_lambda_533[] = {
   0, // parameters
   // funky_types::attribute_access
   LET, -3, var_funky_types__attribute_access, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1404_4_position, var_funky__identifier_of, var_1406_27_identifier, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1411, 7),
   POS(1409, 7)
@@ -14145,7 +14145,7 @@ static TAB_NUM t_lambda_535[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_536, TAIL_CALL,
   POS(1420, 7),
   POS(1420, 7),
@@ -14180,7 +14180,7 @@ static TAB_NUM t_lambda_537[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_538, TAIL_CALL,
   POS(1425, 7),
   POS(1425, 7),
@@ -14211,7 +14211,7 @@ static FUNCTION_INFO i_lambda_538 = {
 static TAB_NUM t_lambda_539[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_540, TAIL_CALL,
   POS(1429, 7)
 };
@@ -14267,7 +14267,7 @@ static TAB_NUM t_lambda_541[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_542, TAIL_CALL,
   POS(1439, 7),
   POS(1439, 7),
@@ -14302,7 +14302,7 @@ static TAB_NUM t_lambda_543[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_544, TAIL_CALL,
   POS(1444, 7),
   POS(1444, 7),
@@ -14337,7 +14337,7 @@ static TAB_NUM t_lambda_545[] = {
   var_std__equal, 2, var_text, string_2, 1, LOCAL(1),
   // text == "@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_546, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_547, TAIL_CALL,
   POS(1449, 7),
   POS(1449, 7),
@@ -14385,7 +14385,7 @@ static TAB_NUM t_lambda_548[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_549, TAIL_CALL,
   POS(1453, 7),
   POS(1453, 7),
@@ -14413,7 +14413,7 @@ static FUNCTION_INFO i_lambda_549 = {
 static TAB_NUM t_lambda_550[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_551, TAIL_CALL,
   POS(1455, 7)
 };
@@ -14550,7 +14550,7 @@ static TAB_NUM t_lambda_558[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_559, TAIL_CALL,
   POS(1469, 7),
   POS(1469, 7),
@@ -14585,7 +14585,7 @@ static TAB_NUM t_lambda_560[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_561, TAIL_CALL,
   POS(1474, 7),
   POS(1474, 7),
@@ -14620,7 +14620,7 @@ static TAB_NUM t_lambda_562[] = {
   var_std__equal, 2, var_text, string_2, 1, LOCAL(1),
   // text == "@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_563, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_564, TAIL_CALL,
   POS(1479, 7),
   POS(1479, 7),
@@ -14668,7 +14668,7 @@ static TAB_NUM t_lambda_565[] = {
   var_std__equal, 2, var_text, string_2, 1, LOCAL(1),
   // text == "@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_566, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_567, TAIL_CALL,
   POS(1483, 7),
   POS(1483, 7),
@@ -14716,7 +14716,7 @@ static TAB_NUM t_lambda_568[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_569, TAIL_CALL,
   POS(1487, 7),
   POS(1487, 7),
@@ -14744,7 +14744,7 @@ static FUNCTION_INFO i_lambda_569 = {
 static TAB_NUM t_lambda_570[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_571, TAIL_CALL,
   POS(1489, 7)
 };
@@ -14876,7 +14876,7 @@ static FUNCTION_INFO i_func_parse_spaced_arguments_without_prefix = {
 static TAB_NUM t_lambda_578[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_text, var_1501_31_more_arguments, TAIL_CALL,
   POS(1504, 7)
 };
@@ -14921,7 +14921,7 @@ static FUNCTION_INFO i_func_parse_spaced_statement_arguments_without_prefix = {
 static TAB_NUM t_lambda_580[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_text, var_1510_41_more_statement_arguments, TAIL_CALL,
   POS(1513, 7)
 };
@@ -14964,7 +14964,7 @@ static TAB_NUM t_lambda_582[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_583, TAIL_CALL,
   POS(1521, 7),
   POS(1521, 7),
@@ -14999,9 +14999,9 @@ static TAB_NUM t_lambda_584[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_585, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_586, TAIL_CALL,
   POS(1527, 9),
   POS(1527, 9),
@@ -15056,7 +15056,7 @@ static TAB_NUM t_lambda_587[] = {
   var_std__equal, 2, var_text, string_7, 1, LOCAL(1),
   // text == "@quot;@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_588, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_589, TAIL_CALL,
   POS(1533, 7),
   POS(1533, 7),
@@ -15103,7 +15103,7 @@ static FUNCTION_INFO i_lambda_589 = {
 static TAB_NUM t_lambda_590[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_591, TAIL_CALL,
   POS(1537, 7)
 };
@@ -15152,7 +15152,7 @@ static TAB_NUM t_lambda_592[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_593, TAIL_CALL,
   POS(1547, 7),
   POS(1547, 7),
@@ -15187,9 +15187,9 @@ static TAB_NUM t_lambda_594[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_595, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_596, TAIL_CALL,
   POS(1553, 9),
   POS(1553, 9),
@@ -15244,7 +15244,7 @@ static TAB_NUM t_lambda_597[] = {
   var_std__equal, 2, var_text, string_7, 1, LOCAL(1),
   // text == "@quot;@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_598, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_599, TAIL_CALL,
   POS(1559, 7),
   POS(1559, 7),
@@ -15291,7 +15291,7 @@ static FUNCTION_INFO i_lambda_599 = {
 static TAB_NUM t_lambda_600[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_601, TAIL_CALL,
   POS(1563, 7)
 };
@@ -15383,7 +15383,7 @@ static TAB_NUM t_lambda_603[] = {
   func_to_list, 1, var_1574_35_some_arguments, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(1583, 26),
   POS(1584, 32),
@@ -15501,7 +15501,7 @@ static TAB_NUM t_lambda_608[] = {
   func_to_list, 1, var_1593_45_some_statement_arguments, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(1602, 26),
   POS(1603, 42),
@@ -15629,7 +15629,7 @@ static FUNCTION_INFO i_lambda_614 = {
 static TAB_NUM t_lambda_615[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, string_1, var_1611_8_line_start_arguments, TAIL_CALL,
   POS(1615, 11)
 };
@@ -15690,7 +15690,7 @@ static FUNCTION_INFO i_lambda_617 = {
 static TAB_NUM t_lambda_618[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, string_1, var_1622_4_line_start_arguments, TAIL_CALL,
   POS(1626, 7)
 };
@@ -15743,7 +15743,7 @@ static TAB_NUM t_lambda_620[] = {
   0, // parameters
   // funky_types::function_call
   LET, -3, var_funky_types__function_call, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1631_4_position, var_funky__arguments_of, var_1632_4_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(1638, 7),
   POS(1636, 7)
@@ -15832,7 +15832,7 @@ static TAB_NUM t_lambda_623[] = {
   0, // parameters
   // funky_types::remark_and_multiline_function_call
   LET, -4, var_funky_types__remark_and_multiline_function_call, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1644_4_position, var_funky__remark_of, var_1645_45_spaced_remark, var_funky__arguments_of, var_1650_12_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(1656, 15),
   POS(1654, 15)
@@ -15889,9 +15889,9 @@ static TAB_NUM t_lambda_626[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '$'
   var_std__equal, 2, LOCAL(1), chr_36, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_627, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_628, TAIL_CALL,
   POS(1669, 9),
   POS(1669, 9),
@@ -15946,7 +15946,7 @@ static TAB_NUM t_lambda_629[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '$'
   var_std__equal, 2, LOCAL(1), chr_36, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_630, TAIL_CALL,
   POS(1675, 7),
   POS(1675, 7),
@@ -15981,7 +15981,7 @@ static TAB_NUM t_lambda_631[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_632, TAIL_CALL,
   POS(1680, 7),
   POS(1680, 7),
@@ -16016,7 +16016,7 @@ static TAB_NUM t_lambda_633[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_634, TAIL_CALL,
   POS(1685, 7),
   POS(1685, 7),
@@ -16051,7 +16051,7 @@ static TAB_NUM t_lambda_635[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_636, TAIL_CALL,
   POS(1690, 7),
   POS(1690, 7),
@@ -16086,9 +16086,9 @@ static TAB_NUM t_lambda_637[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_638, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_639, TAIL_CALL,
   POS(1696, 9),
   POS(1696, 9),
@@ -16143,7 +16143,7 @@ static TAB_NUM t_lambda_640[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '#'
   var_std__equal, 2, LOCAL(1), chr_35, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_641, TAIL_CALL,
   POS(1702, 7),
   POS(1702, 7),
@@ -16178,7 +16178,7 @@ static TAB_NUM t_lambda_642[] = {
   var_std__equal, 2, var_text, string_7, 1, LOCAL(1),
   // text == "@quot;@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_643, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_644, TAIL_CALL,
   POS(1707, 7),
   POS(1707, 7),
@@ -16225,7 +16225,7 @@ static FUNCTION_INFO i_lambda_644 = {
 static TAB_NUM t_lambda_645[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_646, TAIL_CALL,
   POS(1711, 7)
 };
@@ -16274,7 +16274,7 @@ static TAB_NUM t_lambda_647[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_648, TAIL_CALL,
   POS(1721, 7),
   POS(1721, 7),
@@ -16309,9 +16309,9 @@ static TAB_NUM t_lambda_649[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_650, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_651, TAIL_CALL,
   POS(1727, 9),
   POS(1727, 9),
@@ -16366,7 +16366,7 @@ static TAB_NUM t_lambda_652[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '#'
   var_std__equal, 2, LOCAL(1), chr_35, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_653, TAIL_CALL,
   POS(1733, 7),
   POS(1733, 7),
@@ -16401,7 +16401,7 @@ static TAB_NUM t_lambda_654[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_655, TAIL_CALL,
   POS(1738, 7),
   POS(1738, 7),
@@ -16436,9 +16436,9 @@ static TAB_NUM t_lambda_656[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_657, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_658, TAIL_CALL,
   POS(1744, 9),
   POS(1744, 9),
@@ -16493,7 +16493,7 @@ static TAB_NUM t_lambda_659[] = {
   var_std__equal, 2, var_text, string_7, 1, LOCAL(1),
   // text == "@quot;@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_660, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_661, TAIL_CALL,
   POS(1750, 7),
   POS(1750, 7),
@@ -16544,7 +16544,7 @@ static TAB_NUM t_lambda_662[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '+'
   var_std__equal, 2, LOCAL(1), chr_43, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_663, TAIL_CALL,
   POS(1755, 7),
   POS(1755, 7),
@@ -16579,9 +16579,9 @@ static TAB_NUM t_lambda_664[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_665, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_666, TAIL_CALL,
   POS(1761, 9),
   POS(1761, 9),
@@ -16636,9 +16636,9 @@ static TAB_NUM t_lambda_667[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_668, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_669, TAIL_CALL,
   POS(1768, 9),
   POS(1768, 9),
@@ -16693,7 +16693,7 @@ static TAB_NUM t_lambda_670[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '*'
   var_std__equal, 2, LOCAL(1), chr_42, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_671, TAIL_CALL,
   POS(1774, 7),
   POS(1774, 7),
@@ -16728,7 +16728,7 @@ static TAB_NUM t_lambda_672[] = {
   var_std__equal, 2, var_text, string_8, 1, LOCAL(1),
   // text == "/@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_673, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_674, TAIL_CALL,
   POS(1779, 7),
   POS(1779, 7),
@@ -16779,9 +16779,9 @@ static TAB_NUM t_lambda_675[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_676, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_677, TAIL_CALL,
   POS(1785, 9),
   POS(1785, 9),
@@ -16836,9 +16836,9 @@ static TAB_NUM t_lambda_678[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_679, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_680, TAIL_CALL,
   POS(1792, 9),
   POS(1792, 9),
@@ -16893,9 +16893,9 @@ static TAB_NUM t_lambda_681[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_682, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_683, TAIL_CALL,
   POS(1799, 9),
   POS(1799, 9),
@@ -16950,9 +16950,9 @@ static TAB_NUM t_lambda_684[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_685, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_686, TAIL_CALL,
   POS(1806, 9),
   POS(1806, 9),
@@ -17007,9 +17007,9 @@ static TAB_NUM t_lambda_687[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_688, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_689, TAIL_CALL,
   POS(1813, 9),
   POS(1813, 9),
@@ -17064,9 +17064,9 @@ static TAB_NUM t_lambda_690[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_691, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_692, TAIL_CALL,
   POS(1820, 9),
   POS(1820, 9),
@@ -17121,7 +17121,7 @@ static TAB_NUM t_lambda_693[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_694, TAIL_CALL,
   POS(1826, 7),
   POS(1826, 7),
@@ -17156,9 +17156,9 @@ static TAB_NUM t_lambda_695[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_696, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_697, TAIL_CALL,
   POS(1832, 9),
   POS(1832, 9),
@@ -17213,7 +17213,7 @@ static TAB_NUM t_lambda_698[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_699, TAIL_CALL,
   POS(1838, 7),
   POS(1838, 7),
@@ -17248,9 +17248,9 @@ static TAB_NUM t_lambda_700[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_701, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_702, TAIL_CALL,
   POS(1844, 9),
   POS(1844, 9),
@@ -17305,9 +17305,9 @@ static TAB_NUM t_lambda_703[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_704, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_705, TAIL_CALL,
   POS(1851, 9),
   POS(1851, 9),
@@ -17362,9 +17362,9 @@ static TAB_NUM t_lambda_706[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_707, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_708, TAIL_CALL,
   POS(1858, 9),
   POS(1858, 9),
@@ -17419,9 +17419,9 @@ static TAB_NUM t_lambda_709[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_710, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_711, TAIL_CALL,
   POS(1865, 9),
   POS(1865, 9),
@@ -17476,7 +17476,7 @@ static TAB_NUM t_lambda_712[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_713, TAIL_CALL,
   POS(1871, 7),
   POS(1871, 7),
@@ -17511,7 +17511,7 @@ static TAB_NUM t_lambda_714[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '^'
   var_std__equal, 2, LOCAL(1), chr_94, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_715, TAIL_CALL,
   POS(1876, 7),
   POS(1876, 7),
@@ -17546,7 +17546,7 @@ static TAB_NUM t_lambda_716[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_717, TAIL_CALL,
   POS(1881, 7),
   POS(1881, 7),
@@ -17581,7 +17581,7 @@ static TAB_NUM t_lambda_718[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_719, TAIL_CALL,
   POS(1886, 7),
   POS(1886, 7),
@@ -17612,7 +17612,7 @@ static FUNCTION_INFO i_lambda_719 = {
 static TAB_NUM t_lambda_720[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_721, TAIL_CALL,
   POS(1890, 7)
 };
@@ -17671,7 +17671,7 @@ static TAB_NUM t_lambda_722[] = {
   0, // parameters
   // funky_types::dummy_definition
   LET, -3, var_funky_types__dummy_definition, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1898_4_position, var_funky__name_of, var_1900_21_name, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1905, 7),
   POS(1903, 7)
@@ -17722,7 +17722,7 @@ static TAB_NUM t_lambda_724[] = {
   0, // parameters
   // funky_types::variable
   LET, -3, var_funky_types__variable, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1912_4_position, var_funky__identifier_of, var_1913_43_identifier, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1918, 7),
   POS(1916, 7)
@@ -17776,7 +17776,7 @@ static TAB_NUM t_lambda_726[] = {
   0, // parameters
   // funky_types::definition
   LET, -3, var_funky_types__definition, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1925_4_position, var_funky__identifier_of, var_1927_37_versioned_identifier, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1932, 7),
   POS(1930, 7)
@@ -17849,7 +17849,7 @@ static TAB_NUM t_lambda_728[] = {
   0, // parameters
   // funky_types::redefinition
   LET, -4, var_funky_types__redefinition, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1939_4_position, var_funky__identifier_of, var_1941_27_identifier, var_funky__extensions_of, var_1944_38_inline_extensions, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1949, 11),
   POS(1947, 11)
@@ -17935,7 +17935,7 @@ static TAB_NUM t_lambda_731[] = {
   0, // parameters
   // funky_types::update
   LET, -4, var_funky_types__update, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1958_4_position, var_funky__identifier_of, var_1960_27_identifier, var_funky__extensions_of, var_1963_38_inline_extensions, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(1968, 11),
   POS(1966, 11)
@@ -18056,7 +18056,7 @@ static TAB_NUM t_lambda_736[] = {
   var_default_value, 2, var_1978_5_derived_node, var_funky_types__expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_1980_4_position, var_funky__expression_of, var_1981_36_sequence_expression, var_funky__operator_of, var_1984_39_key_value_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(1992, 15),
   POS(1992, 15),
@@ -18127,9 +18127,9 @@ static TAB_NUM t_lambda_740[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_741, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_743, TAIL_CALL,
   POS(2005, 9),
   POS(2005, 9),
@@ -18149,7 +18149,7 @@ static TAB_NUM t_lambda_741[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_742, 1, LOCAL(3),
   // text(2) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -18206,7 +18206,7 @@ static TAB_NUM t_lambda_744[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_745, TAIL_CALL,
   POS(2012, 7),
   POS(2012, 7),
@@ -18241,9 +18241,9 @@ static TAB_NUM t_lambda_746[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_747, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_749, TAIL_CALL,
   POS(2018, 9),
   POS(2018, 9),
@@ -18263,7 +18263,7 @@ static TAB_NUM t_lambda_747[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_748, 1, LOCAL(3),
   // text(2) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -18361,7 +18361,7 @@ static TAB_NUM t_lambda_752[] = {
   var_2023_10_line_start_arguments, 1, num_1, 1, LOCAL(1),
   // funky_types::key_value
   LET, -3, var_funky_types__key_value, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2022_10_position, var_funky__expression_of, LOCAL(1), LOCAL(2),
-  // 
+  //
   LET, 2, string_1, LOCAL(2), TAIL_CALL,
   POS(2036, 41),
   POS(2033, 17),
@@ -18392,7 +18392,7 @@ static FUNCTION_INFO i_lambda_753 = {
 static TAB_NUM t_lambda_754[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_755, TAIL_CALL,
   POS(2038, 7)
 };
@@ -18512,7 +18512,7 @@ static TAB_NUM t_lambda_758[] = {
   var_default_value, 2, var_2047_5_derived_node, var_funky_types__sequence_expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::sequence_expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2049_4_position, var_funky__expression_of, var_2050_39_conditional_expression, var_funky__operator_of, var_2053_35_comma_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2061, 15),
   POS(2061, 15),
@@ -18583,9 +18583,9 @@ static TAB_NUM t_lambda_762[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ','
   var_std__equal, 2, LOCAL(1), chr_44, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_763, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_764, TAIL_CALL,
   POS(2074, 9),
   POS(2074, 9),
@@ -18640,7 +18640,7 @@ static TAB_NUM t_lambda_765[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ','
   var_std__equal, 2, LOCAL(1), chr_44, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_766, TAIL_CALL,
   POS(2080, 7),
   POS(2080, 7),
@@ -18675,9 +18675,9 @@ static TAB_NUM t_lambda_767[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_768, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_770, TAIL_CALL,
   POS(2086, 9),
   POS(2086, 9),
@@ -18697,7 +18697,7 @@ static TAB_NUM t_lambda_768[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == ','
   var_std__equal, 2, LOCAL(1), chr_44, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_769, 1, LOCAL(3),
   // text(2) == ','
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -18750,7 +18750,7 @@ static FUNCTION_INFO i_lambda_770 = {
 static TAB_NUM t_lambda_771[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_772, TAIL_CALL,
   POS(2092, 7)
 };
@@ -18870,7 +18870,7 @@ static TAB_NUM t_lambda_775[] = {
   var_default_value, 2, var_2101_5_derived_node, var_funky_types__expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2103_4_position, var_funky__expression_of, var_2104_36_sequence_expression, var_funky__operator_of, var_2107_35_comma_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2115, 15),
   POS(2115, 15),
@@ -18983,7 +18983,7 @@ static TAB_NUM t_lambda_780[] = {
   0, // parameters
   // funky_types::expression
   LET, -4, var_funky_types__expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2125_4_position, var_funky__expression_of, var_2126_42_named_operator_expression, var_funky__operator_of, var_2129_37_logical_operator, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(2137, 15),
   POS(2135, 15)
@@ -19053,9 +19053,9 @@ static TAB_NUM t_lambda_784[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_785, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_788, TAIL_CALL,
   POS(2150, 9),
   POS(2150, 9),
@@ -19075,7 +19075,7 @@ static TAB_NUM t_lambda_785[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_786, 1, LOCAL(3),
   // text(2) == '&'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19097,7 +19097,7 @@ static TAB_NUM t_lambda_786[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_787, 1, LOCAL(3),
   // text(3) == '&'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19154,9 +19154,9 @@ static TAB_NUM t_lambda_789[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_790, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_793, TAIL_CALL,
   POS(2159, 9),
   POS(2159, 9),
@@ -19176,7 +19176,7 @@ static TAB_NUM t_lambda_790[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_791, 1, LOCAL(3),
   // text(2) == '|'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19198,7 +19198,7 @@ static TAB_NUM t_lambda_791[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_792, 1, LOCAL(3),
   // text(3) == '|'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19251,7 +19251,7 @@ static FUNCTION_INFO i_lambda_793 = {
 static TAB_NUM t_lambda_794[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_795, TAIL_CALL,
   POS(2166, 7)
 };
@@ -19371,7 +19371,7 @@ static TAB_NUM t_lambda_798[] = {
   var_default_value, 2, var_2175_5_derived_node, var_funky_types__expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2177_4_position, var_funky__expression_of, var_2178_42_named_operator_expression, var_funky__operator_of, var_2181_33_and_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2189, 15),
   POS(2189, 15),
@@ -19442,9 +19442,9 @@ static TAB_NUM t_lambda_802[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_803, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_806, TAIL_CALL,
   POS(2202, 9),
   POS(2202, 9),
@@ -19464,7 +19464,7 @@ static TAB_NUM t_lambda_803[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_804, 1, LOCAL(3),
   // text(2) == '&'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19486,7 +19486,7 @@ static TAB_NUM t_lambda_804[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_805, 1, LOCAL(3),
   // text(3) == '&'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19539,7 +19539,7 @@ static FUNCTION_INFO i_lambda_806 = {
 static TAB_NUM t_lambda_807[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_808, TAIL_CALL,
   POS(2209, 7)
 };
@@ -19659,7 +19659,7 @@ static TAB_NUM t_lambda_811[] = {
   var_default_value, 2, var_2218_5_derived_node, var_funky_types__expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2220_4_position, var_funky__expression_of, var_2221_42_named_operator_expression, var_funky__operator_of, var_2224_32_or_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2232, 15),
   POS(2232, 15),
@@ -19730,9 +19730,9 @@ static TAB_NUM t_lambda_815[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_816, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_819, TAIL_CALL,
   POS(2245, 9),
   POS(2245, 9),
@@ -19752,7 +19752,7 @@ static TAB_NUM t_lambda_816[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_817, 1, LOCAL(3),
   // text(2) == '|'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19774,7 +19774,7 @@ static TAB_NUM t_lambda_817[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_818, 1, LOCAL(3),
   // text(3) == '|'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -19827,7 +19827,7 @@ static FUNCTION_INFO i_lambda_819 = {
 static TAB_NUM t_lambda_820[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_821, TAIL_CALL,
   POS(2252, 7)
 };
@@ -19922,7 +19922,7 @@ static TAB_NUM t_lambda_823[] = {
   var_list, 1, LOCAL(4), 1, LOCAL(5),
   // funky_types::functor
   LET, -4, var_funky_types__functor, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2257_4_position, var_funky__identifier_of, LOCAL(1), var_funky__extensions_of, LOCAL(5), LOCAL(6),
-  // 
+  //
   LET, 2, var_text, LOCAL(6), TAIL_CALL,
   POS(2273, 19),
   POS(2282, 27),
@@ -19997,9 +19997,9 @@ static TAB_NUM t_lambda_827[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_828, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_829, TAIL_CALL,
   POS(2291, 9),
   POS(2291, 9),
@@ -20050,7 +20050,7 @@ static FUNCTION_INFO i_lambda_829 = {
 static TAB_NUM t_lambda_830[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_831, TAIL_CALL,
   POS(2296, 7)
 };
@@ -20163,7 +20163,7 @@ static TAB_NUM t_lambda_834[] = {
   0, // parameters
   // funky_types::named_operator
   LET, -4, var_funky_types__named_operator, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2301_4_position, var_funky__identifier_of, var_2303_27_identifier, var_funky__expression_of, var_2311_45_range_expression, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(2316, 19),
   POS(2314, 19)
@@ -20288,7 +20288,7 @@ static TAB_NUM t_lambda_840[] = {
   0, // parameters
   // funky_types::expression
   LET, -4, var_funky_types__expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2329_4_position, var_funky__expression_of, var_2330_38_relational_expression, var_funky__operator_of, var_2333_35_range_operator, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(2341, 15),
   POS(2339, 15)
@@ -20358,9 +20358,9 @@ static TAB_NUM t_lambda_844[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_845, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_846, TAIL_CALL,
   POS(2354, 9),
   POS(2354, 9),
@@ -20415,9 +20415,9 @@ static TAB_NUM t_lambda_847[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_848, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_851, TAIL_CALL,
   POS(2361, 9),
   POS(2361, 9),
@@ -20437,7 +20437,7 @@ static TAB_NUM t_lambda_848[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_849, 1, LOCAL(3),
   // text(2) == '.'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -20459,7 +20459,7 @@ static TAB_NUM t_lambda_849[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_850, 1, LOCAL(3),
   // text(3) == '.'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -20512,7 +20512,7 @@ static FUNCTION_INFO i_lambda_851 = {
 static TAB_NUM t_lambda_852[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_853, TAIL_CALL,
   POS(2368, 7)
 };
@@ -20632,7 +20632,7 @@ static TAB_NUM t_lambda_856[] = {
   var_default_value, 2, var_2377_5_derived_node, var_funky_types__expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2379_4_position, var_funky__expression_of, var_2380_31_bit_expression, var_funky__operator_of, var_2383_40_comparison_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2391, 15),
   POS(2391, 15),
@@ -20703,9 +20703,9 @@ static TAB_NUM t_lambda_860[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_861, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_864, TAIL_CALL,
   POS(2404, 9),
   POS(2404, 9),
@@ -20725,7 +20725,7 @@ static TAB_NUM t_lambda_861[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_862, 1, LOCAL(3),
   // text(2) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -20747,7 +20747,7 @@ static TAB_NUM t_lambda_862[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_863, 1, LOCAL(3),
   // text(3) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -20804,9 +20804,9 @@ static TAB_NUM t_lambda_865[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_866, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_867, TAIL_CALL,
   POS(2413, 9),
   POS(2413, 9),
@@ -20861,9 +20861,9 @@ static TAB_NUM t_lambda_868[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_869, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_872, TAIL_CALL,
   POS(2420, 9),
   POS(2420, 9),
@@ -20883,7 +20883,7 @@ static TAB_NUM t_lambda_869[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_870, 1, LOCAL(3),
   // text(2) == '!'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -20905,7 +20905,7 @@ static TAB_NUM t_lambda_870[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_871, 1, LOCAL(3),
   // text(3) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -20962,9 +20962,9 @@ static TAB_NUM t_lambda_873[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '!'
   var_std__equal, 2, LOCAL(1), chr_33, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_874, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_875, TAIL_CALL,
   POS(2429, 9),
   POS(2429, 9),
@@ -21019,9 +21019,9 @@ static TAB_NUM t_lambda_876[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_877, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_880, TAIL_CALL,
   POS(2436, 9),
   POS(2436, 9),
@@ -21041,7 +21041,7 @@ static TAB_NUM t_lambda_877[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_878, 1, LOCAL(3),
   // text(2) == '<'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21063,7 +21063,7 @@ static TAB_NUM t_lambda_878[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_879, 1, LOCAL(3),
   // text(3) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21120,9 +21120,9 @@ static TAB_NUM t_lambda_881[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_882, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_883, TAIL_CALL,
   POS(2445, 9),
   POS(2445, 9),
@@ -21177,9 +21177,9 @@ static TAB_NUM t_lambda_884[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_885, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_887, TAIL_CALL,
   POS(2452, 9),
   POS(2452, 9),
@@ -21199,7 +21199,7 @@ static TAB_NUM t_lambda_885[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_886, 1, LOCAL(3),
   // text(2) == '<'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21256,7 +21256,7 @@ static TAB_NUM t_lambda_888[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_889, TAIL_CALL,
   POS(2459, 7),
   POS(2459, 7),
@@ -21291,9 +21291,9 @@ static TAB_NUM t_lambda_890[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_891, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_894, TAIL_CALL,
   POS(2465, 9),
   POS(2465, 9),
@@ -21313,7 +21313,7 @@ static TAB_NUM t_lambda_891[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_892, 1, LOCAL(3),
   // text(2) == '>'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21335,7 +21335,7 @@ static TAB_NUM t_lambda_892[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_893, 1, LOCAL(3),
   // text(3) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21392,9 +21392,9 @@ static TAB_NUM t_lambda_895[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_896, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_897, TAIL_CALL,
   POS(2474, 9),
   POS(2474, 9),
@@ -21449,9 +21449,9 @@ static TAB_NUM t_lambda_898[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_899, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_901, TAIL_CALL,
   POS(2481, 9),
   POS(2481, 9),
@@ -21471,7 +21471,7 @@ static TAB_NUM t_lambda_899[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_900, 1, LOCAL(3),
   // text(2) == '>'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21528,7 +21528,7 @@ static TAB_NUM t_lambda_902[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_903, TAIL_CALL,
   POS(2488, 7),
   POS(2488, 7),
@@ -21559,7 +21559,7 @@ static FUNCTION_INFO i_lambda_903 = {
 static TAB_NUM t_lambda_904[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_905, TAIL_CALL,
   POS(2492, 7)
 };
@@ -21744,7 +21744,7 @@ static TAB_NUM t_lambda_908[] = {
   var_default_value, 2, var_2516_5_derived_node, var_funky_types__tagged_bit_expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::tagged_bit_expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2518_4_position, var_funky__expression_of, var_2519_36_additive_expression, var_funky__operator_of, var_2522_33_bit_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2530, 15),
   POS(2530, 15),
@@ -21857,7 +21857,7 @@ static TAB_NUM t_lambda_913[] = {
   0, // parameters
   // funky_types::expression
   LET, -4, var_funky_types__expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2540_4_position, var_funky__expression_of, var_2541_36_additive_expression, var_funky__operator_of, var_2544_33_bit_operator, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(2552, 15),
   POS(2550, 15)
@@ -21927,9 +21927,9 @@ static TAB_NUM t_lambda_917[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_918, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_921, TAIL_CALL,
   POS(2565, 9),
   POS(2565, 9),
@@ -21949,7 +21949,7 @@ static TAB_NUM t_lambda_918[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_919, 1, LOCAL(3),
   // text(2) == '<'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -21971,7 +21971,7 @@ static TAB_NUM t_lambda_919[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_920, 1, LOCAL(3),
   // text(3) == '<'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22028,9 +22028,9 @@ static TAB_NUM t_lambda_922[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '<'
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_923, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_924, TAIL_CALL,
   POS(2574, 9),
   POS(2574, 9),
@@ -22085,9 +22085,9 @@ static TAB_NUM t_lambda_925[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_926, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_929, TAIL_CALL,
   POS(2581, 9),
   POS(2581, 9),
@@ -22107,7 +22107,7 @@ static TAB_NUM t_lambda_926[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_927, 1, LOCAL(3),
   // text(2) == '>'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22129,7 +22129,7 @@ static TAB_NUM t_lambda_927[] = {
   var_text, 1, num_3, 1, LOCAL(1),
   // text(3) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_928, 1, LOCAL(3),
   // text(3) == '>'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22186,9 +22186,9 @@ static TAB_NUM t_lambda_930[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_931, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_932, TAIL_CALL,
   POS(2590, 9),
   POS(2590, 9),
@@ -22243,9 +22243,9 @@ static TAB_NUM t_lambda_933[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_934, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_936, TAIL_CALL,
   POS(2597, 9),
   POS(2597, 9),
@@ -22265,7 +22265,7 @@ static TAB_NUM t_lambda_934[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_935, 1, LOCAL(3),
   // text(2) == '&'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22322,7 +22322,7 @@ static TAB_NUM t_lambda_937[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_938, TAIL_CALL,
   POS(2604, 7),
   POS(2604, 7),
@@ -22357,9 +22357,9 @@ static TAB_NUM t_lambda_939[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_940, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_942, TAIL_CALL,
   POS(2610, 9),
   POS(2610, 9),
@@ -22379,7 +22379,7 @@ static TAB_NUM t_lambda_940[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_941, 1, LOCAL(3),
   // text(2) == '|'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22436,7 +22436,7 @@ static TAB_NUM t_lambda_943[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_944, TAIL_CALL,
   POS(2617, 7),
   POS(2617, 7),
@@ -22471,9 +22471,9 @@ static TAB_NUM t_lambda_945[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_946, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_948, TAIL_CALL,
   POS(2623, 9),
   POS(2623, 9),
@@ -22493,7 +22493,7 @@ static TAB_NUM t_lambda_946[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '^'
   var_std__equal, 2, LOCAL(1), chr_94, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_947, 1, LOCAL(3),
   // text(2) == '^'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22550,7 +22550,7 @@ static TAB_NUM t_lambda_949[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '^'
   var_std__equal, 2, LOCAL(1), chr_94, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_950, TAIL_CALL,
   POS(2630, 7),
   POS(2630, 7),
@@ -22581,7 +22581,7 @@ static FUNCTION_INFO i_lambda_950 = {
 static TAB_NUM t_lambda_951[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_952, TAIL_CALL,
   POS(2634, 7)
 };
@@ -22727,7 +22727,7 @@ static TAB_NUM t_lambda_955[] = {
   var_default_value, 2, var_2649_5_derived_node, var_funky_types__bit_and2, 1, LOCAL(1),
   // default_value(derived_node funky_types::bit_and2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2651_4_position, var_funky__expression_of, var_2652_36_additive_expression, var_funky__operator_of, var_2655_37_bit_and_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2663, 15),
   POS(2663, 15),
@@ -22798,9 +22798,9 @@ static TAB_NUM t_lambda_959[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_960, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_962, TAIL_CALL,
   POS(2676, 9),
   POS(2676, 9),
@@ -22820,7 +22820,7 @@ static TAB_NUM t_lambda_960[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_961, 1, LOCAL(3),
   // text(2) == '&'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -22877,7 +22877,7 @@ static TAB_NUM t_lambda_963[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '&'
   var_std__equal, 2, LOCAL(1), chr_38, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_964, TAIL_CALL,
   POS(2683, 7),
   POS(2683, 7),
@@ -22908,7 +22908,7 @@ static FUNCTION_INFO i_lambda_964 = {
 static TAB_NUM t_lambda_965[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_966, TAIL_CALL,
   POS(2687, 7)
 };
@@ -23028,7 +23028,7 @@ static TAB_NUM t_lambda_969[] = {
   var_default_value, 2, var_2696_5_derived_node, var_funky_types__bit_or2, 1, LOCAL(1),
   // default_value(derived_node funky_types::bit_or2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2698_4_position, var_funky__expression_of, var_2699_36_additive_expression, var_funky__operator_of, var_2702_36_bit_or_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2710, 15),
   POS(2710, 15),
@@ -23099,9 +23099,9 @@ static TAB_NUM t_lambda_973[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_974, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_976, TAIL_CALL,
   POS(2723, 9),
   POS(2723, 9),
@@ -23121,7 +23121,7 @@ static TAB_NUM t_lambda_974[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_975, 1, LOCAL(3),
   // text(2) == '|'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -23178,7 +23178,7 @@ static TAB_NUM t_lambda_977[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '|'
   var_std__equal, 2, LOCAL(1), chr_124, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_978, TAIL_CALL,
   POS(2730, 7),
   POS(2730, 7),
@@ -23209,7 +23209,7 @@ static FUNCTION_INFO i_lambda_978 = {
 static TAB_NUM t_lambda_979[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_980, TAIL_CALL,
   POS(2734, 7)
 };
@@ -23329,7 +23329,7 @@ static TAB_NUM t_lambda_983[] = {
   var_default_value, 2, var_2743_5_derived_node, var_funky_types__bit_xor2, 1, LOCAL(1),
   // default_value(derived_node funky_types::bit_xor2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2745_4_position, var_funky__expression_of, var_2746_36_additive_expression, var_funky__operator_of, var_2749_37_bit_xor_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2757, 15),
   POS(2757, 15),
@@ -23400,9 +23400,9 @@ static TAB_NUM t_lambda_987[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_988, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_990, TAIL_CALL,
   POS(2770, 9),
   POS(2770, 9),
@@ -23422,7 +23422,7 @@ static TAB_NUM t_lambda_988[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '^'
   var_std__equal, 2, LOCAL(1), chr_94, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_989, 1, LOCAL(3),
   // text(2) == '^'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -23479,7 +23479,7 @@ static TAB_NUM t_lambda_991[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '^'
   var_std__equal, 2, LOCAL(1), chr_94, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_992, TAIL_CALL,
   POS(2777, 7),
   POS(2777, 7),
@@ -23510,7 +23510,7 @@ static FUNCTION_INFO i_lambda_992 = {
 static TAB_NUM t_lambda_993[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_994, TAIL_CALL,
   POS(2781, 7)
 };
@@ -23617,7 +23617,7 @@ static TAB_NUM t_lambda_997[] = {
   var_default_value, 2, var_2787_5_derived_node, var_funky_types__tagged_additive_expression, 1, LOCAL(1),
   // default_value(derived_node funky_types::tagged_additive_expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2789_4_position, var_funky__expression_of, var_2790_42_multiplicative_expression, var_funky__operator_of, var_2793_38_additive_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2801, 15),
   POS(2801, 15),
@@ -23730,7 +23730,7 @@ static TAB_NUM t_lambda_1002[] = {
   0, // parameters
   // funky_types::expression
   LET, -4, var_funky_types__expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2811_4_position, var_funky__expression_of, var_2812_42_multiplicative_expression, var_funky__operator_of, var_2815_38_additive_operator, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(2823, 15),
   POS(2821, 15)
@@ -23800,7 +23800,7 @@ static TAB_NUM t_lambda_1006[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '+'
   var_std__equal, 2, LOCAL(1), chr_43, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1007, TAIL_CALL,
   POS(2835, 7),
   POS(2835, 7),
@@ -23835,9 +23835,9 @@ static TAB_NUM t_lambda_1008[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1009, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1011, TAIL_CALL,
   POS(2841, 9),
   POS(2841, 9),
@@ -23857,7 +23857,7 @@ static TAB_NUM t_lambda_1009[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '+'
   var_std__equal, 2, LOCAL(1), chr_43, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1010, 1, LOCAL(3),
   // text(2) == '+'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -23914,7 +23914,7 @@ static TAB_NUM t_lambda_1012[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1013, TAIL_CALL,
   POS(2848, 7),
   POS(2848, 7),
@@ -23949,9 +23949,9 @@ static TAB_NUM t_lambda_1014[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1015, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1017, TAIL_CALL,
   POS(2854, 9),
   POS(2854, 9),
@@ -23971,7 +23971,7 @@ static TAB_NUM t_lambda_1015[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1016, 1, LOCAL(3),
   // text(2) == '-'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -24024,7 +24024,7 @@ static FUNCTION_INFO i_lambda_1017 = {
 static TAB_NUM t_lambda_1018[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1019, TAIL_CALL,
   POS(2860, 7)
 };
@@ -24144,7 +24144,7 @@ static TAB_NUM t_lambda_1022[] = {
   var_default_value, 2, var_2869_5_derived_node, var_funky_types__plus2, 1, LOCAL(1),
   // default_value(derived_node funky_types::plus2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2871_4_position, var_funky__expression_of, var_2872_42_multiplicative_expression, var_funky__operator_of, var_2875_38_additive_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2883, 15),
   POS(2883, 15),
@@ -24292,7 +24292,7 @@ static TAB_NUM t_lambda_1028[] = {
   var_default_value, 2, var_2897_5_derived_node, var_funky_types__minus2, 1, LOCAL(1),
   // default_value(derived_node funky_types::minus2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2899_4_position, var_funky__expression_of, var_2900_42_multiplicative_expression, var_funky__operator_of, var_2903_38_additive_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2911, 15),
   POS(2911, 15),
@@ -24405,7 +24405,7 @@ static TAB_NUM t_lambda_1033[] = {
   0, // parameters
   // funky_types::expression
   LET, -4, var_funky_types__expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2921_4_position, var_funky__expression_of, var_2922_30_an_expression, var_funky__operator_of, var_2925_44_multiplicative_operator, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(2933, 15),
   POS(2931, 15)
@@ -24475,7 +24475,7 @@ static TAB_NUM t_lambda_1037[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '*'
   var_std__equal, 2, LOCAL(1), chr_42, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1038, TAIL_CALL,
   POS(2945, 7),
   POS(2945, 7),
@@ -24510,9 +24510,9 @@ static TAB_NUM t_lambda_1039[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1040, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1042, TAIL_CALL,
   POS(2951, 9),
   POS(2951, 9),
@@ -24532,7 +24532,7 @@ static TAB_NUM t_lambda_1040[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '*'
   var_std__equal, 2, LOCAL(1), chr_42, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1041, 1, LOCAL(3),
   // text(2) == '*'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -24589,7 +24589,7 @@ static TAB_NUM t_lambda_1043[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1044, TAIL_CALL,
   POS(2958, 7),
   POS(2958, 7),
@@ -24624,9 +24624,9 @@ static TAB_NUM t_lambda_1045[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1046, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1048, TAIL_CALL,
   POS(2964, 9),
   POS(2964, 9),
@@ -24646,7 +24646,7 @@ static TAB_NUM t_lambda_1046[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1047, 1, LOCAL(3),
   // text(2) == '/'
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -24699,7 +24699,7 @@ static FUNCTION_INFO i_lambda_1048 = {
 static TAB_NUM t_lambda_1049[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1050, TAIL_CALL,
   POS(2970, 7)
 };
@@ -24819,7 +24819,7 @@ static TAB_NUM t_lambda_1053[] = {
   var_default_value, 2, var_2979_5_derived_node, var_funky_types__times2, 1, LOCAL(1),
   // default_value(derived_node funky_types::times2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2981_4_position, var_funky__expression_of, var_2982_30_an_expression, var_funky__operator_of, var_2985_44_multiplicative_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(2993, 15),
   POS(2993, 15),
@@ -24967,7 +24967,7 @@ static TAB_NUM t_lambda_1059[] = {
   var_default_value, 2, var_3007_5_derived_node, var_funky_types__over2, 1, LOCAL(1),
   // default_value(derived_node funky_types::over2)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3009_4_position, var_funky__expression_of, var_3010_30_an_expression, var_funky__operator_of, var_3013_44_multiplicative_operator, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(3021, 15),
   POS(3021, 15),
@@ -25038,7 +25038,7 @@ static TAB_NUM t_lambda_1063[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '('
   var_std__equal, 2, LOCAL(1), chr_40, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1064, TAIL_CALL,
   POS(3033, 7),
   POS(3033, 7),
@@ -25073,9 +25073,9 @@ static TAB_NUM t_lambda_1065[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1066, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1067, TAIL_CALL,
   POS(3039, 9),
   POS(3039, 9),
@@ -25130,7 +25130,7 @@ static TAB_NUM t_lambda_1068[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1069, TAIL_CALL,
   POS(3045, 7),
   POS(3045, 7),
@@ -25165,7 +25165,7 @@ static TAB_NUM t_lambda_1070[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '"'
   var_std__equal, 2, LOCAL(1), chr_34, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1071, TAIL_CALL,
   POS(3050, 7),
   POS(3050, 7),
@@ -25200,7 +25200,7 @@ static TAB_NUM t_lambda_1072[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1073, TAIL_CALL,
   POS(3055, 7),
   POS(3055, 7),
@@ -25241,7 +25241,7 @@ static TAB_NUM t_lambda_1074[] = {
   var_std__and, 2, LOCAL(3), lambda_1075, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_1076, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1078, TAIL_CALL,
   POS(3060, 8),
   POS(3060, 8),
@@ -25351,7 +25351,7 @@ static TAB_NUM t_lambda_1079[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '`'
   var_std__equal, 2, LOCAL(1), chr_96, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1080, TAIL_CALL,
   POS(3066, 7),
   POS(3066, 7),
@@ -25382,7 +25382,7 @@ static FUNCTION_INFO i_lambda_1080 = {
 static TAB_NUM t_lambda_1081[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1082, TAIL_CALL,
   POS(3070, 7)
 };
@@ -25479,7 +25479,7 @@ static TAB_NUM t_lambda_1084[] = {
   0, // parameters
   // funky_types::parenthesed_expression
   LET, -4, var_funky_types__parenthesed_expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3078_4_position, var_funky__expression_of, var_3079_34_inline_expression, var_funky__calls_of, var_3085_37_inline_calls, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3090, 15),
   POS(3088, 15)
@@ -25549,7 +25549,7 @@ static TAB_NUM t_lambda_1088[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1089, TAIL_CALL,
   POS(3103, 7),
   POS(3103, 7),
@@ -25584,9 +25584,9 @@ static TAB_NUM t_lambda_1090[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1091, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1092, TAIL_CALL,
   POS(3109, 9),
   POS(3109, 9),
@@ -25637,7 +25637,7 @@ static FUNCTION_INFO i_lambda_1092 = {
 static TAB_NUM t_lambda_1093[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1094, TAIL_CALL,
   POS(3114, 7)
 };
@@ -25693,7 +25693,7 @@ static TAB_NUM t_lambda_1095[] = {
   0, // parameters
   // funky_types::backquoted
   LET, -3, var_funky_types__backquoted, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3122_4_position, var_funky__expression_of, var_3123_30_an_expression, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3128, 7),
   POS(3126, 7)
@@ -25744,7 +25744,7 @@ static TAB_NUM t_lambda_1097[] = {
   0, // parameters
   // funky_types::negation
   LET, -3, var_funky_types__negation, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3135_4_position, var_funky__expression_of, var_3136_30_an_expression, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3141, 7),
   POS(3139, 7)
@@ -25868,7 +25868,7 @@ static TAB_NUM t_lambda_1102[] = {
   var_default_value, 2, var_3149_5_derived_node, var_funky_types__multiline_operator, 1, LOCAL(1),
   // default_value(derived_node funky_types::multiline_operator)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3151_4_position, var_funky__remark_of, var_3152_32_trailing_remark, var_funky__arguments_of, var_3157_12_line_start_arguments, LOCAL(2),
-  // 
+  //
   LET, 2, string_1, LOCAL(2), TAIL_CALL,
   POS(3163, 15),
   POS(3163, 15),
@@ -26016,7 +26016,7 @@ static TAB_NUM t_lambda_1108[] = {
   0, // parameters
   // funky_types::multiline_minus
   LET, -4, var_funky_types__multiline_minus, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3176_4_position, var_funky__remark_of, var_3177_29_dummy_remark, var_funky__arguments_of, var_3182_12_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3188, 15),
   POS(3186, 15)
@@ -26150,7 +26150,7 @@ static TAB_NUM t_lambda_1114[] = {
   0, // parameters
   // funky_types::multiline_minus_with_remark
   LET, -4, var_funky_types__multiline_minus_with_remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3198_4_position, var_funky__remark_of, var_3199_23_remark, var_funky__arguments_of, var_3204_12_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3210, 15),
   POS(3208, 15)
@@ -26243,7 +26243,7 @@ static TAB_NUM t_lambda_1118[] = {
   0, // parameters
   // funky_types::multiline_over
   LET, -3, var_funky_types__multiline_over, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3223_4_position, var_funky__arguments_of, var_3224_4_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3230, 7),
   POS(3228, 7)
@@ -26351,7 +26351,7 @@ static TAB_NUM t_lambda_1122[] = {
   0, // parameters
   // funky_types::multiline_over_with_remark
   LET, -4, var_funky_types__multiline_over_with_remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3236_4_position, var_funky__remark_of, var_3237_23_remark, var_funky__arguments_of, var_3242_12_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3248, 15),
   POS(3246, 15)
@@ -26615,7 +26615,7 @@ static TAB_NUM t_lambda_1128[] = {
   0, // parameters
   // funky_types::multiline_bit_and
   LET, -4, var_funky_types__multiline_bit_and, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3288_4_position, var_funky__remark_of, var_3289_29_dummy_remark, var_funky__arguments_of, var_3294_12_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3300, 15),
   POS(3298, 15)
@@ -26749,7 +26749,7 @@ static TAB_NUM t_lambda_1134[] = {
   0, // parameters
   // funky_types::multiline_bit_and_with_remark
   LET, -4, var_funky_types__multiline_bit_and_with_remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3310_4_position, var_funky__remark_of, var_3311_23_remark, var_funky__arguments_of, var_3316_12_line_start_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3322, 15),
   POS(3320, 15)
@@ -26852,7 +26852,7 @@ static TAB_NUM t_lambda_1137[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1138, TAIL_CALL,
   POS(3343, 7),
   POS(3343, 7),
@@ -26887,7 +26887,7 @@ static TAB_NUM t_lambda_1139[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '/'
   var_std__equal, 2, LOCAL(1), chr_47, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1140, TAIL_CALL,
   POS(3348, 7),
   POS(3348, 7),
@@ -26922,9 +26922,9 @@ static TAB_NUM t_lambda_1141[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1142, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1143, TAIL_CALL,
   POS(3354, 9),
   POS(3354, 9),
@@ -26979,7 +26979,7 @@ static TAB_NUM t_lambda_1144[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ':'
   var_std__equal, 2, LOCAL(1), chr_58, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1145, TAIL_CALL,
   POS(3360, 7),
   POS(3360, 7),
@@ -27010,7 +27010,7 @@ static FUNCTION_INFO i_lambda_1145 = {
 static TAB_NUM t_lambda_1146[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1147, TAIL_CALL,
   POS(3364, 7)
 };
@@ -27197,7 +27197,7 @@ static TAB_NUM t_lambda_1155[] = {
   0, // parameters
   // funky_types::inline_attribute_value_pair
   LET, -4, var_funky_types__inline_attribute_value_pair, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3378_4_position, var_funky__identifier_of, var_3380_27_identifier, var_funky__expression_of, var_3386_35_expression, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3391, 15),
   POS(3389, 15)
@@ -27318,7 +27318,7 @@ static TAB_NUM t_lambda_1160[] = {
   0, // parameters
   // funky_types::inline_method_value_pair
   LET, -4, var_funky_types__inline_method_value_pair, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3402_4_position, var_funky__identifier_of, var_3404_27_identifier, var_funky__expression_of, var_3410_35_expression, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3415, 15),
   POS(3413, 15)
@@ -27431,7 +27431,7 @@ static TAB_NUM t_lambda_1165[] = {
   func_to_list, 1, var_3429_42_some_inline_arguments, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(3438, 28),
   POS(3439, 39),
@@ -27530,7 +27530,7 @@ static FUNCTION_INFO i_lambda_1169 = {
 static TAB_NUM t_lambda_1170[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_text, var_3448_37_inline_arguments, TAIL_CALL,
   POS(3451, 11)
 };
@@ -27588,7 +27588,7 @@ static FUNCTION_INFO i_func_parse_spaced_inline_arguments_without_prefix = {
 static TAB_NUM t_lambda_1173[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_text, var_3459_33_inline_arguments, TAIL_CALL,
   POS(3462, 7)
 };
@@ -27641,7 +27641,7 @@ static TAB_NUM t_lambda_1175[] = {
   0, // parameters
   // funky_types::numeric_literal
   LET, -3, var_funky_types__numeric_literal, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3468_4_position, var_funky__digits_of, var_3470_23_digits, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3475, 7),
   POS(3473, 7)
@@ -27689,7 +27689,7 @@ static TAB_NUM t_lambda_1177[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '1' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1178, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1179, TAIL_CALL,
   POS(3484, 8),
   POS(3484, 8),
@@ -27748,7 +27748,7 @@ static TAB_NUM t_lambda_1180[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '0'
   var_std__equal, 2, LOCAL(1), chr_48, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1181, TAIL_CALL,
   POS(3489, 7),
   POS(3489, 7),
@@ -27826,7 +27826,7 @@ static TAB_NUM t_lambda_1184[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1185, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1186, TAIL_CALL,
   POS(3499, 8),
   POS(3499, 8),
@@ -27885,9 +27885,9 @@ static TAB_NUM t_lambda_1187[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1188, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1190, TAIL_CALL,
   POS(3505, 9),
   POS(3505, 9),
@@ -27970,9 +27970,9 @@ static TAB_NUM t_lambda_1191[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1192, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1194, TAIL_CALL,
   POS(3512, 9),
   POS(3512, 9),
@@ -28055,7 +28055,7 @@ static TAB_NUM t_lambda_1195[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'b'
   var_std__equal, 2, LOCAL(1), chr_98, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1196, TAIL_CALL,
   POS(3518, 7),
   POS(3518, 7),
@@ -28090,7 +28090,7 @@ static TAB_NUM t_lambda_1197[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'o'
   var_std__equal, 2, LOCAL(1), chr_111, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1198, TAIL_CALL,
   POS(3523, 7),
   POS(3523, 7),
@@ -28125,7 +28125,7 @@ static TAB_NUM t_lambda_1199[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'x'
   var_std__equal, 2, LOCAL(1), chr_120, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1200, TAIL_CALL,
   POS(3528, 7),
   POS(3528, 7),
@@ -28156,7 +28156,7 @@ static FUNCTION_INFO i_lambda_1200 = {
 static TAB_NUM t_lambda_1201[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1202, TAIL_CALL,
   POS(3532, 7)
 };
@@ -28215,7 +28215,7 @@ static TAB_NUM t_lambda_1203[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1204, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1205, TAIL_CALL,
   POS(3539, 8),
   POS(3539, 8),
@@ -28274,9 +28274,9 @@ static TAB_NUM t_lambda_1206[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1207, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1209, TAIL_CALL,
   POS(3545, 9),
   POS(3545, 9),
@@ -28359,9 +28359,9 @@ static TAB_NUM t_lambda_1210[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1211, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1213, TAIL_CALL,
   POS(3552, 9),
   POS(3552, 9),
@@ -28444,7 +28444,7 @@ static TAB_NUM t_lambda_1214[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1215, TAIL_CALL,
   POS(3558, 7),
   POS(3558, 7),
@@ -28479,7 +28479,7 @@ static TAB_NUM t_lambda_1216[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'E'
   var_std__equal, 2, LOCAL(1), chr_69, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1217, TAIL_CALL,
   POS(3563, 7),
   POS(3563, 7),
@@ -28510,7 +28510,7 @@ static FUNCTION_INFO i_lambda_1217 = {
 static TAB_NUM t_lambda_1218[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1219, TAIL_CALL,
   POS(3567, 7)
 };
@@ -28569,7 +28569,7 @@ static TAB_NUM t_lambda_1220[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1221, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1222, TAIL_CALL,
   POS(3574, 8),
   POS(3574, 8),
@@ -28628,7 +28628,7 @@ static TAB_NUM t_lambda_1223[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1224, TAIL_CALL,
   POS(3579, 7),
   POS(3579, 7),
@@ -28663,7 +28663,7 @@ static TAB_NUM t_lambda_1225[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == 'E'
   var_std__equal, 2, LOCAL(1), chr_69, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1226, TAIL_CALL,
   POS(3584, 7),
   POS(3584, 7),
@@ -28694,7 +28694,7 @@ static FUNCTION_INFO i_lambda_1226 = {
 static TAB_NUM t_lambda_1227[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1228, TAIL_CALL,
   POS(3588, 7)
 };
@@ -28749,7 +28749,7 @@ static TAB_NUM t_lambda_1229[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '+'
   var_std__equal, 2, LOCAL(1), chr_43, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1230, TAIL_CALL,
   POS(3595, 7),
   POS(3595, 7),
@@ -28784,7 +28784,7 @@ static TAB_NUM t_lambda_1231[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '-'
   var_std__equal, 2, LOCAL(1), chr_45, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1232, TAIL_CALL,
   POS(3600, 7),
   POS(3600, 7),
@@ -28823,7 +28823,7 @@ static TAB_NUM t_lambda_1233[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1234, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1235, TAIL_CALL,
   POS(3605, 8),
   POS(3605, 8),
@@ -28925,7 +28925,7 @@ static TAB_NUM t_lambda_1238[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1239, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1240, TAIL_CALL,
   POS(3615, 8),
   POS(3615, 8),
@@ -29027,7 +29027,7 @@ static TAB_NUM t_lambda_1243[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '9')
   var_std__and, 2, LOCAL(3), lambda_1244, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1245, TAIL_CALL,
   POS(3625, 8),
   POS(3625, 8),
@@ -29082,7 +29082,7 @@ static FUNCTION_INFO i_lambda_1245 = {
 static TAB_NUM t_lambda_1246[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1247, TAIL_CALL,
   POS(3629, 7)
 };
@@ -29139,7 +29139,7 @@ static TAB_NUM t_lambda_1248[] = {
   var_std__equal, 2, LOCAL(1), chr_48, 1, LOCAL(2),
   // text(1) == '0' || text(1) == '1'
   var_std__or, 2, LOCAL(2), lambda_1249, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1250, TAIL_CALL,
   POS(3636, 7),
   POS(3636, 7),
@@ -29235,7 +29235,7 @@ static TAB_NUM t_lambda_1253[] = {
   var_std__equal, 2, LOCAL(1), chr_48, 1, LOCAL(2),
   // text(1) == '0' || text(1) == '1'
   var_std__or, 2, LOCAL(2), lambda_1254, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1255, TAIL_CALL,
   POS(3646, 7),
   POS(3646, 7),
@@ -29290,9 +29290,9 @@ static TAB_NUM t_lambda_1256[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1257, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1259, TAIL_CALL,
   POS(3652, 9),
   POS(3652, 9),
@@ -29365,7 +29365,7 @@ static FUNCTION_INFO i_lambda_1259 = {
 static TAB_NUM t_lambda_1260[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1261, TAIL_CALL,
   POS(3657, 7)
 };
@@ -29424,7 +29424,7 @@ static TAB_NUM t_lambda_1262[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '7')
   var_std__and, 2, LOCAL(3), lambda_1263, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1264, TAIL_CALL,
   POS(3664, 8),
   POS(3664, 8),
@@ -29526,7 +29526,7 @@ static TAB_NUM t_lambda_1267[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) >= '0' && text(1) <= '7')
   var_std__and, 2, LOCAL(3), lambda_1268, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1269, TAIL_CALL,
   POS(3674, 8),
   POS(3674, 8),
@@ -29585,9 +29585,9 @@ static TAB_NUM t_lambda_1270[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1271, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1273, TAIL_CALL,
   POS(3680, 9),
   POS(3680, 9),
@@ -29666,7 +29666,7 @@ static FUNCTION_INFO i_lambda_1273 = {
 static TAB_NUM t_lambda_1274[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1275, TAIL_CALL,
   POS(3685, 7)
 };
@@ -29727,7 +29727,7 @@ static TAB_NUM t_lambda_1276[] = {
   var_std__and, 2, LOCAL(3), lambda_1277, 1, LOCAL(4),
   // text(1) >= '0' && text(1) <= '9') || (text(1) >= 'a' && text(1) <= 'f') || (text(1) >= 'A' && text(1) <= 'F')
   var_std__or, 2, LOCAL(4), lambda_1278, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1282, TAIL_CALL,
   POS(3692, 8),
   POS(3692, 8),
@@ -29929,7 +29929,7 @@ static TAB_NUM t_lambda_1285[] = {
   var_std__and, 2, LOCAL(3), lambda_1286, 1, LOCAL(4),
   // text(1) >= '0' && text(1) <= '9') || (text(1) >= 'a' && text(1) <= 'f') || (text(1) >= 'A' && text(1) <= 'F')
   var_std__or, 2, LOCAL(4), lambda_1287, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1291, TAIL_CALL,
   POS(3702, 8),
   POS(3702, 8),
@@ -30086,9 +30086,9 @@ static TAB_NUM t_lambda_1292[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1293, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1299, TAIL_CALL,
   POS(3708, 9),
   POS(3708, 9),
@@ -30267,7 +30267,7 @@ static FUNCTION_INFO i_lambda_1299 = {
 static TAB_NUM t_lambda_1300[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1301, TAIL_CALL,
   POS(3713, 7)
 };
@@ -30322,9 +30322,9 @@ static TAB_NUM t_lambda_1302[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1303, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1304, TAIL_CALL,
   POS(3721, 9),
   POS(3721, 9),
@@ -30385,7 +30385,7 @@ static TAB_NUM t_lambda_1305[] = {
   var_std__and, 2, LOCAL(3), lambda_1306, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_1307, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1309, TAIL_CALL,
   POS(3727, 8),
   POS(3727, 8),
@@ -30491,7 +30491,7 @@ static FUNCTION_INFO i_lambda_1309 = {
 static TAB_NUM t_lambda_1310[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1311, TAIL_CALL,
   POS(3732, 7)
 };
@@ -30607,7 +30607,7 @@ static TAB_NUM t_lambda_1313[] = {
   var_range, 3, var_text, num_3, minus_num_1, 1, LOCAL(1),
   // funky_types::named_character_literal
   LET, -3, var_funky_types__named_character_literal, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3748_4_position, var_funky__name_of, var_3749_47_character_name, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(3757, 15),
   POS(3758, 15),
@@ -30728,7 +30728,7 @@ static TAB_NUM t_lambda_1318[] = {
   var_range, 3, var_text, num_3, minus_num_1, 1, LOCAL(1),
   // funky_types::numeric_character_literal
   LET, -3, var_funky_types__numeric_character_literal, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3769_4_position, var_funky__digits_of, var_3771_23_digits, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(3779, 15),
   POS(3780, 15),
@@ -30830,7 +30830,7 @@ static TAB_NUM t_lambda_1322[] = {
   var_range, 3, var_text, num_2, minus_num_1, 1, LOCAL(1),
   // funky_types::character_literal
   LET, -3, var_funky_types__character_literal, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3791_4_position, var_funky__character_of, var_3793_26_character, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(3799, 11),
   POS(3800, 11),
@@ -30890,7 +30890,7 @@ static TAB_NUM t_lambda_1325[] = {
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // text(1) != '@nl;'
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1326, TAIL_CALL,
   POS(3811, 7),
   POS(3811, 7),
@@ -30974,7 +30974,7 @@ static TAB_NUM t_lambda_1329[] = {
   var_std__and, 2, LOCAL(3), lambda_1330, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
   var_std__or, 2, LOCAL(4), lambda_1331, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1335, TAIL_CALL,
   POS(3819, 8),
   POS(3819, 8),
@@ -31127,7 +31127,7 @@ static FUNCTION_INFO i_lambda_1335 = {
 static TAB_NUM t_lambda_1336[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1337, TAIL_CALL,
   POS(3823, 7)
 };
@@ -31189,7 +31189,7 @@ static TAB_NUM t_lambda_1338[] = {
   0, // parameters
   // funky_types::string_literal
   LET, -3, var_funky_types__string_literal, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3828_4_position, var_funky__components_of, var_3829_34_string_components, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3834, 7),
   POS(3832, 7)
@@ -31240,7 +31240,7 @@ static TAB_NUM t_lambda_1340[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '"'
   var_std__equal, 2, LOCAL(1), chr_34, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1341, TAIL_CALL,
   POS(3843, 7),
   POS(3843, 7),
@@ -31271,7 +31271,7 @@ static FUNCTION_INFO i_lambda_1341 = {
 static TAB_NUM t_lambda_1342[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1343, TAIL_CALL,
   POS(3845, 7)
 };
@@ -31450,7 +31450,7 @@ static TAB_NUM t_lambda_1351[] = {
   func_to_list, 1, var_3862_38_string_components, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(3871, 34),
   POS(3872, 35),
@@ -31525,9 +31525,9 @@ static TAB_NUM t_lambda_1355[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1356, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1357, TAIL_CALL,
   POS(3881, 9),
   POS(3881, 9),
@@ -31582,9 +31582,9 @@ static TAB_NUM t_lambda_1358[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1359, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1360, TAIL_CALL,
   POS(3888, 9),
   POS(3888, 9),
@@ -31639,9 +31639,9 @@ static TAB_NUM t_lambda_1361[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1362, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1363, TAIL_CALL,
   POS(3895, 9),
   POS(3895, 9),
@@ -31696,7 +31696,7 @@ static TAB_NUM t_lambda_1364[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1365, TAIL_CALL,
   POS(3901, 7),
   POS(3901, 7),
@@ -31727,7 +31727,7 @@ static FUNCTION_INFO i_lambda_1365 = {
 static TAB_NUM t_lambda_1366[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1367, TAIL_CALL,
   POS(3905, 7)
 };
@@ -31786,7 +31786,7 @@ static TAB_NUM t_lambda_1368[] = {
   0, // parameters
   // funky_types::character_sequence
   LET, -3, var_funky_types__character_sequence, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3913_4_position, var_funky__characters_of, var_3915_34_string_characters, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(3920, 7),
   POS(3918, 7)
@@ -31834,7 +31834,7 @@ static TAB_NUM t_lambda_1370[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) != '@nl;' && text(1) != '@@' && text(1) != '"'
   var_std__and, 2, LOCAL(3), lambda_1371, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1373, TAIL_CALL,
   POS(3929, 7),
   POS(3929, 7),
@@ -31961,7 +31961,7 @@ static TAB_NUM t_lambda_1376[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) != '@nl;' && text(1) != '@@' && text(1) != '"'
   var_std__and, 2, LOCAL(3), lambda_1377, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1379, TAIL_CALL,
   POS(3939, 7),
   POS(3939, 7),
@@ -32041,7 +32041,7 @@ static FUNCTION_INFO i_lambda_1379 = {
 static TAB_NUM t_lambda_1380[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1381, TAIL_CALL,
   POS(3943, 7)
 };
@@ -32119,7 +32119,7 @@ static TAB_NUM t_lambda_1383[] = {
   0, // parameters
   // funky_types::string_literal
   LET, -3, var_funky_types__string_literal, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_3948_4_position, var_funky__components_of, var_3949_4_multiline_string_components, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(3955, 7),
   POS(3953, 7)
@@ -32157,9 +32157,9 @@ static TAB_NUM t_lambda_1384[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1385, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1386, TAIL_CALL,
   POS(3964, 9),
   POS(3964, 9),
@@ -32214,7 +32214,7 @@ static TAB_NUM t_lambda_1387[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1388, TAIL_CALL,
   POS(3970, 7),
   POS(3970, 7),
@@ -32242,7 +32242,7 @@ static FUNCTION_INFO i_lambda_1388 = {
 static TAB_NUM t_lambda_1389[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1390, TAIL_CALL,
   POS(3973, 7)
 };
@@ -32441,7 +32441,7 @@ static TAB_NUM t_lambda_1398[] = {
   func_to_list, 1, var_3998_48_multiline_string_components, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(4007, 39),
   POS(4008, 45),
@@ -32516,9 +32516,9 @@ static TAB_NUM t_lambda_1402[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1403, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1404, TAIL_CALL,
   POS(4017, 9),
   POS(4017, 9),
@@ -32573,9 +32573,9 @@ static TAB_NUM t_lambda_1405[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1406, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1407, TAIL_CALL,
   POS(4024, 9),
   POS(4024, 9),
@@ -32630,9 +32630,9 @@ static TAB_NUM t_lambda_1408[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1409, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1410, TAIL_CALL,
   POS(4031, 9),
   POS(4031, 9),
@@ -32687,7 +32687,7 @@ static TAB_NUM t_lambda_1411[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@@'
   var_std__equal, 2, LOCAL(1), chr_64, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1412, TAIL_CALL,
   POS(4037, 7),
   POS(4037, 7),
@@ -32718,7 +32718,7 @@ static FUNCTION_INFO i_lambda_1412 = {
 static TAB_NUM t_lambda_1413[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1414, TAIL_CALL,
   POS(4041, 7)
 };
@@ -32807,7 +32807,7 @@ static TAB_NUM t_lambda_1415[] = {
   0, // parameters
   // funky_types::tagged_empty_character
   LET, -3, var_funky_types__tagged_empty_character, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4062_4_position, var_funky__character_of, var_4063_47_empty_character, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4068, 7),
   POS(4066, 7)
@@ -32950,7 +32950,7 @@ static TAB_NUM t_lambda_1420[] = {
   var_std__and, 2, LOCAL(3), lambda_1421, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_1422, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1424, TAIL_CALL,
   POS(4093, 8),
   POS(4093, 8),
@@ -33056,7 +33056,7 @@ static FUNCTION_INFO i_lambda_1424 = {
 static TAB_NUM t_lambda_1425[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1426, TAIL_CALL,
   POS(4098, 7)
 };
@@ -33133,7 +33133,7 @@ static TAB_NUM t_lambda_1427[] = {
   var_range, 3, var_text, num_2, minus_num_1, 1, LOCAL(1),
   // funky_types::named_character
   LET, -3, var_funky_types__named_character, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4106_4_position, var_funky__name_of, var_4107_47_character_name, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(4113, 11),
   POS(4114, 11),
@@ -33222,7 +33222,7 @@ static TAB_NUM t_lambda_1430[] = {
   var_range, 3, var_text, num_2, minus_num_1, 1, LOCAL(1),
   // funky_types::numeric_character
   LET, -3, var_funky_types__numeric_character, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4123_4_position, var_funky__digits_of, var_4125_23_digits, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(4131, 11),
   POS(4132, 11),
@@ -33290,7 +33290,7 @@ static TAB_NUM t_lambda_1433[] = {
   0, // parameters
   // funky_types::character_sequence
   LET, -3, var_funky_types__character_sequence, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4141_4_position, var_funky__characters_of, var_4143_39_string_line_characters, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4148, 7),
   POS(4146, 7)
@@ -33338,7 +33338,7 @@ static TAB_NUM t_lambda_1435[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) != '@nl;' && text(1) != '@@'
   var_std__and, 2, LOCAL(3), lambda_1436, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1437, TAIL_CALL,
   POS(4157, 7),
   POS(4157, 7),
@@ -33440,7 +33440,7 @@ static TAB_NUM t_lambda_1440[] = {
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // text(1) != '@nl;' && text(1) != '@@'
   var_std__and, 2, LOCAL(3), lambda_1441, 1, LOCAL(4),
-  // 
+  //
   LET, 2, LOCAL(4), lambda_1442, TAIL_CALL,
   POS(4167, 7),
   POS(4167, 7),
@@ -33495,7 +33495,7 @@ static FUNCTION_INFO i_lambda_1442 = {
 static TAB_NUM t_lambda_1443[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1444, TAIL_CALL,
   POS(4171, 7)
 };
@@ -33557,7 +33557,7 @@ static TAB_NUM t_lambda_1445[] = {
   0, // parameters
   // funky_types::unique
   LET, -3, var_funky_types__unique, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4176_4_position, var_funky__remarks_of, var_4177_33_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4182, 7),
   POS(4180, 7)
@@ -33608,7 +33608,7 @@ static TAB_NUM t_lambda_1447[] = {
   0, // parameters
   // funky_types::attribute
   LET, -3, var_funky_types__attribute, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4189_4_position, var_funky__remarks_of, var_4190_33_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4195, 7),
   POS(4193, 7)
@@ -33659,7 +33659,7 @@ static TAB_NUM t_lambda_1449[] = {
   0, // parameters
   // funky_types::attribute_with_setter
   LET, -3, var_funky_types__attribute_with_setter, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4202_4_position, var_funky__remarks_of, var_4203_33_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4208, 7),
   POS(4206, 7)
@@ -33751,7 +33751,7 @@ static TAB_NUM t_lambda_1451[] = {
   var_default_value, 2, var_4216_5_derived_node, var_funky_types__body, 1, LOCAL(1),
   // default_value(derived_node funky_types::body)
   LET, -5, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4218_4_position, var_funky__parameters_of, var_4219_34_inline_parameters, var_funky__remark_of, var_4222_45_optional_line_end_remark, var_funky__statements_of, var_4225_40_body_statements, LOCAL(2),
-  // 
+  //
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
   POS(4230, 15),
   POS(4230, 15),
@@ -33822,9 +33822,9 @@ static TAB_NUM t_lambda_1455[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1456, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1457, TAIL_CALL,
   POS(4244, 9),
   POS(4244, 9),
@@ -33875,7 +33875,7 @@ static FUNCTION_INFO i_lambda_1457 = {
 static TAB_NUM t_lambda_1458[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1459, TAIL_CALL,
   POS(4249, 7)
 };
@@ -33925,7 +33925,7 @@ static TAB_NUM t_lambda_1460[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1461, TAIL_CALL,
   POS(4256, 7),
   POS(4256, 7),
@@ -33956,7 +33956,7 @@ static FUNCTION_INFO i_lambda_1461 = {
 static TAB_NUM t_lambda_1462[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1463, TAIL_CALL,
   POS(4260, 7)
 };
@@ -34153,7 +34153,7 @@ static TAB_NUM t_lambda_1471[] = {
   0, // parameters
   // funky_types::inline_body
   LET, -4, var_funky_types__inline_body, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4277_4_position, var_funky__parameters_of, var_4278_34_inline_parameters, var_funky__statement_of, var_4284_41_inline_statement, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4289, 15),
   POS(4287, 15)
@@ -34276,7 +34276,7 @@ static FUNCTION_INFO i_lambda_1477 = {
 static TAB_NUM t_lambda_1478[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, string_1, var_4302_8_parameters_or_statement, TAIL_CALL,
   POS(4306, 11)
 };
@@ -34326,9 +34326,9 @@ static TAB_NUM t_lambda_1480[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1481, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1482, TAIL_CALL,
   POS(4316, 9),
   POS(4316, 9),
@@ -34379,7 +34379,7 @@ static FUNCTION_INFO i_lambda_1482 = {
 static TAB_NUM t_lambda_1483[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1484, TAIL_CALL,
   POS(4321, 7)
 };
@@ -34509,7 +34509,7 @@ static TAB_NUM t_lambda_1491[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ')'
   var_std__equal, 2, LOCAL(1), chr_41, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1492, TAIL_CALL,
   POS(4334, 7),
   POS(4334, 7),
@@ -34540,7 +34540,7 @@ static FUNCTION_INFO i_lambda_1492 = {
 static TAB_NUM t_lambda_1493[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1494, TAIL_CALL,
   POS(4336, 7)
 };
@@ -34632,7 +34632,7 @@ static TAB_NUM t_lambda_1496[] = {
   func_to_list, 1, var_4347_49_maybe_more_inline_parameters, 1, LOCAL(2),
   // append
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, var_text, LOCAL(3), TAIL_CALL,
   POS(4356, 34),
   POS(4357, 46),
@@ -34707,7 +34707,7 @@ static TAB_NUM t_lambda_1500[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1501, TAIL_CALL,
   POS(4365, 7),
   POS(4365, 7),
@@ -34742,7 +34742,7 @@ static TAB_NUM t_lambda_1502[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ')'
   var_std__equal, 2, LOCAL(1), chr_41, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1503, TAIL_CALL,
   POS(4370, 7),
   POS(4370, 7),
@@ -34773,7 +34773,7 @@ static FUNCTION_INFO i_lambda_1503 = {
 static TAB_NUM t_lambda_1504[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1505, TAIL_CALL,
   POS(4372, 7)
 };
@@ -34816,7 +34816,7 @@ static TAB_NUM t_lambda_1506[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '_'
   var_std__equal, 2, LOCAL(1), chr_95, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1507, TAIL_CALL,
   POS(4380, 7),
   POS(4380, 7),
@@ -34857,7 +34857,7 @@ static TAB_NUM t_lambda_1508[] = {
   var_std__and, 2, LOCAL(3), lambda_1509, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_1510, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1512, TAIL_CALL,
   POS(4385, 8),
   POS(4385, 8),
@@ -35080,7 +35080,7 @@ static TAB_NUM t_lambda_1518[] = {
   0, // parameters
   // funky_types::open_parameters
   LET, -4, var_funky_types__open_parameters, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4393_4_position, var_funky__remark_of, var_4394_32_trailing_remark, var_funky__parameter_of, var_4399_12_parameter, LOCAL(1),
-  // 
+  //
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(4405, 15),
   POS(4403, 15)
@@ -35166,7 +35166,7 @@ static TAB_NUM t_lambda_1521[] = {
   0, // parameters
   // funky_types::inline_parameter
   LET, -4, var_funky_types__inline_parameter, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4415_4_position, var_funky__name_of, var_4417_31_parameter_name, var_funky__option_of, var_4420_37_parameter_option, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4425, 11),
   POS(4423, 11)
@@ -35271,7 +35271,7 @@ static TAB_NUM t_lambda_1524[] = {
   0, // parameters
   // funky_types::parameter
   LET, -5, var_funky_types__parameter, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4434_4_position, var_funky__name_of, var_4436_31_parameter_name, var_funky__option_of, var_4439_37_parameter_option, var_funky__remarks_of, var_4442_41_trailing_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4447, 15),
   POS(4445, 15)
@@ -35341,7 +35341,7 @@ static TAB_NUM t_lambda_1528[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '^'
   var_std__equal, 2, LOCAL(1), chr_94, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1529, TAIL_CALL,
   POS(4460, 7),
   POS(4460, 7),
@@ -35376,7 +35376,7 @@ static TAB_NUM t_lambda_1530[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '*'
   var_std__equal, 2, LOCAL(1), chr_42, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1531, TAIL_CALL,
   POS(4465, 7),
   POS(4465, 7),
@@ -35411,9 +35411,9 @@ static TAB_NUM t_lambda_1532[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1533, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1535, TAIL_CALL,
   POS(4471, 9),
   POS(4471, 9),
@@ -35433,7 +35433,7 @@ static TAB_NUM t_lambda_1533[] = {
   var_text, 1, num_2, 1, LOCAL(1),
   // text(2) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1534, 1, LOCAL(3),
   // text(2) == '='
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -35486,7 +35486,7 @@ static FUNCTION_INFO i_lambda_1535 = {
 static TAB_NUM t_lambda_1536[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1537, TAIL_CALL,
   POS(4477, 7)
 };
@@ -35576,7 +35576,7 @@ static TAB_NUM t_lambda_1538[] = {
   0, // parameters
   // funky_types::initial_value
   LET, -3, var_funky_types__initial_value, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4498_4_position, var_funky__operand_of, var_4499_31_simple_operand, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4504, 7),
   POS(4502, 7)
@@ -35626,7 +35626,7 @@ static TAB_NUM t_lambda_1540[] = {
   var_std__and, 2, LOCAL(3), lambda_1541, 1, LOCAL(4),
   // text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
   var_std__or, 2, LOCAL(4), lambda_1542, 1, LOCAL(5),
-  // 
+  //
   LET, 2, LOCAL(5), lambda_1544, TAIL_CALL,
   POS(4513, 8),
   POS(4513, 8),
@@ -35736,9 +35736,9 @@ static TAB_NUM t_lambda_1545[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1546, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1547, TAIL_CALL,
   POS(4520, 9),
   POS(4520, 9),
@@ -35793,7 +35793,7 @@ static TAB_NUM t_lambda_1548[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '''
   var_std__equal, 2, LOCAL(1), chr_39, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1549, TAIL_CALL,
   POS(4526, 7),
   POS(4526, 7),
@@ -35828,7 +35828,7 @@ static TAB_NUM t_lambda_1550[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '"'
   var_std__equal, 2, LOCAL(1), chr_34, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1551, TAIL_CALL,
   POS(4531, 7),
   POS(4531, 7),
@@ -35859,7 +35859,7 @@ static FUNCTION_INFO i_lambda_1551 = {
 static TAB_NUM t_lambda_1552[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1553, TAIL_CALL,
   POS(4535, 7)
 };
@@ -35915,7 +35915,7 @@ static TAB_NUM t_lambda_1554[] = {
   0, // parameters
   // funky_types::close_parameters
   LET, -3, var_funky_types__close_parameters, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4543_4_position, var_funky__remark_of, var_4544_32_trailing_remark, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4549, 7),
   POS(4547, 7)
@@ -35966,7 +35966,7 @@ static TAB_NUM t_lambda_1556[] = {
   0, // parameters
   // funky_types::return_expression
   LET, -3, var_funky_types__return_expression, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4556_4_position, var_funky__arguments_of, var_4557_41_some_statement_arguments, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4562, 7),
   POS(4560, 7)
@@ -36062,7 +36062,7 @@ static TAB_NUM t_lambda_1559[] = {
   0, // parameters
   // funky_types::remark
   LET, -3, var_funky_types__remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4577_4_position, var_funky__text_of, var_4582_32_remark_text, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4587, 11),
   POS(4585, 11)
@@ -36129,7 +36129,7 @@ static TAB_NUM t_lambda_1562[] = {
   0, // parameters
   // funky_types::remark
   LET, -3, var_funky_types__remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4596_4_position, var_funky__text_of, var_4598_28_remark_text, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4603, 7),
   POS(4601, 7)
@@ -36173,7 +36173,7 @@ static TAB_NUM t_lambda_1564[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1565, TAIL_CALL,
   POS(4612, 7),
   POS(4612, 7),
@@ -36213,7 +36213,7 @@ static FUNCTION_INFO i_lambda_1565 = {
 static TAB_NUM t_lambda_1566[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1567, TAIL_CALL,
   POS(4614, 7)
 };
@@ -36259,7 +36259,7 @@ static TAB_NUM t_lambda_1568[] = {
   var_std__equal, 2, var_text, string_2, 1, LOCAL(1),
   // text == "@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_1569, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1570, TAIL_CALL,
   POS(4623, 7),
   POS(4623, 7),
@@ -36303,7 +36303,7 @@ static FUNCTION_INFO i_lambda_1570 = {
 static TAB_NUM t_lambda_1571[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1572, TAIL_CALL,
   POS(4626, 7)
 };
@@ -36394,7 +36394,7 @@ static TAB_NUM t_lambda_1574[] = {
   0, // parameters
   // funky_types::line_end_and_line_remarks
   LET, -4, var_funky_types__line_end_and_line_remarks, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4634_4_position, var_funky__remark_of, var_4635_32_trailing_remark, var_funky__remarks_of, var_4638_33_line_remarks, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4646, 15),
   POS(4644, 15)
@@ -36464,9 +36464,9 @@ static TAB_NUM t_lambda_1578[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == ' '
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_1579, 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(3), lambda_1580, TAIL_CALL,
   POS(4659, 9),
   POS(4659, 9),
@@ -36521,7 +36521,7 @@ static TAB_NUM t_lambda_1581[] = {
   var_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1582, TAIL_CALL,
   POS(4665, 7),
   POS(4665, 7),
@@ -36549,7 +36549,7 @@ static FUNCTION_INFO i_lambda_1582 = {
 static TAB_NUM t_lambda_1583[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1584, TAIL_CALL,
   POS(4667, 7)
 };
@@ -36626,7 +36626,7 @@ static FUNCTION_INFO i_lambda_1586 = {
 static TAB_NUM t_lambda_1587[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, string_1, var_4675_8_multiline_remark, TAIL_CALL,
   POS(4679, 11)
 };
@@ -36687,7 +36687,7 @@ static FUNCTION_INFO i_lambda_1589 = {
 static TAB_NUM t_lambda_1590[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, string_1, var_4686_4_multiline_remark, TAIL_CALL,
   POS(4690, 7)
 };
@@ -36727,7 +36727,7 @@ static TAB_NUM t_lambda_1591[] = {
   0, // parameters
   // funky_types::remark
   LET, -3, var_funky_types__remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4695_4_position, var_funky__text_of, var_4697_28_remark_text, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4702, 7),
   POS(4700, 7)
@@ -36822,7 +36822,7 @@ static TAB_NUM t_lambda_1594[] = {
   0, // parameters
   // funky_types::multiline_remark
   LET, -4, var_funky_types__multiline_remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4709_4_position, var_funky__text_of, var_4714_32_remark_text, var_funky__lines_of, var_4717_42_some_remark_lines, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4722, 15),
   POS(4720, 15)
@@ -36921,7 +36921,7 @@ static TAB_NUM t_lambda_1598[] = {
   0, // parameters
   // funky_types::multiline_remark
   LET, -4, var_funky_types__multiline_remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4733_4_position, var_funky__text_of, var_4735_28_remark_text, var_funky__lines_of, var_4738_38_some_remark_lines, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4743, 11),
   POS(4741, 11)
@@ -36978,7 +36978,7 @@ static TAB_NUM t_lambda_1601[] = {
   var_std__equal, 2, var_text, string_2, 1, LOCAL(1),
   // text == "@nl;" && subgroups.is_defined
   var_std__and, 2, LOCAL(1), lambda_1602, 1, LOCAL(2),
-  // 
+  //
   LET, 2, LOCAL(2), lambda_1603, TAIL_CALL,
   POS(4754, 7),
   POS(4754, 7),
@@ -37022,7 +37022,7 @@ static FUNCTION_INFO i_lambda_1603 = {
 static TAB_NUM t_lambda_1604[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 2, var_true, lambda_1605, TAIL_CALL,
   POS(4757, 7)
 };
@@ -37075,7 +37075,7 @@ static TAB_NUM t_lambda_1606[] = {
   0, // parameters
   // funky_types::remark_lines
   LET, -3, var_funky_types__remark_lines, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4762_4_position, var_funky__text_of, var_4764_28_remark_text, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4769, 7),
   POS(4767, 7)
@@ -37126,7 +37126,7 @@ static TAB_NUM t_lambda_1608[] = {
   0, // parameters
   // funky_types::dummy_remark
   LET, -2, var_funky_types__dummy_remark, var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_4776_4_position, LOCAL(1),
-  // 
+  //
   LET, 2, var_text, LOCAL(1), TAIL_CALL,
   POS(4781, 7),
   POS(4779, 7)

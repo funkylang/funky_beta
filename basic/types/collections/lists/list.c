@@ -1216,7 +1216,7 @@ static FUNCTION_INFO i_lambda_26 = {
 static TAB_NUM t_lambda_27[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_28, TAIL_CALL,
   POS(303, 13)
 };
@@ -1298,7 +1298,7 @@ static FUNCTION_INFO i_lambda_30 = {
 static TAB_NUM t_lambda_31[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_32, TAIL_CALL,
   POS(312, 13)
 };
@@ -1436,7 +1436,7 @@ static FUNCTION_INFO i_lambda_36 = {
 static TAB_NUM t_lambda_37[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_38, TAIL_CALL,
   POS(347, 13)
 };
@@ -1547,7 +1547,7 @@ static FUNCTION_INFO i_lambda_42 = {
 static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_44, TAIL_CALL,
   POS(361, 13)
 };
@@ -1937,7 +1937,7 @@ static FUNCTION_INFO i_lambda_58 = {
 static TAB_NUM t_lambda_59[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_60, TAIL_CALL,
   POS(449, 17)
 };
@@ -2031,7 +2031,7 @@ static FUNCTION_INFO i_lambda_62 = {
 static TAB_NUM t_lambda_63[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_64, TAIL_CALL,
   POS(462, 17)
 };
@@ -2179,7 +2179,7 @@ static FUNCTION_INFO i_lambda_69 = {
 static TAB_NUM t_lambda_70[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_71, TAIL_CALL,
   POS(484, 17)
 };
@@ -2258,7 +2258,7 @@ static FUNCTION_INFO i_lambda_73 = {
 static TAB_NUM t_lambda_74[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_75, TAIL_CALL,
   POS(493, 17)
 };
@@ -2573,7 +2573,7 @@ static TAB_NUM t_lambda_86[] = {
   0, // parameters
   // map_reduce
   var_map_reduce, 4, var_540_41_left, lambda_left, var_append, var_empty_list, 1, LOCAL(1),
-  // 
+  //
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(545, 7),
   POS(544, 7)

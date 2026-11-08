@@ -133,7 +133,7 @@ static TAB_NUM t_lambda_1[] = {
   var_std__times, 2, var_47_23_n, var_59_6_range_no, 1, LOCAL(2),
   // r-n*range_no
   var_std__minus, 2, var_55_26_r, LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(63, 9),
   POS(66, 11),
@@ -200,7 +200,7 @@ static TAB_NUM t_lambda_4[] = {
   var_std__times, 2, var_47_23_n, var_76_8_range_no, 1, LOCAL(2),
   // rr-n*range_no
   var_std__minus, 2, var_51_4_rr, LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   LET, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(80, 11),
   POS(83, 14),

@@ -248,7 +248,7 @@ static TAB_NUM t_lambda_4[] = {
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_52_5_myself, var_contents_of, var_56_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(70, 28),
   POS(70, 28),
@@ -300,7 +300,7 @@ static TAB_NUM t_lambda_7[] = {
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_52_5_myself, var_contents_of, var_56_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(79, 28),
   POS(79, 28),
@@ -514,7 +514,7 @@ static TAB_NUM t_lambda_14[] = {
   var_typed_tuple, 6, var_node, var_122_22_left_left, LOCAL(3), var_124_22_left_key, var_125_22_left_value, LOCAL(4), 1, LOCAL(5),
   // my_length+1
   var_std__plus, 2, var_102_40_my_length, num_1, 1, LOCAL(6),
-  // 
+  //
   LET, 3, LOCAL(5), var_true, LOCAL(6), TAIL_CALL,
   POS(140, 27),
   POS(140, 27),
@@ -690,7 +690,7 @@ static TAB_NUM t_lambda_20[] = {
   var_typed_tuple, 6, var_node, LOCAL(3), var_187_22_right_right, var_188_22_right_key, var_189_22_right_value, LOCAL(4), 1, LOCAL(5),
   // my_length+1
   var_std__plus, 2, var_102_40_my_length, num_1, 1, LOCAL(6),
-  // 
+  //
   LET, 3, LOCAL(5), var_true, LOCAL(6), TAIL_CALL,
   POS(203, 27),
   POS(203, 27),

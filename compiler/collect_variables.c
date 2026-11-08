@@ -430,7 +430,7 @@ static TAB_NUM t_lambda_identifier_ofhead_is_a_builtin_function_name[] = {
   var_length_of, 1, var_137_29_rest, 1, LOCAL(1),
   // length_of(rest) == 1
   var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_4, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_7, lambda_8, TAIL_CALL,
@@ -454,7 +454,7 @@ static TAB_NUM t_lambda_1[] = {
   var_node_type_of, 1, var_137_46_argument, 1, var_138_10_node_type,
   // node_type == DEFINITION
   var_std__equal, 2, var_138_10_node_type, var_DEFINITION, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_2, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -516,9 +516,9 @@ static TAB_NUM t_lambda_4[] = {
   var_node_type_of, 1, LOCAL(1), 1, LOCAL(2),
   // node_type_of(rest(1)) == ATTRIBUTE_VALUE_PAIR
   var_std__equal, 2, LOCAL(2), var_ATTRIBUTE_VALUE_PAIR, 1, LOCAL(3),
-  // 
+  //
   var_std__or, 2, LOCAL(3), lambda_5, 1, LOCAL(4),
-  // 
+  //
   LET, 1, LOCAL(4), TAIL_CALL,
   POS(147, 26),
   POS(147, 13),
@@ -541,7 +541,7 @@ static TAB_NUM t_lambda_5[] = {
   var_node_type_of, 1, LOCAL(1), 1, LOCAL(2),
   // node_type_of(rest(1)) == METHOD_VALUE_PAIR
   var_std__equal, 2, LOCAL(2), var_METHOD_VALUE_PAIR, 1, LOCAL(3),
-  // 
+  //
   var_std__or, 2, LOCAL(3), lambda_6, 1, LOCAL(4),
   // node_type_of(rest(1)) == METHOD_VALUE_PAIR
   LET, 1, LOCAL(4), TAIL_CALL,
@@ -590,7 +590,7 @@ static TAB_NUM t_lambda_7[] = {
   var_std__bit_or, 2, var_USED, var_HAS_SLOTS, 1, LOCAL(3),
   // tuple(undefined head current_level USED | HAS_SLOTS)
   var_tuple, 4, var_undefined, var_133_4_head, var_current_level, LOCAL(3), 1, LOCAL(4),
-  // 
+  //
   var_std__key_value_pair, 2, LOCAL(2), LOCAL(4), 1, LOCAL(5),
   // insert_order_table
   var_insert_order_table, 1, LOCAL(5), 1, LOCAL(6),
@@ -646,7 +646,7 @@ static TAB_NUM t_lambda_9[] = {
   var_137_15_destinations, 1, num_1, 1, LOCAL(3),
   // tuple(self destinations(1) current_level 0)
   var_tuple, 4, var_132_45_self, LOCAL(3), var_current_level, num_0, 1, LOCAL(4),
-  // 
+  //
   var_std__key_value_pair, 2, LOCAL(2), LOCAL(4), 1, LOCAL(5),
   // insert_order_table
   var_insert_order_table, 1, LOCAL(5), 1, LOCAL(6),
@@ -866,11 +866,11 @@ static TAB_NUM t_lambda_15[] = {
   var_if, 3, LOCAL(2), lambda_16, lambda_17, 1, LOCAL(3),
   // tuple
   var_tuple, 4, var_undefined, var_208_48_self, var_current_level, LOCAL(3), 1, LOCAL(4),
-  // 
+  //
   var_std__key_value_pair, 2, LOCAL(1), LOCAL(4), 1, LOCAL(5),
   // insert_order_table
   var_insert_order_table, 1, LOCAL(5), 1, LOCAL(6),
-  // 
+  //
   LET, 1, LOCAL(6), TAIL_CALL,
   POS(216, 11),
   POS(222, 15),
@@ -957,11 +957,11 @@ static TAB_NUM t_lambda_19[] = {
   var_if, 3, LOCAL(2), lambda_20, lambda_21, 1, LOCAL(3),
   // tuple
   var_tuple, 4, var_undefined, var_226_42_self, var_current_level, LOCAL(3), 1, LOCAL(4),
-  // 
+  //
   var_std__key_value_pair, 2, LOCAL(1), LOCAL(4), 1, LOCAL(5),
   // insert_order_table
   var_insert_order_table, 1, LOCAL(5), 1, LOCAL(6),
-  // 
+  //
   LET, 1, LOCAL(6), TAIL_CALL,
   POS(234, 11),
   POS(240, 15),
@@ -1054,7 +1054,7 @@ static TAB_NUM t_lambda_23[] = {
   var_std__key_value_pair, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // insert_order_table
   var_insert_order_table, 1, LOCAL(3), 1, LOCAL(4),
-  // 
+  //
   LET, 1, LOCAL(4), TAIL_CALL,
   POS(252, 9),
   POS(252, 31),
@@ -1286,7 +1286,7 @@ static TAB_NUM t_lambda_31[] = {
   0, // parameters
   // right_level == TOP_LEVEL
   var_std__equal, 2, var_272_46_right_level, var_TOP_LEVEL, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_32, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_36, lambda_37, TAIL_CALL,
@@ -1307,7 +1307,7 @@ static TAB_NUM t_lambda_32[] = {
   var_is_defined, 1, var_271_16_left_definition, 1, LOCAL(1),
   // is_defined && left_level == 0
   var_std__and, 2, LOCAL(1), lambda_33, 1, LOCAL(2),
-  // 
+  //
   var_std__or, 2, LOCAL(2), lambda_34, 1, LOCAL(3),
   // left_definition.is_defined && left_level == 0
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -1479,13 +1479,13 @@ static TAB_NUM t_func_categorize[] = {
   var_std__bit_and, 2, var_308_35_flags, LOCAL(1), 1, LOCAL(2),
   // HAS_SLOTS | REDEFINED_ON_TOP_LEVEL
   var_std__bit_or, 2, var_HAS_SLOTS, var_REDEFINED_ON_TOP_LEVEL, 1, LOCAL(3),
-  // 
+  //
   var_std__equal, 2, LOCAL(2), LOCAL(3), 1, LOCAL(4),
   // on
   var_on, 2, LOCAL(4), lambda_41, 0,
   // not(allow_unused)
   var_not, 1, var_allow_unused, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_42, 1, LOCAL(2),
   // on
   var_on, 2, LOCAL(2), lambda_46, 0,
@@ -1530,7 +1530,7 @@ static TAB_NUM t_lambda_42[] = {
   0, // parameters
   // is_defined
   var_is_defined, 1, var_308_11_definition, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_43, 1, LOCAL(2),
   // definition.is_defined
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1551,7 +1551,7 @@ static TAB_NUM t_lambda_43[] = {
   var_std__bit_and, 2, var_308_35_flags, var_USED, 1, LOCAL(1),
   // flags & USED == 0
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_44, 1, LOCAL(3),
   // flags & USED == 0
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -1575,7 +1575,7 @@ static TAB_NUM t_lambda_44[] = {
   var_std__equal, 2, LOCAL(1), chr_95, 1, LOCAL(2),
   // name(1) != '_'
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
-  // 
+  //
   var_std__and, 2, LOCAL(3), lambda_45, 1, LOCAL(4),
   // name(1) != '_'
   LET, 1, LOCAL(4), TAIL_CALL,
@@ -1632,7 +1632,7 @@ static TAB_NUM t_lambda_definition_is_defined[] = {
   var_std__bit_and, 2, var_308_35_flags, var_REDEFINED_ON_TOP_LEVEL, 1, LOCAL(1),
   // flags & REDEFINED_ON_TOP_LEVEL == REDEFINED_ON_TOP_LEVEL
   var_std__equal, 2, LOCAL(1), var_REDEFINED_ON_TOP_LEVEL, 1, LOCAL(2),
-  // 
+  //
   var_std__or, 2, LOCAL(2), lambda_47, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), func_local_or_dynamic, lambda_50, TAIL_CALL,
@@ -1653,7 +1653,7 @@ static TAB_NUM t_lambda_47[] = {
   0, // parameters
   // node_type == DEFINITION
   var_std__equal, 2, var_329_10_node_type, var_DEFINITION, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_48, 1, LOCAL(2),
   // node_type == DEFINITION
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1672,7 +1672,7 @@ static TAB_NUM t_lambda_48[] = {
   0, // parameters
   // node_type == INLINE_PARAMETER
   var_std__equal, 2, var_329_10_node_type, var_INLINE_PARAMETER, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_49, 1, LOCAL(2),
   // node_type == INLINE_PARAMETER
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2257,7 +2257,7 @@ static TAB_NUM t_lambda_76[] = {
   var_tuple, 2, var_INITIALIZED_COMPOUND, var_308_11_definition, 1, LOCAL(1),
   // new_variables
   var_296_4_new_variables, 2, var_307_17_name, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(406, 40),
   POS(405, 33),
@@ -2276,7 +2276,7 @@ static TAB_NUM t_lambda_77[] = {
   var_tuple, 2, var_CONSTANT_COMPOUND, var_308_11_definition, 1, LOCAL(1),
   // new_variables
   var_296_4_new_variables, 2, var_307_17_name, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(409, 40),
   POS(408, 33),
@@ -2330,7 +2330,7 @@ static TAB_NUM t_lambda_80[] = {
   var_tuple, 2, var_INITIALIZED_COMPOUND, var_308_11_definition, 1, LOCAL(1),
   // new_variables
   var_296_4_new_variables, 2, var_307_17_name, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(415, 40),
   POS(414, 33),

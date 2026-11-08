@@ -1646,7 +1646,7 @@ static TAB_NUM t_lambda_65[] = {
   var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // i+1 < n
   var_std__less, 2, LOCAL(1), var_65_4_n, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_66, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_68, lambda_69, TAIL_CALL,

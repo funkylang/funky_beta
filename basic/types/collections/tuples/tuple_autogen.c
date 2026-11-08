@@ -354,7 +354,7 @@ static TAB_NUM t_func_builtin_types__tuple2___equal2[] = {
   LOCAL(3), 0, 2, LOCAL(6), var_41_15_rv2,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_1, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -401,7 +401,7 @@ static TAB_NUM t_func_builtin_types__tuple2___less[] = {
   LOCAL(4), 0, 2, var_49_10_rv1, var_49_15_rv2,
   // lv1 < rv1
   var_std__less, 2, var_48_9_lv1, var_49_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_2, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -424,9 +424,9 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_48_9_lv1, var_49_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_3, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(54, 9),
   POS(53, 9),
@@ -464,7 +464,7 @@ static TAB_NUM t_func_builtin_types__tuple2___hash[] = {
   var_hash, 1, LOCAL(5), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(6), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // ->
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -587,7 +587,7 @@ static TAB_NUM t_func_builtin_types__tuple3___equal3[] = {
   LOCAL(3), 0, 3, LOCAL(6), var_85_15_rv2, var_85_20_rv3,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_4, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -612,7 +612,7 @@ static TAB_NUM t_lambda_4[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_84_14_lv2, var_85_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_5, 1, LOCAL(2),
   // lv2 == rv2
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -653,7 +653,7 @@ static TAB_NUM t_func_builtin_types__tuple3___less[] = {
   LOCAL(4), 0, 3, var_94_10_rv1, var_94_15_rv2, var_94_20_rv3,
   // lv1 < rv1
   var_std__less, 2, var_93_9_lv1, var_94_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_6, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -676,9 +676,9 @@ static TAB_NUM t_lambda_6[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_93_9_lv1, var_94_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_7, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(99, 9),
   POS(98, 9),
@@ -695,9 +695,9 @@ static TAB_NUM t_lambda_7[] = {
   0, // parameters
   // lv2 < rv2
   var_std__less, 2, var_93_14_lv2, var_94_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_8, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(101, 11),
   POS(100, 11),
@@ -714,9 +714,9 @@ static TAB_NUM t_lambda_8[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_93_14_lv2, var_94_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_9, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(103, 13),
   POS(102, 13),
@@ -754,11 +754,11 @@ static TAB_NUM t_func_builtin_types__tuple3___hash[] = {
   var_hash, 1, LOCAL(7), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(8), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // hash(v3)
   var_hash, 1, LOCAL(9), 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // ->
   LET, 1, LOCAL(5), TAIL_CALL,
@@ -890,7 +890,7 @@ static TAB_NUM t_func_builtin_types__tuple4___equal4[] = {
   LOCAL(3), 0, 4, LOCAL(6), var_136_15_rv2, var_136_20_rv3, var_136_25_rv4,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_10, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -915,7 +915,7 @@ static TAB_NUM t_lambda_10[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_135_14_lv2, var_136_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_11, 1, LOCAL(2),
   // lv2 == rv2
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -934,7 +934,7 @@ static TAB_NUM t_lambda_11[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_135_19_lv3, var_136_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_12, 1, LOCAL(2),
   // lv3 == rv3
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -975,7 +975,7 @@ static TAB_NUM t_func_builtin_types__tuple4___less[] = {
   LOCAL(4), 0, 4, var_146_10_rv1, var_146_15_rv2, var_146_20_rv3, var_146_25_rv4,
   // lv1 < rv1
   var_std__less, 2, var_145_9_lv1, var_146_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_13, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -998,9 +998,9 @@ static TAB_NUM t_lambda_13[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_145_9_lv1, var_146_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_14, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(151, 9),
   POS(150, 9),
@@ -1017,9 +1017,9 @@ static TAB_NUM t_lambda_14[] = {
   0, // parameters
   // lv2 < rv2
   var_std__less, 2, var_145_14_lv2, var_146_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_15, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(153, 11),
   POS(152, 11),
@@ -1036,9 +1036,9 @@ static TAB_NUM t_lambda_15[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_145_14_lv2, var_146_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_16, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(155, 13),
   POS(154, 13),
@@ -1055,9 +1055,9 @@ static TAB_NUM t_lambda_16[] = {
   0, // parameters
   // lv3 < rv3
   var_std__less, 2, var_145_19_lv3, var_146_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_17, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(157, 15),
   POS(156, 15),
@@ -1074,9 +1074,9 @@ static TAB_NUM t_lambda_17[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_145_19_lv3, var_146_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_18, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(159, 17),
   POS(158, 17),
@@ -1114,15 +1114,15 @@ static TAB_NUM t_func_builtin_types__tuple4___hash[] = {
   var_hash, 1, LOCAL(9), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(10), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // hash(v3)
   var_hash, 1, LOCAL(11), 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // hash(v4)
   var_hash, 1, LOCAL(12), 1, LOCAL(6),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(5), LOCAL(6), 1, LOCAL(7),
   // ->
   LET, 1, LOCAL(7), TAIL_CALL,
@@ -1263,7 +1263,7 @@ static TAB_NUM t_func_builtin_types__tuple5___equal5[] = {
   LOCAL(3), 0, 5, LOCAL(6), var_194_15_rv2, var_194_20_rv3, var_194_25_rv4, var_194_30_rv5,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_19, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1288,7 +1288,7 @@ static TAB_NUM t_lambda_19[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_193_14_lv2, var_194_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_20, 1, LOCAL(2),
   // lv2 == rv2
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1307,7 +1307,7 @@ static TAB_NUM t_lambda_20[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_193_19_lv3, var_194_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_21, 1, LOCAL(2),
   // lv3 == rv3
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1326,7 +1326,7 @@ static TAB_NUM t_lambda_21[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_193_24_lv4, var_194_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_22, 1, LOCAL(2),
   // lv4 == rv4
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1367,7 +1367,7 @@ static TAB_NUM t_func_builtin_types__tuple5___less[] = {
   LOCAL(4), 0, 5, var_205_10_rv1, var_205_15_rv2, var_205_20_rv3, var_205_25_rv4, var_205_30_rv5,
   // lv1 < rv1
   var_std__less, 2, var_204_9_lv1, var_205_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_23, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1390,9 +1390,9 @@ static TAB_NUM t_lambda_23[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_204_9_lv1, var_205_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_24, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(210, 9),
   POS(209, 9),
@@ -1409,9 +1409,9 @@ static TAB_NUM t_lambda_24[] = {
   0, // parameters
   // lv2 < rv2
   var_std__less, 2, var_204_14_lv2, var_205_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_25, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(212, 11),
   POS(211, 11),
@@ -1428,9 +1428,9 @@ static TAB_NUM t_lambda_25[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_204_14_lv2, var_205_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_26, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(214, 13),
   POS(213, 13),
@@ -1447,9 +1447,9 @@ static TAB_NUM t_lambda_26[] = {
   0, // parameters
   // lv3 < rv3
   var_std__less, 2, var_204_19_lv3, var_205_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_27, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(216, 15),
   POS(215, 15),
@@ -1466,9 +1466,9 @@ static TAB_NUM t_lambda_27[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_204_19_lv3, var_205_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_28, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(218, 17),
   POS(217, 17),
@@ -1485,9 +1485,9 @@ static TAB_NUM t_lambda_28[] = {
   0, // parameters
   // lv4 < rv4
   var_std__less, 2, var_204_24_lv4, var_205_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_29, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(220, 19),
   POS(219, 19),
@@ -1504,9 +1504,9 @@ static TAB_NUM t_lambda_29[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_204_24_lv4, var_205_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_30, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(222, 21),
   POS(221, 21),
@@ -1544,19 +1544,19 @@ static TAB_NUM t_func_builtin_types__tuple5___hash[] = {
   var_hash, 1, LOCAL(11), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(12), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // hash(v3)
   var_hash, 1, LOCAL(13), 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // hash(v4)
   var_hash, 1, LOCAL(14), 1, LOCAL(6),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(5), LOCAL(6), 1, LOCAL(7),
   // hash(v5)
   var_hash, 1, LOCAL(15), 1, LOCAL(8),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(7), LOCAL(8), 1, LOCAL(9),
   // ->
   LET, 1, LOCAL(9), TAIL_CALL,
@@ -1706,7 +1706,7 @@ static TAB_NUM t_func_builtin_types__tuple6___equal6[] = {
   LOCAL(3), 0, 6, LOCAL(6), var_259_15_rv2, var_259_20_rv3, var_259_25_rv4, var_259_30_rv5, var_259_35_rv6,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_31, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1731,7 +1731,7 @@ static TAB_NUM t_lambda_31[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_258_14_lv2, var_259_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_32, 1, LOCAL(2),
   // lv2 == rv2
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1750,7 +1750,7 @@ static TAB_NUM t_lambda_32[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_258_19_lv3, var_259_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_33, 1, LOCAL(2),
   // lv3 == rv3
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1769,7 +1769,7 @@ static TAB_NUM t_lambda_33[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_258_24_lv4, var_259_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_34, 1, LOCAL(2),
   // lv4 == rv4
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1788,7 +1788,7 @@ static TAB_NUM t_lambda_34[] = {
   0, // parameters
   // lv5 == rv5
   var_std__equal, 2, var_258_29_lv5, var_259_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_35, 1, LOCAL(2),
   // lv5 == rv5
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1829,7 +1829,7 @@ static TAB_NUM t_func_builtin_types__tuple6___less[] = {
   LOCAL(4), 0, 6, var_271_10_rv1, var_271_15_rv2, var_271_20_rv3, var_271_25_rv4, var_271_30_rv5, var_271_35_rv6,
   // lv1 < rv1
   var_std__less, 2, var_270_9_lv1, var_271_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_36, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1852,9 +1852,9 @@ static TAB_NUM t_lambda_36[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_270_9_lv1, var_271_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_37, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(276, 9),
   POS(275, 9),
@@ -1871,9 +1871,9 @@ static TAB_NUM t_lambda_37[] = {
   0, // parameters
   // lv2 < rv2
   var_std__less, 2, var_270_14_lv2, var_271_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_38, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(278, 11),
   POS(277, 11),
@@ -1890,9 +1890,9 @@ static TAB_NUM t_lambda_38[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_270_14_lv2, var_271_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_39, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(280, 13),
   POS(279, 13),
@@ -1909,9 +1909,9 @@ static TAB_NUM t_lambda_39[] = {
   0, // parameters
   // lv3 < rv3
   var_std__less, 2, var_270_19_lv3, var_271_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_40, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(282, 15),
   POS(281, 15),
@@ -1928,9 +1928,9 @@ static TAB_NUM t_lambda_40[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_270_19_lv3, var_271_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_41, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(284, 17),
   POS(283, 17),
@@ -1947,9 +1947,9 @@ static TAB_NUM t_lambda_41[] = {
   0, // parameters
   // lv4 < rv4
   var_std__less, 2, var_270_24_lv4, var_271_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_42, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(286, 19),
   POS(285, 19),
@@ -1966,9 +1966,9 @@ static TAB_NUM t_lambda_42[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_270_24_lv4, var_271_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_43, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(288, 21),
   POS(287, 21),
@@ -1985,9 +1985,9 @@ static TAB_NUM t_lambda_43[] = {
   0, // parameters
   // lv5 < rv5
   var_std__less, 2, var_270_29_lv5, var_271_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_44, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(290, 23),
   POS(289, 23),
@@ -2004,9 +2004,9 @@ static TAB_NUM t_lambda_44[] = {
   0, // parameters
   // lv5 == rv5
   var_std__equal, 2, var_270_29_lv5, var_271_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_45, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(292, 25),
   POS(291, 25),
@@ -2044,23 +2044,23 @@ static TAB_NUM t_func_builtin_types__tuple6___hash[] = {
   var_hash, 1, LOCAL(13), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(14), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // hash(v3)
   var_hash, 1, LOCAL(15), 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // hash(v4)
   var_hash, 1, LOCAL(16), 1, LOCAL(6),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(5), LOCAL(6), 1, LOCAL(7),
   // hash(v5)
   var_hash, 1, LOCAL(17), 1, LOCAL(8),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(7), LOCAL(8), 1, LOCAL(9),
   // hash(v6)
   var_hash, 1, LOCAL(18), 1, LOCAL(10),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(9), LOCAL(10), 1, LOCAL(11),
   // ->
   LET, 1, LOCAL(11), TAIL_CALL,
@@ -2219,7 +2219,7 @@ static TAB_NUM t_func_builtin_types__tuple7___equal7[] = {
   LOCAL(3), 0, 7, LOCAL(6), var_331_15_rv2, var_331_20_rv3, var_331_25_rv4, var_331_30_rv5, var_331_35_rv6, var_331_40_rv7,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_46, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2244,7 +2244,7 @@ static TAB_NUM t_lambda_46[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_330_14_lv2, var_331_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_47, 1, LOCAL(2),
   // lv2 == rv2
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2263,7 +2263,7 @@ static TAB_NUM t_lambda_47[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_330_19_lv3, var_331_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_48, 1, LOCAL(2),
   // lv3 == rv3
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2282,7 +2282,7 @@ static TAB_NUM t_lambda_48[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_330_24_lv4, var_331_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_49, 1, LOCAL(2),
   // lv4 == rv4
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2301,7 +2301,7 @@ static TAB_NUM t_lambda_49[] = {
   0, // parameters
   // lv5 == rv5
   var_std__equal, 2, var_330_29_lv5, var_331_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_50, 1, LOCAL(2),
   // lv5 == rv5
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2320,7 +2320,7 @@ static TAB_NUM t_lambda_50[] = {
   0, // parameters
   // lv6 == rv6
   var_std__equal, 2, var_330_34_lv6, var_331_35_rv6, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_51, 1, LOCAL(2),
   // lv6 == rv6
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2361,7 +2361,7 @@ static TAB_NUM t_func_builtin_types__tuple7___less[] = {
   LOCAL(4), 0, 7, var_344_10_rv1, var_344_15_rv2, var_344_20_rv3, var_344_25_rv4, var_344_30_rv5, var_344_35_rv6, var_344_40_rv7,
   // lv1 < rv1
   var_std__less, 2, var_343_9_lv1, var_344_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_52, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2384,9 +2384,9 @@ static TAB_NUM t_lambda_52[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_343_9_lv1, var_344_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_53, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(349, 9),
   POS(348, 9),
@@ -2403,9 +2403,9 @@ static TAB_NUM t_lambda_53[] = {
   0, // parameters
   // lv2 < rv2
   var_std__less, 2, var_343_14_lv2, var_344_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_54, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(351, 11),
   POS(350, 11),
@@ -2422,9 +2422,9 @@ static TAB_NUM t_lambda_54[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_343_14_lv2, var_344_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_55, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(353, 13),
   POS(352, 13),
@@ -2441,9 +2441,9 @@ static TAB_NUM t_lambda_55[] = {
   0, // parameters
   // lv3 < rv3
   var_std__less, 2, var_343_19_lv3, var_344_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_56, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(355, 15),
   POS(354, 15),
@@ -2460,9 +2460,9 @@ static TAB_NUM t_lambda_56[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_343_19_lv3, var_344_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_57, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(357, 17),
   POS(356, 17),
@@ -2479,9 +2479,9 @@ static TAB_NUM t_lambda_57[] = {
   0, // parameters
   // lv4 < rv4
   var_std__less, 2, var_343_24_lv4, var_344_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_58, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(359, 19),
   POS(358, 19),
@@ -2498,9 +2498,9 @@ static TAB_NUM t_lambda_58[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_343_24_lv4, var_344_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_59, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(361, 21),
   POS(360, 21),
@@ -2517,9 +2517,9 @@ static TAB_NUM t_lambda_59[] = {
   0, // parameters
   // lv5 < rv5
   var_std__less, 2, var_343_29_lv5, var_344_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_60, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(363, 23),
   POS(362, 23),
@@ -2536,9 +2536,9 @@ static TAB_NUM t_lambda_60[] = {
   0, // parameters
   // lv5 == rv5
   var_std__equal, 2, var_343_29_lv5, var_344_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_61, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(365, 25),
   POS(364, 25),
@@ -2555,9 +2555,9 @@ static TAB_NUM t_lambda_61[] = {
   0, // parameters
   // lv6 < rv6
   var_std__less, 2, var_343_34_lv6, var_344_35_rv6, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_62, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(367, 27),
   POS(366, 27),
@@ -2574,9 +2574,9 @@ static TAB_NUM t_lambda_62[] = {
   0, // parameters
   // lv6 == rv6
   var_std__equal, 2, var_343_34_lv6, var_344_35_rv6, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_63, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(369, 29),
   POS(368, 29),
@@ -2614,27 +2614,27 @@ static TAB_NUM t_func_builtin_types__tuple7___hash[] = {
   var_hash, 1, LOCAL(15), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(16), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // hash(v3)
   var_hash, 1, LOCAL(17), 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // hash(v4)
   var_hash, 1, LOCAL(18), 1, LOCAL(6),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(5), LOCAL(6), 1, LOCAL(7),
   // hash(v5)
   var_hash, 1, LOCAL(19), 1, LOCAL(8),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(7), LOCAL(8), 1, LOCAL(9),
   // hash(v6)
   var_hash, 1, LOCAL(20), 1, LOCAL(10),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(9), LOCAL(10), 1, LOCAL(11),
   // hash(v7)
   var_hash, 1, LOCAL(21), 1, LOCAL(12),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(11), LOCAL(12), 1, LOCAL(13),
   // ->
   LET, 1, LOCAL(13), TAIL_CALL,
@@ -2802,7 +2802,7 @@ static TAB_NUM t_func_builtin_types__tuple8___equal8[] = {
   LOCAL(3), 0, 8, LOCAL(6), var_410_15_rv2, var_410_20_rv3, var_410_25_rv4, var_410_30_rv5, var_410_35_rv6, var_410_40_rv7, var_410_45_rv8,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_64, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2827,7 +2827,7 @@ static TAB_NUM t_lambda_64[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_409_14_lv2, var_410_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_65, 1, LOCAL(2),
   // lv2 == rv2
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2846,7 +2846,7 @@ static TAB_NUM t_lambda_65[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_409_19_lv3, var_410_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_66, 1, LOCAL(2),
   // lv3 == rv3
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2865,7 +2865,7 @@ static TAB_NUM t_lambda_66[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_409_24_lv4, var_410_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_67, 1, LOCAL(2),
   // lv4 == rv4
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2884,7 +2884,7 @@ static TAB_NUM t_lambda_67[] = {
   0, // parameters
   // lv5 == rv5
   var_std__equal, 2, var_409_29_lv5, var_410_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_68, 1, LOCAL(2),
   // lv5 == rv5
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2903,7 +2903,7 @@ static TAB_NUM t_lambda_68[] = {
   0, // parameters
   // lv6 == rv6
   var_std__equal, 2, var_409_34_lv6, var_410_35_rv6, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_69, 1, LOCAL(2),
   // lv6 == rv6
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2922,7 +2922,7 @@ static TAB_NUM t_lambda_69[] = {
   0, // parameters
   // lv7 == rv7
   var_std__equal, 2, var_409_39_lv7, var_410_40_rv7, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_70, 1, LOCAL(2),
   // lv7 == rv7
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2963,7 +2963,7 @@ static TAB_NUM t_func_builtin_types__tuple8___less[] = {
   LOCAL(4), 0, 8, var_424_10_rv1, var_424_15_rv2, var_424_20_rv3, var_424_25_rv4, var_424_30_rv5, var_424_35_rv6, var_424_40_rv7, var_424_45_rv8,
   // lv1 < rv1
   var_std__less, 2, var_423_9_lv1, var_424_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_71, 1, LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2986,9 +2986,9 @@ static TAB_NUM t_lambda_71[] = {
   0, // parameters
   // lv1 == rv1
   var_std__equal, 2, var_423_9_lv1, var_424_10_rv1, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_72, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(429, 9),
   POS(428, 9),
@@ -3005,9 +3005,9 @@ static TAB_NUM t_lambda_72[] = {
   0, // parameters
   // lv2 < rv2
   var_std__less, 2, var_423_14_lv2, var_424_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_73, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(431, 11),
   POS(430, 11),
@@ -3024,9 +3024,9 @@ static TAB_NUM t_lambda_73[] = {
   0, // parameters
   // lv2 == rv2
   var_std__equal, 2, var_423_14_lv2, var_424_15_rv2, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_74, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(433, 13),
   POS(432, 13),
@@ -3043,9 +3043,9 @@ static TAB_NUM t_lambda_74[] = {
   0, // parameters
   // lv3 < rv3
   var_std__less, 2, var_423_19_lv3, var_424_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_75, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(435, 15),
   POS(434, 15),
@@ -3062,9 +3062,9 @@ static TAB_NUM t_lambda_75[] = {
   0, // parameters
   // lv3 == rv3
   var_std__equal, 2, var_423_19_lv3, var_424_20_rv3, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_76, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(437, 17),
   POS(436, 17),
@@ -3081,9 +3081,9 @@ static TAB_NUM t_lambda_76[] = {
   0, // parameters
   // lv4 < rv4
   var_std__less, 2, var_423_24_lv4, var_424_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_77, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(439, 19),
   POS(438, 19),
@@ -3100,9 +3100,9 @@ static TAB_NUM t_lambda_77[] = {
   0, // parameters
   // lv4 == rv4
   var_std__equal, 2, var_423_24_lv4, var_424_25_rv4, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_78, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(441, 21),
   POS(440, 21),
@@ -3119,9 +3119,9 @@ static TAB_NUM t_lambda_78[] = {
   0, // parameters
   // lv5 < rv5
   var_std__less, 2, var_423_29_lv5, var_424_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_79, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(443, 23),
   POS(442, 23),
@@ -3138,9 +3138,9 @@ static TAB_NUM t_lambda_79[] = {
   0, // parameters
   // lv5 == rv5
   var_std__equal, 2, var_423_29_lv5, var_424_30_rv5, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_80, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(445, 25),
   POS(444, 25),
@@ -3157,9 +3157,9 @@ static TAB_NUM t_lambda_80[] = {
   0, // parameters
   // lv6 < rv6
   var_std__less, 2, var_423_34_lv6, var_424_35_rv6, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_81, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(447, 27),
   POS(446, 27),
@@ -3176,9 +3176,9 @@ static TAB_NUM t_lambda_81[] = {
   0, // parameters
   // lv6 == rv6
   var_std__equal, 2, var_423_34_lv6, var_424_35_rv6, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_82, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(449, 29),
   POS(448, 29),
@@ -3195,9 +3195,9 @@ static TAB_NUM t_lambda_82[] = {
   0, // parameters
   // lv7 < rv7
   var_std__less, 2, var_423_39_lv7, var_424_40_rv7, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_83, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(451, 31),
   POS(450, 31),
@@ -3214,9 +3214,9 @@ static TAB_NUM t_lambda_83[] = {
   0, // parameters
   // lv7 == rv7
   var_std__equal, 2, var_423_39_lv7, var_424_40_rv7, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_84, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(453, 33),
   POS(452, 33),
@@ -3254,31 +3254,31 @@ static TAB_NUM t_func_builtin_types__tuple8___hash[] = {
   var_hash, 1, LOCAL(17), 1, LOCAL(1),
   // hash(v2)
   var_hash, 1, LOCAL(18), 1, LOCAL(2),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // hash(v3)
   var_hash, 1, LOCAL(19), 1, LOCAL(4),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // hash(v4)
   var_hash, 1, LOCAL(20), 1, LOCAL(6),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(5), LOCAL(6), 1, LOCAL(7),
   // hash(v5)
   var_hash, 1, LOCAL(21), 1, LOCAL(8),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(7), LOCAL(8), 1, LOCAL(9),
   // hash(v6)
   var_hash, 1, LOCAL(22), 1, LOCAL(10),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(9), LOCAL(10), 1, LOCAL(11),
   // hash(v7)
   var_hash, 1, LOCAL(23), 1, LOCAL(12),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(11), LOCAL(12), 1, LOCAL(13),
   // hash(v8)
   var_hash, 1, LOCAL(24), 1, LOCAL(14),
-  // 
+  //
   var_std__bit_xor, 2, LOCAL(13), LOCAL(14), 1, LOCAL(15),
   // ->
   LET, 1, LOCAL(15), TAIL_CALL,

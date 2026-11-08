@@ -847,7 +847,7 @@ static TAB_NUM t_func_build_executable[] = {
   var_append, 2, LOCAL(1), var_EXE_EXTENSION, 1, var_205_4_exe_filename,
   // stat! $exe_info exe_filename
   var_stat, 1, var_205_4_exe_filename, IO_CALL(1), var_209_10_exe_info,
-  // 
+  //
   var_std__or, 2, var_do_rebuild, lambda_16, 1, LOCAL(1),
   // on
   var_on, 2, LOCAL(1), lambda_19, IO_CALL(0),
@@ -875,7 +875,7 @@ static TAB_NUM t_lambda_16[] = {
   0, // parameters
   // is_undefined
   var_is_undefined, 1, var_204_4_newest_timestamp, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_17, 1, LOCAL(2),
   // newest_timestamp.is_undefined
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -894,7 +894,7 @@ static TAB_NUM t_lambda_17[] = {
   0, // parameters
   // is_an_error
   var_is_an_error, 1, var_209_10_exe_info, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_18, 1, LOCAL(2),
   // exe_info.is_an_error
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1239,7 +1239,7 @@ static TAB_NUM t_lambda_2_do_build_static[] = {
   var_std__string, 3, str_libfky, var_280_4_basename, str_a, 1, var_289_8_a_filename,
   // stat! $a_info a_filename
   var_stat, 1, var_289_8_a_filename, IO_CALL(1), var_290_14_a_info,
-  // 
+  //
   var_std__or, 2, var_do_rebuild, lambda_27, 1, LOCAL(1),
   // on
   var_on, 2, LOCAL(1), lambda_30, IO_TAIL_CALL,
@@ -1259,7 +1259,7 @@ static TAB_NUM t_lambda_27[] = {
   0, // parameters
   // is_undefined
   var_is_undefined, 1, var_270_4_newest_timestamp, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_28, 1, LOCAL(2),
   // newest_timestamp.is_undefined
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1278,7 +1278,7 @@ static TAB_NUM t_lambda_28[] = {
   0, // parameters
   // is_an_error
   var_is_an_error, 1, var_290_14_a_info, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_29, 1, LOCAL(2),
   // a_info.is_an_error
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1356,7 +1356,7 @@ static TAB_NUM t_lambda_32[] = {
   var_std__string, 4, str_libfky, var_280_4_basename, var_273_7_version, var_DLL_EXTENSION, 1, var_302_8_so_filename,
   // stat! $so_info so_filename
   var_stat, 1, var_302_8_so_filename, IO_CALL(1), var_303_14_so_info,
-  // 
+  //
   var_std__or, 2, var_do_rebuild, lambda_33, 1, LOCAL(1),
   // on
   var_on, 2, LOCAL(1), lambda_36, IO_CALL(0),
@@ -1379,7 +1379,7 @@ static TAB_NUM t_lambda_33[] = {
   0, // parameters
   // is_undefined
   var_is_undefined, 1, var_270_4_newest_timestamp, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_34, 1, LOCAL(2),
   // newest_timestamp.is_undefined
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1398,7 +1398,7 @@ static TAB_NUM t_lambda_34[] = {
   0, // parameters
   // is_an_error
   var_is_an_error, 1, var_303_14_so_info, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_35, 1, LOCAL(2),
   // so_info.is_an_error
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -1558,7 +1558,7 @@ static TAB_NUM t_lambda_40[] = {
   0, // parameters
   // is_undefined
   var_is_undefined, 1, var_326_4_newest_timestamp, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_41, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_43, var_next, IO_TAIL_CALL,
@@ -2073,7 +2073,7 @@ static TAB_NUM t_lambda_61[] = {
   var_on, 2, LOCAL(1), lambda_62, IO_CALL(0),
   // stat! $c_info c_filename
   var_stat, 1, var_428_8_c_filename, IO_CALL(1), var_432_14_c_info,
-  // 
+  //
   var_std__or, 2, var_do_rebuild, lambda_63, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_65, lambda_67, IO_TAIL_CALL,
@@ -2114,7 +2114,7 @@ static TAB_NUM t_lambda_63[] = {
   0, // parameters
   // is_an_error
   var_is_an_error, 1, var_432_14_c_info, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_64, 1, LOCAL(2),
   // c_info.is_an_error
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2367,7 +2367,7 @@ static TAB_NUM t_lambda_72[] = {
   var_std__string, 2, var_473_8_basename, str_o, 1, var_474_8_obj_filename,
   // stat! $obj_info obj_filename
   var_stat, 1, var_474_8_obj_filename, IO_CALL(1), var_475_14_obj_info,
-  // 
+  //
   var_std__or, 2, var_do_rebuild, lambda_73, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_76, lambda_77, IO_TAIL_CALL,
@@ -2390,7 +2390,7 @@ static TAB_NUM t_lambda_73[] = {
   0, // parameters
   // is_undefined
   var_is_undefined, 1, var_472_29_c_timestamp, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_74, 1, LOCAL(2),
   // c_timestamp.is_undefined
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2409,7 +2409,7 @@ static TAB_NUM t_lambda_74[] = {
   0, // parameters
   // is_an_error
   var_is_an_error, 1, var_475_14_obj_info, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_75, 1, LOCAL(2),
   // obj_info.is_an_error
   LET, 1, LOCAL(2), TAIL_CALL,

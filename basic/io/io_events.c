@@ -1393,7 +1393,7 @@ static TAB_NUM t_lambda_27[] = {
   var_std__equal, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // inode_number_of(stderr_info) != inode_number_of(stdout_info)
   var_std__not, 1, LOCAL(3), 1, LOCAL(4),
-  // 
+  //
   var_std__or, 2, LOCAL(4), lambda_28, 1, LOCAL(5),
   // if
   var_if, 3, LOCAL(5), lambda_29, lambda_30, TAIL_CALL,
@@ -2066,7 +2066,7 @@ static TAB_NUM t_func_std_types__io___is_empty[] = {
   var_read_jobs_of, 1, var_561_5_self, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_45, 1, LOCAL(3),
   // ->
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -2088,7 +2088,7 @@ static TAB_NUM t_lambda_45[] = {
   var_write_jobs_of, 1, var_561_5_self, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_46, 1, LOCAL(3),
   // write_jobs_of(self).is_empty
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -2110,7 +2110,7 @@ static TAB_NUM t_lambda_46[] = {
   var_close_jobs_of, 1, var_561_5_self, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_47, 1, LOCAL(3),
   // close_jobs_of(self).is_empty
   LET, 1, LOCAL(3), TAIL_CALL,
@@ -2153,7 +2153,7 @@ static TAB_NUM t_func_std__log_unhandled_event[] = {
   LOCAL(3), 0, 3, var_571_10_type, var_571_16_fd, LOCAL(1),
   // fd == STDERR_FILENO
   var_std__equal, 2, var_571_16_fd, var_STDERR_FILENO, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_48, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_51, lambda_52, TAIL_CALL,
@@ -2174,9 +2174,9 @@ static TAB_NUM t_lambda_48[] = {
   0, // parameters
   // type == WRITE_FAILED
   var_std__equal, 2, var_571_10_type, var_WRITE_FAILED, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_49, 1, LOCAL(2),
-  // 
+  //
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(576, 9),
   POS(575, 9),
@@ -2193,7 +2193,7 @@ static TAB_NUM t_lambda_49[] = {
   0, // parameters
   // type == WRITE_PENDING
   var_std__equal, 2, var_571_10_type, var_WRITE_PENDING, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_50, 1, LOCAL(2),
   // type == WRITE_PENDING
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -2537,7 +2537,7 @@ static TAB_NUM t_lambda_63[] = {
   0, // parameters
   // is_undefined
   var_is_undefined, 1, var_619_4_timeout, 1, LOCAL(1),
-  // 
+  //
   var_std__or, 2, LOCAL(1), lambda_64, 1, LOCAL(2),
   // update_if
   var_update_if, 3, LOCAL(2), var_619_4_timeout, lambda_timeout, 1, var_619_4_timeout,
@@ -2549,7 +2549,7 @@ static TAB_NUM t_lambda_63[] = {
   var_max, 2, LOCAL(1), num_0, 1, var_619_4_timeout,
   // 0
   var_std__less, 2, num_0, var_619_4_timeout, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_66, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_67, func_handle_start_jobs, IO_TAIL_CALL,
@@ -3109,7 +3109,7 @@ static TAB_NUM t_func_handle_write_requests[] = {
   0, // parameters
   // window_change_event_occurred
   var_window_change_event_occurred, 1, var_598_5_self, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_81, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_83, lambda_84, IO_TAIL_CALL,
@@ -3128,7 +3128,7 @@ static TAB_NUM t_lambda_81[] = {
   0, // parameters
   // do_inject_window_change_events
   var_do_inject_window_change_events, 1, var_598_5_self, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_82, 1, LOCAL(2),
   // self.do_inject_window_change_events
   LET, 1, LOCAL(2), TAIL_CALL,

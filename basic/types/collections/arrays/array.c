@@ -1189,7 +1189,7 @@ static FUNCTION_INFO i_lambda_42 = {
 static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_44, TAIL_CALL,
   POS(316, 13)
 };
@@ -1268,7 +1268,7 @@ static FUNCTION_INFO i_lambda_46 = {
 static TAB_NUM t_lambda_47[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 1, lambda_48, TAIL_CALL,
   POS(325, 13)
 };

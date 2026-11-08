@@ -680,7 +680,7 @@ static TAB_NUM t_func_std__is_a_letter[] = {
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // chr >= 'a' && chr <= 'z'
   var_std__and, 2, LOCAL(2), lambda_26, 1, LOCAL(3),
-  // 
+  //
   var_std__or, 2, LOCAL(3), lambda_27, 1, LOCAL(4),
   // ->
   LET, 1, LOCAL(4), TAIL_CALL,

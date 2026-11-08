@@ -364,7 +364,7 @@ static TAB_NUM t_lambda_4[] = {
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_111_5_myself, var_contents_of, var_115_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(129, 28),
   POS(129, 28),
@@ -416,7 +416,7 @@ static TAB_NUM t_lambda_7[] = {
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_111_5_myself, var_contents_of, var_115_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(138, 28),
   POS(138, 28),
@@ -1846,7 +1846,7 @@ static TAB_NUM t_func_node___validate[] = {
   var_is_defined, 1, var_500_23_low, 1, LOCAL(1),
   // is_defined && key < low
   var_std__and, 2, LOCAL(1), lambda_51, 1, LOCAL(2),
-  // 
+  //
   var_std__or, 2, LOCAL(2), lambda_52, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_54, var_pass, 0,

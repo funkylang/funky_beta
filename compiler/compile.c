@@ -553,7 +553,7 @@ static FUNCTION_INFO i_lambda_loop = {
 static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
-  // 
+  //
   LET, 8, var_empty_list, var_157_4_defined_namespaces, var_158_4_required_modules, var_159_4_used_namespaces, var_160_4_namespace_versions, var_161_4_namespace_aliases, var_162_4_allow_hidden, var_163_4_allow_unused, TAIL_CALL,
   POS(167, 9)
 };
@@ -1163,7 +1163,7 @@ static TAB_NUM t_lambda_24[] = {
   0, // parameters
   // range(statements i -1)
   var_range, 3, var_154_31_statements, var_155_4_i, minus_num_1, 1, LOCAL(1),
-  // 
+  //
   LET, 8, LOCAL(1), var_157_4_defined_namespaces, var_158_4_required_modules, var_159_4_used_namespaces, var_160_4_namespace_versions, var_161_4_namespace_aliases, var_162_4_allow_hidden, var_163_4_allow_unused, TAIL_CALL,
   POS(269, 13),
   POS(268, 13)
@@ -1275,7 +1275,7 @@ static TAB_NUM t_func_funky_types__statement___add_definitions[] = {
   var_node_type_of, 1, var_305_4_head, 1, LOCAL(1),
   // node_type_of(head) == DEFINITION
   var_std__equal, 2, LOCAL(1), var_DEFINITION, 1, LOCAL(2),
-  // 
+  //
   var_std__and, 2, LOCAL(2), lambda_26, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_28, func_resolve_arguments, TAIL_CALL,
@@ -1298,7 +1298,7 @@ static TAB_NUM t_lambda_26[] = {
   0, // parameters
   // is_not_empty
   var_is_not_empty, 1, var_306_4_arguments, 1, LOCAL(1),
-  // 
+  //
   var_std__and, 2, LOCAL(1), lambda_27, 1, LOCAL(2),
   // arguments.is_not_empty
   LET, 1, LOCAL(2), TAIL_CALL,

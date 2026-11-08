@@ -185,7 +185,7 @@ static TAB_NUM t_lambda_3[] = {
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_101_5_myself, var_contents_of, var_105_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(118, 28),
   POS(118, 28),
@@ -240,7 +240,7 @@ static TAB_NUM t_lambda_6[] = {
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
   LET, -2, var_101_5_myself, var_contents_of, var_105_4_contents, var_length_of, LOCAL(2), LOCAL(3),
-  // 
+  //
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(127, 28),
   POS(127, 28),
