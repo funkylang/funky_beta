@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-08 12:08 fixed ubatch default (fllama bug)";
+static const char *FLLAMA_VERSION = "2026-11-08 12:23 preserve llama.cpp ubatch default";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
