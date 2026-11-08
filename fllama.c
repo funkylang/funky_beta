@@ -157,7 +157,10 @@ static struct llama_context *create_context(struct llama_model *model) {
   log_msg("kv_unified = %d\n", ctx_params.kv_unified);
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = maximum_batch_size;
-  ctx_params.n_ubatch = (uint32_t)ubatch_size; // 0 = llama.cpp decides
+  if (ubatch_size > 0) {
+    ctx_params.n_ubatch = (uint32_t)ubatch_size;
+  }
+  // else leave ctx_params.n_ubatch at its default (512)
   log_msg("batch size = %d, ubatch param = %u\n", maximum_batch_size, (uint32_t)ubatch_size);
   int n_ctx_train = llama_model_n_ctx_train(model);
   int min_ctx_size = minimum_context_size;
