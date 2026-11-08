@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-08 12:23 preserve llama.cpp ubatch default";
+static const char *FLLAMA_VERSION = "2026-11-08 12:35 print real ctx_params values";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -157,12 +157,11 @@ static struct llama_context *create_context(struct llama_model *model) {
   log_msg("kv_unified = %d\n", ctx_params.kv_unified);
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = maximum_batch_size;
-  // Only set n_ubatch if explicitly requested with --ubatch-size
-  // Otherwise leave it at llama.cpp's default value (512)
   if (ubatch_size > 0) {
     ctx_params.n_ubatch = (uint32_t)ubatch_size;
   }
-  log_msg("batch size = %d, ubatch param = %u, n_ubatch to use = %u\n", maximum_batch_size, (uint32_t)ubatch_size, ctx_params.n_ubatch);
+  log_msg("ctx_params.n_batch = %d\n", ctx_params.n_batch);
+  log_msg("ctx_params.n_ubatch = %u\n", ctx_params.n_ubatch);
   int n_ctx_train = llama_model_n_ctx_train(model);
   int min_ctx_size = minimum_context_size;
   if (min_ctx_size > n_ctx_train) {
