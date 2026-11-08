@@ -20,7 +20,7 @@ import sys
 RE_TRACE = re.compile(r'^(\d+:\d+:\d+\.\d+) \[UBATCH-TRACE\] (\w+) seq=(\d+) tokens=(\d+)')
 RE_STAGE = re.compile(
     r'^(\d+:\d+:\d+\.\d+) \[UBATCH-STAGE\] (\w+) seq=(\d+) tokens=(\d+)'
-    r' apply=([\d.]+)ms build=([\d.]+)ms alloc=([\d.]+)ms inputs=([\d.]+)ms launch=([\d.]+)ms')
+    r' apply=([\d.]+)ms buildreuse=([\d.]+)ms build=([\d.]+)ms alloc=([\d.]+)ms inputs=([\d.]+)ms launch=([\d.]+)ms TOTAL=([\d.]+)ms')
 RE_ROUND = re.compile(r'^(\d+:\d+:\d+\.\d+) ===== (\d+) =====(.*)$')
 
 SEP = '─' * 40  # thin horizontal separator (box-drawing character)
@@ -38,7 +38,11 @@ def parse_log(path):
         for line in f:
             m = RE_STAGE.match(line)
             if m and m.group(2) == 'main':
-                stage.append((to_sec(m.group(1)), int(m.group(3)), int(m.group(4))))
+                # (timestamp, seq, tokens, apply, buildreuse, build, alloc, inputs, launch, total)
+                stage.append((to_sec(m.group(1)), int(m.group(3)), int(m.group(4)),
+                              float(m.group(5)), float(m.group(6)), float(m.group(7)),
+                              float(m.group(8)), float(m.group(9)), float(m.group(10)),
+                              float(m.group(11))))
                 continue
             m = RE_TRACE.match(line)
             if m and m.group(2) == 'main':
@@ -49,7 +53,7 @@ def parse_log(path):
                 rounds.append((to_sec(m.group(1)), int(m.group(2))))
 
     events = []
-    for i, (ts, seq, tokens) in enumerate(stage):
+    for i, (ts, seq, tokens, *_stages) in enumerate(stage):
         events.append({'ts': ts, 'kind': 'ubatch', 'idx': i})
     for i, (rt, rn) in enumerate(rounds):
         events.append({'ts': rt, 'kind': 'round', 'idx': i})
@@ -73,9 +77,9 @@ def print_timeline(logfile):
     for i in range(len(events) - 2, -1, -1):
         nxt[i] = events[i + 1]
 
-    # group ubatch durations/tokens by round; record this round's first
+    # group ubatch durations/stages by round; record this round's first
     # TRACE->STAGE as its setup. A ubatch belongs to the (n+1)th round seen.
-    groups = {}          # rn -> {'rows': [(dur, tokens)], 'tokens_total': int, 'setup': float|None}
+    groups = {}          # rn -> {'rows': [(dur, tokens, stages)], 'tokens_total': int, 'setup': float|None}
     round_seen = 0       # number of round markers encountered so far
     first_in_round = True
 
@@ -85,7 +89,7 @@ def print_timeline(logfile):
             first_in_round = True
             continue
         current_round = round_seen + 1
-        ts, seq, tokens = stage[ev['idx']]
+        ts, seq, tokens, apply_ms, buildreuse_ms, build_ms, alloc_ms, inputs_ms, launch_ms, total_ms = stage[ev['idx']]
         ne = nxt[i]
         dur = (ne['ts'] - ts) * 1000 if ne else 0.0
 
@@ -96,12 +100,14 @@ def print_timeline(logfile):
                 g['setup'] = (ts - t0) * 1000
             first_in_round = False
 
-        g['rows'].append((dur, tokens))
+        # Store stages tuple for display
+        stages = (apply_ms, buildreuse_ms, build_ms, alloc_ms, inputs_ms, launch_ms, total_ms)
+        g['rows'].append((dur, tokens, stages))
         g['tokens_total'] += tokens
 
     # round total: simple sum of setup + batches for the round (adds up by construction)
     round_sum_ms = {
-        rn: ((g['setup'] or 0.0) + sum(d for d, _t in g['rows']))
+        rn: ((g['setup'] or 0.0) + sum(d for d, _t, _s in g['rows']))
         for rn, g in groups.items()
     }
 
@@ -112,12 +118,12 @@ def print_timeline(logfile):
         max((len(str(rn)) + len('round ') for rn in groups), default=3),
         max((len('batch ') + len(str(len(g['rows']) - 1))
              for g in groups.values() if g['rows']), default=len('batch ')))
-    all_durs = [d for g in groups.values() for (d, _t) in g['rows']]
+    all_durs = [d for g in groups.values() for (d, _t, _s) in g['rows']]
     all_durs += [g['setup'] for g in groups.values() if g['setup'] is not None]
     all_durs += list(round_sum_ms.values())
     dur_width = max(len(f"{v:.0f}") for v in all_durs)
     tok_width = max(
-        [len(str(t)) for g in groups.values() for (_d, t) in g['rows']]
+        [len(str(t)) for g in groups.values() for (_d, t, _s) in g['rows']]
         + [len(str(g['tokens_total'])) for g in groups.values()])
 
     banner = '=' * 80
@@ -132,9 +138,14 @@ def print_timeline(logfile):
             continue
         if g['setup'] is not None:
             print(f"{'setup':<{label_width}s} {g['setup']:>{dur_width}.0f} ms")
-        for ridx, (dur, tokens) in enumerate(g['rows']):
+        for ridx, (dur, tokens, stages) in enumerate(g['rows']):
+            apply_ms, buildreuse_ms, build_ms, alloc_ms, inputs_ms, launch_ms, total_ms = stages
             print(f"{'batch ' + str(ridx):<{label_width}s} {dur:>{dur_width}.0f} ms "
                   f"({tokens:>{tok_width}d} tokens)")
+            # Show stage breakdown (compact)
+            print(f"{'':<{label_width}s}   apply={apply_ms:.1f} buildreuse={buildreuse_ms:.1f} "
+                  f"build={build_ms:.1f} alloc={alloc_ms:.1f} inputs={inputs_ms:.1f} "
+                  f"launch={launch_ms:.1f} TOTAL={total_ms:.1f} ms")
         print(SEP)
         rt_ms = round_sum_ms[rn]
         print(f"{'round ' + str(rn):<{label_width}s} {rt_ms:>{dur_width}.0f} ms "

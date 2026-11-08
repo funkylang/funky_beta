@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-07 18:22 ubatch trace + n_ubatch print";
+static const char *FLLAMA_VERSION = "2026-11-08 11:25 ubatch-size + TOTAL/buildreuse stages";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -84,6 +84,7 @@ static char *model_path = MODEL_PATH_DEFAULT;
 static int current_context_size;
 static int maximum_sequences = 1;
 static int maximum_batch_size = MAXIMUM_BATCH_SIZE;
+static int ubatch_size = 0; // 0 = let llama.cpp decide (defaults to n_batch)
 static int minimum_context_size = 8192;
 static int maximum_context_size = 32768;
 
@@ -156,8 +157,8 @@ static struct llama_context *create_context(struct llama_model *model) {
   log_msg("kv_unified = %d\n", ctx_params.kv_unified);
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = maximum_batch_size;
-  log_msg("batch size = %d\n", maximum_batch_size);
-  log_msg("ubatch_size = %u\n", ctx_params.n_ubatch);
+  ctx_params.n_ubatch = (uint32_t)ubatch_size; // 0 = llama.cpp decides
+  log_msg("batch size = %d, ubatch param = %u\n", maximum_batch_size, (uint32_t)ubatch_size);
   int n_ctx_train = llama_model_n_ctx_train(model);
   int min_ctx_size = minimum_context_size;
   if (min_ctx_size > n_ctx_train) {
@@ -2878,6 +2879,7 @@ int main(int argc, char **argv) {
   // --min-ctx-size (default: 8192)
   // --max-ctx-size (default: 32768)
   // --batch-size (default: 512)
+  // --ubatch-size (default: batch size; 0 = llama.cpp default)
   // --mtp (number of tokens to predict; default: 0)
   // --eager (run speculation in dedicated batches even when idle)
   // --model-path (default: /var/models/)
@@ -2945,6 +2947,19 @@ int main(int argc, char **argv) {
         log_msg("missing argument for --batch-size\n");
         exit(EXIT_FAILURE);
       }
+    } else if (strcmp(argv[i], "--ubatch-size") == 0) {
+      if (i+1 < argc) {
+        int n = atoi(argv[++i]);
+        if (n > 0) {
+          ubatch_size = n;
+        } else {
+          log_msg("invalid argument for --ubatch-size\n");
+          exit(EXIT_FAILURE);
+        }
+      } else {
+        log_msg("missing argument for --ubatch-size\n");
+        exit(EXIT_FAILURE);
+      }
     } else if (strcmp(argv[i], "--mtp") == 0) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
@@ -2994,6 +3009,7 @@ int main(int argc, char **argv) {
         "  --min-ctx-size <size>           (default: 8192)\n"
         "  --max-ctx-size <size>           (default: 32768)\n"
         "  --batch-size <size>             (default: 512)\n"
+        "  --ubatch-size <size>            (default: batch size)\n"
         "  --mtp <n>                       (default: 0)\n"
         "  --eager                         (run speculation in dedicated batches)\n"
         "  --model-path <path>             (default: /var/models/)\n"
