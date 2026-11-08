@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-08 12:35 print real ctx_params values";
+static const char *FLLAMA_VERSION = "2026-11-08 21:55 option refactor review (GQA bytes, VRAM cap, MTP pool mirror)";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -85,8 +85,8 @@ static int current_context_size;
 static int maximum_sequences = 1;
 static int maximum_batch_size = MAXIMUM_BATCH_SIZE;
 static int ubatch_size = 0; // 0 = let llama.cpp decide (defaults to n_batch)
-static int minimum_context_size = 8192;
-static int maximum_context_size = 32768;
+static int context_size = 0;    // 0 = model's natural trained size
+static int kv_cache_size = 0;   // 0 = auto-compute from VRAM
 
 llama_memory_t current_memory;
 
@@ -135,11 +135,67 @@ static struct llama_model *load_model(const char *filename) {
   return llama_model_load_from_file(filename, model_params);
 }
 
+// Auto-compute max KV cache pool that fits in GPU VRAM.
+// Per GPU: usable = 97% of total minus current usage (weights etc. already
+// resident), keeping a 3%-of-total headroom for compute buffers and workspace.
+static uint32_t auto_compute_kv_cache_size(struct llama_model *model) {
+  int n_layer = llama_model_n_layer(model);
+  int n_head = llama_model_n_head(model);
+  int n_head_kv = llama_model_n_head_kv(model);
+
+  // head_dim as derived by llama.cpp itself: n_embd / n_head (query heads).
+  // KV footprint per layer uses the KV head count (GQA: n_head_kv <= n_head).
+  int n_embd = llama_model_n_embd(model);
+  int head_dim = n_embd / n_head;
+
+  // kv_elem_size: f16 (float) = 2 bytes
+  size_t kv_elem_size = sizeof(float);
+
+  // bytes per cell = n_layer * n_head_kv * head_dim * 2(K+V) * elem_size
+  size_t bytes_per_cell = (size_t)n_layer * (size_t)n_head_kv *
+                          (size_t)head_dim * 2 * kv_elem_size;
+
+  log_msg("auto-compute KV: n_layer=%d n_head=%d n_head_kv=%d head_dim=%d bytes/cell=%zu\n",
+          n_layer, n_head, n_head_kv, head_dim, bytes_per_cell);
+
+  // Sum available VRAM across all GPU devices
+  size_t total_usable = 0;
+  size_t dev_count = ggml_backend_dev_count();
+  for (size_t i = 0; i < dev_count; ++i) {
+    ggml_backend_dev_t dev = ggml_backend_dev_get(i);
+    enum ggml_backend_dev_type type = ggml_backend_dev_type(dev);
+
+    // Skip CPU devices
+    if (type == GGML_BACKEND_DEVICE_TYPE_CPU) {
+      continue;
+    }
+
+    size_t free_mem, total_mem;
+    ggml_backend_dev_memory(dev, &free_mem, &total_mem);
+
+    // usable = 97% of total - used, clamped at zero
+    double cap = 0.97 * (double)total_mem;
+    size_t used = total_mem > free_mem ? total_mem - free_mem : 0;
+    size_t usable = used >= (size_t)cap ? 0 : (size_t)cap - used;
+
+    log_msg("GPU %zu (%s): %.2f/%.2f GB free, using %.2f GB\n",
+            i, ggml_backend_dev_name(dev),
+            free_mem/1073741824.0, total_mem/1073741824.0, usable/1073741824.0);
+
+    total_usable += usable;
+  }
+
+  uint32_t max_pool = (uint32_t)(total_usable / bytes_per_cell);
+  log_msg("auto-compute KV: %zu bytes usable / %zu bytes/cell = %u cells\n",
+          total_usable, bytes_per_cell, max_pool);
+
+  return max_pool;
+}
+
 static struct llama_context *create_context(struct llama_model *model) {
   struct llama_context_params ctx_params = llama_context_default_params();
   // unified KV cache: one shared pool of n_ctx cells for all sequences,
   // dynamic allocation per sequence, shared prefixes count only once.
-  // Restores the pre-2025 flexible multi-sequence behavior.
   ctx_params.kv_unified = true;
   // Recurrent-state rollback snapshots: hybrid/SSM models (Qwen3.5 etc.)
   // store a compressed recurrent state per sequence, and seq_rm can only
@@ -149,59 +205,53 @@ static struct llama_context *create_context(struct llama_model *model) {
   // turn never strands an unresolved rollback. Models without recurrent
   // layers ignore this, so it is safe to set unconditionally.
   ctx_params.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict;
-  log_msg("embeddings = %d\n", ctx_params.embeddings);
-  log_msg("offload_kqv = %d\n", ctx_params.offload_kqv);
-  log_msg("no_perf = %d\n", ctx_params.no_perf);
-  log_msg("op_offload = %d\n", ctx_params.op_offload);
-  log_msg("swa_full = %d\n", ctx_params.swa_full);
-  log_msg("kv_unified = %d\n", ctx_params.kv_unified);
+  
+  int n_ctx_train = llama_model_n_ctx_train(model);
+  log_msg("model trained ctx = %d\n", n_ctx_train);
+  
+  // context_size: direct value, 0 = use model's trained size
+  if (context_size <= 0) {
+    context_size = n_ctx_train;
+  }
+  
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = maximum_batch_size;
+  
   if (ubatch_size > 0) {
     ctx_params.n_ubatch = (uint32_t)ubatch_size;
   }
-  log_msg("ctx_params.n_batch = %d\n", ctx_params.n_batch);
-  log_msg("ctx_params.n_ubatch = %u\n", ctx_params.n_ubatch);
-  int n_ctx_train = llama_model_n_ctx_train(model);
-  int min_ctx_size = minimum_context_size;
-  if (min_ctx_size > n_ctx_train) {
-    min_ctx_size = n_ctx_train;
+  
+  // kv_cache_size: direct value, 0 = auto-compute from VRAM
+  if (kv_cache_size <= 0) {
+    kv_cache_size = auto_compute_kv_cache_size(model);
   }
-  int max_ctx_size = maximum_context_size;
-  if (max_ctx_size > n_ctx_train) {
-    max_ctx_size = n_ctx_train;
+  ctx_params.n_kv_cache = (uint32_t)kv_cache_size;
+  
+  // Set n_ctx per sequence (each seq gets context_size tokens)
+  uint64_t total_ctx = (uint64_t)maximum_sequences * context_size + VRAM_RESERVE;
+  ctx_params.n_ctx = total_ctx;
+  
+  // Log all context parameters before initialization
+  log_msg("========================================\n");
+  log_msg("ctx_params:\n");
+  log_msg("  n_seq_max = %u\n", ctx_params.n_seq_max);
+  log_msg("  n_ctx = %llu (per-seq %d)\n",
+          (unsigned long long)ctx_params.n_ctx, context_size);
+  log_msg("  n_batch = %u\n", ctx_params.n_batch);
+  log_msg("  n_ubatch = %u\n", ctx_params.n_ubatch);
+  log_msg("  n_kv_cache = %u (pool)\n", ctx_params.n_kv_cache);
+  log_msg("  kv_unified = %d n_rs_seq = %u\n",
+          ctx_params.kv_unified, ctx_params.n_rs_seq);
+  log_msg("========================================\n");
+  
+  struct llama_context *ctx = llama_init_from_model(model, ctx_params);
+  if (!ctx) {
+    log_msg("ERROR: failed to init context (n_ctx=%llu n_kv_cache=%u)\n",
+            (unsigned long long)total_ctx, (uint32_t)kv_cache_size);
+  } else {
+    current_context_size = context_size;
   }
-  int ctx_size_low = min_ctx_size;
-  int ctx_size_high = max_ctx_size;
-  int ctx_size = ctx_size_high;
-  struct llama_context *ctx;
-  // attempt to determine an "optimal" context size
-  // do *not* use VRAM_RESERVE context units
-  while (true) {
-    log_msg("%d <%d..%d>\n", ctx_size, ctx_size_low, ctx_size_high);
-    ctx_params.n_ctx = maximum_sequences*ctx_size+VRAM_RESERVE;
-    ctx = llama_init_from_model(model, ctx_params);
-    if (ctx) {
-      if (ctx_size+1024 >= ctx_size_high) break;
-      llama_free(ctx);
-      ctx_size_low = ctx_size;
-      ctx_size = (ctx_size_low+ctx_size_high)/2;
-    } else {
-      if (ctx_size == ctx_size_low) break;
-      if (ctx_size_low+1024 >= ctx_size_high) {
-        ctx_size = ctx_size_low;
-      }
-      ctx_size_high = ctx_size;
-      ctx_size = (ctx_size_low+ctx_size_high)/2;
-    }
-  }
-  if (ctx) {
-    llama_free(ctx);
-    ctx_params.n_ctx = maximum_sequences*ctx_size;
-    ctx = llama_init_from_model(model, ctx_params);
-    current_context_size = ctx_size;
-  }
-  log_msg("ctx_size = %d\n", ctx_size);
+  
   return ctx;
 }
 
@@ -1399,12 +1449,18 @@ static void handle_use_model(int fd, char *model_name) {
             = llama_context_default_params();
           mtp_params.ctx_type = LLAMA_CONTEXT_TYPE_MTP;
           mtp_params.n_ctx = llama_n_ctx(current_context);
+          // Mirror the main context's unified pool token count: the MTP cache
+          // only holds the nextn layers (bytes scale with n_layer_nextn), but a
+          // sequence position in the main context can reach anywhere in its
+          // pool - the mirror must be able to follow it everywhere.
+          mtp_params.kv_unified = true;
+          mtp_params.n_kv_cache = (uint32_t)kv_cache_size;
           mtp_params.n_rs_seq = 0;
           mtp_params.ctx_other = current_context;
           mtp_params.n_seq_max = maximum_sequences;
           mtp_params.n_batch = maximum_batch_size;
-          log_msg("creating MTP context (nextn layers = %d)\n",
-            n_layer_nextn);
+          log_msg("creating MTP context (nextn layers = %d, pool = %u cells)\n",
+            n_layer_nextn, (uint32_t)kv_cache_size);
           log_msg("mtp n_ctx = %u\n", llama_n_ctx(current_context));
           mtp_context = llama_init_from_model(current_model, mtp_params);
           if (mtp_context) {
@@ -2878,9 +2934,9 @@ int main(int argc, char **argv) {
   log_msg("fllama %s\n", FLLAMA_VERSION);
   // options:
   // --gpu-offload-threshold (in GB; default: 0)
-  // --concurrent-sequences (default: 1)
-  // --min-ctx-size (default: 8192)
-  // --max-ctx-size (default: 32768)
+  // --parallel (max concurrent sequences; default: 1)
+  // --ctx-size (per-sequence context limit; default: model trained size)
+  // --kv-cache-size (total KV pool size in tokens; default: auto-compute from VRAM)
   // --batch-size (default: 512)
   // --ubatch-size (default: batch size; 0 = llama.cpp default)
   // --mtp (number of tokens to predict; default: 0)
@@ -2898,43 +2954,43 @@ int main(int argc, char **argv) {
         log_msg("missing argument for --gpu-offload-threshold\n");
         exit(EXIT_FAILURE);
       }
-    } else if (strcmp(argv[i], "--concurrent-sequences") == 0) {
+    } else if (strcmp(argv[i], "--parallel") == 0) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
         if (n > 0) {
           maximum_sequences = n;
         } else {
-          log_msg("invalid argument for --concurrent-sequences\n");
+          log_msg("invalid argument for --parallel\n");
           exit(EXIT_FAILURE);
         }
       } else {
-        log_msg("missing argument for --concurrent-sequences\n");
+        log_msg("missing argument for --parallel\n");
         exit(EXIT_FAILURE);
       }
-    } else if (strcmp(argv[i], "--min-ctx-size") == 0) {
+    } else if (strcmp(argv[i], "--ctx-size") == 0) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
         if (n > 0) {
-          minimum_context_size = n;
+          context_size = n;
         } else {
-          log_msg("invalid argument for --min-ctx-size\n");
+          log_msg("invalid argument for --ctx-size\n");
           exit(EXIT_FAILURE);
         }
       } else {
-        log_msg("missing argument for --min-ctx-size\n");
+        log_msg("missing argument for --ctx-size\n");
         exit(EXIT_FAILURE);
       }
-    } else if (strcmp(argv[i], "--max-ctx-size") == 0) {
+    } else if (strcmp(argv[i], "--kv-cache-size") == 0) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
         if (n > 0) {
-          maximum_context_size = n;
+          kv_cache_size = n;
         } else {
-          log_msg("invalid argument for --max-ctx-size\n");
+          log_msg("invalid argument for --kv-cache-size\n");
           exit(EXIT_FAILURE);
         }
       } else {
-        log_msg("missing argument for --max-ctx-size\n");
+        log_msg("missing argument for --kv-cache-size\n");
         exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--batch-size") == 0) {
@@ -3008,9 +3064,9 @@ int main(int argc, char **argv) {
         "Usage: %s [options]\n"
         "Options:\n"
         "  --gpu-offload-threshold <size>  (in GB; default: 0)\n"
-        "  --concurrent-sequences <count>  (default: 1)\n"
-        "  --min-ctx-size <size>           (default: 8192)\n"
-        "  --max-ctx-size <size>           (default: 32768)\n"
+        "  --parallel <count>              (max concurrent sequences; default: 1)\n"
+        "  --ctx-size <size>               (per-sequence context limit; default: model trained size)\n"
+        "  --kv-cache-size <size>          (total KV pool in tokens; default: auto-compute from VRAM)\n"
         "  --batch-size <size>             (default: 512)\n"
         "  --ubatch-size <size>            (default: batch size)\n"
         "  --mtp <n>                       (default: 0)\n"
