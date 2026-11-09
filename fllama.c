@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-09 11:15 KV pool fit API (llama_model_fit_kv_cache) for exact per-GPU cache sizing";
+static const char *FLLAMA_VERSION = "2026-11-09 13:31:30 Single-packet confidence send; n_ctx = pool";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -60,8 +60,7 @@ static void log_msg(const char *fmt, ...) {
 
 
 #define MAXIMUM_BATCH_SIZE 512
-#define VRAM_RESERVE 4096
-// measured in context units
+#define GIB_IN_BYTES (1024LL * 1024LL * 1024LL)  // 1 GiB
 
 static void log_callback(
   const enum ggml_log_level level, const char *text, void *
@@ -142,7 +141,8 @@ static struct llama_model *load_model(const char *filename) {
 static uint32_t auto_compute_kv_cache_size(struct llama_model *model,
                                            struct llama_context_params *ctx_params) {
   // must match what create_memory() will actually allocate: same KV types,
-  // unified mode, and the pre-probe flash_attn value
+  // unified mode, the pre-probe flash_attn value, AND the real n_seq_max/n_rs_seq
+  // (the latter sizes the recurrent-state cache folded into the fixed term)
   int32_t flash_attn = ctx_params->flash_attn_type != LLAMA_FLASH_ATTN_TYPE_DISABLED;
 
   struct llama_kv_fit_dev devs[llama_max_devices()];
@@ -150,18 +150,19 @@ static uint32_t auto_compute_kv_cache_size(struct llama_model *model,
   fit.dev = devs;
 
   if (!llama_model_fit_kv_cache(model, ctx_params->type_k, ctx_params->type_v,
-                                1, flash_attn, 0.97, &fit)) {
-    log_msg("ERROR: no KV pool fits the available device memory\\n");
+                                1, flash_attn, 0.97,
+                                (uint32_t)maximum_sequences, ctx_params->n_rs_seq, &fit)) {
+    log_msg("ERROR: no KV pool fits the available device memory\n");
     return 0;
   }
 
-  log_msg("auto-compute KV: pool %u cells\\n", fit.n_cells);
+  log_msg("auto-compute KV: pool %u cells\n", fit.n_cells);
   for (int i = 0; i < fit.n_dev; ++i) {
     struct llama_kv_fit_dev *d = &fit.dev[i];
-    log_msg("  device %d (%s): %.2f/%.2f GB used/total, fixed %zu B, rate %zu B/cell -> max %u cells\\n",
+    log_msg("  device %d (%s): %.2f/%.2f GB used/total, fixed %zu B, rate %zu B/cell -> max %u cells\n",
             d->dev_index,
             d->dev_index >= 0 ? ggml_backend_dev_name(ggml_backend_dev_get(d->dev_index)) : "host",
-            (double)d->used_bytes / 1073741824.0, (double)d->total_mem / 1073741824.0,
+            (double)d->used_bytes / (double)GIB_IN_BYTES, (double)d->total_mem / (double)GIB_IN_BYTES,
             d->fixed_bytes, d->bytes_per_cell, d->max_cells);
   }
 
@@ -203,16 +204,18 @@ static struct llama_context *create_context(struct llama_model *model) {
   }
   ctx_params.n_kv_cache = (uint32_t)kv_cache_size;
   
-  // Set n_ctx per sequence (each seq gets context_size tokens)
-  uint64_t total_ctx = (uint64_t)maximum_sequences * context_size + VRAM_RESERVE;
-  ctx_params.n_ctx = total_ctx;
+  // In unified mode the pool (n_kv_cache) is the actual shared capacity: n_ctx does
+  // not size memory nor cap sequence length, it only clamps n_batch and compute-
+  // buffer size (both far below any sensible value here). Set n_ctx to the pool so
+  // the reported context reflects real capacity instead of an inflated artifact.
+  ctx_params.n_ctx = (uint32_t)kv_cache_size;
   
   // Log all context parameters before initialization
   log_msg("========================================\n");
   log_msg("ctx_params:\n");
   log_msg("  n_seq_max = %u\n", ctx_params.n_seq_max);
-  log_msg("  n_ctx = %llu (per-seq %d)\n",
-          (unsigned long long)ctx_params.n_ctx, context_size);
+  log_msg("  n_ctx = %llu (= pool)\n",
+          (unsigned long long)ctx_params.n_ctx);
   log_msg("  n_batch = %u\n", ctx_params.n_batch);
   log_msg("  n_ubatch = %u\n", ctx_params.n_ubatch);
   log_msg("  n_kv_cache = %u (pool)\n", ctx_params.n_kv_cache);
@@ -223,7 +226,7 @@ static struct llama_context *create_context(struct llama_model *model) {
   struct llama_context *ctx = llama_init_from_model(model, ctx_params);
   if (!ctx) {
     log_msg("ERROR: failed to init context (n_ctx=%llu n_kv_cache=%u)\n",
-            (unsigned long long)total_ctx, (uint32_t)kv_cache_size);
+            (unsigned long long)ctx_params.n_ctx, (uint32_t)kv_cache_size);
   } else {
     current_context_size = context_size;
   }
@@ -1577,8 +1580,9 @@ static void send_confidence_message(
   for (int k = 0; k < 10; ++k) {
     p += sprintf(p, " %d=%f", c[k].token, c[k].logit);
   }
+  // Buffered via send_message: consecutive messages to the same client
+  // accumulate into one packet; the caller flushes once per logical batch.
   send_message(sequence->client_fd, buf, p+1-buf);
-  flush();
 }
 
 static void handle_add_tokens(int fd, char *arguments) {
@@ -1834,6 +1838,7 @@ static void handle_evaluate(int fd, char *sequence_id) {
           send_confidence_message(
             sequence, sequence->frontier_confidences,
             array_length(sequence->tokens));
+          flush();
           sequence->frontier_confidence = false;
           return;
         }
@@ -2684,6 +2689,9 @@ static void evaluate_sequences(void) {
               send_confidence_message(
                 sequence, entry_confidences, lbatch.pos[entry]+1);
             }
+            // all of this turn's logits/lookahead messages are buffered for the
+            // same client: one flush ships them as a single packet
+            flush();
             // this batch CONSUMED the drafts: confirmed ones joined the
             // chain (a copy), rejected ones were rolled back from the KV.
             // If they survived, a later full claim would take the
@@ -2704,6 +2712,7 @@ static void evaluate_sequences(void) {
             send_confidence_message(
               sequence, sequence->confidences,
               array_length(sequence->tokens));
+            flush();
             if (mtp_predict > 0 && sequence->mtp_pending_h) {
               draft_seqs[n_draft_seqs++] = sequence;
             }
