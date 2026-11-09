@@ -37,7 +37,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-08 21:55 option refactor review (GQA bytes, VRAM cap, MTP pool mirror)";
+static const char *FLLAMA_VERSION = "2026-11-09 11:15 KV pool fit API (llama_model_fit_kv_cache) for exact per-GPU cache sizing";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -135,61 +135,37 @@ static struct llama_model *load_model(const char *filename) {
   return llama_model_load_from_file(filename, model_params);
 }
 
-// Auto-compute max KV cache pool that fits in GPU VRAM.
-// Per GPU: usable = 97% of total minus current usage (weights etc. already
-// resident), keeping a 3%-of-total headroom for compute buffers and workspace.
-static uint32_t auto_compute_kv_cache_size(struct llama_model *model) {
-  int n_layer = llama_model_n_layer(model);
-  int n_head = llama_model_n_head(model);
-  int n_head_kv = llama_model_n_head_kv(model);
+// Auto-compute max KV cache pool that fits in GPU VRAM at 97% utilization.
+// Delegates to llama.cpp's fit API, which runs the real KV layout logic on a
+// no-alloc scratch build and measures the exact per-device budget - replacing
+// the old hand-derived bytes/cell estimate (which mis-sized hybrid models).
+static uint32_t auto_compute_kv_cache_size(struct llama_model *model,
+                                           struct llama_context_params *ctx_params) {
+  // must match what create_memory() will actually allocate: same KV types,
+  // unified mode, and the pre-probe flash_attn value
+  int32_t flash_attn = ctx_params->flash_attn_type != LLAMA_FLASH_ATTN_TYPE_DISABLED;
 
-  // head_dim as derived by llama.cpp itself: n_embd / n_head (query heads).
-  // KV footprint per layer uses the KV head count (GQA: n_head_kv <= n_head).
-  int n_embd = llama_model_n_embd(model);
-  int head_dim = n_embd / n_head;
+  struct llama_kv_fit_dev devs[llama_max_devices()];
+  struct llama_kv_fit_data fit = { 0 };
+  fit.dev = devs;
 
-  // kv_elem_size: f16 (float) = 2 bytes
-  size_t kv_elem_size = sizeof(float);
-
-  // bytes per cell = n_layer * n_head_kv * head_dim * 2(K+V) * elem_size
-  size_t bytes_per_cell = (size_t)n_layer * (size_t)n_head_kv *
-                          (size_t)head_dim * 2 * kv_elem_size;
-
-  log_msg("auto-compute KV: n_layer=%d n_head=%d n_head_kv=%d head_dim=%d bytes/cell=%zu\n",
-          n_layer, n_head, n_head_kv, head_dim, bytes_per_cell);
-
-  // Sum available VRAM across all GPU devices
-  size_t total_usable = 0;
-  size_t dev_count = ggml_backend_dev_count();
-  for (size_t i = 0; i < dev_count; ++i) {
-    ggml_backend_dev_t dev = ggml_backend_dev_get(i);
-    enum ggml_backend_dev_type type = ggml_backend_dev_type(dev);
-
-    // Skip CPU devices
-    if (type == GGML_BACKEND_DEVICE_TYPE_CPU) {
-      continue;
-    }
-
-    size_t free_mem, total_mem;
-    ggml_backend_dev_memory(dev, &free_mem, &total_mem);
-
-    // usable = 97% of total - used, clamped at zero
-    double cap = 0.97 * (double)total_mem;
-    size_t used = total_mem > free_mem ? total_mem - free_mem : 0;
-    size_t usable = used >= (size_t)cap ? 0 : (size_t)cap - used;
-
-    log_msg("GPU %zu (%s): %.2f/%.2f GB free, using %.2f GB\n",
-            i, ggml_backend_dev_name(dev),
-            free_mem/1073741824.0, total_mem/1073741824.0, usable/1073741824.0);
-
-    total_usable += usable;
+  if (!llama_model_fit_kv_cache(model, ctx_params->type_k, ctx_params->type_v,
+                                1, flash_attn, 0.97, &fit)) {
+    log_msg("ERROR: no KV pool fits the available device memory\\n");
+    return 0;
   }
 
-  uint32_t max_pool = (uint32_t)(total_usable / bytes_per_cell);
-  log_msg("auto-compute KV: %zu bytes usable / %zu bytes/cell = %u cells\n",
-          total_usable, bytes_per_cell, max_pool);
+  log_msg("auto-compute KV: pool %u cells\\n", fit.n_cells);
+  for (int i = 0; i < fit.n_dev; ++i) {
+    struct llama_kv_fit_dev *d = &fit.dev[i];
+    log_msg("  device %d (%s): %.2f/%.2f GB used/total, fixed %zu B, rate %zu B/cell -> max %u cells\\n",
+            d->dev_index,
+            d->dev_index >= 0 ? ggml_backend_dev_name(ggml_backend_dev_get(d->dev_index)) : "host",
+            (double)d->used_bytes / 1073741824.0, (double)d->total_mem / 1073741824.0,
+            d->fixed_bytes, d->bytes_per_cell, d->max_cells);
+  }
 
-  return max_pool;
+  return fit.n_cells;
 }
 
 static struct llama_context *create_context(struct llama_model *model) {
@@ -221,9 +197,9 @@ static struct llama_context *create_context(struct llama_model *model) {
     ctx_params.n_ubatch = (uint32_t)ubatch_size;
   }
   
-  // kv_cache_size: direct value, 0 = auto-compute from VRAM
+  // kv_cache_size: direct value, 0 = auto-compute from VRAM via the fit API
   if (kv_cache_size <= 0) {
-    kv_cache_size = auto_compute_kv_cache_size(model);
+    kv_cache_size = auto_compute_kv_cache_size(model, &ctx_params);
   }
   ctx_params.n_kv_cache = (uint32_t)kv_cache_size;
   
