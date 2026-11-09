@@ -16,6 +16,7 @@
 
 #include <llama.h>
 #include "llama-ext.h"
+#include <fit.h>
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 #include <signal.h>
@@ -37,7 +38,7 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-09 13:31:30 Single-packet confidence send; n_ctx = pool";
+static const char *FLLAMA_VERSION = "2026-11-09 22:53:59 KV pool fit via common_fit_max_kv_cache";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -134,39 +135,49 @@ static struct llama_model *load_model(const char *filename) {
   return llama_model_load_from_file(filename, model_params);
 }
 
-// Auto-compute max KV cache pool that fits in GPU VRAM at 97% utilization.
-// Delegates to llama.cpp's fit API, which runs the real KV layout logic on a
-// no-alloc scratch build and measures the exact per-device budget - replacing
-// the old hand-derived bytes/cell estimate (which mis-sized hybrid models).
-static uint32_t auto_compute_kv_cache_size(struct llama_model *model,
-                                           struct llama_context_params *ctx_params) {
-  // must match what create_memory() will actually allocate: same KV types,
-  // unified mode, the pre-probe flash_attn value, AND the real n_seq_max/n_rs_seq
-  // (the latter sizes the recurrent-state cache folded into the fixed term)
-  int32_t flash_attn = ctx_params->flash_attn_type != LLAMA_FLASH_ATTN_TYPE_DISABLED;
-
-  struct llama_kv_fit_dev devs[llama_max_devices()];
-  struct llama_kv_fit_data fit = { 0 };
-  fit.dev = devs;
-
-  if (!llama_model_fit_kv_cache(model, ctx_params->type_k, ctx_params->type_v,
-                                1, flash_attn, 0.97,
-                                (uint32_t)maximum_sequences, ctx_params->n_rs_seq, &fit)) {
-    log_msg("ERROR: no KV pool fits the available device memory\n");
-    return 0;
+// Fit the unified KV pool size against device memory BEFORE loading the model.
+// common_fit_max_kv_cache() runs no_alloc probes that measure exactly what the
+// real allocation will use (weights, compute buffers, recurrent state, and the
+// MTP context's nextn KV rows). It must run while VRAM is still free: the budget
+// math would double-count the weights after a real load. Returns the maximum pool
+// in cells, or 0 if none fits.
+static int32_t fit_kv_pool(const char *path) {
+  struct llama_model_params mp = llama_model_default_params();
+  mp.load_mtp = (mtp_predict > 0);
+  FILE *fp = fopen(path, "rb");
+  if (fp) {
+    fseek(fp, 0, SEEK_END);
+    size_t fsz = ftell(fp);
+    fclose(fp);
+    mp.n_gpu_layers = (fsz <= gpu_offload_threshold) ? 99 : 0; // same rule as load_model()
   }
 
-  log_msg("auto-compute KV: pool %u cells\n", fit.n_cells);
-  for (int i = 0; i < fit.n_dev; ++i) {
-    struct llama_kv_fit_dev *d = &fit.dev[i];
-    log_msg("  device %d (%s): %.2f/%.2f GB used/total, fixed %zu B, rate %zu B/cell -> max %u cells\n",
-            d->dev_index,
-            d->dev_index >= 0 ? ggml_backend_dev_name(ggml_backend_dev_get(d->dev_index)) : "host",
-            (double)d->used_bytes / (double)GIB_IN_BYTES, (double)d->total_mem / (double)GIB_IN_BYTES,
-            d->fixed_bytes, d->bytes_per_cell, d->max_cells);
+  struct llama_context_params cp = llama_context_default_params();
+  cp.kv_unified = true;
+  cp.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict; // must match create_context()
+  cp.n_seq_max = maximum_sequences;
+  cp.n_batch = maximum_batch_size;
+
+  struct common_fit_extra_model extra;
+  struct common_fit_extra_model *p_extra = NULL;
+  if (mtp_predict > 0) {
+    // the MTP draft context competes for the same memory; its KV rows follow
+    // the main pool size (probes set it), mirroring create_context() + the
+    // MTP context setup in handle_use_model()
+    struct llama_context_params cmp = cp;
+    cmp.ctx_type = LLAMA_CONTEXT_TYPE_MTP;
+    cmp.n_kv_cache = 0;
+    cmp.n_rs_seq = 0;
+    extra.path_model = path;
+    extra.mparams = &mp;         // same model, same placement
+    extra.cparams = &cmp;
+    extra.shares_model = true;   // runs on the target model's weights
+    p_extra = &extra;
   }
 
-  return fit.n_cells;
+  size_t margins[8] = {0}; // Max devices supported by llama.cpp
+  return (int32_t) common_fit_max_kv_cache(
+    path, &mp, &cp, margins, p_extra, /*vram_fraction=*/0.97, GGML_LOG_LEVEL_ERROR);
 }
 
 static struct llama_context *create_context(struct llama_model *model) {
@@ -198,10 +209,8 @@ static struct llama_context *create_context(struct llama_model *model) {
     ctx_params.n_ubatch = (uint32_t)ubatch_size;
   }
   
-  // kv_cache_size: direct value, 0 = auto-compute from VRAM via the fit API
-  if (kv_cache_size <= 0) {
-    kv_cache_size = auto_compute_kv_cache_size(model, &ctx_params);
-  }
+  // kv_cache_size: set by fit_kv_pool() before the model load (explicit value is
+  // an upper bound there), so it is never 0 here
   ctx_params.n_kv_cache = (uint32_t)kv_cache_size;
   
   // In unified mode the pool (n_kv_cache) is the actual shared capacity: n_ctx does
@@ -1413,6 +1422,21 @@ static void handle_use_model(int fd, char *model_name) {
   current_session_per_client[fd] = current_session_id;
   if (!current_model_name) {
     char *full_model_name = create_string(model_path, model_name, NULL);
+    int32_t n_max_pool = fit_kv_pool(full_model_name);
+    if (n_max_pool <= 0) {
+      log_msg("failed to fit KV pool for model %s\n", full_model_name);
+      send_message(fd, "error failed to fit KV pool", 28);
+      return;
+    }
+    if (kv_cache_size > 0 && (uint32_t)kv_cache_size > (uint32_t)n_max_pool) {
+      log_msg("ERROR: --kv-cache-size %d exceeds the maximum pool of %u cells that fits the devices\n",
+        kv_cache_size, n_max_pool);
+      send_message(fd, "error kv-cache-size too large", 30);
+      return;
+    }
+    if (kv_cache_size <= 0) {
+      kv_cache_size = n_max_pool;
+    }
     log_msg("loading model %s\n", full_model_name);
     struct llama_model *model = load_model(full_model_name);
     if (model) {
