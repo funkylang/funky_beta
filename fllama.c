@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-10 19:10:48 KV-FIT-DBG: warmup visibility + cparams pointer check";
+static const char *FLLAMA_VERSION = "2026-11-10 20:07:57 Fit uses our split algorithm (auto_split)";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -115,6 +115,12 @@ static struct llama_context *mtp_context = NULL;
 static int mtp_n_embd = 0;
 static struct llama_batch_ext *mtp_batch = NULL;
 
+// Placement resolved by fit_kv_pool() via llama_kv_fit_auto_split(): the real load must
+// use the SAME placement the pool was fitted against, or the fit numbers are fiction.
+static bool   fit_split_active = false;
+static int    fit_ngl          = 0;
+static float  fit_ts[16];      // llama_max_devices()=16
+
 static struct llama_model *load_model(const char *filename) {
   // compute file size
   FILE *fp = fopen(filename, "rb");
@@ -130,8 +136,16 @@ static struct llama_model *load_model(const char *filename) {
   model_params.load_mtp = (mtp_predict > 0);
   log_msg("load_mtp = %d\n", model_params.load_mtp);
   if (filesize <= gpu_offload_threshold) {
-    model_params.n_gpu_layers = 99;
-    log_msg("using GPU for all layers\n");
+    if (fit_split_active) {
+      // same placement the KV pool was fitted against in fit_kv_pool()
+      model_params.n_gpu_layers = fit_ngl;
+      model_params.tensor_split = fit_ts;
+      log_msg("using %d GPU layers with fitted tensor split [%.4f, %.4f, ...]\n",
+              fit_ngl, fit_ts[0], fit_ts[1]);
+    } else {
+      model_params.n_gpu_layers = 99;
+      log_msg("using GPU for all layers\n");
+    }
   } else {
     model_params.n_gpu_layers = 0;
     log_msg("not using GPU for any layers\n");
@@ -163,6 +177,22 @@ static int32_t fit_kv_pool(const char *path) {
   cp.n_seq_max = maximum_sequences;
   cp.n_batch = maximum_batch_size;
   cp.n_kv_cache = 0; // pool size is solved for by the fit
+
+  // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
+  fit_split_active = false;
+  if (mp.n_gpu_layers > 0) {
+    // OUR split algorithm (not llama.cpp's default equal-bytes balancing): VRAM-
+    // proportional tensor_split + n_gpu_layers leaving room for a usable pool.
+    // It writes the split into fit_ts so load_model() reuses the exact same placement.
+    if (!llama_kv_fit_auto_split(path, &mp, &cp, fit_ts)) {
+      log_msg("KV auto split failed - keeping default device placement\n");
+    } else {
+      fit_ngl        = mp.n_gpu_layers;
+      fit_split_active = true;
+      log_msg("KV auto split: n_gpu_layers=%d tensor_split=[%.4f, %.4f, ...]\n",
+              fit_ngl, fit_ts[0], fit_ts[1]);
+    }
+  }
 
   struct llama_kv_fit_extra extra;
   const struct llama_kv_fit_extra *p_extra = NULL;
