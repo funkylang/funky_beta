@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-10 13:07:37 KV pool fit via libllama; CPU default 32768";
+static const char *FLLAMA_VERSION = "2026-11-10 19:10:48 KV-FIT-DBG: warmup visibility + cparams pointer check";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -179,6 +179,9 @@ static int32_t fit_kv_pool(const char *path) {
     extra.cparams = &cmp;
     extra.shares_model = true;   // runs on the target model's weights
     p_extra = &extra;
+    fprintf(stderr, "[KV-FIT-DBG] fllama setup: &cmp=%p extra.cparams=%p cmp.n_seq_max=%u n_ctx=%llu kv_unified=%d ctx_type=%d\n",
+            (void*)&cmp, (void*)extra.cparams, (unsigned)cmp.n_seq_max,
+            (unsigned long long)cmp.n_ctx, (int)cmp.kv_unified, (int)cmp.ctx_type);
   }
 
   size_t margins[16] = {0};      // per-device headroom to keep free (bytes); llama_max_devices()=16
