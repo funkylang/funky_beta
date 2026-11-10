@@ -16,7 +16,6 @@
 
 #include <llama.h>
 #include "llama-ext.h"
-#include <fit.h>
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 #include <signal.h>
@@ -38,7 +37,6 @@
 
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
-static const char *FLLAMA_VERSION = "2026-11-09 22:53:59 KV pool fit via common_fit_max_kv_cache";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -86,7 +84,11 @@ static int maximum_sequences = 1;
 static int maximum_batch_size = MAXIMUM_BATCH_SIZE;
 static int ubatch_size = 0; // 0 = let llama.cpp decide (defaults to n_batch)
 static int context_size = 0;    // 0 = model's natural trained size
-static int kv_cache_size = 0;   // 0 = auto-compute from VRAM
+static int kv_cache_size = 0;   // 0 = auto-compute from VRAM (GPU) or use CPU default
+
+// conservative KV pool for CPU-only systems: no VRAM to fit against, and the pool lives in
+// shared system RAM, so we deliberately keep it small; --kv-cache-size overrides it
+#define DEFAULT_CPU_KV_CACHE_SIZE 32768
 
 llama_memory_t current_memory;
 
@@ -136,11 +138,11 @@ static struct llama_model *load_model(const char *filename) {
 }
 
 // Fit the unified KV pool size against device memory BEFORE loading the model.
-// common_fit_max_kv_cache() runs no_alloc probes that measure exactly what the
-// real allocation will use (weights, compute buffers, recurrent state, and the
-// MTP context's nextn KV rows). It must run while VRAM is still free: the budget
-// math would double-count the weights after a real load. Returns the maximum pool
-// in cells, or 0 if none fits.
+// Calls llama_kv_fit_max_pool() (libllama), which runs no_alloc probes measuring
+// exactly what the real allocation will use (weights, compute buffers, recurrent
+// state, and the MTP context's nextn KV rows, passed as the extra context). It must
+// run while VRAM is still free: the budget math would double-count weights after a
+// real load. Returns the fitted pool size in cells, or 0 if none fits.
 static int32_t fit_kv_pool(const char *path) {
   struct llama_model_params mp = llama_model_default_params();
   mp.load_mtp = (mtp_predict > 0);
@@ -149,7 +151,8 @@ static int32_t fit_kv_pool(const char *path) {
     fseek(fp, 0, SEEK_END);
     size_t fsz = ftell(fp);
     fclose(fp);
-    mp.n_gpu_layers = (fsz <= gpu_offload_threshold) ? 99 : 0; // same rule as load_model()
+    // same rule as load_model(); explicit placement makes fit only size the pool
+    mp.n_gpu_layers = (fsz <= gpu_offload_threshold) ? 99 : 0;
   }
 
   struct llama_context_params cp = llama_context_default_params();
@@ -157,9 +160,10 @@ static int32_t fit_kv_pool(const char *path) {
   cp.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict; // must match create_context()
   cp.n_seq_max = maximum_sequences;
   cp.n_batch = maximum_batch_size;
+  cp.n_kv_cache = 0; // pool size is solved for by the fit
 
-  struct common_fit_extra_model extra;
-  struct common_fit_extra_model *p_extra = NULL;
+  struct llama_kv_fit_extra extra;
+  const struct llama_kv_fit_extra *p_extra = NULL;
   if (mtp_predict > 0) {
     // the MTP draft context competes for the same memory; its KV rows follow
     // the main pool size (probes set it), mirroring create_context() + the
@@ -175,9 +179,8 @@ static int32_t fit_kv_pool(const char *path) {
     p_extra = &extra;
   }
 
-  size_t margins[8] = {0}; // Max devices supported by llama.cpp
-  return (int32_t) common_fit_max_kv_cache(
-    path, &mp, &cp, margins, p_extra, /*vram_fraction=*/0.97, GGML_LOG_LEVEL_ERROR);
+  size_t margins[16] = {0};      // per-device headroom to keep free (bytes); llama_max_devices()=16
+  return llama_kv_fit_max_pool(path, &mp, &cp, margins, p_extra, /*vram_fraction=*/0.97);
 }
 
 static struct llama_context *create_context(struct llama_model *model) {
@@ -1423,19 +1426,26 @@ static void handle_use_model(int fd, char *model_name) {
   if (!current_model_name) {
     char *full_model_name = create_string(model_path, model_name, NULL);
     int32_t n_max_pool = fit_kv_pool(full_model_name);
-    if (n_max_pool <= 0) {
-      log_msg("failed to fit KV pool for model %s\n", full_model_name);
-      send_message(fd, "error failed to fit KV pool", 28);
-      return;
-    }
-    if (kv_cache_size > 0 && (uint32_t)kv_cache_size > (uint32_t)n_max_pool) {
-      log_msg("ERROR: --kv-cache-size %d exceeds the maximum pool of %u cells that fits the devices\n",
-        kv_cache_size, n_max_pool);
-      send_message(fd, "error kv-cache-size too large", 30);
-      return;
-    }
-    if (kv_cache_size <= 0) {
-      kv_cache_size = n_max_pool;
+    if (n_max_pool > 0) {
+      // VRAM available: the auto-fit is the ceiling for the pool
+      if (kv_cache_size > 0 && (uint32_t)kv_cache_size > (uint32_t)n_max_pool) {
+        log_msg("ERROR: --kv-cache-size %d exceeds the maximum pool of %u cells that fits the devices\n",
+          kv_cache_size, n_max_pool);
+        send_message(fd, "error kv-cache-size too large", 30);
+        return;
+      }
+      if (kv_cache_size <= 0) {
+        kv_cache_size = n_max_pool;
+        log_msg("KV pool: %d cells (auto-fit from VRAM)\n", kv_cache_size);
+      } else {
+        log_msg("KV pool: %d cells (--kv-cache-size; max from VRAM = %d)\n", kv_cache_size, n_max_pool);
+      }
+    } else if (kv_cache_size > 0) {
+      // CPU-only: no VRAM to fit against, an explicit size is used as-is
+      log_msg("KV pool: %d cells (--kv-cache-size; CPU mode, no VRAM to auto-fit)\n", kv_cache_size);
+    } else {
+      kv_cache_size = DEFAULT_CPU_KV_CACHE_SIZE;
+      log_msg("KV pool: %d cells (CPU default; no VRAM to auto-fit - set --kv-cache-size to change)\n", kv_cache_size);
     }
     log_msg("loading model %s\n", full_model_name);
     struct llama_model *model = load_model(full_model_name);
@@ -2945,7 +2955,8 @@ int main(int argc, char **argv) {
   // --gpu-offload-threshold (in GB; default: 0)
   // --parallel (max concurrent sequences; default: 1)
   // --ctx-size (per-sequence context limit; default: model trained size)
-  // --kv-cache-size (total KV pool size in tokens; default: auto-compute from VRAM)
+  // --kv-cache-size (total KV pool size in tokens; default: auto-compute from VRAM on GPU,
+  //                32768 conservative default on CPU-only systems)
   // --batch-size (default: 512)
   // --ubatch-size (default: batch size; 0 = llama.cpp default)
   // --mtp (number of tokens to predict; default: 0)
@@ -3075,7 +3086,7 @@ int main(int argc, char **argv) {
         "  --gpu-offload-threshold <size>  (in GB; default: 0)\n"
         "  --parallel <count>              (max concurrent sequences; default: 1)\n"
         "  --ctx-size <size>               (per-sequence context limit; default: model trained size)\n"
-        "  --kv-cache-size <size>          (total KV pool in tokens; default: auto-compute from VRAM)\n"
+        "  --kv-cache-size <size>          (KV pool in tokens; default: auto-fit VRAM, 32768 on CPU)\n"
         "  --batch-size <size>             (default: 512)\n"
         "  --ubatch-size <size>            (default: batch size)\n"
         "  --mtp <n>                       (default: 0)\n"
@@ -3106,3 +3117,5 @@ int main(int argc, char **argv) {
   set_array_length(sessions, 1);
   handle_client_requests(listen_fd);
 }
+
+static const char *FLLAMA_VERSION = "2026-11-10 13:07:37 KV pool fit via libllama; CPU default 32768";

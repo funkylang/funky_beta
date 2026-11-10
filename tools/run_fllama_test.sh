@@ -14,7 +14,7 @@ if [ -n "$OLD" ]; then
   done
 fi
 # fully detach: new session, no controlling tty, survives this script
-setsid ./fllama --mtp 3 --eager --concurrent-sequences 8 \
+setsid ./fllama --mtp 3 --eager --parallel 8 \
   "$@" > "$LOG" 2>&1 < /dev/null &
 NEWPID=$!
 disown 2>/dev/null || true
