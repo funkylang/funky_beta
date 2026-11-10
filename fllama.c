@@ -38,6 +38,8 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
+static const char *FLLAMA_VERSION = "2026-11-10 13:07:37 KV pool fit via libllama; CPU default 32768";
+
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
 
@@ -3117,5 +3119,3 @@ int main(int argc, char **argv) {
   set_array_length(sessions, 1);
   handle_client_requests(listen_fd);
 }
-
-static const char *FLLAMA_VERSION = "2026-11-10 13:07:37 KV pool fit via libllama; CPU default 32768";
