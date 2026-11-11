@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-10 20:07:57 Fit uses our split algorithm (auto_split)";
+static const char *FLLAMA_VERSION = "2026-11-11 12:57:54 LIB-VER: library self-reports fork version at backend init";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
