@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-11 12:57:54 LIB-VER: library self-reports fork version at backend init";
+static const char *FLLAMA_VERSION = "2026-11-11 13:09:40 KV-fit overhead probe: MTP context decode via batch_ext embd_state";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
