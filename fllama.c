@@ -176,6 +176,14 @@ static int32_t fit_kv_pool(const char *path) {
   cp.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict; // must match create_context()
   cp.n_seq_max = maximum_sequences;
   cp.n_batch = maximum_batch_size;
+  // Mirror create_context()'s sizing parameters so the probes measure the same
+  // compute buffers: reserve-time worst-case graph size is min(n_ctx, n_ubatch), and
+  // create_context() sets n_ctx to the pool (>= ubatch). Here n_ctx must not stay at
+  // its small default or ubatch-size runs fit against a graph that never happens.
+  cp.n_ctx = maximum_batch_size;
+  if (ubatch_size > 0) {
+    cp.n_ubatch = (uint32_t)ubatch_size;
+  }
   cp.n_kv_cache = 0; // pool size is solved for by the fit
 
   // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
