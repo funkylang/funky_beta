@@ -117,9 +117,11 @@ static struct llama_batch_ext *mtp_batch = NULL;
 
 // Placement resolved by fit_kv_pool() via llama_kv_fit_auto_split(): the real load must
 // use the SAME placement the pool was fitted against, or the fit numbers are fiction.
+// fit_bounds + fit_mparams persist here: mparams->tensor_layer_bounds points into
+// fit_bounds and must stay alive through load_model().
 static bool   fit_split_active = false;
-static int    fit_ngl          = 0;
-static float  fit_ts[16];      // llama_max_devices()=16
+static int32_t fit_bounds[16];            // llama_max_devices()=16
+static struct llama_model_params fit_mparams;
 
 static struct llama_model *load_model(const char *filename) {
   // compute file size
@@ -137,11 +139,11 @@ static struct llama_model *load_model(const char *filename) {
   log_msg("load_mtp = %d\n", model_params.load_mtp);
   if (filesize <= gpu_offload_threshold) {
     if (fit_split_active) {
-      // same placement the KV pool was fitted against in fit_kv_pool()
-      model_params.n_gpu_layers = fit_ngl;
-      model_params.tensor_split = fit_ts;
-      log_msg("using %d GPU layers with fitted tensor split [%.4f, %.4f, ...]\n",
-              fit_ngl, fit_ts[0], fit_ts[1]);
+      // same placement the KV pool was fitted against in fit_kv_pool(): the planned
+      // layer bounds live in fit_mparams (tensor_layer_bounds -> static fit_bounds)
+      model_params = fit_mparams;
+      log_msg("using fitted layer placement (n_gpu_layers=%d, first bound %d)\n",
+              fit_mparams.n_gpu_layers, fit_bounds[0]);
     } else {
       model_params.n_gpu_layers = 99;
       log_msg("using GPU for all layers\n");
@@ -154,11 +156,12 @@ static struct llama_model *load_model(const char *filename) {
 }
 
 // Fit the unified KV pool size against device memory BEFORE loading the model.
-// Calls llama_kv_fit_max_pool() (libllama), which runs no_alloc probes measuring
-// exactly what the real allocation will use (weights, compute buffers, recurrent
-// state, and the MTP context's nextn KV rows, passed as the extra context). It must
-// run while VRAM is still free: the budget math would double-count weights after a
-// real load. Returns the fitted pool size in cells, or 0 if none fits.
+// Measurement-based planning API (libllama): llama_kv_fit_auto_split() measures with
+// one real load + warmup decode, solves placement into fit_bounds and applies it to
+// mp; llama_kv_fit_max_pool() then solves the pool from the SAME measurement (the
+// library's plan cache is keyed on these exact structs — pass them unchanged). It
+// must run while VRAM is still free: the budget math would double-count weights after
+// a real load. Returns the fitted pool size in cells, or 0 if none fits.
 static int32_t fit_kv_pool(const char *path) {
   struct llama_model_params mp = llama_model_default_params();
   mp.load_mtp = (mtp_predict > 0);
@@ -167,8 +170,15 @@ static int32_t fit_kv_pool(const char *path) {
     fseek(fp, 0, SEEK_END);
     size_t fsz = ftell(fp);
     fclose(fp);
-    // same rule as load_model(); explicit placement makes fit only size the pool
+    // same rule as load_model(): a CPU-mode model is never fit against VRAM
     mp.n_gpu_layers = (fsz <= gpu_offload_threshold) ? 99 : 0;
+  }
+
+  // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
+  fit_split_active = false;
+  memset(fit_bounds, 0, sizeof(fit_bounds));
+  if (mp.n_gpu_layers <= 0) {
+    return 0;
   }
 
   struct llama_context_params cp = llama_context_default_params();
@@ -177,53 +187,47 @@ static int32_t fit_kv_pool(const char *path) {
   cp.n_seq_max = maximum_sequences;
   cp.n_batch = maximum_batch_size;
   // Mirror create_context()'s sizing parameters so the probes measure the same
-  // compute buffers: reserve-time worst-case graph size is min(n_ctx, n_ubatch), and
-  // create_context() sets n_ctx to the pool (>= ubatch). Here n_ctx must not stay at
-  // its small default or ubatch-size runs fit against a graph that never happens.
+  // compute buffers: reserve-time worst-case graph size is min(n_ctx, n_ubatch).
+  // Here n_ctx must not stay at its small default or ubatch-size runs fit against
+  // a graph that never happens.
   cp.n_ctx = maximum_batch_size;
   if (ubatch_size > 0) {
     cp.n_ubatch = (uint32_t)ubatch_size;
   }
-  cp.n_kv_cache = 0; // pool size is solved for by the fit
 
-  // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
-  fit_split_active = false;
-  if (mp.n_gpu_layers > 0) {
-    // OUR split algorithm (not llama.cpp's default equal-bytes balancing): VRAM-
-    // proportional tensor_split + n_gpu_layers leaving room for a usable pool.
-    // It writes the split into fit_ts so load_model() reuses the exact same placement.
-    if (!llama_kv_fit_auto_split(path, &mp, &cp, fit_ts)) {
-      log_msg("KV auto split failed - keeping default device placement\n");
-    } else {
-      fit_ngl        = mp.n_gpu_layers;
-      fit_split_active = true;
-      log_msg("KV auto split: n_gpu_layers=%d tensor_split=[%.4f, %.4f, ...]\n",
-              fit_ngl, fit_ts[0], fit_ts[1]);
-    }
-  }
-
-  struct llama_kv_fit_extra extra;
-  const struct llama_kv_fit_extra *p_extra = NULL;
+  // Planning options — allocated by the library (stale-header safe). The app knows
+  // its own checkpoint policy: SSM rows per recurrent layer it will allocate
+  // (= n_seq_max x (live + rollback rows)); the planner uses it verbatim.
+  struct llama_kv_fit_params * params = llama_kv_fit_params_new(LLAMA_KV_FIT_PARAMS_VERSION);
+  params->vram_fraction = 0.97;
+  params->n_checkpoints = (uint32_t)maximum_sequences * (1u + cp.n_rs_seq);
   if (mtp_predict > 0) {
-    // the MTP draft context competes for the same memory; its KV rows follow
-    // the main pool size (probes set it), mirroring create_context() + the
-    // MTP context setup in handle_use_model()
+    // the MTP draft context competes for the same memory; its KV rows follow the
+    // main pool size, mirroring create_context() + the MTP context setup in
+    // handle_use_model()
+    struct llama_kv_fit_extra extra;
     struct llama_context_params cmp = cp;
     cmp.ctx_type = LLAMA_CONTEXT_TYPE_MTP;
-    cmp.n_kv_cache = 0;
     cmp.n_rs_seq = 0;
     extra.path_model = path;
     extra.mparams = &mp;         // same model, same placement
     extra.cparams = &cmp;
     extra.shares_model = true;   // runs on the target model's weights
-    p_extra = &extra;
-    fprintf(stderr, "[KV-FIT-DBG] fllama setup: &cmp=%p extra.cparams=%p cmp.n_seq_max=%u n_ctx=%llu kv_unified=%d ctx_type=%d\n",
-            (void*)&cmp, (void*)extra.cparams, (unsigned)cmp.n_seq_max,
-            (unsigned long long)cmp.n_ctx, (int)cmp.kv_unified, (int)cmp.ctx_type);
+    params->extra = &extra;
   }
 
-  size_t margins[16] = {0};      // per-device headroom to keep free (bytes); llama_max_devices()=16
-  return llama_kv_fit_max_pool(path, &mp, &cp, margins, p_extra, /*vram_fraction=*/0.97);
+  int32_t n_max_pool = 0;
+  if (llama_kv_fit_auto_split(path, &mp, &cp, fit_bounds, params)) {
+    // the planned placement is now in mp (tensor_layer_bounds -> fit_bounds):
+    // keep it so load_model() reuses the exact same layout
+    fit_mparams = mp;
+    fit_split_active = true;
+  } else {
+    log_msg("KV auto split failed - keeping default device placement\n");
+  }
+  n_max_pool = llama_kv_fit_max_pool(path, &mp, &cp, params);
+  llama_kv_fit_params_free(params);
+  return n_max_pool;
 }
 
 static struct llama_context *create_context(struct llama_model *model) {
@@ -256,20 +260,20 @@ static struct llama_context *create_context(struct llama_model *model) {
   }
   
   // kv_cache_size: set by fit_kv_pool() before the model load (explicit value is
-  // an upper bound there), so it is never 0 here
+  // an upper bound there), so it is never 0 here. It sizes ONLY the shared KV pool.
   ctx_params.n_kv_cache = (uint32_t)kv_cache_size;
   
-  // In unified mode the pool (n_kv_cache) is the actual shared capacity: n_ctx does
-  // not size memory nor cap sequence length, it only clamps n_batch and compute-
-  // buffer size (both far below any sensible value here). Set n_ctx to the pool so
-  // the reported context reflects real capacity instead of an inflated artifact.
-  ctx_params.n_ctx = (uint32_t)kv_cache_size;
+  // n_ctx must stay bounded by the model's natural context: the pool (n_kv_cache)
+  // extends the shared CACHE, not any sequence's context. In unified mode the pool
+  // tensor derives from n_kv_cache, independent of n_ctx — a per-sequence limit
+  // larger than n_ctx_train only buys overflow risk.
+  ctx_params.n_ctx = (uint32_t)context_size;
   
   // Log all context parameters before initialization
   log_msg("========================================\n");
   log_msg("ctx_params:\n");
   log_msg("  n_seq_max = %u\n", ctx_params.n_seq_max);
-  log_msg("  n_ctx = %llu (= pool)\n",
+  log_msg("  n_ctx = %llu (natural; pool = n_kv_cache)\n",
           (unsigned long long)ctx_params.n_ctx);
   log_msg("  n_batch = %u\n", ctx_params.n_batch);
   log_msg("  n_ubatch = %u\n", ctx_params.n_ubatch);
