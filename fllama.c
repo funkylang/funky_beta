@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-11 13:09:40 KV-fit overhead probe: MTP context decode via batch_ext embd_state";
+static const char *FLLAMA_VERSION = "2026-11-14 21:05:39 fllama: planner-driven placement, mtp default 3, kv-fit params";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -94,9 +94,17 @@ static int kv_cache_size = 0;   // 0 = auto-compute from VRAM (GPU) or use CPU d
 
 llama_memory_t current_memory;
 
-static long gpu_offload_threshold = 0;
+// planning options (mirror tools/gpu-split): VRAM headroom fraction for each GPU,
+// and KV cache quantization types (NULL = f16, the llama.cpp default)
+static double keep_free = 0.03;
+static enum ggml_type kv_type_k = GGML_TYPE_F16;
+static enum ggml_type kv_type_v = GGML_TYPE_F16;
 
-static int mtp_predict = 0; // number of tokens to predict (0 = disabled)
+// MTP prediction count: unset (-1) until resolved against the model's capabilities —
+// models with an MTP block default to DEFAULT_MTP_PREDICT; --mtp N overrides it and
+// --mtp 0 disables MTP even on MTP models.
+#define DEFAULT_MTP_PREDICT 3
+static int mtp_predict = -1;
 // hard limit for --mtp: one draft generation is one MTP-head prediction per
 // step, so no point going beyond this many heads
 #define MAX_MTP_HEADS 8
@@ -115,6 +123,16 @@ static struct llama_context *mtp_context = NULL;
 static int mtp_n_embd = 0;
 static struct llama_batch_ext *mtp_batch = NULL;
 
+static int kv_type_from_str(const char * s) {
+  if (!strcmp(s, "f16"))  return GGML_TYPE_F16;
+  if (!strcmp(s, "bf16")) return GGML_TYPE_BF16;
+  if (!strcmp(s, "f32"))  return GGML_TYPE_F32;
+  if (!strcmp(s, "q8_0")) return GGML_TYPE_Q8_0;
+  if (!strcmp(s, "q4_0")) return GGML_TYPE_Q4_0;
+  log_msg("error: unknown cache type '%s' (f16|bf16|f32|q8_0|q4_0)\n", s);
+  exit(EXIT_FAILURE);
+}
+
 // Placement resolved by fit_kv_pool() via llama_kv_fit_auto_split(): the real load must
 // use the SAME placement the pool was fitted against, or the fit numbers are fiction.
 // fit_bounds + fit_mparams persist here: mparams->tensor_layer_bounds points into
@@ -124,33 +142,19 @@ static int32_t fit_bounds[16];            // llama_max_devices()=16
 static struct llama_model_params fit_mparams;
 
 static struct llama_model *load_model(const char *filename) {
-  // compute file size
-  FILE *fp = fopen(filename, "rb");
-  if (!fp) {
-    log_msg("Failed to open model file: %s\n", filename);
-    return NULL;
-  }
-  fseek(fp, 0, SEEK_END);
-  size_t filesize = ftell(fp);
-  fclose(fp);
-  log_msg("model file size: %zu bytes\n", filesize);
   struct llama_model_params model_params = llama_model_default_params();
   model_params.load_mtp = (mtp_predict > 0);
   log_msg("load_mtp = %d\n", model_params.load_mtp);
-  if (filesize <= gpu_offload_threshold) {
-    if (fit_split_active) {
-      // same placement the KV pool was fitted against in fit_kv_pool(): the planned
-      // layer bounds live in fit_mparams (tensor_layer_bounds -> static fit_bounds)
-      model_params = fit_mparams;
-      log_msg("using fitted layer placement (n_gpu_layers=%d, first bound %d)\n",
-              fit_mparams.n_gpu_layers, fit_bounds[0]);
-    } else {
-      model_params.n_gpu_layers = 99;
-      log_msg("using GPU for all layers\n");
-    }
+  if (fit_split_active) {
+    // same placement the KV pool was fitted against in fit_kv_pool(): the planned
+    // layer bounds live in fit_mparams (tensor_layer_bounds -> static fit_bounds)
+    model_params = fit_mparams;
+    log_msg("using fitted layer placement (n_gpu_layers=%d, first bound %d)\n",
+            fit_mparams.n_gpu_layers, fit_bounds[0]);
   } else {
+    // no fitting GPU plan from fit_kv_pool(): CPU-only deployment
     model_params.n_gpu_layers = 0;
-    log_msg("not using GPU for any layers\n");
+    log_msg("not using GPU for any layers (no fitting plan)\n");
   }
   return llama_model_load_from_file(filename, model_params);
 }
@@ -165,27 +169,24 @@ static struct llama_model *load_model(const char *filename) {
 static int32_t fit_kv_pool(const char *path) {
   struct llama_model_params mp = llama_model_default_params();
   mp.load_mtp = (mtp_predict > 0);
-  FILE *fp = fopen(path, "rb");
-  if (fp) {
-    fseek(fp, 0, SEEK_END);
-    size_t fsz = ftell(fp);
-    fclose(fp);
-    // same rule as load_model(): a CPU-mode model is never fit against VRAM
-    mp.n_gpu_layers = (fsz <= gpu_offload_threshold) ? 99 : 0;
-  }
+  // GPU by default: the planner's measurements decide whether the model fits; a
+  // failed plan falls back to CPU mode in handle_use_model()
+  mp.n_gpu_layers = -1;
 
   // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
   fit_split_active = false;
   memset(fit_bounds, 0, sizeof(fit_bounds));
-  if (mp.n_gpu_layers <= 0) {
-    return 0;
-  }
 
   struct llama_context_params cp = llama_context_default_params();
   cp.kv_unified = true;
-  cp.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict; // must match create_context()
+  // Recurrent-state rollback rows per stream: 1 checkpoint for the current position
+  // + two rounds of lookahead backtracking (up to 1 + mtp_predict positions each).
+  cp.n_rs_seq = 2u + 2u * (uint32_t)mtp_predict;   // must match create_context()
   cp.n_seq_max = maximum_sequences;
   cp.n_batch = maximum_batch_size;
+  cp.type_k = kv_type_k;
+  cp.type_v = kv_type_v;
+  cp.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_AUTO; // flash attention wherever available
   // Mirror create_context()'s sizing parameters so the probes measure the same
   // compute buffers: reserve-time worst-case graph size is min(n_ctx, n_ubatch).
   // Here n_ctx must not stay at its small default or ubatch-size runs fit against
@@ -197,10 +198,10 @@ static int32_t fit_kv_pool(const char *path) {
 
   // Planning options — allocated by the library (stale-header safe). The app knows
   // its own checkpoint policy: SSM rows per recurrent layer it will allocate
-  // (= n_seq_max x (live + rollback rows)); the planner uses it verbatim.
+  // (= n_seq_max x (1 + n_rs_seq)); the planner uses it verbatim.
   struct llama_kv_fit_params * params = llama_kv_fit_params_new(LLAMA_KV_FIT_PARAMS_VERSION);
-  params->vram_fraction = 0.97;
-  params->n_checkpoints = (uint32_t)maximum_sequences * (1u + cp.n_rs_seq);
+  params->vram_fraction = 1.0 - keep_free;
+  params->n_checkpoints = (uint32_t)maximum_sequences * (cp.n_rs_seq + 1u);
   if (mtp_predict > 0) {
     // the MTP draft context competes for the same memory; its KV rows follow the
     // main pool size, mirroring create_context() + the MTP context setup in
@@ -223,7 +224,7 @@ static int32_t fit_kv_pool(const char *path) {
     fit_mparams = mp;
     fit_split_active = true;
   } else {
-    log_msg("KV auto split failed - keeping default device placement\n");
+    log_msg("KV planning found no fitting GPU placement - falling back to CPU mode\n");
   }
   n_max_pool = llama_kv_fit_max_pool(path, &mp, &cp, params);
   llama_kv_fit_params_free(params);
@@ -237,13 +238,13 @@ static struct llama_context *create_context(struct llama_model *model) {
   ctx_params.kv_unified = true;
   // Recurrent-state rollback snapshots: hybrid/SSM models (Qwen3.5 etc.)
   // store a compressed recurrent state per sequence, and seq_rm can only
-  // roll that state back when snapshots exist (n_rs_seq). Lookahead + the
-  // partial-confirmation / reject paths call seq_rm to rewind up to
-  // (1 + mtp_predict) positions in one step; give margin so a speculative
-  // turn never strands an unresolved rollback. Models without recurrent
+  // roll that state back when snapshots exist (n_rs_seq). Rows per stream =
+  // 1 checkpoint for the current position + two rounds of lookahead
+  // backtracking (up to 1 + mtp_predict positions each) — must match the
+  // planner's n_checkpoints in fit_kv_pool(). Models without recurrent
   // layers ignore this, so it is safe to set unconditionally.
-  ctx_params.n_rs_seq = 4u + 2u * (uint32_t)mtp_predict;
-  
+  ctx_params.n_rs_seq = 2u + 2u * (uint32_t)mtp_predict;
+
   int n_ctx_train = llama_model_n_ctx_train(model);
   log_msg("model trained ctx = %d\n", n_ctx_train);
   
@@ -254,6 +255,9 @@ static struct llama_context *create_context(struct llama_model *model) {
   
   ctx_params.n_seq_max = maximum_sequences;
   ctx_params.n_batch = maximum_batch_size;
+  ctx_params.type_k = kv_type_k;
+  ctx_params.type_v = kv_type_v;
+  ctx_params.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_AUTO; // flash attention wherever available
   
   if (ubatch_size > 0) {
     ctx_params.n_ubatch = (uint32_t)ubatch_size;
@@ -1472,6 +1476,26 @@ static void handle_use_model(int fd, char *model_name) {
   current_session_per_client[fd] = current_session_id;
   if (!current_model_name) {
     char *full_model_name = create_string(model_path, model_name, NULL);
+
+    // Metadata-only peek (no VRAM): does this model carry an MTP block?
+    struct llama_model_params peek_mp = llama_model_default_params();
+    peek_mp.no_alloc  = true;
+    peek_mp.load_mode = LLAMA_LOAD_MODE_NONE;
+    peek_mp.load_mtp  = true;   // silence "unused tensor" warnings for nextn tensors
+    struct llama_model *peek = llama_model_load_from_file(full_model_name, peek_mp);
+    bool is_mtp_model = (peek && llama_model_n_layer_nextn(peek) > 0);
+    if (peek) {
+      llama_model_free(peek);
+    }
+
+    // Resolve --mtp: MTP models default to DEFAULT_MTP_PREDICT; an explicit
+    // --mtp (including 0) always wins.
+    if (mtp_predict < 0) {
+      mtp_predict = is_mtp_model ? DEFAULT_MTP_PREDICT : 0;
+      log_msg("mtp_predict resolved: %d (%s)\n", mtp_predict,
+              is_mtp_model ? "MTP model default" : "no MTP block in model");
+    }
+
     int32_t n_max_pool = fit_kv_pool(full_model_name);
     if (n_max_pool > 0) {
       // VRAM available: the auto-fit is the ceiling for the pool
@@ -3013,15 +3037,7 @@ int main(int argc, char **argv) {
   // parse command line arguments and add a help option
 
   for (int i = 1; i < argc; ++i) {
-    if (strcmp(argv[i], "--gpu-offload-threshold") == 0) {
-      if (i+1 < argc) {
-        gpu_offload_threshold = atol(argv[++i]);
-        gpu_offload_threshold *= 1024*1024*1024;
-      } else {
-        log_msg("missing argument for --gpu-offload-threshold\n");
-        exit(EXIT_FAILURE);
-      }
-    } else if (strcmp(argv[i], "--parallel") == 0) {
+    if (strcmp(argv[i], "--parallel") == 0) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
         if (n > 0) {
@@ -3090,17 +3106,47 @@ int main(int argc, char **argv) {
       if (i+1 < argc) {
         int n = atoi(argv[++i]);
         // at most one draft token per MTP head, and the draft buffer holds
-        // MAX_MTP_HEADS: --mtp must stay within that bound
-        if (n > 0 && n <= MAX_MTP_HEADS) {
+        // MAX_MTP_HEADS. 0 disables MTP even on models that have an MTP block;
+        // omitting --mtp lets MTP-capable models default to DEFAULT_MTP_PREDICT.
+        if (n >= 0 && n <= MAX_MTP_HEADS) {
           mtp_predict = n;
         } else {
           log_msg(
-            "invalid argument for --mtp (allowed: 1..%d)\n",
+            "invalid argument for --mtp (allowed: 0..%d)\n",
             MAX_MTP_HEADS);
           exit(EXIT_FAILURE);
         }
       } else {
         log_msg("missing argument for --mtp\n");
+        exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--keep-free") == 0) {
+      if (i+1 < argc) {
+        double f = atof(argv[++i]);
+        // a headroom fraction must stay inside (0, 1): 0 starves the driver,
+        // >=1 leaves nothing for weights
+        if (f > 0.0 && f < 1.0) {
+          keep_free = f;
+        } else {
+          log_msg("invalid argument for --keep-free (fraction in (0,1), e.g. 0.03)\n");
+          exit(EXIT_FAILURE);
+        }
+      } else {
+        log_msg("missing argument for --keep-free\n");
+        exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--cache-type-k") == 0) {
+      if (i+1 < argc) {
+        kv_type_k = (enum ggml_type)kv_type_from_str(argv[++i]);
+      } else {
+        log_msg("missing argument for --cache-type-k\n");
+        exit(EXIT_FAILURE);
+      }
+    } else if (strcmp(argv[i], "--cache-type-v") == 0) {
+      if (i+1 < argc) {
+        kv_type_v = (enum ggml_type)kv_type_from_str(argv[++i]);
+      } else {
+        log_msg("missing argument for --cache-type-v\n");
         exit(EXIT_FAILURE);
       }
     } else if (strcmp(argv[i], "--eager") == 0) {
@@ -3130,13 +3176,15 @@ int main(int argc, char **argv) {
       log_msg(
         "Usage: %s [options]\n"
         "Options:\n"
-        "  --gpu-offload-threshold <size>  (in GB; default: 0)\n"
         "  --parallel <count>              (max concurrent sequences; default: 1)\n"
         "  --ctx-size <size>               (per-sequence context limit; default: model trained size)\n"
         "  --kv-cache-size <size>          (KV pool in tokens; default: auto-fit VRAM, 32768 on CPU)\n"
+        "  --keep-free <fraction>          (VRAM headroom per GPU; default: 0.03)\n"
+        "  --cache-type-k <type>           (KV K cache type: f16|bf16|f32|q8_0|q4_0; default: f16)\n"
+        "  --cache-type-v <type>           (KV V cache type: f16|bf16|f32|q8_0|q4_0; default: f16)\n"
         "  --batch-size <size>             (default: 512)\n"
         "  --ubatch-size <size>            (default: batch size)\n"
-        "  --mtp <n>                       (default: 0)\n"
+        "  --mtp <n>                       (MTP predictions; default: 3 for MTP models, else 0; 0 = off)\n"
         "  --eager                         (run speculation in dedicated batches)\n"
         "  --model-path <path>             (default: /var/models/)\n"
         "  --help                          (shows this help)\n",
