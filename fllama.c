@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-14 21:05:39 fllama: planner-driven placement, mtp default 3, kv-fit params";
+static const char *FLLAMA_VERSION = "2026-11-14 23:03:50 fllama: verify loaded placement against the fitted plan";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -139,7 +139,50 @@ static int kv_type_from_str(const char * s) {
 // fit_bounds and must stay alive through load_model().
 static bool   fit_split_active = false;
 static int32_t fit_bounds[16];            // llama_max_devices()=16
+static int32_t fit_ndevices = 0;          // how many of fit_bounds the plan filled
 static struct llama_model_params fit_mparams;
+
+// The planned split is only as good as what the loader actually did — read the
+// loaded model's per-layer placement back and check it against the plan. Any
+// deviation invalidates the VRAM assumptions the pool was fitted on, so a GPU
+// deployment whose layout deviates is refused instead of failing later with an
+// opaque allocation error. Returns true when there is no plan to check (CPU
+// mode) or every layer matches.
+static bool verify_model_placement(struct llama_model *model) {
+  if (!fit_split_active) {
+    return true;
+  }
+  const uint32_t n_layer_all = llama_model_n_layer_all(model);
+
+  log_msg("planned split: %d device(s), boundaries [", fit_ndevices);
+  for (int g = 0; g < fit_ndevices; ++g) {
+    if (g) log_msg(", ");
+    log_msg("%d", fit_bounds[g]);
+  }
+  log_msg("]\n");
+
+  // expected device: the last whose boundary does not exceed il (the loader's
+  // rule in llama_model::load_tensors); -1 = CPU, never acceptable under a GPU plan
+  bool ok = true;
+  for (uint32_t il = 0; il <= n_layer_all; ++il) {   // +1: the output pseudo-layer
+    const int dev = llama_model_layer_device_index(model, il);
+    int expected = -1;
+    for (int g = fit_ndevices - 1; g >= 0; --g) {
+      if ((int32_t)il >= fit_bounds[g]) { expected = g; break; }
+    }
+    if (dev != expected) {
+      char what[32];
+      if (il == n_layer_all) strcpy(what, "output layer");
+      else snprintf(what, sizeof what, "layer %u", il);
+      log_msg("MISMATCH at %s: loaded on device %d, plan says %d\n", what, dev, expected);
+      ok = false;
+    }
+  }
+  if (ok) {
+    log_msg("placement verified: all layers match the plan\n");
+  }
+  return ok;
+}
 
 static struct llama_model *load_model(const char *filename) {
   struct llama_model_params model_params = llama_model_default_params();
@@ -156,7 +199,13 @@ static struct llama_model *load_model(const char *filename) {
     model_params.n_gpu_layers = 0;
     log_msg("not using GPU for any layers (no fitting plan)\n");
   }
-  return llama_model_load_from_file(filename, model_params);
+  struct llama_model *model = llama_model_load_from_file(filename, model_params);
+  if (model && !verify_model_placement(model)) {
+    log_msg("ERROR: loaded placement deviates from the fitted plan - refusing to deploy\n");
+    llama_model_free(model);
+    return NULL;
+  }
+  return model;
 }
 
 // Fit the unified KV pool size against device memory BEFORE loading the model.
@@ -175,6 +224,7 @@ static int32_t fit_kv_pool(const char *path) {
 
   // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
   fit_split_active = false;
+  fit_ndevices = 0;
   memset(fit_bounds, 0, sizeof(fit_bounds));
 
   struct llama_context_params cp = llama_context_default_params();
@@ -218,7 +268,7 @@ static int32_t fit_kv_pool(const char *path) {
   }
 
   int32_t n_max_pool = 0;
-  if (llama_kv_fit_auto_split(path, &mp, &cp, fit_bounds, params)) {
+  if (llama_kv_fit_auto_split(path, &mp, &cp, fit_bounds, params, &fit_ndevices)) {
     // the planned placement is now in mp (tensor_layer_bounds -> fit_bounds):
     // keep it so load_model() reuses the exact same layout
     fit_mparams = mp;
