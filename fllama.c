@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-14 23:03:50 fllama: verify loaded placement against the fitted plan";
+static const char *FLLAMA_VERSION = "2026-11-14 23:15:38 fllama: verify loaded placement against the fitted plan";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -154,12 +154,15 @@ static bool verify_model_placement(struct llama_model *model) {
   }
   const uint32_t n_layer_all = llama_model_n_layer_all(model);
 
-  log_msg("planned split: %d device(s), boundaries [", fit_ndevices);
-  for (int g = 0; g < fit_ndevices; ++g) {
-    if (g) log_msg(", ");
-    log_msg("%d", fit_bounds[g]);
+  // one log_msg call: log_msg stamps every call with a timestamp, so splitting
+  // the line would interleave prefixes into the text
+  char plan_line[160];
+  size_t pos = snprintf(plan_line, sizeof plan_line, "planned split: %d device(s), boundaries [", fit_ndevices);
+  for (int g = 0; g < fit_ndevices && pos < sizeof plan_line - 8; ++g) {
+    pos += snprintf(plan_line + pos, sizeof plan_line - pos, "%s%d", g ? ", " : "", fit_bounds[g]);
   }
-  log_msg("]\n");
+  pos += snprintf(plan_line + pos, sizeof plan_line - pos, "]\n");
+  log_msg("%s", plan_line);
 
   // expected device: the last whose boundary does not exceed il (the loader's
   // rule in llama_model::load_tensors); -1 = CPU, never acceptable under a GPU plan
