@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-21 16:03:19 Fix non-eager hang: claimed anchor runs as single-token prefill";
+static const char *FLLAMA_VERSION = "2026-11-21 22:16:53 Unified kv-split API: single-GPU + CPU-only planning, pool usage cap";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -86,17 +86,15 @@ static int maximum_sequences = 1;
 static int maximum_batch_size = MAXIMUM_BATCH_SIZE;
 static int ubatch_size = 0; // 0 = let llama.cpp decide (defaults to n_batch)
 static int context_size = 0;    // 0 = model's natural trained size
-static int kv_cache_size = 0;   // 0 = auto-compute from VRAM (GPU) or use CPU default
-
-// conservative KV pool for CPU-only systems: no VRAM to fit against, and the pool lives in
-// shared system RAM, so we deliberately keep it small; --kv-cache-size overrides it
-#define DEFAULT_CPU_KV_CACHE_SIZE 32768
+static int kv_cache_size = 0;   // 0 = auto-fit from device memory (GPU or CPU) via kv-split
 
 llama_memory_t current_memory;
 
-// planning options (mirror tools/gpu-split): VRAM headroom fraction for each GPU,
-// and KV cache quantization types (NULL = f16, the llama.cpp default)
+// planning options: headroom kept back from each device's memory — 0.03 on GPUs;
+// main() switches the DEFAULT to 0.30 on CPU-only machines (the pool then lives in
+// shared system RAM). An explicit --keep-free always wins. Plus KV cache quantization types.
 static double keep_free = 0.03;
+static bool keep_free_explicit = false;   // set by --keep-free parsing
 static enum ggml_type kv_type_k = GGML_TYPE_F16;
 static enum ggml_type kv_type_v = GGML_TYPE_F16;
 
@@ -133,14 +131,21 @@ static int kv_type_from_str(const char * s) {
   exit(EXIT_FAILURE);
 }
 
-// Placement resolved by fit_kv_pool() via llama_kv_fit_auto_split(): the real load must
+// Recurrent-state rollback rows per stream (n_rs_seq): 1 snapshot for the current
+// position + lookahead backtracking. Eager speculation keeps two full rounds of
+// (mtp_predict+1) tokens in flight; non-eager at most one round. MUST match between
+// fit_kv_pool() and create_context() — both allocate from this.
+static uint32_t checkpoint_rows(void) {
+  return (eager_speculation ? 2u : 1u) * (uint32_t)(mtp_predict + 1);
+}
+
+// Placement + pool resolved by fit_kv_pool() via llama_kv_split(): the real load must
 // use the SAME placement the pool was fitted against, or the fit numbers are fiction.
-// fit_bounds + fit_mparams persist here: mparams->tensor_layer_bounds points into
-// fit_bounds and must stay alive through load_model().
+// fit_result (library-owned) + fit_mparams persist here and must stay alive through
+// load_model(): mparams->tensor_layer_bounds points into the result's layer_bounds.
 static bool   fit_split_active = false;
-static int32_t fit_bounds[16];            // llama_max_devices()=16
-static int32_t fit_ndevices = 0;          // how many of fit_bounds the plan filled
 static struct llama_model_params fit_mparams;
+static const struct llama_kv_fit_result * fit_result = NULL;
 
 // The planned split is only as good as what the loader actually did — read the
 // loaded model's per-layer placement back and check it against the plan. Any
@@ -149,17 +154,19 @@ static struct llama_model_params fit_mparams;
 // opaque allocation error. Returns true when there is no plan to check (CPU
 // mode) or every layer matches.
 static bool verify_model_placement(struct llama_model *model) {
-  if (!fit_split_active) {
-    return true;
+  if (!fit_split_active || !fit_result || fit_result->n_devices_planned == 0) {
+    return true;   // no GPU plan to check (CPU-only deployment)
   }
   const uint32_t n_layer_all = llama_model_n_layer_all(model);
 
   // one log_msg call: log_msg stamps every call with a timestamp, so splitting
   // the line would interleave prefixes into the text
   char plan_line[160];
-  size_t pos = snprintf(plan_line, sizeof plan_line, "planned split: %d device(s), boundaries [", fit_ndevices);
-  for (int g = 0; g < fit_ndevices && pos < sizeof plan_line - 8; ++g) {
-    pos += snprintf(plan_line + pos, sizeof plan_line - pos, "%s%d", g ? ", " : "", fit_bounds[g]);
+  size_t pos = snprintf(plan_line, sizeof plan_line, "planned split: %u device(s), boundaries [",
+                        fit_result->n_devices_planned);
+  for (uint32_t g = 0; g < fit_result->n_devices_planned && pos < sizeof plan_line - 8; ++g) {
+    pos += snprintf(plan_line + pos, sizeof plan_line - pos, "%s%d", g ? ", " : "",
+                    fit_result->layer_bounds[g]);
   }
   pos += snprintf(plan_line + pos, sizeof plan_line - pos, "]\n");
   log_msg("%s", plan_line);
@@ -170,8 +177,8 @@ static bool verify_model_placement(struct llama_model *model) {
   for (uint32_t il = 0; il <= n_layer_all; ++il) {   // +1: the output pseudo-layer
     const int dev = llama_model_layer_device_index(model, il);
     int expected = -1;
-    for (int g = fit_ndevices - 1; g >= 0; --g) {
-      if ((int32_t)il >= fit_bounds[g]) { expected = g; break; }
+    for (int g = (int)fit_result->n_devices_planned - 1; g >= 0; --g) {
+      if ((int32_t)il >= fit_result->layer_bounds[g]) { expected = g; break; }
     }
     if (dev != expected) {
       char what[32];
@@ -195,8 +202,8 @@ static struct llama_model *load_model(const char *filename) {
     // same placement the KV pool was fitted against in fit_kv_pool(): the planned
     // layer bounds live in fit_mparams (tensor_layer_bounds -> static fit_bounds)
     model_params = fit_mparams;
-    log_msg("using fitted layer placement (n_gpu_layers=%d, first bound %d)\n",
-            fit_mparams.n_gpu_layers, fit_bounds[0]);
+    log_msg("using fitted layer placement (n_gpu_layers=%d, devices=%u)\n",
+            fit_mparams.n_gpu_layers, fit_result->n_devices_planned);
   } else {
     // no fitting GPU plan from fit_kv_pool(): CPU-only deployment
     model_params.n_gpu_layers = 0;
@@ -211,30 +218,31 @@ static struct llama_model *load_model(const char *filename) {
   return model;
 }
 
-// Fit the unified KV pool size against device memory BEFORE loading the model.
-// Measurement-based planning API (libllama): llama_kv_fit_auto_split() measures with
-// one real load + warmup decode, solves placement into fit_bounds and applies it to
-// mp; llama_kv_fit_max_pool() then solves the pool from the SAME measurement (the
-// library's plan cache is keyed on these exact structs — pass them unchanged). It
-// must run while VRAM is still free: the budget math would double-count weights after
-// a real load. Returns the fitted pool size in cells, or 0 if none fits.
-static int32_t fit_kv_pool(const char *path) {
+// Fit the unified KV pool size AND layer placement against device memory BEFORE
+// loading the model. One measurement-based planning call (libllama):
+// llama_kv_split() measures with one real load + warmup decode and decides BOTH
+// answers from that same run — the split is independent of any supplied cache size,
+// target_cells only caps what gets allocated. On GPU deployments it applies the
+// planned placement to mp; on CPU-only machines it plans the pool against system
+// RAM (the library branches internally). It must run while VRAM is still free:
+// the budget math would double-count weights after a real load.
+// Returns the library-owned result, or NULL with an error string when no viable
+// deployment exists — there is no fallback to CPU mode or a smaller pool.
+static const struct llama_kv_fit_result * fit_kv_pool(const char *path, char * err_out) {
   struct llama_model_params mp = llama_model_default_params();
   mp.load_mtp = (mtp_predict > 0);
-  // GPU by default: the planner's measurements decide whether the model fits; a
-  // failed plan falls back to CPU mode in handle_use_model()
+  // GPU by default: the planner's measurements decide where and whether it fits;
+  // CPU-only machines are planned against system RAM by the library.
   mp.n_gpu_layers = -1;
 
-  // Reset per-use: a later use_model (other model, or CPU box) must not inherit placement.
+  // Reset per-use: a later use_model (other model, or other box) must not inherit
+  // placement from the previous plan.
   fit_split_active = false;
-  fit_ndevices = 0;
-  memset(fit_bounds, 0, sizeof(fit_bounds));
+  fit_result = NULL;
 
   struct llama_context_params cp = llama_context_default_params();
   cp.kv_unified = true;
-  // Recurrent-state rollback rows per stream: 1 checkpoint for the current position
-  // + two rounds of lookahead backtracking (up to 1 + mtp_predict positions each).
-  cp.n_rs_seq = 2u + 2u * (uint32_t)mtp_predict;   // must match create_context()
+  cp.n_rs_seq = checkpoint_rows();   // must match create_context()
   cp.n_seq_max = maximum_sequences;
   cp.n_batch = maximum_batch_size;
   cp.type_k = kv_type_k;
@@ -251,7 +259,7 @@ static int32_t fit_kv_pool(const char *path) {
 
   // Planning options — allocated by the library (stale-header safe). The app knows
   // its own checkpoint policy: SSM rows per recurrent layer it will allocate
-  // (= n_seq_max x (1 + n_rs_seq)); the planner uses it verbatim.
+  // (= n_seq_max x (live + rollback rows)); the planner uses it verbatim.
   struct llama_kv_fit_params * params = llama_kv_fit_params_new(LLAMA_KV_FIT_PARAMS_VERSION);
   params->vram_fraction = 1.0 - keep_free;
   params->n_checkpoints = (uint32_t)maximum_sequences * (cp.n_rs_seq + 1u);
@@ -270,18 +278,32 @@ static int32_t fit_kv_pool(const char *path) {
     params->extra = &extra;
   }
 
-  int32_t n_max_pool = 0;
-  if (llama_kv_fit_auto_split(path, &mp, &cp, fit_bounds, params, &fit_ndevices)) {
-    // the planned placement is now in mp (tensor_layer_bounds -> fit_bounds):
-    // keep it so load_model() reuses the exact same layout
-    fit_mparams = mp;
-    fit_split_active = true;
-  } else {
-    log_msg("KV planning found no fitting GPU placement - falling back to CPU mode\n");
-  }
-  n_max_pool = llama_kv_fit_max_pool(path, &mp, &cp, params);
+  // ONE call: placement + pool together. Explicit --kv-cache-size is validated
+  // (error when it does not fit); 0 = everything that fits, usage-capped.
+  const struct llama_kv_fit_result * result =
+      llama_kv_split(path, &mp, &cp, params, (kv_cache_size > 0) ? kv_cache_size : 0);
   llama_kv_fit_params_free(params);
-  return n_max_pool;
+
+  if (!result || !result->ok) {
+    snprintf(err_out, 512, "%s", result ? result->error_msg : "kv-split returned no result");
+    return NULL;
+  }
+
+  // apply the planned placement to mp so load_model() reuses the exact same
+  // layout the pool was fitted against (the boundaries live in library-owned
+  // result storage, valid as long as no second plan call happens)
+  fit_result = result;
+  if (!result->layer_bounds) {
+    // CPU-only deployment: trivially everything on CPU — no GPU plan to verify
+    log_msg("CPU-only deployment planned by kv-split\n");
+  } else {
+    mp.tensor_layer_bounds = result->layer_bounds;
+    mp.n_gpu_layers        = -1;   // all layers on devices (loader idiom)
+    mp.tensor_split        = NULL;   // the boundaries supersede ratio logic
+    fit_mparams            = mp;
+    fit_split_active       = true;
+  }
+  return result;
 }
 
 static struct llama_context *create_context(struct llama_model *model) {
@@ -292,11 +314,10 @@ static struct llama_context *create_context(struct llama_model *model) {
   // Recurrent-state rollback snapshots: hybrid/SSM models (Qwen3.5 etc.)
   // store a compressed recurrent state per sequence, and seq_rm can only
   // roll that state back when snapshots exist (n_rs_seq). Rows per stream =
-  // 1 checkpoint for the current position + two rounds of lookahead
-  // backtracking (up to 1 + mtp_predict positions each) — must match the
-  // planner's n_checkpoints in fit_kv_pool(). Models without recurrent
-  // layers ignore this, so it is safe to set unconditionally.
-  ctx_params.n_rs_seq = 2u + 2u * (uint32_t)mtp_predict;
+  // 1 checkpoint for the current position + lookahead backtracking rounds —
+  // from checkpoint_rows(), shared with the planner in fit_kv_pool(). Models
+  // without recurrent layers ignore this, so it is safe to set unconditionally.
+  ctx_params.n_rs_seq = checkpoint_rows();
 
   int n_ctx_train = llama_model_n_ctx_train(model);
   log_msg("model trained ctx = %d\n", n_ctx_train);
@@ -1549,28 +1570,20 @@ static void handle_use_model(int fd, char *model_name) {
               is_mtp_model ? "MTP model default" : "no MTP block in model");
     }
 
-    int32_t n_max_pool = fit_kv_pool(full_model_name);
-    if (n_max_pool > 0) {
-      // VRAM available: the auto-fit is the ceiling for the pool
-      if (kv_cache_size > 0 && (uint32_t)kv_cache_size > (uint32_t)n_max_pool) {
-        log_msg("ERROR: --kv-cache-size %d exceeds the maximum pool of %u cells that fits the devices\n",
-          kv_cache_size, n_max_pool);
-        send_message(fd, "error kv-cache-size too large", 30);
-        return;
-      }
-      if (kv_cache_size <= 0) {
-        kv_cache_size = n_max_pool;
-        log_msg("KV pool: %d cells (auto-fit from VRAM)\n", kv_cache_size);
-      } else {
-        log_msg("KV pool: %d cells (--kv-cache-size; max from VRAM = %d)\n", kv_cache_size, n_max_pool);
-      }
-    } else if (kv_cache_size > 0) {
-      // CPU-only: no VRAM to fit against, an explicit size is used as-is
-      log_msg("KV pool: %d cells (--kv-cache-size; CPU mode, no VRAM to auto-fit)\n", kv_cache_size);
-    } else {
-      kv_cache_size = DEFAULT_CPU_KV_CACHE_SIZE;
-      log_msg("KV pool: %d cells (CPU default; no VRAM to auto-fit - set --kv-cache-size to change)\n", kv_cache_size);
+    // ONE planning call decides placement + pool (explicit --kv-cache-size is
+    // validated against physical capacity; 0 = everything that fits, usage-capped).
+    char fit_err[512];
+    const bool explicit_pool = kv_cache_size > 0;
+    const struct llama_kv_fit_result * fit = fit_kv_pool(full_model_name, fit_err);
+    if (!fit) {
+      log_msg("ERROR: KV planning failed - %s\n", fit_err);
+      send_message(fd, "error kv planning failed", 30);
+      return;   // no fallback to CPU mode or a smaller pool
     }
+    kv_cache_size = fit->n_cells;   // THE decided pool size — the library owns it
+    log_msg("KV pool: %d cells (%s%s)\n", kv_cache_size,
+            explicit_pool ? "--kv-cache-size" : "auto-fit from device memory",
+            fit->layer_bounds ? "" : ", CPU-only");
     log_msg("loading model %s\n", full_model_name);
     struct llama_model *model = load_model(full_model_name);
     if (model) {
@@ -3184,6 +3197,7 @@ int main(int argc, char **argv) {
         // >=1 leaves nothing for weights
         if (f > 0.0 && f < 1.0) {
           keep_free = f;
+          keep_free_explicit = true;
         } else {
           log_msg("invalid argument for --keep-free (fraction in (0,1), e.g. 0.03)\n");
           exit(EXIT_FAILURE);
@@ -3235,8 +3249,8 @@ int main(int argc, char **argv) {
         "Options:\n"
         "  --parallel <count>              (max concurrent sequences; default: 1)\n"
         "  --ctx-size <size>               (per-sequence context limit; default: model trained size)\n"
-        "  --kv-cache-size <size>          (KV pool in tokens; default: auto-fit VRAM, 32768 on CPU)\n"
-        "  --keep-free <fraction>          (VRAM headroom per GPU; default: 0.03)\n"
+        "  --kv-cache-size <size>          (KV pool in tokens; default: auto-fit from device memory)\n"
+        "  --keep-free <fraction>          (memory headroom per device; default: 0.03 GPU / 0.30 CPU)\n"
         "  --cache-type-k <type>           (KV K cache type: f16|bf16|f32|q8_0|q4_0; default: f16)\n"
         "  --cache-type-v <type>           (KV V cache type: f16|bf16|f32|q8_0|q4_0; default: f16)\n"
         "  --batch-size <size>             (default: 512)\n"
@@ -3257,6 +3271,27 @@ int main(int argc, char **argv) {
   }
   signal(SIGPIPE, SIG_IGN);
   initialize_llama();
+
+  // keep_free default is device-aware: a CPU-only machine plans its KV pool
+  // against system RAM, so it keeps 30% of that free instead of 3% of
+  // nonexistent VRAM. An explicit --keep-free always wins (parsed above).
+  {
+    bool gpus_present = false;
+    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
+      ggml_backend_dev_t dev = ggml_backend_dev_get(i);
+      if (!dev) continue;
+      const enum ggml_backend_dev_type t = ggml_backend_dev_type(dev);
+      if (t == GGML_BACKEND_DEVICE_TYPE_GPU || t == GGML_BACKEND_DEVICE_TYPE_IGPU) {
+        gpus_present = true;
+        break;
+      }
+    }
+    if (!gpus_present && !keep_free_explicit) {
+      keep_free = 0.30;
+      log_msg("no GPU devices: keep-free default 0.30 (CPU deployment)\n");
+    }
+  }
+
   int listen_fd = start_tcp_server(7683); // LS = Llama Server
   if (listen_fd == -1) {
     log_msg("Failed to start TCP server on port 7683\n");
