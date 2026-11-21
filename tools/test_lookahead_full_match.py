@@ -12,10 +12,10 @@ Wire-driven only: send evaluate, then read until silent; assert counts.
 Logs are never touched (server log /tmp/fllama.log stays intact).
 """
 
+import argparse
 import sys
-import time
 
-from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT
+from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT, read_turn
 
 PROMPT = "January, February, March, April, May, June, July,"
 EXPECT_LOGITS = 1
@@ -23,8 +23,14 @@ EXPECT_LOOKAHEAD = 3  # all 3 drafts confirmed (verified empirically)
 
 
 def main():
-    f = Fllama()
-    f.send(f"use_model {MODEL}")   # one model per connection; silent on success
+    ap = argparse.ArgumentParser(description="full-match lookahead test")
+    ap.add_argument("--host", default="127.0.0.1",
+                    help="server address (default 127.0.0.1)")
+    ap.add_argument("--model", default=None,
+                    help=f"model name (default {MODEL})")
+    args = ap.parse_args()
+    f = Fllama(host=args.host)
+    f.send(f"use_model {args.model or MODEL}")   # one model per connection; silent on success
     p = f.pieces(MODEL_LOAD_TIMEOUT)  # reply covers the model-load wait
 
     f.send(f"tokenize {PROMPT}")
@@ -37,24 +43,10 @@ def main():
     f.send("evaluate 1")
 
     say(f"prompt={PROMPT!r}")
-    n_logits = 0
-    n_lookahead = 0
-    deadline = time.time() + 2.0
-    while True:
-        left = deadline - time.time()
-        if left <= 0:
-            break
-        m = f.read(min(0.1, max(0.05, left)))
-        if m is None:
-            continue
-        c = Fllama.classify(m)
-        if not c or c[1] != 1:
-            continue
-        if c[0] == "logits":
-            n_logits += 1
+    n_logits, n_lookahead, msgs = read_turn(f, 1)
+    for m in msgs:
+        if Fllama.classify(m)[0] == "logits":
             say(f"  turn-1 top: {f.top1_text(m)}")
-        elif c[0] == "lookahead":
-            n_lookahead += 1
 
     say(f"logits={n_logits} lookahead_msgs={n_lookahead}")
     ok = (n_logits == EXPECT_LOGITS and n_lookahead == EXPECT_LOOKAHEAD)

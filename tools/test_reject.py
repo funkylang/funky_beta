@@ -8,16 +8,23 @@ LOGITS message after the reject confirms the rollback path (a fast-path
 claim would send nothing).
 """
 
+import argparse
 import sys
 import time
 
-from fllama_client import Fllama, eval_prompt, say, setup
+from fllama_client import Fllama, eval_prompt, say, setup, MODEL
 
 
 def main():
     """Reject correctness: rollback+re-decode must equal a fresh decode."""
-    f = Fllama()
-    tokens = setup(f)
+    ap = argparse.ArgumentParser(description="reject-path test")
+    ap.add_argument("--host", default="127.0.0.1",
+                    help="server address (default 127.0.0.1)")
+    ap.add_argument("--model", default=None,
+                    help=f"model name (default {MODEL})")
+    args = ap.parse_args()
+    f = Fllama(host=args.host)
+    tokens = setup(f, model=args.model or MODEL)
     wrong = tokens + [977]  # fork the content one token after the prompt
 
     pos_c, top1_c, _ = eval_prompt(f, 1, wrong)

@@ -103,6 +103,34 @@ def setup(f, model=MODEL):
     return [int(t) for t in r.split()[2:]]
 
 
+def read_turn(f, seq_id, first_timeout=30.0, silence=1.0):
+    """Read one turn's messages for seq_id; return (n_logits, n_lookahead, msgs).
+
+    Long patience before the FIRST message — GPU wake-up from sleep on
+    Vulkan can take ~6s on the first decode of a connection. Once
+    messages flow, the turn is done after `silence` seconds without one.
+    Hard-capped at first_timeout; every read stays bounded.
+    """
+    msgs = []
+    deadline = time.time() + first_timeout
+    last_msg_at = None
+    while True:
+        left = deadline - time.time()
+        if left <= 0:
+            break
+        m = f.read(min(1.0, max(0.05, left)))
+        if m is not None:
+            c = Fllama.classify(m)
+            if c and c[1] == seq_id:
+                msgs.append(m)
+                last_msg_at = time.time()
+        elif last_msg_at is not None and time.time() - last_msg_at >= silence:
+            break
+    n_logits = sum(1 for m in msgs if Fllama.classify(m)[0] == "logits")
+    n_la = sum(1 for m in msgs if Fllama.classify(m)[0] == "lookahead")
+    return n_logits, n_la, msgs
+
+
 def eval_prompt(f, seq_id, tokens, timeout=2):
     """Create sequence with tokens, evaluate; return (pos, top1, conf)."""
     f.send(f"create_sequence {seq_id}")

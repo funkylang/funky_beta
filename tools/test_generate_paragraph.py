@@ -40,7 +40,7 @@ import sys
 import time
 
 import fllama_client
-from fllama_client import Fllama, say, MODEL
+from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT
 
 fllama_client.INFO_STREAM = sys.stderr  # keep stdout for the transcript
 
@@ -93,15 +93,24 @@ def ask(f, p, seq_id, prompt, n, with_system):
     text = ""        # their rendered pieces, accumulated for the rule
     terminated = False
     silent_since = None
+    first_token_seen = False   # long patience until it: Vulkan puts the GPU
+                               # to sleep between questions (idle for
+                               # several seconds) and the wake-up costs ~6s
     while not terminated:
         m = f.read(0.5)
         if m is None:
-            # silence on the wire: count it toward a 5s timeout so a dead
+            # silence on the wire: count it toward the timeout so a dead
             # server still gets flagged instead of hanging forever
+            limit = 30.0 if not first_token_seen else 5.0
             if silent_since is None:
                 silent_since = time.time()
-            elif time.time() - silent_since >= 5.0:
-                print("\nTIMEOUT EXPIRED", flush=True)
+            elif time.time() - silent_since >= limit:
+                waited = time.time() - silent_since
+                print(
+                    f"\nTIMEOUT EXPIRED: no message from server for "
+                    f"{waited:.0f}s after {len(produced)} confirmed token(s) "
+                    f"of sequence {seq_id}",
+                    flush=True)
                 break
             continue
         silent_since = None
@@ -110,6 +119,7 @@ def ask(f, p, seq_id, prompt, n, with_system):
             # another sequence (or no confidence message): leftover
             # speculation of an abandoned answer - ignore it entirely
             continue
+        first_token_seen = True
         pos, conf = Fllama.top10(m)
         tok = max(conf, key=conf.get)
         piece = p.get(tok, "")
@@ -154,7 +164,7 @@ def main():
     try:
         f = Fllama(host=args.host)
         f.send(f"use_model {args.model or MODEL}")
-        p = f.pieces(60)  # extended timeout for model load
+        p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
     except ConnectionRefusedError:
         print(f"\nERROR: no server at {args.host}", flush=True)
         return 1
