@@ -15,6 +15,12 @@ import time
 LOG = "/tmp/fllama.log"
 MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
 
+# Cold model load + the server's internal warmup pass can exceed a minute
+# (rocky2 measured ~35s; allow headroom for bigger models / cold page cache).
+# ONLY the first response after use_model waits this long — successful reads
+# return immediately, so this bounds failure detection, not normal runtime.
+MODEL_LOAD_TIMEOUT = 300.0
+
 # info stream for say()/show_wire(): default stdout; scripts that must keep
 # stdout clean (e.g. test_generate.py) set this to sys.stderr on import.
 INFO_STREAM = sys.stdout
@@ -90,9 +96,9 @@ def setup(f, model=MODEL):
     so pieces stay valid for this connection.
     """
     f.send(f"use_model {model}")
-    f.pieces(30)
+    f.pieces(MODEL_LOAD_TIMEOUT)
     f.send("tokenize What is 2+2?")
-    r = f.read(30)
+    r = f.read(MODEL_LOAD_TIMEOUT)
     assert r and r.startswith("tokens "), f"tokenize: {r!r}"
     return [int(t) for t in r.split()[2:]]
 
@@ -142,7 +148,7 @@ class Fllama:
         and with no sequences/evaluations in flight the reply cannot be
         obscured by async messages — same guarantee covers the lazy path.
         timeout must cover the model load when called right after use_model
-        (setup passes 30).
+        (setup passes MODEL_LOAD_TIMEOUT).
 
         get_pieces format: 'pieces N <h0> <h1> ...' where <hi> is the
         hex byte string for token i (empty for special tokens).

@@ -6,7 +6,7 @@ Question answered: for which prompts does the main head confirm any of the
 MTP drafts? The turn protocol only sends lookahead messages for confirmed
 drafts, so a prompt with 0 confirmations exercises the empty case.
 
-Runtime bounded: SETUP_TIMEOUT for model load/tokenize (cold start),
+Runtime bounded: MODEL_LOAD_TIMEOUT for model load/tokenize (cold start),
 PROBE_TIMEOUT per prompt for messages. Prints all wire traffic live via
 fllama_client (flushed, truncated).
 Server: tools/run_fllama_test.sh (--mtp 3 --eager).
@@ -14,10 +14,9 @@ Server: tools/run_fllama_test.sh (--mtp 3 --eager).
 
 import time
 
-from fllama_client import Fllama, log_lines, say, truncate_log
+from fllama_client import Fllama, say, log_lines, truncate_log, MODEL_LOAD_TIMEOUT
 
 MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
-SETUP_TIMEOUT = 30.0   # model load + tokenize (warm: <1s)
 PROBE_TIMEOUT = 6.0    # per prompt: collect messages until quiet or this
 PROMPTS = [
     "The capital of France is",
@@ -33,9 +32,9 @@ def probe(prompt, model=MODEL):
     # use_model is SILENT on success: pieces reply follows immediately (it
     # covers the model-load wait); tokenize reply comes last
     f.send(f"use_model {model}")
-    f.pieces(SETUP_TIMEOUT)
+    f.pieces(MODEL_LOAD_TIMEOUT)
     f.send(f"tokenize {prompt}")
-    r = f.read(SETUP_TIMEOUT)
+    r = f.read(MODEL_LOAD_TIMEOUT)
     if not (r and r.startswith("tokens ")):
         say(f"  SETUP ERROR: {r!r}")
         f.close()

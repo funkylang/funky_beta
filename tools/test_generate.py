@@ -18,7 +18,7 @@ import sys
 import time
 
 import fllama_client
-from fllama_client import Fllama, say, MODEL
+from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT
 
 fllama_client.INFO_STREAM = sys.stderr  # keep stdout clean for the text
 
@@ -37,7 +37,7 @@ def main():
     try:
         f = Fllama(host=args.host)
         f.send(f"use_model {args.model or MODEL}")
-        p = f.pieces(60)  # extended timeout for model loading
+        p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
 
         f.send(f"tokenize {args.prompt}")
         r = f.read(5)

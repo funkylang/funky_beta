@@ -12,7 +12,7 @@ was appended after.
 
 import time
 
-from fllama_client import Fllama, say, log_lines, MODEL
+from fllama_client import Fllama, say, log_lines, MODEL, MODEL_LOAD_TIMEOUT
 
 CANDIDATES = [
     "Monday, Tuesday, Wednesday,",
@@ -32,7 +32,7 @@ SERVER_SEQ = 0  # fresh connection -> first sequence is server id 0
 def run_candidate(prompt):
     f = Fllama()
     f.send(f"use_model {MODEL}")   # one model per connection; silent on success
-    p = f.pieces(30)               # reply covers the model-load wait
+    p = f.pieces(MODEL_LOAD_TIMEOUT)  # reply covers the model-load wait
 
     f.send(f"tokenize {prompt}")
     r = f.read(5)

@@ -15,7 +15,7 @@ Logs are never touched (server log /tmp/fllama.log stays intact).
 import sys
 import time
 
-from fllama_client import Fllama, say, MODEL
+from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT
 
 PROMPT = "A B C D E F G H I J"
 EXPECT_LOGITS = 1
@@ -25,7 +25,7 @@ EXPECT_LOOKAHEAD = 2  # 2 of 3 drafts confirmed (verified empirically)
 def main():
     f = Fllama()
     f.send(f"use_model {MODEL}")   # one model per connection; silent on success
-    p = f.pieces(30)               # reply covers the model-load wait
+    p = f.pieces(MODEL_LOAD_TIMEOUT)  # reply covers the model-load wait
 
     f.send(f"tokenize {PROMPT}")
     r = f.read(5)

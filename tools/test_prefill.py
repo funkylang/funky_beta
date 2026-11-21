@@ -16,7 +16,7 @@ import sys
 import time
 
 import fllama_client
-from fllama_client import Fllama, say, MODEL
+from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT
 
 fllama_client.INFO_STREAM = sys.stderr  # keep stdout clean for the result
 
@@ -57,10 +57,16 @@ def main():
         f = Fllama(host=args.host)
         f.send(f"use_model {args.model or MODEL}")
 
-        # tokenize the whole file; the full sequence is the measured prompt
+        # tokenize the whole file; the full sequence is the measured prompt.
+        # First response after use_model covers cold model load + warmup.
         f.send(f"tokenize {text}")
-        r = f.read(30)
+        r = f.read(MODEL_LOAD_TIMEOUT)
         if not (r and r.startswith("tokens ")):
+            if r is None:
+                raise RuntimeError(
+                    f"timeout: no response within {MODEL_LOAD_TIMEOUT:.0f}s "
+                    "of use_model — check the server log for load errors."
+                )
             raise RuntimeError(f"tokenize failed: {r!r}")
         tokens = [int(t) for t in r.split()[2:]]
 
