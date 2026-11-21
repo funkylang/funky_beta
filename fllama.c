@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-14 23:15:38 fllama: verify loaded placement against the fitted plan";
+static const char *FLLAMA_VERSION = "2026-11-21 16:03:19 Fix non-eager hang: claimed anchor runs as single-token prefill";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -1978,10 +1978,14 @@ static void handle_evaluate(int fd, char *sequence_id) {
           }
         }
       }
-      if (sequence->n_lookahead_tokens == 0 && sequence->n_draft_tokens > 0) {
-        // fully claimed, drafts still unverified: stay in speculation mode so
+      if (sequence->n_lookahead_tokens == 0 && sequence->n_draft_tokens > 0 &&
+          sequence->positions[array_length(sequence->tokens)-1] >= 0) {
+        // fully claimed AND settled in the KV: stay in speculation mode so
         // the counting loop schedules the speculative batch that verifies
-        // them; a plain PREFILL decode would drop the anchor from the batch
+        // them. A not-yet-decoded anchor (last position -1) is owed work,
+        // not speculation: it falls through to the prefill branch below —
+        // without that, a non-eager server discards the spec-only pass and
+        // never replies (hang after a fast-path claim).
         sequence->state = GENERATING;
       } else if (
         sequence->n_lookahead_tokens == 0 &&
