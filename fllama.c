@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-22 14:46:06 Client burst confirmation and test-suite protocol fixes";
+static const char *FLLAMA_VERSION = "2026-11-22 17:11:33 Run speculative batches under wire-speed traffic";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -1991,15 +1991,23 @@ static void handle_evaluate(int fd, char *sequence_id) {
           }
         }
       }
-      if (sequence->n_lookahead_tokens == 0 && sequence->n_draft_tokens > 0 &&
-          sequence->positions[array_length(sequence->tokens)-1] >= 0) {
-        // fully claimed AND settled in the KV: stay in speculation mode so
-        // the counting loop schedules the speculative batch that verifies
-        // them. A not-yet-decoded anchor (last position -1) is owed work,
-        // not speculation: it falls through to the prefill branch below —
-        // without that, a non-eager server discards the spec-only pass and
-        // never replies (hang after a fast-path claim).
-        sequence->state = GENERATING;
+      if (sequence->n_lookahead_tokens == 0 && sequence->n_draft_tokens > 0) {
+        // drafts wait for their verification batch: stay in speculation
+        // mode so the counting loop schedules it. The batch's anchor
+        // entry serves double duty — an undecoded claimed token (last
+        // position -1) is placed by that same entry instead of a separate
+        // prefill pass; a settled claim (position >= 0) just verifies.
+        // Eager only: in non-eager mode a spec-only pass returns without
+        // decoding, so an owed token would hang — there the -1 anchor
+        // falls through to the plain decode below.
+        if (eager_speculation || sequence->positions[array_length(sequence->tokens)-1] >= 0) {
+          sequence->state = GENERATING;
+        } else {
+          // a plain decode of the new token(s)
+          sequence->state = PREFILL;
+          // force evaluation of the last token
+          sequence->positions[array_length(sequence->tokens)-1] = -1;
+        }
       } else if (
         sequence->n_lookahead_tokens == 0 &&
         sequence->positions[array_length(sequence->tokens)-1] >= 0
