@@ -14,7 +14,7 @@ Server: tools/run_fllama_test.sh (--mtp 3 --eager).
 
 import time
 
-from fllama_client import Fllama, say, log_lines, truncate_log, MODEL_LOAD_TIMEOUT
+from fllama_client import Fllama, say, log_lines, truncate_log, MODEL_LOAD_TIMEOUT, load_model
 
 MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
 PROBE_TIMEOUT = 6.0    # per prompt: collect messages until quiet or this
@@ -29,13 +29,14 @@ def probe(prompt, model=MODEL):
     say(f"[probe] {prompt!r}")
     truncate_log()
     f = Fllama()
-    # probe for a loaded model (dedicated test server); use_model is SILENT
-    # on success, so the first read covers a cold load when one happens
-    f.send("tokenize probe")
-    r = f.read(5)
-    if not (r and r.startswith("tokens ")):
-        f.send(f"use_model {model}")
-        f.pieces(MODEL_LOAD_TIMEOUT)   # silent on success; covers model load
+    # use_model is a no-op when this model is already loaded on the server;
+    # any reply is an error line -> setup failure, same as a tokenize timeout
+    try:
+        load_model(f, model)
+    except RuntimeError as e:
+        say(f"  SETUP ERROR: {e}")
+        f.close()
+        return None
     f.send(f"tokenize {prompt}")
     r = f.read(MODEL_LOAD_TIMEOUT)
     if not (r and r.startswith("tokens ")):

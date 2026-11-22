@@ -40,7 +40,7 @@ import sys
 import time
 
 import fllama_client
-from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT
+from fllama_client import Fllama, say, MODEL, load_model
 
 fllama_client.INFO_STREAM = sys.stderr  # keep stdout for the transcript
 
@@ -188,17 +188,9 @@ def main():
 
     try:
         f = Fllama(host=args.host)
-        # fllama holds ONE global model per server. Probe whether one is
-        # already loaded (e.g. a dedicated test server the user started)
-        # before forcing our own use_model, which would be rejected.
-        f.send("tokenize probe")
-        probe = f.read(MODEL_LOAD_TIMEOUT)
-        if probe and probe.startswith("tokens "):
-            # model already loaded - use it as-is, just fetch its pieces
-            p = f.pieces(MODEL_LOAD_TIMEOUT)
-        else:
-            f.send(f"use_model {args.model or MODEL}")
-            p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
+        # use_model is a no-op when this model is already loaded on the
+        # server (e.g. a dedicated test server); any reply is an error line
+        p = load_model(f, args.model or MODEL)
     except ConnectionRefusedError:
         print(f"\nERROR: no server at {args.host}", flush=True)
         return 1

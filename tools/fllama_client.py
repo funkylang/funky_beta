@@ -86,17 +86,27 @@ def read_drafts(server_seq_idx, n=3):
     raise RuntimeError(f"no draft line for server sequence {server_seq_idx}")
 
 
-def setup(f, model=MODEL):
-    """Load model + its pieces, then tokenize the standard test prompt.
+def load_model(f, model=MODEL):
+    """Send use_model unconditionally; return the vocabulary pieces.
 
-    use_model is SILENT on success; get_pieces follows immediately (no
-    sequences/evaluations exist yet, so no async messages can obscure the
-    reply) and carries the model-load timeout. First reply after
-    use_model is pieces-or-error. The server has one model per session,
-    so pieces stay valid for this connection.
+    use_model is a no-op when this model is already loaded on the server
+    (fllama holds one global model) and SILENT on success — any reply is
+    an error line (another model in use, planning or load failure), which
+    is raised as RuntimeError for the caller to display and terminate on.
+    get_pieces follows and carries MODEL_LOAD_TIMEOUT, covering a cold
+    model load. The server has one model per session, so pieces stay
+    valid for this connection.
     """
     f.send(f"use_model {model}")
-    f.pieces(MODEL_LOAD_TIMEOUT)
+    r = f.read(2.0)  # silent on success; errors arrive within milliseconds
+    if r:
+        raise RuntimeError(r)
+    return f.pieces(MODEL_LOAD_TIMEOUT)
+
+
+def setup(f, model=MODEL):
+    """Load model + its pieces, then tokenize the standard test prompt."""
+    load_model(f, model)
     f.send("tokenize What is 2+2?")
     r = f.read(MODEL_LOAD_TIMEOUT)
     assert r and r.startswith("tokens "), f"tokenize: {r!r}"
