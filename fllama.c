@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-22 17:11:33 Run speculative batches under wire-speed traffic";
+static const char *FLLAMA_VERSION = "2026-11-22 18:17:20 Non-eager lookahead via client-driven verification";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -111,9 +111,10 @@ static int mtp_predict = -1;
 // (mtp_predict+1) tokens pending; a normal decode only runs when lookahead
 // is empty, so it never adds to the bound
 #define MAX_LOOKAHEAD_TOKENS (2*(MAX_MTP_HEADS+1))
-// --eager: run speculative work (lookahead, MTP draft verification) in
-// dedicated batches even when nothing else is pending evaluation; without it,
-// speculation only piggybacks on existing evaluation passes.
+// --eager: verify drafts proactively, as soon as they exist, even while the
+// client is silent; without it, verification still happens — but piggybacks
+// on client traffic (each confirm+evaluate that lands while drafts await runs
+// the verification batch for them).
 static bool eager_speculation = false;
 static struct llama_context *mtp_context = NULL;
 // MTP catch-up state: mirrors target decodes into the MTP context so it can
@@ -1997,16 +1998,16 @@ static void handle_evaluate(int fd, char *sequence_id) {
         // entry serves double duty — an undecoded claimed token (last
         // position -1) is placed by that same entry instead of a separate
         // prefill pass; a settled claim (position >= 0) just verifies.
-        // Eager only: in non-eager mode a spec-only pass returns without
-        // decoding, so an owed token would hang — there the -1 anchor
-        // falls through to the plain decode below.
-        if (eager_speculation || sequence->positions[array_length(sequence->tokens)-1] >= 0) {
+        // Works in both modes: the batch IS a decode pass (its first entry
+        // lands tokens into the KV), so it counts as regular work below and
+        // the non-eager early return cannot discard it. The one exception is
+        // a closed i-2 gate (client behind everything we last sent): then
+        // the plain decode below runs instead — drafts get regenerated from
+        // its frontier, which is exactly "no lookahead while behind".
+        if (array_length(sequence->tokens) >= sequence->prev_length) {
           sequence->state = GENERATING;
         } else {
-          // a plain decode of the new token(s)
           sequence->state = PREFILL;
-          // force evaluation of the last token
-          sequence->positions[array_length(sequence->tokens)-1] = -1;
         }
       } else if (
         sequence->n_lookahead_tokens == 0 &&
@@ -2449,6 +2450,9 @@ static void evaluate_sequences(void) {
         int lookahead_size = 1+sequence->n_draft_tokens;
         if (n+lookahead_size > maximum_batch_size) break;
         n += lookahead_size;
+        // the batch places/verifies real tokens: decode work, so a
+        // non-eager server must not discard it in the early return below
+        has_regular_evaluations = true;
         }
     }
   }
