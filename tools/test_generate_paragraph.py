@@ -3,10 +3,11 @@
 fllama.c MTP test: sequential questions at WIRE SPEED with paragraph stop.
 
 Each question gets its own sequence on ONE shared connection, posed in the
-order given. Every top-1 from an arriving logits or lookahead message of
-the ACTIVE sequence is fed back as its own add_tokens request IMMEDIATELY
-(no batching, no waits) so the server runs at full speed and confirmed
-lookahead chains are claimed via the fast path while they are still warm.
+order given. Whatever confidence messages arrive from a turn of the ACTIVE
+sequence are one flushed burst: their top-1s go back with a SINGLE
+add_tokens + evaluate IMMEDIATELY (no waits) so the server runs at full
+speed and confirmed lookahead chains are claimed via the fast path while
+they are still warm.
 
 THE POINT OF THIS TEST: a reply TERMINATES at its paragraph break. From
 that moment on the client neither confirms nor prints that sequence's
@@ -122,8 +123,11 @@ def ask(f, p, seq_id, prompt, n, with_system):
                                # to sleep between questions (idle for
                                # several seconds) and the wake-up costs ~6s
     while not terminated:
-        m = f.read(0.5)
-        if m is None:
+        # one bounded read pass per iteration: everything that arrives from
+        # the server's current turn is a single flushed burst - confirm the
+        # whole burst with ONE add_tokens, never one-per-token
+        toks = f.read_burst(seq_id, timeout=0.5)
+        if not toks:
             # silence on the wire: count it toward the timeout so a dead
             # server still gets flagged instead of hanging forever
             limit = 30.0 if not first_token_seen else 5.0
@@ -139,36 +143,39 @@ def ask(f, p, seq_id, prompt, n, with_system):
                 break
             continue
         silent_since = None
-        c = Fllama.classify(m)
-        if not c or c[1] != seq_id:
-            # another sequence (or no confidence message): leftover
-            # speculation of an abandoned answer - ignore it entirely
-            continue
         first_token_seen = True
-        pos, conf = Fllama.top10(m)
-        tok = max(conf, key=conf.get)
-        piece = p.get(tok, "")
-        # its rendered text is printed by the client on receive; wire-speed
-        # feedback follows: this token goes straight back as its own
-        # add_tokens request, no batching or waiting
-        f.add(seq_id, [tok])
-        f.send(f"evaluate {seq_id}")
-        sys.stdout.write(piece)  # stream at arrival
-        sys.stdout.flush()
-        produced.append(tok)
-        text += piece
-        if len(produced) >= n:
-            # reached the token limit for this question - terminate
-            print("\nTOKEN LIMIT REACHED", flush=True)
-            terminated = True
-        elif "\n\n" in answer_text(text).lstrip():
-            # paragraph break in the answer content: done. From now on the
-            # client neither confirms nor prints this sequence's tokens -
-            # the server keeps speculating on it, and that is what we test.
-            # No leading newline here: the streamed break already put the
-            # cursor at line start (a break means text ends "\n\n").
-            print("PARAGRAPH BREAK DETECTED", flush=True)
-            terminated = True
+        # walk the burst in arrival order; termination may land mid-burst -
+        # tokens after the break stay unconfirmed so the server keeps
+        # speculating on them (that is what this test exists for)
+        claim_end = len(toks)
+        for tok in toks:
+            piece = p.get(tok, "")
+            sys.stdout.write(piece)  # stream at arrival
+            sys.stdout.flush()
+            produced.append(tok)
+            text += piece
+            if len(produced) >= n:
+                # reached the token limit for this question - terminate
+                print("\nTOKEN LIMIT REACHED", flush=True)
+                claim_end = len(produced)
+                terminated = True
+                break
+            elif "\n\n" in answer_text(text).lstrip():
+                # paragraph break in the answer content: done. From now on
+                # the client neither confirms nor prints this sequence's
+                # tokens - the server keeps speculating on it, and that is
+                # what we test. No leading newline here: the streamed break
+                # already put the cursor at line start (a break means text
+                # ends "\n\n").
+                print("PARAGRAPH BREAK DETECTED", flush=True)
+                claim_end = len(produced)
+                terminated = True
+                break
+        if not terminated:
+            # wire-speed feedback: the whole burst goes straight back as
+            # ONE add_tokens request + one evaluate
+            f.add(seq_id, toks[:claim_end])
+            f.send(f"evaluate {seq_id}")
 
     say(f"sequence {seq_id}: {len(produced)} token(s), {len(text)} char(s)")
     return terminated
