@@ -19,7 +19,8 @@ from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT, read_turn
 
 PROMPT = "January, February, March, April, May, June, July,"
 EXPECT_LOGITS = 1
-EXPECT_LOOKAHEAD = 3  # all 3 drafts confirmed (verified empirically)
+# n+1 lookahead messages per speculative turn (n = drafts confirmed, 3 here)
+EXPECT_LOOKAHEAD = 4
 
 
 def main():
@@ -50,7 +51,8 @@ def main():
 
     say(f"logits={n_logits} lookahead_msgs={n_lookahead}")
     ok = (n_logits == EXPECT_LOGITS and n_lookahead == EXPECT_LOOKAHEAD)
-    say(("PASS: full confirmation, one lookahead message per confirmed draft"
+    say((f"PASS: 3/3 drafts confirmed; n+1={EXPECT_LOOKAHEAD} "
+         f"lookahead message(s) as expected"
          if ok else
          f"FAIL: expected logits={EXPECT_LOGITS} "
          f"lookahead={EXPECT_LOOKAHEAD}"))

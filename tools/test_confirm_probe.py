@@ -29,10 +29,13 @@ def probe(prompt, model=MODEL):
     say(f"[probe] {prompt!r}")
     truncate_log()
     f = Fllama()
-    # use_model is SILENT on success: pieces reply follows immediately (it
-    # covers the model-load wait); tokenize reply comes last
-    f.send(f"use_model {model}")
-    f.pieces(MODEL_LOAD_TIMEOUT)
+    # probe for a loaded model (dedicated test server); use_model is SILENT
+    # on success, so the first read covers a cold load when one happens
+    f.send("tokenize probe")
+    r = f.read(5)
+    if not (r and r.startswith("tokens ")):
+        f.send(f"use_model {model}")
+        f.pieces(MODEL_LOAD_TIMEOUT)   # silent on success; covers model load
     f.send(f"tokenize {prompt}")
     r = f.read(MODEL_LOAD_TIMEOUT)
     if not (r and r.startswith("tokens ")):
@@ -58,8 +61,10 @@ def probe(prompt, model=MODEL):
     f.close()
 
     log = log_lines()
-    gen = [l for l in reversed(log) if "generating 3 draft" in l]
-    conf = [l for l in reversed(log) if "confirmation" in l]
+    # current log formats (2026-11-04+): "draft tokens for sequence N: ..."
+    # and "sequence N: k/3 drafts confirmed"
+    gen = [l for l in reversed(log) if "draft tokens for sequence" in l]
+    conf = [l for l in reversed(log) if "drafts confirmed" in l]
     return kinds, (gen[0].strip()[:110] if gen else None), \
         (conf[0].strip()[:120] if conf else None)
 

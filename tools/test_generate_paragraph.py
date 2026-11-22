@@ -62,6 +62,31 @@ def format_prompt(question, with_system):
     return "#question\n" + question + "\n\n#answer"
 
 
+# The 27B thinking model wraps its (sometimes empty) reasoning in these two
+# single tokens; they each carry a leading blank line and/or a trailing
+# paragraph break that must NOT count as the reply's terminating break.
+_THINK_OPEN = "<think>"
+_THINK_CLOSE = "</think>"
+
+
+def answer_text(raw):
+    """The reply content minus any thinking section, for termination checks.
+
+    A thinking block runs from <open tag> to <close tag>; the newline
+    padding around/inside it would otherwise trip the paragraph-break rule
+    on '/think\\n\\n' and cut off the real answer. An unclosed open tag
+    (reasoning still streaming) drops everything from there on so we also
+    never terminate mid-thought.
+    """
+    i = raw.find(_THINK_OPEN)
+    if i == -1:
+        return raw  # no thinking section at all
+    j = raw.find(_THINK_CLOSE, i + len(_THINK_OPEN))
+    if j != -1:
+        return raw[:i] + raw[j + len(_THINK_CLOSE):]
+    return raw[:i]
+
+
 def read_reply(f, prefix, timeout):
     """Read until a message starting with `prefix` arrives, skipping
     everything else: leftover speculation of abandoned sequences is async
@@ -136,7 +161,7 @@ def ask(f, p, seq_id, prompt, n, with_system):
             # reached the token limit for this question - terminate
             print("\nTOKEN LIMIT REACHED", flush=True)
             terminated = True
-        elif "\n\n" in text.lstrip():
+        elif "\n\n" in answer_text(text).lstrip():
             # paragraph break in the answer content: done. From now on the
             # client neither confirms nor prints this sequence's tokens -
             # the server keeps speculating on it, and that is what we test.
@@ -163,8 +188,17 @@ def main():
 
     try:
         f = Fllama(host=args.host)
-        f.send(f"use_model {args.model or MODEL}")
-        p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
+        # fllama holds ONE global model per server. Probe whether one is
+        # already loaded (e.g. a dedicated test server the user started)
+        # before forcing our own use_model, which would be rejected.
+        f.send("tokenize probe")
+        probe = f.read(MODEL_LOAD_TIMEOUT)
+        if probe and probe.startswith("tokens "):
+            # model already loaded - use it as-is, just fetch its pieces
+            p = f.pieces(MODEL_LOAD_TIMEOUT)
+        else:
+            f.send(f"use_model {args.model or MODEL}")
+            p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
     except ConnectionRefusedError:
         print(f"\nERROR: no server at {args.host}", flush=True)
         return 1

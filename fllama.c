@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-21 22:16:53 Unified kv-split API: single-GPU + CPU-only planning, pool usage cap";
+static const char *FLLAMA_VERSION = "2026-11-22 14:46:06 Client burst confirmation and test-suite protocol fixes";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
@@ -2576,6 +2576,12 @@ static void evaluate_sequences(void) {
       "evaluating %d tokens in %d sequences\n", n, sequence_count);
   }
   struct timespec t0, t1, t2;
+#if BATCH_DEBUG
+  { char b[4096]; int off = sprintf(b, "DEBUG lbatch n=%d:", n);
+    for (int bi2 = 0; bi2 < n; ++bi2)
+      off += sprintf(b+off, " [%d] tok=%d pos=%d", bi2, lbatch.token[bi2], (int)lbatch.pos[bi2]);
+    off += sprintf(b+off, "\n"); log_msg("%s", b); }
+#endif
   clock_gettime(CLOCK_MONOTONIC, &t0);
   int ret = llama_decode(current_context, lbatch);
   clock_gettime(CLOCK_MONOTONIC, &t1); // submit time (Vulkan returns after submit)

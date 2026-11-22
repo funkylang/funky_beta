@@ -41,8 +41,9 @@ if __name__ == '__main__':
     client.add(seq_id, tokens)
     client.send(f"evaluate {seq_id}")
 
-    # READ LOGITS MESSAGE (first token after prompt)
-    msg = client.read_next(seq_id, timeout=2)
+    # READ LOGITS MESSAGE (first token after prompt) — long first wait:
+    # the server may still be waking the GPU / loading the model
+    msg = client.read_next(seq_id, timeout=30)
     pos, conf = Fllama.top10(msg)
     next_token = max(conf, key=conf.get)
     print(f"Got logits@{pos}: next_token={next_token}")

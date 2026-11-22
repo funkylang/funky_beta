@@ -26,6 +26,9 @@ import time
 class Fllama:
     def __init__(self, host="127.0.0.1", port=7683):
         self.sock = socket.create_connection((host, port))
+        # persistent read buffer: the server flushes bursts (logits +
+        # lookahead messages) as ONE packet — leftovers must survive reads
+        self.rbuf = b""
 
     def send(self, cmd):
         self.sock.sendall(cmd.encode() + b"\x00")
@@ -33,20 +36,19 @@ class Fllama:
     def read(self, timeout):
         """Read one null-terminated message; return str, or None on timeout."""
         self.sock.settimeout(timeout)
-        buf = b""
         while True:
+            idx = self.rbuf.find(b"\x00")
+            if idx != -1:
+                msg, self.rbuf = \
+                    self.rbuf[:idx].decode(), self.rbuf[idx+1:]
+                return msg
             try:
                 chunk = self.sock.recv(65536)
             except socket.timeout:
-                if not buf:
-                    return None
-                continue
+                return None
             if not chunk:
                 raise ConnectionError("server closed connection")
-            buf += chunk
-            idx = buf.find(b"\x00")
-            if idx != -1:
-                return buf[:idx].decode()
+            self.rbuf += chunk
 
     def cmd_silent(self, cmd, timeout=2.0):
         """Silent-on-success command: None when ok, else the error string."""

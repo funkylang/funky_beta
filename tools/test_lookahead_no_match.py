@@ -18,7 +18,9 @@ from fllama_client import Fllama, say, MODEL, MODEL_LOAD_TIMEOUT, read_turn
 
 PROMPT = "Once upon a time, in a land far away,"
 EXPECT_LOGITS = 1
-EXPECT_LOOKAHEAD = 0
+# n+1 lookahead messages per speculative turn (n = drafts confirmed, 0 here):
+# the main head sends one logit set per batch entry after the sync point
+EXPECT_LOOKAHEAD = 1
 
 
 def main():
@@ -49,7 +51,8 @@ def main():
 
     say(f"logits={n_logits} lookahead_msgs={n_lookahead}")
     ok = (n_logits == EXPECT_LOGITS and n_lookahead == EXPECT_LOOKAHEAD)
-    say(("PASS: all drafts rejected, no lookahead messages"
+    say((f"PASS: 0/3 drafts confirmed; n+1={EXPECT_LOOKAHEAD} "
+         f"lookahead message(s) as expected"
          if ok else
          f"FAIL: expected logits={EXPECT_LOGITS} "
          f"lookahead={EXPECT_LOOKAHEAD}"))

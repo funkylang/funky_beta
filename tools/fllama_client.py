@@ -220,6 +220,59 @@ class Fllama:
         show_wire(cmd, incoming=False)
         self.sock.sendall(cmd.encode() + b"\x00")
 
+    def read_burst(self, seq_id, timeout=1.0):
+        """All of seq_id's confidence tokens from ONE read pass (the burst).
+
+        Wire-speed confirmation primitive: the server flushes a turn's
+        logits+lookaheads together, and the client reads what has arrived -
+        one bounded recv plus anything already buffered - then confirms the
+        whole burst with a SINGLE add_tokens. It does not wait for further
+        messages beyond this read. Returns the top-1 tokens in arrival
+        order; empty if none arrived within timeout.
+        """
+        # one bounded recv to catch what is currently in flight / just arrived;
+        # it also blocks until the turn's first message lands (we are a client
+        # waiting on server output), then we drain the whole burst below.
+        self.sock.settimeout(timeout)
+        try:
+            chunk = self.sock.recv(65536)
+            if not chunk:
+                raise ConnectionError("server closed connection")
+            self.rbuf += chunk
+        except socket.timeout:
+            pass  # nothing in flight; still drain any earlier-buffed messages
+
+        tokens = []
+        while True:
+            idx = self.rbuf.find(b"\x00")
+            if idx == -1:
+                break
+            raw, self.rbuf = self.rbuf[:idx], self.rbuf[idx+1:]
+            msg = raw.decode()
+            show_wire(msg, incoming=True)
+            parts = msg.split()
+            if parts and parts[0] == "error":
+                raise RuntimeError(msg)
+            c = Fllama.classify(msg)
+            if not c:
+                continue
+            kind, sid, pos = c
+            self._check_pos_skip(kind, sid, pos)
+            self._note_server_message(sid, pos)
+            if sid != seq_id:
+                continue  # leftover speculation of another sequence
+            _, conf = Fllama.top10(msg)
+            top = max(conf, key=conf.get)
+            tokens.append(top)
+            # rendered text for the incoming token (same rendering as read())
+            if self._pieces is not None:
+                text = self.pieces().get(top, "")
+                say(" " * 16 + '"' + "".join(
+                    ch if ch.isprintable() else {
+                        "\n": "\\n", "\r": "\\r", "\t": "\\t",
+                    }.get(ch, f"\\x{ord(ch):02x}") for ch in text) + '"')
+        return tokens
+
     def read(self, timeout):
         """Read one null-terminated message; None on timeout.
 

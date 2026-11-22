@@ -2,9 +2,10 @@
 """
 fllama.c MTP test: streaming generation at WIRE SPEED.
 
-Every top-1 from an arriving logits or lookahead message is fed back as its
-own add_tokens request IMMEDIATELY - no batching, no waits - so the server
-runs at full speed and confirmed lookahead chains are claimed via the fast
+The server flushes each turn's logits+lookahead messages as one packet; the
+client reads what arrives in a single read pass and confirms the WHOLE burst
+with ONE add_tokens request (plus one evaluate) - it does not wait for more
+messages to trickle in, so confirmed lookahead chains are claimed via the fast
 path while they are still warm. Intended to run CONCURRENTLY - several
 instances with different prompts exercise the server's multi-threaded
 behaviour.
@@ -30,14 +31,24 @@ def main():
                     help="number of tokens to produce (default 20)")
     ap.add_argument("--host", default="127.0.0.1",
                     help="server address (default 127.0.0.1)")
+    ap.add_argument("--port", type=int, default=7683,
+                    help="server port (default 7683)")
     ap.add_argument("--model", default=None,
                     help=f"model name (default {MODEL})")
     args = ap.parse_args()
 
     try:
-        f = Fllama(host=args.host)
-        f.send(f"use_model {args.model or MODEL}")
-        p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
+        f = Fllama(host=args.host, port=args.port)
+        # fllama holds ONE global model per server; probe whether one is
+        # already loaded (dedicated test server) before forcing our own
+        # use_model, which the server rejects in that case
+        f.send("tokenize probe")
+        probe = f.read(MODEL_LOAD_TIMEOUT)
+        if probe and probe.startswith("tokens "):
+            p = f.pieces(MODEL_LOAD_TIMEOUT)
+        else:
+            f.send(f"use_model {args.model or MODEL}")
+            p = f.pieces(MODEL_LOAD_TIMEOUT)  # covers cold model load + warmup
 
         f.send(f"tokenize {args.prompt}")
         r = f.read(5)
@@ -62,44 +73,47 @@ def main():
     silent_since = None
     try:
         while len(produced) < args.n:
-            m = f.read(0.5)
-            if m is None:
-                # silence on the wire: count it toward a 5s timeout so a dead
-                # server still gets flagged instead of hanging forever
+            # one read pass over the wire: everything that has arrived (the
+            # server's current burst) is returned at once - we do not wait
+            # for further messages to trickle in after this read
+            toks = f.read_burst(1, timeout=0.5)
+            if not toks:
+                # silence on the wire: count it toward the timeout so a dead
+                # server still gets flagged instead of hanging forever.
+                # Long patience until the FIRST token: Vulkan puts the GPU to
+                # sleep when idle and the wake-up costs ~6s on the next decode.
+                if not produced:
+                    first_wait_limit = 30.0
+                else:
+                    first_wait_limit = 5.0
                 if silent_since is None:
                     silent_since = time.time()
-                elif time.time() - silent_since >= 5.0:
+                elif time.time() - silent_since >= first_wait_limit:
                     print("\nTIMEOUT EXPIRED", flush=True)
                     break
                 continue
             silent_since = None
-            if m.startswith("error"):
-                # error from the server: show it on a fresh line in the text
-                # stream and fail; raw timestamped line stays on stderr via
-                # the wire echo
-                f.close()
-                print(f"\n{m}", flush=True)
-                sys.exit(1)
-            c = Fllama.classify(m)
-            if not c or c[1] != 1:
-                continue
-            if len(produced) >= args.n:
-                # done - ignore any further messages still on the wire
-                continue
-            pos, conf = Fllama.top10(m)
-            tok = max(conf, key=conf.get)
-            produced.append(tok)
-            sys.stdout.write(p.get(tok, ""))  # stream at arrival
+            # only as many tokens as still count toward the -n limit
+            toks = toks[:args.n - len(produced)]
+            produced.extend(toks)
+            sys.stdout.write("".join(p.get(tok, "") for tok in toks))  # stream at arrival
             sys.stdout.flush()
-            # wire-speed feedback: this token goes straight back as its own
-            # add_tokens request, no batching or waiting
-            f.add(1, [tok])
+            # wire-speed feedback: the whole burst goes straight back as ONE
+            # add_tokens request plus a single evaluate - never one per token
+            f.add(1, toks)
             f.send("evaluate 1")
     except KeyboardInterrupt:
         # Ctrl-C — flag it on a fresh line in the text stream, exit code 130
         print("\nINTERRUPTED", flush=True)
         f.close()
         return 130
+    except RuntimeError as e:
+        # error message from the server (raised by read_burst): show it on a
+        # fresh line in the text stream and fail; the raw timestamped line
+        # stays on stderr via the wire echo
+        f.close()
+        print(f"\n{e}", flush=True)
+        return 1
 
     if len(produced) == args.n:
         # reached the requested token count — flag it on a fresh line in

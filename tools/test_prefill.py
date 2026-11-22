@@ -55,7 +55,15 @@ def main():
 
     try:
         f = Fllama(host=args.host)
-        f.send(f"use_model {args.model or MODEL}")
+        # fllama holds ONE global model per server; probe whether one is
+        # already loaded (dedicated test server) before forcing our own
+        # use_model, which the server rejects in that case
+        f.send("tokenize probe")
+        probe = f.read(MODEL_LOAD_TIMEOUT)
+        if probe and probe.startswith("tokens "):
+            say("(model already loaded on server; using it as-is)")
+        else:
+            f.send(f"use_model {args.model or MODEL}")
 
         # tokenize the whole file; the full sequence is the measured prompt.
         # First response after use_model covers cold model load + warmup.

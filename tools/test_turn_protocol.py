@@ -2,22 +2,25 @@
 """
 fllama.c MTP step-6 turn-protocol test.
 
-Verifies the REFINED MESSAGE RULE (§14 of step6-concept.txt):
+Verifies the REFINED MESSAGE RULE (§15/§20 of step6-concept.txt):
   - Turn 1 (fresh evaluation): exactly ONE logits message, no lookahead.
-  - Turn 2 (eager): lookahead messages only — one per draft token confirmed
-    by the main head; ZERO when none is confirmed.
+  - Eager turns: lookahead messages only — n+1 per speculative turn where
+    n = drafts confirmed by the main head (the batch's first entry plus one
+    per confirmed draft; ZERO-confirmation turns still send their single
+    anchor message).
 
-Server: start via tools/run_fllama_test.sh (--mtp 3 --eager). Log at
-/tmp/fllama_test_server.log. Prints all wire traffic live (flushed):
+Server: start via tools/run_fllama_test.sh (--mtp 3 --eager). The draft
+count comes from the server log (/tmp/fllama_test_server.log) because it is
+server-internal state not visible on the wire. Prints all wire traffic live:
 '-> msg' / '<- response', truncated past 83 chars to first 60 + "..." + last 20.
 """
 
+import argparse
 import re
 import socket
 import sys
 import time
 
-LOG = "/tmp/fllama_test_server.log"
 MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
 PROMPT = "The capital of France is"
 
@@ -36,21 +39,17 @@ def show_wire(msg, incoming=False):
     say(f"{arrow} {display}")
 
 
-def truncate_log():
-    with open(LOG, "a+") as fh:
-        fh.seek(0)
-        fh.truncate()
-        fh.write("\n" * 64)
-
-
 def log_lines():
-    with open(LOG, "rb") as fh:
+    with open("/tmp/fllama_test_server.log", "rb") as fh:
         return fh.read().replace(b"\x00", b" ").decode(errors="replace").splitlines()
 
 
 class Fllama:
     def __init__(self, host="127.0.0.1", port=7683):
         self.sock = socket.create_connection((host, port), timeout=5)
+        # persistent read buffer: bursts arrive as ONE packet (logits +
+        # lookaheads in one write), so leftovers must survive across calls
+        self.rbuf = b""
 
     def send(self, cmd):
         show_wire(cmd, incoming=False)
@@ -58,25 +57,20 @@ class Fllama:
 
     def read(self, timeout):
         self.sock.settimeout(timeout)
-        buf = b""
         while True:
+            idx = self.rbuf.find(b"\x00")
+            if idx != -1:
+                msg, self.rbuf = \
+                    self.rbuf[:idx].decode(), self.rbuf[idx+1:]
+                show_wire(msg, incoming=True)
+                return msg
             try:
                 chunk = self.sock.recv(65536)
             except socket.timeout:
-                if not buf:
-                    return None
-                idx = buf.find(b"\x00")
-                msg = buf[:idx].decode() if idx != -1 else None
-                if msg is not None:
-                    show_wire(msg, incoming=True)
-                return msg
+                return None
             if not chunk:
                 raise ConnectionError("server closed connection")
-            buf += chunk
-            if b"\x00" in buf:
-                msg = buf[:buf.find(b"\x00")].decode()
-                show_wire(msg, incoming=True)
-                return msg
+            self.rbuf += chunk
 
     @staticmethod
     def classify(msg):
@@ -88,18 +82,33 @@ class Fllama:
 
 
 def main():
-    truncate_log()
-    f = Fllama()
+    ap = argparse.ArgumentParser(description="turn-protocol test")
+    ap.add_argument("--host", default="127.0.0.1",
+                    help="server address (default 127.0.0.1)")
+    ap.add_argument("--port", type=int, default=7683,
+                    help="server port (default 7683)")
+    ap.add_argument("--model", default=None,
+                    help=f"model name (default {MODEL})")
+    args = ap.parse_args()
+    f = Fllama(host=args.host, port=args.port)
 
-    # setup: load model, tokenize prompt
-    f.send(f"use_model {MODEL}")
+    # probe whether a model is already loaded (dedicated test server); the
+    # first read after use_model must cover a cold model load, so it uses the
+    # long timeout in either case
     f.send(f"tokenize {PROMPT}")
-    r = f.read(30)
+    r = f.read(5)
+    if not (r and r.startswith("tokens ")):
+        # no model loaded yet: reload use_model + tokenize as a pair; the
+        # first reply is the tokenize result (use_model is silent on success)
+        f.send(f"use_model {args.model or MODEL}")
+        f.send(f"tokenize {PROMPT}")
+        r = f.read(300)
     assert r and r.startswith("tokens "), f"model/tokenize: {r!r}"
     tokens = [int(t) for t in r.split()[2:]]
 
-    # fresh evaluation of the prompt; all subsequent messages arrive without
-    # further client input (turn-1 logits + the eager run's lookahead)
+    # mark where this test's draft-confirmation line must appear in the log
+    n_log_lines_before = len(log_lines())
+
     f.send("create_sequence 1")
     f.read(5)
     f.send(f"add_tokens 1 {len(tokens)} " + " ".join(map(str, tokens)))
@@ -123,10 +132,11 @@ def main():
     la2 = [c for c in msgs if c[0] == "lookahead"]
     first_is_logit = (len(msgs) > 0 and msgs[0][0] == "logits")
 
-    # how many drafts did the main head confirm? read from the server log
+    # how many drafts did the main head confirm? read from the server log:
+    # "sequence N: k/3 drafts confirmed" (only lines written by THIS run)
     confirmed = None
-    for line in reversed(log_lines()):
-        m = re.search(r"(?:partial )?lookahead confirmation .*? (\d+) of (\d+) drafts confirmed", line)
+    for line in reversed(log_lines()[n_log_lines_before:]):
+        m = re.search(r"sequence \d+: (\d+)/(\d+) drafts confirmed", line)
         if m:
             confirmed = int(m.group(1))
             break
@@ -134,20 +144,20 @@ def main():
     say(f"\nRESULT: {len(msgs)} message(s): {n_logit} logits, "
         f"{len(la2)} lookahead; first-is-logits={first_is_logit}")
 
-    # protocol assertions (\u00a714 MESSAGE RULE):
+    # protocol assertions (MESSAGE RULE):
     # 1. exactly one logits message in the whole flow (turn 1)
     # 2. it arrives before any lookahead message
-    # 3. one lookahead message per main-head-confirmed draft, none otherwise
+    # 3. the eager turn sends n+1 lookahead messages for n confirmed drafts
     if n_logit != 1 or not first_is_logit:
         say(f"FAIL: expected exactly 1 logits message, first in the flow; "
             f"got {n_logit}, first={msgs[0][0] if msgs else None}")
         return 1
-    if confirmed is not None and confirmed != len(la2):
+    if confirmed is not None and confirmed + 1 != len(la2):
         say(f"FAIL: main head confirmed {confirmed} drafts but server sent "
-            f"{len(la2)} lookahead messages")
+            f"{len(la2)} lookahead messages (expected {confirmed + 1})")
         return 1
     say(f"PASS: 1 logits message first, {len(la2)} lookahead message(s)"
-        + (f" matching the {confirmed} confirmed draft(s)" if confirmed is not None else ""))
+        + (f" = {confirmed} confirmed draft(s) + 1" if confirmed is not None else ""))
     return 0
 
 
