@@ -15,7 +15,7 @@
 #endif
 
 #include <llama.h>
-#include "llama-ext.h"
+#include <llama-ext-c.h>
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 #include <signal.h>
@@ -38,7 +38,7 @@
 // build identifier; update with the ACTUAL current time on every fllama.c
 // change that gets built, not only when committing
 
-static const char *FLLAMA_VERSION = "2026-11-22 18:17:20 Non-eager lookahead via client-driven verification";
+static const char *FLLAMA_VERSION = "2026-11-23 20:14:06 Migrate fork API include to llama-ext-c.h";
 
 // log message to stderr, prefixed with the clock time (HH:MM:SS.mmm);
 // same format as the test clients' wire timestamps
