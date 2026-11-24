@@ -21,6 +21,12 @@ MODEL = "Qwen3.5-2B-Q4_K_M.gguf"
 # return immediately, so this bounds failure detection, not normal runtime.
 MODEL_LOAD_TIMEOUT = 300.0
 
+# Bound on wire silence while a sequence is being evaluated and its tokens
+# are still to come. Covers GPU wake-up (first decode ~6s on Vulkan, per
+# read_turn) plus slowest measured decode rates; silence beyond this with
+# unfinished work is treated as a server fault by the tests.
+TOKEN_STREAM_TIMEOUT = 30.0
+
 # info stream for say()/show_wire(): default stdout; scripts that must keep
 # stdout clean (e.g. test_generate.py) set this to sys.stderr on import.
 INFO_STREAM = sys.stdout
@@ -98,6 +104,7 @@ def load_model(f, model=MODEL):
     valid for this connection.
     """
     f.send(f"use_model {model}")
+    f.timeout = MODEL_LOAD_TIMEOUT  # raise timeout to cover model loading
     r = f.read(2.0)  # silent on success; errors arrive within milliseconds
     if r:
         raise RuntimeError(r)
@@ -111,6 +118,45 @@ def setup(f, model=MODEL):
     r = f.read(MODEL_LOAD_TIMEOUT)
     assert r and r.startswith("tokens "), f"tokenize: {r!r}"
     return [int(t) for t in r.split()[2:]]
+
+
+def stream_tokens(f, seq_ids, timeout=TOKEN_STREAM_TIMEOUT):
+    """Yield (seq_id, top_token) as confidence messages arrive on one connection.
+
+    Multi-sequence primitive: N sequences created on a single TCP connection
+    produce interleaved messages; each carries its sequence number and this
+    generator routes by it. Yields until the caller stops iterating; raises
+    RuntimeError on protocol errors and on `timeout` seconds of wire silence.
+
+    The deadline resets each time ANY message arrives (proving the server is
+    alive); only sustained silence triggers the timeout.
+
+    The caller owns generation control: it sends evaluate/add_tokens (via
+    Fllama.add) as tokens are consumed, so messages keep flowing only while
+    work is confirmed back — the natural termination is the caller breaking
+    out when its per-sequence budgets are met.
+    """
+    seq_id_set = set(seq_ids)
+    deadline = time.time() + timeout
+    while True:
+        left = deadline - time.time()
+        if left <= 0:
+            raise RuntimeError(
+                f"no messages from the server for {timeout:.0f}s with "
+                f"in-flight work on sequences {sorted(seq_id_set)}")
+        msg = f.read(left)
+        if msg is None:
+            continue   # partial timeout; the deadline check above bounds it
+        # reset deadline - a message arrived, server is alive
+        deadline = time.time() + timeout
+        parts = msg.split()
+        if parts and parts[0] == "error":
+            raise RuntimeError(msg)
+        c = Fllama.classify(msg)
+        if not c or c[1] not in seq_id_set:
+            continue   # non-sequence message / unexpected id
+        _, conf = Fllama.top10(msg)
+        yield c[1], max(conf, key=conf.get)
 
 
 def read_turn(f, seq_id, first_timeout=30.0, silence=1.0):
@@ -157,6 +203,9 @@ class Fllama:
         self.sock = socket.create_connection((host, port), timeout=5)
         self.rbuf = b""
         self._pieces = None
+        # read timeout: raised on use_model to cover model loading; reset to
+        # default after the next successful read (see read())
+        self.timeout = TOKEN_STREAM_TIMEOUT
         # per-sequence protocol error detection: track the latest pos sent
         # by the server in its messages, and the total tokens the client has
         # sent (its implicit position). A message at pos > last + 1 where
@@ -283,20 +332,27 @@ class Fllama:
                     }.get(ch, f"\\x{ord(ch):02x}") for ch in text) + '"')
         return tokens
 
-    def read(self, timeout):
+    def read(self, timeout=None):
         """Read one null-terminated message; None on timeout.
 
         Complete messages already buffered in rbuf (e.g. a burst that
         arrived in one segment) are served without another recv;
         partial data is kept across calls; the timeout is a hard
         deadline for this call (no unbounded waits).
+
+        If timeout is None, uses self.timeout (which is adjusted by use_model).
+        Resets self.timeout to default after any successful read.
         """
+        if timeout is None:
+            timeout = self.timeout
         deadline = time.time() + timeout
         while True:
             idx = self.rbuf.find(b"\x00")
             if idx != -1:
                 msg, self.rbuf = \
                     self.rbuf[:idx].decode(), self.rbuf[idx+1:]
+                # successful read: reset timeout to default streaming value
+                self.timeout = TOKEN_STREAM_TIMEOUT
                 show_wire(msg, incoming=True)
                 # every received logits/lookahead gets its top-token text on
                 # the line below: double quotes, 16-space indent (aligned
